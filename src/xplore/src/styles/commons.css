@@ -1,0 +1,317 @@
+@charset "utf-8";
+/*--Colors--*/
+:root {
+    --black: #000;
+    --white: #fff;
+    /*----------Tone----------*/
+    /*--Primary--*/
+    --tone-primary-10: #0F2004;
+    --tone-primary-20: #1E370A;
+    --tone-primary-30: #2E5015;
+    --tone-primary-40: #46692A;
+    --tone-primary-50: #5D833F;
+    --tone-primary-60: #769D56;
+    --tone-primary-70: #90B96D;
+    --tone-primary-80: #AAD486;
+    --tone-primary-90: #C6F09F;
+    --tone-primary-95: #D8FEB5;
+    --tone-primary-99: #F9FFEE;
+    /*--Secondary--*/
+    --tone-secondary-10: #131F0D;
+    --tone-secondary-20: #283421;
+    --tone-secondary-30: #3E4A36;
+    --tone-secondary-40: #55624C;
+    --tone-secondary-50: #6D7B64;
+    --tone-secondary-60: #87957C;
+    --tone-secondary-70: #A1B096;
+    --tone-secondary-80: #BCCBB0;
+    --tone-secondary-90: #D8E7CB;
+    --tone-secondary-95: #E7F6D9;
+    --tone-secondary-99: #F7FFEC;
+    /*--Tertiary--*/
+    --tone-tertiary-10: #161F04;
+    --tone-tertiary-20: #29360A;
+    --tone-tertiary-30: #3C4D12;
+    --tone-tertiary-40: #51661F;
+    --tone-tertiary-50: #698034;
+    --tone-tertiary-60: #829A4A;
+    --tone-tertiary-70: #9CB561;
+    --tone-tertiary-80: #B7D179;
+    --tone-tertiary-90: #D3EE92;
+    --tone-tertiary-95: #E1FD9F;
+    --tone-tertiary-99: #FBFFE7;
+    /*--Neutral--*/
+    --tone-neutral-10: #1A1C18;
+    --tone-neutral-20: #2F312C;
+    --tone-neutral-30: #464742;
+    --tone-neutral-40: #5E5F5A;
+    --tone-neutral-50: #767873;
+    --tone-neutral-60: #90918C;
+    --tone-neutral-70: #ABACA6;
+    --tone-neutral-80: #C7C7C1;
+    --tone-neutral-90: #E3E3DD;
+    --tone-neutral-95: #F1F1EB;
+    --tone-neutral-99: #FDFDF5;
+    /*--Neutral-variant--*/
+    --tone-neutral-variant-10: #191D16;
+    --tone-neutral-variant-20: #2E322A;
+    --tone-neutral-variant-30: #44483F;
+    --tone-neutral-variant-40: #5C6056;
+    --tone-neutral-variant-50: #75796E;
+    --tone-neutral-variant-60: #8E9287;
+    --tone-neutral-variant-70: #A9ADA1;
+    --tone-neutral-variant-80: #C5C8BC;
+    --tone-neutral-variant-90: #E1E4D7;
+    --tone-neutral-variant-95: #EFF3E5;
+    --tone-neutral-variant-99: #FBFEF1;
+    /*----------Scheme----------*/
+    --scheme-primary: #46692A;
+    --scheme-on-primary: #F9FFEE;
+    --scheme-primary-container: #C6F09F;
+    --scheme-on-primary-container: #0F2004;
+    --scheme-secondary: #55624C;
+    --scheme-on-secondary: #F7FFEC;
+    --scheme-secondary-container: #D8E7CB;
+    --scheme-on-secondary-container: #131F0D;
+    --scheme-tertiary: #51661F;
+    --scheme-on-tertiary: #FBFFE7;
+    --scheme-tertiary-container: #B7D179;
+    --scheme-on-tertiary-container: #3C4D12;
+    --scheme-background: #EFF3E5;
+    --scheme-on-background: #1A1C19;
+    --scheme-surface: #F9FAF4;
+    --scheme-on-surface: #1A1C19;
+    --scheme-surface-variant: #E1E4D7;
+    --scheme-on-surface-variant: #44483F;
+    --scheme-outline: #A1B096;
+    /*----------Feedback----------*/
+    /*--Error--*/
+    --feedback-error: #F04438;
+    --feedback-on-error: #FEE4E2;
+    /*--Warning--*/
+    --feedback-warning: #FDB022;
+    --feedback-on-warning: #FFEDCC;
+    /*--Success--*/
+    --feedback-success: #12B76A;
+    --feedback-on-success: #D1FADF;
+}
+
+/*--Typography--*/
+/*---------Font family---------*/
+@font-face {
+    font-family: display-font;
+    src: url("../../public/fonts/SVN-Canopee.ttf"),
+         url("../../public/fonts/SVN-Canopee.woff");       
+}
+@font-face {
+    font-family: bold-font;
+    src: url("../../public/fonts/SF-Pro-Text-Bold.ttf"),
+         url("../../public/fonts/SF-Pro-Text-Bold.woff");
+}   
+@font-face {
+    font-family: semibold-font;
+    src: url("../../public/fonts/SF-Pro-Text-Semibold.ttf"),
+         url("../../public/fonts/SF-Pro-Text-Semibold.woff");
+}
+@font-face {
+    font-family: medium-font;
+    src: url("../../public/fonts/SF-Pro-Text-Medium.ttf"),
+         url("../../public/fonts/SF-Pro-Text-Medium.woff");
+}
+@font-face {
+    font-family: regular-font;
+    src: url("../../public/fonts/SF-Pro-Text-Regular.ttf"),
+         url("../../public/fonts/SF-Pro-Text-Regular.woff");
+}
+
+/*---------Font family---------*/
+/*---Display---*/
+d1, d2, d3, d4, d5, d6 {
+    font-family: display-font;
+}
+/*---Headline---*/
+h1, h2, h3, h4, h5, h6 {
+	font-family: semibold-font;
+}
+
+/*---Generic---*/
+.subtitle1, .subtitle2 {
+    font-family: bold-font;
+}
+
+.title1, .title2 {
+    font-family: medium-font;
+}
+
+.button1, .button2, .button3 {
+    font-family: semibold-font;
+}
+
+/*---Body---*/
+p, .p1, .p2, .p3 {
+    font-family: regular-font;
+}
+
+.label1, .label2, .label3 {
+    font-family: semibold-font;
+}
+
+.support {
+    font-family: medium-font;
+}
+
+/*---------Font size---------*/
+/*---Display---*/
+d1 {
+    font-size: 100px;
+    line-height: 110px;
+}
+
+d2 {
+    font-size: 83px;
+    line-height: 85px;
+}
+
+d3 {
+    font-size: 68px;
+    line-height: 72px;
+}
+
+d4 {
+    font-size: 54px;
+}
+
+d5 {
+    font-size: 48px;
+    line-height: 50px;
+}
+
+d6 {
+    font-size: 36px;
+    line-height: 38px;
+}
+
+/*---Headline---*/
+h1 {
+    font-size: 48px;
+    line-height: 56px;
+}
+
+h2 {
+    font-size: 40px;
+    line-height: 48px;
+}
+
+h3 {
+    font-size: 28px;
+    line-height: 34px;
+}
+
+h4 {
+    font-size: 28px;
+    line-height: 34px;
+}
+
+h5 {
+    font-size: 24px;
+    line-height: 29px;
+}
+
+h6 {
+    font-size: 20px;
+    line-height: 24px;
+}
+
+/*---Generic---*/
+.subtitle1 {
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.subtitle2 {
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.title1 {
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.title2 {
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.button1 {
+    font-size: 18px;
+    line-height: 20px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.button2 {
+    font-size: 16px;
+    line-height: 18px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.button3 {
+    font-size: 14px;
+    line-height: 16px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/*---Body---*/
+.p1 {
+    font-size: 18px;
+    line-height: 20px;
+}
+
+p, .p2 {
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.p3 {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.label1 {
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.label2 {
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.label3 {
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.support {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+body {
+    background-color: var(--scheme-background);
+}
+
+/*-- Link --*/
+a {
+    font-family: regular-font;
+    box-sizing: border-box;
+    color: var(--tone-secondary-60);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--tone-secondary-60);
+}
