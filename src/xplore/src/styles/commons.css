@@ -102,44 +102,44 @@ p, .p1, .p2, .p3 {
 
 /*---Headline---*/
 h1 {
-    font-size: 48px;
-    line-height: 56px;
+    font-size: 72px;
+    line-height: 120%;
 }
 
 h2 {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 64px;
+    line-height: 120%;
 }
 
 h3 {
-    font-size: 28px;
-    line-height: 34px;
+    font-size: 56px;
+    line-height: 120%;
 }
 
 h4 {
-    font-size: 28px;
-    line-height: 34px;
+    font-size: 48px;
+    line-height: 120%;
 }
 
 h5 {
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 36px;
+    line-height: 120%;
 }
 
 h6 {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 28px;
+    line-height: 120%;
 }
 
 /*-- Generic --*/
 .subtitle1 {
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 120%;
 }
 
 .subtitle2 {
-    font-size: 16px;
-    line-height: 18px;
+    font-size: 14px;
+    line-height: 120%;
 }
 
 .title1 {
@@ -213,16 +213,4 @@ p, .p2 {
 
 body {
     background-color: var(--scheme-background);
-}
-
-/*-- Link --*/
-a {
-    font-family: regular-font;
-    box-sizing: border-box;
-    color: var(--tone-secondary-60);
-    text-decoration: none;
-}
-
-a:hover {
-    color: var(--tone-secondary-60);
 }
