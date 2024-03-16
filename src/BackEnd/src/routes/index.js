@@ -1,14 +1,14 @@
 const express = require('express');
 const rootRoute = express.Router();
-const basicRoute = require('./basicRoute');
+const topicRoute = require('./topicRoute');
 const userRoute = require('./userRoute');
-const adminRoute = require('./adminRoute');
+const reportRoute = require('./reportRoute');
 const postRoute = require('./postRoute');
 const authRoute = require('./authRoute');
 
-rootRoute.use("/basic", basicRoute);
+rootRoute.use("/topic", topicRoute);
 rootRoute.use("/user", userRoute);
-rootRoute.use("/admin", adminRoute);
+rootRoute.use("/report", reportRoute);
 rootRoute.use("/post", postRoute);
 rootRoute.use("/auth", authRoute);
 

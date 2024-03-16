@@ -19,11 +19,6 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_user'
       }
     },
-    subscriber_time: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      primaryKey: true
-    }
   }, {
     sequelize,
     tableName: 'subscribe',

@@ -7,11 +7,12 @@ const { successCode, failCode, errorCode } = require('../config/response');
 
 const getReportType = async (req,res) => {
     try{
-        let data = await model.report_type.findAll()
-        successCode(res,data,"Get thành công")
+        let report_type = await model.report_type.findAll()
+        successCode(res,report_type,"Report type found")
     }
     catch(err){
-        errorCode(res,err)
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
 
 }

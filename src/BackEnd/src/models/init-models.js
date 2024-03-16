@@ -104,7 +104,7 @@ function initModels(sequelize) {
   user.hasMany(notification, { as: "notifications", foreignKey: "creator"});
   notification.belongsTo(user, { as: "receiver_user", foreignKey: "receiver"});
   user.hasMany(notification, { as: "receiver_notifications", foreignKey: "receiver"});
-  post.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
+  post.belongsTo(user, { as: "author", foreignKey: "id_user"});
   user.hasMany(post, { as: "posts", foreignKey: "id_user"});
   reading_history.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
   user.hasMany(reading_history, { as: "reading_histories", foreignKey: "id_user"});
@@ -112,8 +112,8 @@ function initModels(sequelize) {
   user.hasMany(report_post, { as: "report_posts", foreignKey: "id_user"});
   report_response.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
   user.hasMany(report_response, { as: "report_responses", foreignKey: "id_user"});
-  response.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
-  user.hasMany(response, { as: "responses", foreignKey: "id_user"});
+  response.belongsTo(user, { as: "user", foreignKey: "id_user"});
+  user.hasMany(response, { as: "responses_user", foreignKey: "id_user"});
   subscribe.belongsTo(user, { as: "subscriber_user", foreignKey: "subscriber"});
   user.hasMany(subscribe, { as: "subscribes", foreignKey: "subscriber"});
   subscribe.belongsTo(user, { as: "user_user", foreignKey: "user"});
