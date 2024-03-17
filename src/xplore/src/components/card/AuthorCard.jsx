@@ -1,14 +1,14 @@
 import "./author-card.css";
 
-function AuthorCard({ author }) {
+function AuthorCard({ user }) {
   return (
-    <div class="author-card">
-        <img src={author.photo || "../../assets/images/photo-placeholder.jpg"} alt="user's photo" class="author-card__photo" />
-        <div class="author-card__info">
-            <div class="author-card__info__name title1">{author.name}</div>
-            <div class="author-card__info__bio p3">{author.bio}</div>
-            <span class="author-card__info__tags">
-                {author.tags.map(tag => <div class="author-card__info__tag support">{tag}</div>)}
+    <div className="author-card">
+        <img src={user.photo || "../../assets/images/photo-placeholder.jpg"} alt="user's photo" className="author-card__photo" />
+        <div className="author-card__info">
+            <div className="author-card__info__name title1">{user.name}</div>
+            <div className="author-card__info__bio p3">{user.bio}</div>
+            <span className="author-card__info__tags">
+                {user.tags.map(tag => <div className="author-card__info__tag support">{tag}</div>)}
             </span>
         </div>
     </div>
