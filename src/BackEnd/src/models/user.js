@@ -46,6 +46,10 @@ module.exports = function(sequelize, DataTypes) {
     is_member: {
       type: DataTypes.BOOLEAN,
       allowNull: true
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     sequelize,
