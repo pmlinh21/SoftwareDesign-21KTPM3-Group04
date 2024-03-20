@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('post_money', {
+  return sequelize.define('post_monthly_data', {
     id_post: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,15 +18,19 @@ module.exports = function(sequelize, DataTypes) {
     money: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    like: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'post_money',
+    tableName: 'post_monthly_data',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "post_money_pkey",
+        name: "post_monthly_data_pkey",
         unique: true,
         fields: [
           { name: "id_post" },

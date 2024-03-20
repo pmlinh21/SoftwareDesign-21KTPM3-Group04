@@ -171,13 +171,160 @@ const getResponseOfPost = async (req,res) => {
 
 }
 
+const createPost = async (req,res) => {
+    // const {id_post} = req.params;
+
+    try{
+        // const post = await model.post.findOne({
+        //     where:{
+        //         id_post: id_post
+        //     }
+        // }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,null,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const updatePost = async (req,res) => {
+    const {id_post} = req.params;
+
+    try{
+        const post = await model.post.findOne({
+            where:{
+                id_post: id_post
+            }
+        }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,post,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const updatePaywallOfPost = async (req,res) => {
+    const {id_post} = req.params;
+
+    try{
+        const post = await model.post.findOne({
+            where:{
+                id_post: id_post
+            }
+        }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,post,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const updatePublishTimeOfPost = async (req,res) => {
+    const {id_post} = req.params;
+
+    try{
+        const post = await model.post.findOne({
+            where:{
+                id_post: id_post
+            }
+        }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,post,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const updateScheduleTimeOfPost = async (req,res) => {
+    const {id_post} = req.params;
+
+    try{
+        const post = await model.post.findOne({
+            where:{
+                id_post: id_post
+            }
+        }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,post,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const getPostMonthlyData = async (req,res) => {
+    const {id_post, time} = req.params;
+
+    try{
+        const data = await model.post_monthly_data.findOne({
+            where:{
+                id_post: id_post
+            }
+        }); 
+
+        if (!data) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,data,"Post found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 
 module.exports = {
     getTrendingPost,
     getPostByID,
     getPostByKeyword,
     getPostByUser,
-
     getLikeOfPost,
-    getResponseOfPost
+    getResponseOfPost,
+
+    createPost,
+    updatePost,
+    updatePaywallOfPost,
+    updatePublishTimeOfPost,
+    updateScheduleTimeOfPost,
+    // deletePost,
+    // likePost,
+    // unlikePost,
+    // responsePost,
+    // deleteResponse,
+    // replyResponse,
+    // deleteReply,
+    // createHighlight,
+    // deleteHighlight,
+    getPostMonthlyData
 }

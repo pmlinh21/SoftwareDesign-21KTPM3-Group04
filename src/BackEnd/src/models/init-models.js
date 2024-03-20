@@ -7,7 +7,7 @@ var _list = require("./list");
 var _list_post = require("./list_post");
 var _notification = require("./notification");
 var _post = require("./post");
-var _post_money = require("./post_money");
+var _post_monthly_data = require("./post_monthly_data");
 var _reading_history = require("./reading_history");
 var _report_post = require("./report_post");
 var _report_response = require("./report_response");
@@ -19,6 +19,7 @@ var _topic = require("./topic");
 var _topic_post = require("./topic_post");
 var _topic_user = require("./topic_user");
 var _user = require("./user");
+var _user_monthly_data = require("./user_monthly_data");
 
 function initModels(sequelize) {
   var admin = _admin(sequelize, DataTypes);
@@ -29,7 +30,8 @@ function initModels(sequelize) {
   var list_post = _list_post(sequelize, DataTypes);
   var notification = _notification(sequelize, DataTypes);
   var post = _post(sequelize, DataTypes);
-  var post_money = _post_money(sequelize, DataTypes);
+  var post_monthly_data = _post_monthly_data(sequelize, DataTypes);
+  var user_monthly_data = _user_monthly_data(sequelize, DataTypes);
   var reading_history = _reading_history(sequelize, DataTypes);
   var report_post = _report_post(sequelize, DataTypes);
   var report_response = _report_response(sequelize, DataTypes);
@@ -66,8 +68,8 @@ function initModels(sequelize) {
   post.hasMany(list_post, { as: "list_posts", foreignKey: "id_post"});
   notification.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
   post.hasMany(notification, { as: "notifications", foreignKey: "id_post"});
-  post_money.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
-  post.hasMany(post_money, { as: "post_moneys", foreignKey: "id_post"});
+  post_monthly_data.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
+  post.hasMany(post_monthly_data, { as: "post_monthly_datas", foreignKey: "id_post"});
   reading_history.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
   post.hasMany(reading_history, { as: "reading_histories", foreignKey: "id_post"});
   report_post.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
@@ -122,7 +124,8 @@ function initModels(sequelize) {
   user.hasMany(subscription, { as: "subscriptions", foreignKey: "id_user"});
   topic_user.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
   user.hasMany(topic_user, { as: "topic_users", foreignKey: "id_user"});
-
+  user_monthly_data.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
+  user.hasMany(user_monthly_data, { as: "user_monthly_datas", foreignKey: "id_user"});
   return {
     admin,
     block,
@@ -132,7 +135,7 @@ function initModels(sequelize) {
     list_post,
     notification,
     post,
-    post_money,
+    post_monthly_data,
     reading_history,
     report_post,
     report_response,
@@ -144,6 +147,7 @@ function initModels(sequelize) {
     topic_post,
     topic_user,
     user,
+    user_monthly_data
   };
 }
 module.exports = initModels;
