@@ -214,3 +214,112 @@ p, .p2 {
 body {
     background-color: var(--scheme-background);
 }
+
+/*---------Button---------*/
+/*--- Size ---*/
+.btn-nm {
+  font-size: 18px;
+  line-height: 20px;
+  /* padding: 16px 24px; */
+  height: 56px;
+  border-radius: 4px;
+}
+
+.btn-md {
+  font-size: 16px;
+  line-height: 18px;
+  /* padding: 16px ; */
+  height: 48px;
+  border-radius: 4px;
+}
+
+.btn-sm {
+  font-size: 14px;
+  line-height: 16px;
+  /* padding: 8px 24px; */
+  height: 36px;
+  border-radius: 4px;
+}
+
+/* Button hierarchy */
+.prim-btn {
+  background-color: var(--scheme-primary);
+  color: var(--white);
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.sec-btn {
+  background-color: var(--scheme-secondary);
+  color: var(--black);
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.tert-btn {
+background-color: transparent;
+color: var(--black);
+border: 1.5px solid var(--black);
+transition: background-color 0.3s ease;
+}
+
+.link-nm {
+  background: none;
+  border: none;
+  font-family: semibold-font;
+  color: var(--scheme-primary);
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.link-md {
+  background: none;
+  border: none;
+  font-family: semibold-font;
+  color: var(--scheme-primary);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.link-sm {
+  background: none;
+  border: none;
+  font-family: semibold-font;
+  color: var(--scheme-primary);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/*--- States ---*/
+.prim-btn:hover {
+  background: var(--blue-400);
+  cursor: pointer;
+}
+
+.sec-btn:hover {
+  background: var(--blue-200);
+  cursor: pointer;
+}
+
+.tert-btn:hover {
+  background: transparent; /* same as default */
+  color: var(--black);     /* same as default */
+  cursor: pointer;
+}
+
+.btn-nm:disabled, 
+.btn-md:disabled,
+.btn-sm:disabled {
+  color: var(--neutral-300);
+  background: var(--neutral-100);
+  border: none;
+}
+
+.link-nm:hover, .link-md:hover, .link-sm:hover {
+  color: var(--blue-900);
+}
+
+.link-disabled {
+  color: var(--neutral-300) !important;
+  cursor: default !important;
+}
