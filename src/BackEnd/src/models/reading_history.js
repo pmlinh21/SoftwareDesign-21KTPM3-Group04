@@ -1,10 +1,14 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('reading_history', {
-    id_post: {
+    id_reading_history: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+    },
+    id_post: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'post',
         key: 'id_post'
@@ -13,7 +17,6 @@ module.exports = function(sequelize, DataTypes) {
     id_user: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
       references: {
         model: 'user',
         key: 'id_user'
@@ -22,7 +25,6 @@ module.exports = function(sequelize, DataTypes) {
     reading_time: {
       type: DataTypes.DATE,
       allowNull: false,
-      primaryKey: true
     }
   }, {
     sequelize,
@@ -34,9 +36,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "reading_history_pkey",
         unique: true,
         fields: [
-          { name: "id_post" },
-          { name: "id_user" },
-          { name: "reading_time" },
+          { name: "id_reading_history" },
         ]
       },
     ]

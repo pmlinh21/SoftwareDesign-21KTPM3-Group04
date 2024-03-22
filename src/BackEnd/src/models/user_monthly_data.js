@@ -10,10 +10,15 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_user'
       }
     },
-    time: {
-      type: DataTypes.DATE,
+    year: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+    },
+    month: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
     },
     subscriber: {
       type: DataTypes.INTEGER,
@@ -30,7 +35,8 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id_user" },
-          { name: "time" },
+          { name: "year" },
+          { name: "month" },
         ]
       },
     ]

@@ -10,10 +10,15 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_post'
       }
     },
-    time: {
-      type: DataTypes.DATE,
+    year: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+    },
+    month: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
     },
     money: {
       type: DataTypes.INTEGER,
@@ -34,7 +39,8 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id_post" },
-          { name: "time" },
+          { name: "year" },
+          { name: "month" },
         ]
       },
     ]
