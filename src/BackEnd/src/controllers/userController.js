@@ -1,7 +1,11 @@
 const db = require('../models/index');
 const sequelize = db.sequelize;
+const { Op, literal } = require("sequelize");
 const init_models = require('../models/init-models');
 const model = init_models(sequelize);
+require('dotenv').config()
+const nodeMailer = require('nodemailer');
+const bcrypt = require('bcryptjs'); 
 
 const { successCode, failCode, errorCode } = require('../config/response');
 
@@ -65,4 +69,140 @@ const signup = async(req, res) =>{
     }
 }
 
-module.exports = { login, signup }
+// GET: Search account
+const searchAccountByName = async (req, res) => {
+    let { fullname } = req.body
+
+    try {
+        let user = await model.user.findAll({
+            where:{
+                fullname: {
+                    [Op.like]: `%${fullname}%`
+                }
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid Name")
+        }
+        else{
+            successCode(res, user, "Account found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+} 
+
+// GET: Get subscriber of an account
+const getUserSubscriber = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let subscribers = await model.subscribe.findAll({
+                where: {
+                    user: id_user
+                },
+                include: [
+                    {
+                        model: model.user,
+                        as: 'subscriber_user'
+                    }
+                ]
+            });
+            successCode(res, subscribers, "Subscribers found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// Send email config
+const sendMail = (to, subject, htmlContent) => {
+    const transport = nodeMailer.createTransport({
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
+        secure: false,
+        auth: {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+        }
+    })
+
+    const options = {
+        from: process.env.MAIL_FROM_ADDRESS,
+        to: to,
+        subject: subject,
+        html: htmlContent
+    }
+    return transport.sendMail(options);
+}
+
+// POST: Send email to subscriber
+const sendEmail = async(req, res) =>{
+    try{
+        let { author, id_subscriber } = req.body
+        
+        let check = await model.user.findOne({
+            where: {
+                id_user: id_subscriber
+            }
+        })
+        if(!check){
+            failCode(res, null, "Invalid Subscriber")
+        }
+        else{
+            const htmlContent = `
+            <html>
+            <body>
+                <h2>Dear Subscriber,</h2>
+                <p>Thank you for subscribing to ${author}'s newsletter!</p>
+                <p>From now on, you will receive regular updates on ${author} latest posts.</p>
+                <p>We appreciate your interest in our content and hope you find it valuable.</p>
+                <p>Best regards,</p>
+                <p>Xplore</p>
+            </body>
+            </html>
+            `;
+            await sendMail(check.email, "Welcome Email", htmlContent)
+            successCode(res,"","Email sent")
+        }
+    }catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get user by ID
+const getUserByID = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findAll({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            successCode(res, user, "User found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
+                sendEmail, getUserByID }
