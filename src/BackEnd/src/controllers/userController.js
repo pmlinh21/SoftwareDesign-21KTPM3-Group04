@@ -6,7 +6,7 @@ const model = init_models(sequelize);
 require('dotenv').config()
 const nodeMailer = require('nodemailer');
 const bcrypt = require('bcryptjs'); 
-
+const moment = require('moment')
 const { successCode, failCode, errorCode } = require('../config/response');
 
 // GET: Login
@@ -231,7 +231,7 @@ const updateUserByID = async (req, res) => {
                     id_user: id_user
                 }
             });
-            successCode(res, data, "User found")
+            successCode(res, data, "Update successfully")
         }
     } catch (err) {
         console.log(err)
@@ -309,6 +309,101 @@ const followATopic = async (req, res) => {
     }
 }
 
+// GET: Get all user subscriptions
+const getUserSubscription = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let subscriptions = await model.subscription.findAll({
+                where: {
+                    id_user: id_user
+                }
+            });
+            successCode(res, subscriptions, "Subscriptions found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// POST: Make a subscription
+const makeASubscription = async (req, res) => {
+    let { id_user, plan, start_time, end_time, price, status } = req.body
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "User not found")
+        }
+        else{
+            await model.subscription.create({
+                id_user, plan, start_time, end_time, price, status
+            });
+            let subscription = await model.subscription.findOne({
+                where: {
+                    id_user: id_user
+                }
+            });
+            successCode(res, subscription, "Make successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// PUT: Update a subscription (status) by ID
+const updateSubscriptionByID= async (req, res) => {
+    let { id_subscription } = req.params
+    let { status } = req.body;
+
+    try {
+        let subscription = await model.subscription.findOne({
+            where:{
+                id_subscription: id_subscription,
+                status: 0
+            } 
+        })
+        if (!subscription) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.subscription.update({ 
+                status
+            }, {
+                where:{
+                    id_subscription: id_subscription,
+                    status: 0
+                }
+            }); 
+            let data = await model.subscription.findOne({
+                where:{
+                    id_subscription: id_subscription
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, updateUserByID, getUserTopic, 
-                followATopic }
+                followATopic, getUserSubscription, makeASubscription,
+                updateSubscriptionByID }

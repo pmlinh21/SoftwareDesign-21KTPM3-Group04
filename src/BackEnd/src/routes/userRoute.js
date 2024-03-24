@@ -2,7 +2,8 @@ const express = require('express');
 const userRoute = express.Router();
 const { login, signup, searchAccountByName, getUserSubscriber,
     sendEmail, getUserByID, updateUserByID, getUserTopic,
-    followATopic } = require("../controllers/userController")
+    followATopic, getUserSubscription, makeASubscription,
+    updateSubscriptionByID } = require("../controllers/userController")
 
 // GET: Login
 userRoute.get("/login", login)
@@ -30,5 +31,14 @@ userRoute.get("/topic/:id_user", getUserTopic)
 
 // POST: Follow a topic
 userRoute.post("/topic", followATopic)
+
+// GET: Get all user subscriptions
+userRoute.get("/subscription/:id_user", getUserSubscription)
+
+// POST: Make a subscription
+userRoute.post("/subscription", makeASubscription)
+
+// PUT: Update a subscription (status) by ID
+userRoute.put("/subscription/:id_subscription", updateSubscriptionByID)
 
 module.exports = userRoute;
