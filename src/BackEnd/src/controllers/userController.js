@@ -187,7 +187,7 @@ const getUserByID = async (req, res) => {
     let { id_user } = req.params
 
     try {
-        let user = await model.user.findAll({
+        let user = await model.user.findOne({
             where:{
                 id_user: id_user
             } 
@@ -204,5 +204,111 @@ const getUserByID = async (req, res) => {
     }
 }
 
+// PUT: Update user by ID
+const updateUserByID = async (req, res) => {
+    let { id_user } = req.params
+    let { fullname, gender, birthdate, avatar, tipping_link, bio } = req.body;
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                fullname, gender, birthdate, avatar, tipping_link, bio
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "User found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+
+// GET: Get all user following topics
+const getUserTopic = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let topics = await model.topic_user.findAll({
+                where: {
+                    id_user: id_user
+                },
+                include: [
+                    {
+                        model: model.topic,
+                        as: 'id_topic_topic'
+                    }
+                ]
+            });
+            successCode(res, topics, "Topics found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// POST: Follow a topic
+const followATopic = async (req, res) => {
+    let { id_user, id_topic } = req.body
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        let topic = await model.topic.findOne({
+            where:{
+                id_topic: id_topic
+            }
+        })
+        if(!user || !topic){
+            failCode(res, null, "User or topic not found")
+        }
+        else{
+            await model.topic_user.create({
+                id_user, id_topic
+            });
+            let topic_user = await model.topic_user.findOne({
+                where: {
+                    id_user: id_user,
+                    id_topic: id_topic
+                }
+            });
+            successCode(res, topic_user, "Follow successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
-                sendEmail, getUserByID }
+                sendEmail, getUserByID, updateUserByID, getUserTopic, 
+                followATopic }
