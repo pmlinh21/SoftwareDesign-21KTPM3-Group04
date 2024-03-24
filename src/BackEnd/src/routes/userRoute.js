@@ -4,7 +4,10 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     sendEmail, getUserByID, updateUserByID, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
     updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
-    blockAnotherUser } = require("../controllers/userController")
+    blockAnotherUser, unblockAnotherUser,
+    getUserReceivedNotifications, getUserSentNotifications,
+    getUserReadingHistory, deleteReadingHistory,
+    getUserList, createList, editList, deleteList } = require("../controllers/userController")
 
 // GET: Login
 userRoute.get("/login", login)
@@ -50,4 +53,32 @@ userRoute.delete("/subscribe/:user/:subscriber", unsubscribeAnotherUser)
 
 // POST: Block another user
 userRoute.post("/block/:user/:block", blockAnotherUser)
+
+// DELETE: Unblock another user
+userRoute.delete("/block/:user/:block", unblockAnotherUser)
+
+// GET: Get all user received notifications
+userRoute.get("/notification/received/:id_user", getUserReceivedNotifications)
+
+// GET: Get all user sent notifications
+userRoute.get("/notification/sent/:id_user", getUserSentNotifications)
+
+// GET: Get all user reading history
+userRoute.get("/reading_history/:id_user", getUserReadingHistory)
+
+// DELETE: Delete reading history
+userRoute.delete("/reading_history/:id_reading_history", deleteReadingHistory)
+
+// GET: Get all user list
+userRoute.get("/list/:id_user", getUserList)
+
+// POST: Create a list
+userRoute.post("/list", createList)
+
+// PUT: Edit a list
+userRoute.put("/list/edit", editList)
+
+// DELETE: Delete a list
+userRoute.delete("/list/:id_list", deleteList)
+
 module.exports = userRoute;

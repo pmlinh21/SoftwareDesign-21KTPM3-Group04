@@ -472,14 +472,14 @@ const unblockAnotherUser = async (req, res) => {
     let { user, block } = req.params
 
     try {
-        let check = await model.subscribe.findOne({
+        let check = await model.block.findOne({
             where:{
                 user: user,
                 block: block 
             }    
         });
         if(check){
-            await model.subscribe.destroy({
+            await model.block.destroy({
                 where:{
                     user: user,
                     block: block 
@@ -497,8 +497,224 @@ const unblockAnotherUser = async (req, res) => {
     }
 }
 
+// GET: Get all user received notifications
+const getUserReceivedNotifications = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let notifications = await model.notification.findAll({
+                where: {
+                    receiver: id_user
+                }
+            });
+            successCode(res, notifications, "Notifications found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get all user sent notifications
+const getUserSentNotifications = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let notifications = await model.notification.findAll({
+                where: {
+                    creator: id_user
+                }
+            });
+            successCode(res, notifications, "Notifications found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get all user reading history
+const getUserReadingHistory = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let history = await model.reading_history.findAll({
+                where: {
+                    id_user: id_user
+                }
+            });
+            successCode(res, history, "History found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// DELETE: Delete reading history
+const deleteReadingHistory = async (req, res) => {
+    let { id_reading_history } = req.params
+
+    try {
+        let check = await model.reading_history.findOne({
+            where:{
+                id_reading_history: id_reading_history
+            }    
+        });
+        if(check){
+            await model.reading_history.destroy({
+                where:{
+                    id_reading_history: id_reading_history 
+                }    
+            });
+            successCode(res, "", "Delete successfully");
+        }
+        else{
+            failCode(res, null, "History not found")
+        }
+        
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get all user list
+const getUserList = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let list = await model.list.findAll({
+            where: {
+                id_user: id_user
+            }
+        });
+        if(!list){
+            failCode(res, null, "User has no listings")
+        }
+        else{
+            successCode(res, list, "List found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// POST: Create a list
+const createList = async (req, res) => {
+    let { id_user, list_name } = req.body
+
+    try {
+        let check = await model.list.findOne({
+            where:{
+                id_user: id_user,
+                list_name: list_name
+            }
+        })
+        if(check){
+            failCode(res, null, "List already exists")
+        }
+        else{
+            const [list, metadata] = await sequelize.query
+            (`INSERT INTO list (id_user, list_name)
+            VALUES (${id_user}, '${list_name}')`);
+            successCode(res, list, "Create successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// PUT: Edit a list
+const editList = async (req, res) => {
+    let { id_list, list_name } = req.body
+    
+    try {
+        let check = await model.list.findOne({
+            where:{
+                id_list: id_list
+            }
+        })
+        if(!check){
+            failCode(res, null, "List does not exist")
+        }
+        else{
+            await model.list.update({
+                list_name
+            }, {
+                where:{
+                    id_list: id_list
+                }
+            })
+            successCode(res, "", "Edit successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// DELETE: Delete a list
+const deleteList = async (req, res) => {
+    let { id_list } = req.params
+    
+    try {
+        let check = await model.list.findOne({
+            where:{
+                id_list: id_list
+            }
+        })
+        if(!check){
+            failCode(res, null, "List does not exist")
+        }
+        else{
+            await model.list.destroy({
+                where:{
+                    id_list: id_list
+                }
+            })
+            successCode(res, "", "Delete successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
                 updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
-                blockAnotherUser }
+                blockAnotherUser, unblockAnotherUser,
+                getUserReceivedNotifications, getUserSentNotifications,
+                getUserReadingHistory, deleteReadingHistory,
+                getUserList, createList, editList, deleteList }
