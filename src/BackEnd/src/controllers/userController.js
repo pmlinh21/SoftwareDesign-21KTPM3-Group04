@@ -369,34 +369,128 @@ const makeASubscription = async (req, res) => {
 // PUT: Update a subscription (status) by ID
 const updateSubscriptionByID= async (req, res) => {
     let { id_subscription } = req.params
-    let { status } = req.body;
+    let { start_time, status } = req.body;
 
     try {
-        let subscription = await model.subscription.findOne({
+        const [data, metadata] = await sequelize.query
+        (`UPDATE subscription SET status = ${status} 
+        WHERE id_subscription = ${id_subscription}
+        AND start_time = '${start_time}'`);
+            
+        successCode(res, "", "Update successfully")
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+
+// POST: Subscribe another user
+const subscribeAnotherUser = async (req, res) => {
+    let { user, subscriber, subscriber_time } = req.body
+    
+    try {
+        let check = await model.subscribe.findOne({
             where:{
-                id_subscription: id_subscription,
-                status: 0
-            } 
+                user: user,
+                subscriber: subscriber 
+            }
         })
-        if (!subscription) {
-            failCode(res, null, "Invalid ID")
+        if(check){
+            failCode(res, null, "User is already subscribed")
         }
         else{
-            await model.subscription.update({ 
-                status
-            }, {
-                where:{
-                    id_subscription: id_subscription,
-                    status: 0
-                }
-            }); 
-            let data = await model.subscription.findOne({
-                where:{
-                    id_subscription: id_subscription
-                }
-            });
-            successCode(res, data, "Update successfully")
+            const [subscribe, metadata] = await sequelize.query
+            (`INSERT INTO subscribe 
+            VALUES (${user},${subscriber},'${subscriber_time}')`);
+            
+            successCode(res, "", "Subscribe successfully");
         }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+} 
+
+// DELETE: Unsubscribe another user
+const unsubscribeAnotherUser = async (req, res) => {
+    let { user, subscriber } = req.params
+
+    try {
+        let check = await model.subscribe.findOne({
+            where:{
+                user: user,
+                subscriber: subscriber 
+            }
+        })
+        if(!check){
+            failCode(res, null, "User is not subscribed")
+        }
+        else{
+            await model.subscribe.destroy({
+                where:{
+                    user: user,
+                    subscriber: subscriber 
+                }    
+            });
+            successCode(res, "", "Unsubscribe successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// POST: Block another user
+const blockAnotherUser = async (req, res) => {
+    let { user, block } = req.params
+
+    try {
+        let check = await model.block.findOne({
+            where:{
+                user: user,
+                block: block
+            }
+        })
+        if(check){
+            failCode(res, null, "User is already blocked")
+        }
+        else{
+            await model.block.create({
+                user, block
+            });
+            successCode(res, "", "Block successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// DELETE: Unblock another user
+const unblockAnotherUser = async (req, res) => {
+    let { user, block } = req.params
+
+    try {
+        let check = await model.subscribe.findOne({
+            where:{
+                user: user,
+                block: block 
+            }    
+        });
+        if(check){
+            await model.subscribe.destroy({
+                where:{
+                    user: user,
+                    block: block 
+                }    
+            });
+            successCode(res, "", "Unblock successfully");
+        }
+        else{
+            failCode(res, null, "User is unblocked")
+        }
+        
     } catch (err) {
         console.log(err)
         errorCode(res,"Internal Server Error")
@@ -406,4 +500,5 @@ const updateSubscriptionByID= async (req, res) => {
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
-                updateSubscriptionByID }
+                updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
+                blockAnotherUser }

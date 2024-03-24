@@ -3,7 +3,8 @@ const userRoute = express.Router();
 const { login, signup, searchAccountByName, getUserSubscriber,
     sendEmail, getUserByID, updateUserByID, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
-    updateSubscriptionByID } = require("../controllers/userController")
+    updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
+    blockAnotherUser } = require("../controllers/userController")
 
 // GET: Login
 userRoute.get("/login", login)
@@ -41,4 +42,12 @@ userRoute.post("/subscription", makeASubscription)
 // PUT: Update a subscription (status) by ID
 userRoute.put("/subscription/:id_subscription", updateSubscriptionByID)
 
+// POST: Subscribe another user
+userRoute.post("/subscribe", subscribeAnotherUser)
+
+// DELETE: Unsubscribe another user
+userRoute.delete("/subscribe/:user/:subscriber", unsubscribeAnotherUser)
+
+// POST: Block another user
+userRoute.post("/block/:user/:block", blockAnotherUser)
 module.exports = userRoute;
