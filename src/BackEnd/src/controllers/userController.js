@@ -710,6 +710,83 @@ const deleteList = async (req, res) => {
     }
 }
 
+// POST: Add a post to a list
+const addPostToList = async (req, res) => {
+    let { id_list, id_post } = req.body
+
+    try {
+        let check = await model.list_post.findOne({
+            where:{
+                id_list: id_list,
+                id_post: id_post
+            }
+        })
+        if(check){
+            failCode(res, null, "Post is already in this list")
+        }
+        else{
+            await model.list_post.create({
+                id_list, id_post
+            });
+            successCode(res, "", "Add successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// DELETE: Delete a post from a list
+const deletePostFromList = async (req, res) => {
+    let { id_list, id_post } = req.params
+
+    try {
+        let check = await model.list_post.findOne({
+            where:{
+                id_list: id_list,
+                id_post: id_post
+            }
+        })
+        if(!check){
+            failCode(res, null, "Post is not in this list")
+        }
+        else{
+            await model.list_post.destroy({
+                where:{
+                    id_list: id_list,
+                    id_post: id_post
+                }
+            });
+            successCode(res, "", "Delete successfully");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get all user highlight
+const getUserHighLight = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let highlight = await model.highlight.findAll({
+            where: {
+                id_user: id_user
+            }
+        });
+        if(!highlight){
+            failCode(res, null, "User has no highlights")
+        }
+        else{
+            successCode(res, highlight, "Highlight found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
@@ -717,4 +794,5 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
                 blockAnotherUser, unblockAnotherUser,
                 getUserReceivedNotifications, getUserSentNotifications,
                 getUserReadingHistory, deleteReadingHistory,
-                getUserList, createList, editList, deleteList }
+                getUserList, createList, editList, deleteList,
+                addPostToList, deletePostFromList, getUserHighLight }

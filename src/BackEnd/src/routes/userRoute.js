@@ -7,7 +7,8 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     blockAnotherUser, unblockAnotherUser,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
-    getUserList, createList, editList, deleteList } = require("../controllers/userController")
+    getUserList, createList, editList, deleteList,
+    addPostToList, deletePostFromList, getUserHighLight } = require("../controllers/userController")
 
 // GET: Login
 userRoute.get("/login", login)
@@ -80,5 +81,14 @@ userRoute.put("/list/edit", editList)
 
 // DELETE: Delete a list
 userRoute.delete("/list/:id_list", deleteList)
+
+// POST: Add a post to a list
+userRoute.post("/list/post", addPostToList)
+
+// DELETE: Delete a post from a list
+userRoute.delete("/list/post/:id_list/:id_post", deletePostFromList)
+
+// GET: Get all user highlight
+userRoute.get("/highlight/:id_user", getUserHighLight)
 
 module.exports = userRoute;
