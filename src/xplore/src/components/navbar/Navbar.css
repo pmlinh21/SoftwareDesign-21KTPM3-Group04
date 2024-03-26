@@ -7,3 +7,12 @@
     font-size: 30px;
     text-decoration: none;
 }
+
+.nav-item {
+    display: flex;
+    align-items: center; 
+}
+
+.nav .navbar-nav li a.blue-500 {
+    color: var(--scheme-primary)
+}

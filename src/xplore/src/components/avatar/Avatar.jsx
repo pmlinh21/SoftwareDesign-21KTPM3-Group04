@@ -8,6 +8,6 @@ export default function Avatar() {
     }
 
     return (
-        <img src={user.avatar || "../../assets/images/avatar-placeholder.png"} alt="user's avatar" className="avatar" />
+        <img src={user.avatar || "../../assets/images/avatar-placeholder.png"} alt="user's avatar" className="avatar-container" />
     )
 }
