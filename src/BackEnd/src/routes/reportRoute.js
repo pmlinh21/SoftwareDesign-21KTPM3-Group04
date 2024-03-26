@@ -12,16 +12,18 @@ const {
 
 reportRoute.get("/type", getReportType)
 
-// reportRoute.post("/post", createReportPost)
+reportRoute.get("/post", getReportPost)
 
-// reportRoute.post("/response", createReportResponse)
+reportRoute.get("/response", getReportResponse)
 
-// reportRoute.get("/post", getReportPost)
 
-// reportRoute.get("/response", getReportResponse)
+reportRoute.post("/post", createReportPost)
 
-// reportRoute.put("/post/:id_report", updateReportPost)
+reportRoute.post("/response", createReportResponse)
 
-// reportRoute.put("/response/:id_report", updateReportResponse)
+
+reportRoute.put("/post/:id_report", updateReportPost)
+
+reportRoute.put("/response/:id_report", updateReportResponse)
 
 module.exports = reportRoute;
