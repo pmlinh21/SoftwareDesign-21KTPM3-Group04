@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 /*--Colors--*/
 :root {
     --black: #000;
@@ -17,7 +18,7 @@
     --blue-900: #001D57;
     /*--Neutral--*/
     --neutral-0: #EFF0FE;
-    --neutral-50: #DFE1F7; 
+    --neutral-50: #DFE1F7;
     --neutral-100: #C3C5DB;
     --neutral-200: #A7AABF;
     --neutral-300: #8D90A4;
@@ -30,7 +31,7 @@
     /*----------Scheme----------*/
     --scheme-background: #FBFBFE;
     --scheme-main-text: #050315;
-    --scheme-sub-text: #050315;
+    --scheme-sub-text: #8D90A4;
     --scheme-primary: #004EEA;
     --scheme-secondary: #B7CFFF;
     --scheme-accent: #84ADFF;
@@ -50,17 +51,19 @@
 /*---------Font family---------*/
 @font-face {
     font-family: bold-font;
-    src: url("../../public/font/MonaSans-Bold.ttf");       
+    src: url("../../public/font/MonaSans-Bold.ttf");
 }
-  
+
 @font-face {
     font-family: semibold-font;
     src: url("../../public/font/MonaSans-SemiBold.ttf");
 }
+
 @font-face {
     font-family: medium-font;
     src: url("../../public/font/MonaSans-Medium.ttf");
 }
+
 @font-face {
     font-family: regular-font;
     src: url("../../public/font/MonaSans-Regular.ttf");
@@ -69,7 +72,7 @@
 /*---------Font family---------*/
 /*---Heading---*/
 h1, h2, h3, h4, h5, h6 {
-	font-family: semibold-font;
+    font-family: semibold-font;
 }
 
 /*---Generic---*/
@@ -179,7 +182,7 @@ h6 {
     line-height: 20px;
 }
 
-p, .p2 { 
+p, .p2 {
     font-size: 16px;
     line-height: 18px;
 }
@@ -218,108 +221,111 @@ body {
 /*---------Button---------*/
 /*--- Size ---*/
 .btn-nm {
-  font-size: 18px;
-  line-height: 20px;
-  /* padding: 16px 24px; */
-  height: 56px;
-  border-radius: 4px;
+    font-size: 18px;
+    line-height: 20px;
+    padding: 16px;
+    height: 56px;
+    border-radius: 4px;
 }
 
 .btn-md {
-  font-size: 16px;
-  line-height: 18px;
-  /* padding: 16px ; */
-  height: 48px;
-  border-radius: 4px;
+    font-size: 16px;
+    line-height: 18px;
+    padding: 16px;
+    height: 48px;
+    border-radius: 4px;
 }
 
 .btn-sm {
-  font-size: 14px;
-  line-height: 16px;
-  /* padding: 8px 24px; */
-  height: 36px;
-  border-radius: 4px;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 8px 16px;
+    height: 36px;
+    border-radius: 4px;
 }
 
 /* Button hierarchy */
 .prim-btn {
-  background-color: var(--scheme-primary);
-  color: var(--white);
-  border: none;
-  transition: background-color 0.3s ease;
+    background-color: var(--scheme-primary);
+    color: var(--white);
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
 .sec-btn {
-  background-color: var(--scheme-secondary);
-  color: var(--black);
-  border: none;
-  transition: background-color 0.3s ease;
+    background-color: var(--scheme-secondary);
+    color: var(--black);
+    border: none;
+    transition: background-color 0.3s ease;
 }
 
 .tert-btn {
-background-color: transparent;
-color: var(--black);
-border: 1.5px solid var(--black);
-transition: background-color 0.3s ease;
+    background-color: transparent;
+    color: var(--black);
+    border: 1.5px solid var(--black);
+    transition: background-color 0.3s ease;
 }
 
 .link-nm {
-  background: none;
-  border: none;
-  font-family: semibold-font;
-  color: var(--scheme-primary);
-  font-size: 18px;
-  text-decoration: none;
+    background: none;
+    border: none;
+    font-family: semibold-font;
+    color: var(--scheme-primary);
+    font-size: 18px;
+    text-decoration: none;
 }
 
 .link-md {
-  background: none;
-  border: none;
-  font-family: semibold-font;
-  color: var(--scheme-primary);
-  font-size: 16px;
-  text-decoration: none;
+    background: none;
+    border: none;
+    font-family: semibold-font;
+    color: var(--scheme-primary);
+    font-size: 16px;
+    text-decoration: none;
 }
 
 .link-sm {
-  background: none;
-  border: none;
-  font-family: semibold-font;
-  color: var(--scheme-primary);
-  font-size: 14px;
-  text-decoration: none;
+    background: none;
+    border: none;
+    font-family: semibold-font;
+    color: var(--scheme-primary);
+    font-size: 14px;
+    text-decoration: none;
 }
 
 /*--- States ---*/
 .prim-btn:hover {
-  background: var(--blue-400);
-  cursor: pointer;
+    background: var(--blue-400);
+    cursor: pointer;
 }
 
 .sec-btn:hover {
-  background: var(--blue-200);
-  cursor: pointer;
+    background: var(--blue-200);
+    cursor: pointer;
 }
 
 .tert-btn:hover {
-  background: transparent; /* same as default */
-  color: var(--black);     /* same as default */
-  cursor: pointer;
+    background: transparent;
+    /* same as default */
+    color: var(--black);
+    /* same as default */
+    cursor: pointer;
 }
 
-.btn-nm:disabled, 
+.btn-nm:disabled,
 .btn-md:disabled,
 .btn-sm:disabled {
-  color: var(--neutral-300);
-  background: var(--neutral-100);
-  border: none;
+    color: var(--neutral-300);
+    background: var(--neutral-100);
+    border: none;
 }
 
 .link-nm:hover, .link-md:hover, .link-sm:hover {
-  color: var(--blue-900);
+    color: var(--blue-900);
+    cursor: pointer;
 }
 
 .link-disabled {
-  color: var(--neutral-300) !important;
-  cursor: default !important;
+    color: var(--neutral-300) !important;
+    cursor: default !important;
 }

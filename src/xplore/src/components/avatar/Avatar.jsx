@@ -1,9 +1,13 @@
-import "./avatar.css";
+import React from "react";
+import "./Avatar.css";
 
-function Avatar({ user }) {
+export default function Avatar() {
+
+    const user = {
+        avatar: "https://picsum.photos/id/2/600/600"
+    }
+
     return (
-        <div className="avatar-container">
-            <img src={user.avatar || "../../assets/images/avatar1.png"} alt="user's avatar" className="avatar" />
-        </div>
+        <img src={user.avatar || "../../assets/images/avatar-placeholder.png"} alt="user's avatar" className="avatar" />
     )
 }
