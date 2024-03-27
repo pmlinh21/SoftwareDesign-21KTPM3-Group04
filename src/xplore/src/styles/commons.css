@@ -141,8 +141,8 @@ h6 {
 }
 
 .subtitle2 {
-    font-size: 14px;
-    line-height: 120%;
+    font-size: 12px;
+    line-height: 14px;
 }
 
 .title1 {
@@ -328,4 +328,44 @@ body {
 .link-disabled {
     color: var(--neutral-300) !important;
     cursor: default !important;
+}
+
+/*text with color*/
+
+.text-black{
+    color: var(--black)
+}
+
+.text-white{
+    color: var(--black)
+}
+
+.text-scheme-main-text{
+    color: var(--scheme-main-text)
+}
+
+.text-neutral-400{
+    color: var(--neutral-400)
+}
+
+.text-neutral-50{
+    color: var(--neutral-50)
+}
+
+/*background with color*/
+
+.bg-black{
+    background-color: var(--black)
+}
+
+.bg-neutral-50{
+    background-color: var(--neutral-50)
+}
+
+.bg-blue-50{
+    background-color: var(--blue-50)
+}
+
+.bg-blue-100{
+    background-color: var(--blue-100)
 }

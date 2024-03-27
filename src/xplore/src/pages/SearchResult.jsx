@@ -10,6 +10,7 @@ export default function SearchResult() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const searchText = searchParams.get('searchText');
+    const type = searchParams.get('type');
     console.log(searchText);
     return (
         <div className="search-result-page">
@@ -18,7 +19,7 @@ export default function SearchResult() {
             <div className="container">
 
                 <div className="row mb-4">
-                    <h4>{searchText}</h4>
+                    <h4>{type}</h4>
                 </div>
 
                 {/* <div className="row search-field p-2 rounded">
