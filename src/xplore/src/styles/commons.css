@@ -305,9 +305,9 @@ body {
 }
 
 .tert-btn:hover {
-    background: transparent;
+    /* background: transparent; */
     /* same as default */
-    color: var(--black);
+    /* color: var(--black); */
     /* same as default */
     cursor: pointer;
 }
@@ -344,6 +344,14 @@ body {
     color: var(--scheme-main-text)
 }
 
+.text-scheme-primary{
+    color: var(--scheme-primary)
+}
+
+.text-scheme-sub-text{
+    color: var(--scheme-sub-text)
+}
+
 .text-neutral-400{
     color: var(--neutral-400)
 }
@@ -368,4 +376,8 @@ body {
 
 .bg-blue-100{
     background-color: var(--blue-100)
+}
+
+.border-scheme-sub-text{
+    border-color: var(--scheme-sub-text)
 }

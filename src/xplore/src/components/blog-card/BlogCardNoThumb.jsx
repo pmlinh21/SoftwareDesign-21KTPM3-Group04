@@ -1,10 +1,10 @@
 import React from "react";
-import "./BlogCard.css";
+import "./BlogCardNoThumb.css";
 import Avatar from "../avatar/Avatar";
 
-export default function BlogCard() {
+export default function BlogCardNoThumb() {
     return (
-        <div className="blog-card horizontal no-thumb">
+        <div className="blog-card horizontal no-thumb shadow-sm">
             <div className="top">
                 <span className="topic subtitle2">Software design</span>
                 <i className="fa-solid fa-bookmark bookmark"></i>

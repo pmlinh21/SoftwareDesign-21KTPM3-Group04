@@ -1,7 +1,7 @@
 import React from "react";
-import "./AuthorCard.css";
+import "./AuthorVertical.css";
 
-export default function AuthorCard() {
+export default function AuthorVertical() {
 
   const user = {
     name: "John Doe",

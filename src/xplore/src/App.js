@@ -9,7 +9,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Home from './pages/Home';
-import Search from './pages/Search';
 import SearchResult from './pages/SearchResult';
 
 
@@ -22,7 +21,6 @@ function App() {
               
           <Route path = "/" element = {<Home/>} />
 
-          <Route path = "/search" element = {<Search/>} />
           <Route path = "/search-result" element = {<SearchResult/>} />
         </Routes>
     </Router>
