@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 
 import Home from './pages/Home';
 import SearchResult from './pages/SearchResult';
+import Writing from './pages/Writing';
 
 
 export const history = createBrowserHistory();
@@ -22,6 +23,8 @@ function App() {
           <Route path = "/" element = {<Home/>} />
 
           <Route path = "/search-result" element = {<SearchResult/>} />
+
+          <Route path = "/write" element = {<Writing/>} />
         </Routes>
     </Router>
   );

@@ -392,3 +392,7 @@ body {
 .border-scheme-primary{
     border-color: var(--scheme-primary)
 }
+
+a{
+    text-decoration: none;
+}
