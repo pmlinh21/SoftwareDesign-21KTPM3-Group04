@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: bold-font;
 }
 
-.title1, .title2 {
+.title1, .title2, .title3 {
     font-family: medium-font;
 }
 
@@ -153,6 +153,11 @@ h6 {
 .title2 {
     font-size: 16px;
     line-height: 18px;
+}
+
+.title3 {
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .button1 {
@@ -378,6 +383,12 @@ body {
     background-color: var(--blue-100)
 }
 
+/*border with color*/
+
 .border-scheme-sub-text{
     border-color: var(--scheme-sub-text)
+}
+
+.border-scheme-primary{
+    border-color: var(--scheme-primary)
 }

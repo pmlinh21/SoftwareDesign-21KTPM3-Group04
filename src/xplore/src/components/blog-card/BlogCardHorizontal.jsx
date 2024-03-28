@@ -13,9 +13,8 @@ export default function BlogCardHorizontal(props) {
     
 
     return (
-        <div className="blog-card-horizontal rounded-3 shadow-sm
-        container d-flex ">
-            <div className="col-12 d-flex py-3 px-3">
+        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex ">
+            <div className="col-12 d-flex py-3 px-2">
                 <div className="col-5 thumbnail-container bg-white">
                     <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
                 </div>
@@ -50,7 +49,7 @@ export default function BlogCardHorizontal(props) {
                                 <p className="title2 text-black mb-2">
                                     {author_name || "Author name"}
                                 </p>
-                                <div className="d-flex gap-2 align-items-center">
+                                <div className="d-flex gap-2 text-scheme-sub-text align-items-center">
                                     <p className="support mb-0">
                                         {publish_date || "Aug 6"}
                                     </p>
