@@ -124,7 +124,7 @@ class Editor extends ClassicEditor {
             openAI: {
                 requestHeaders: {
                     // Paste your OpenAI API key in place of YOUR_OPENAI_API_KEY:
-                    Authorization: 'Bearer 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'
+                    Authorization: 'Bearer'
                 }
             },
         },
