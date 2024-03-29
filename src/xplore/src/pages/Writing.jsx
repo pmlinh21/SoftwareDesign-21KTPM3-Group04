@@ -29,6 +29,11 @@ function Toolbar() {
 }
 
 export default function Writing() {
+    const editorRef = useRef(null);
+
+    useEffect(() => {
+        console.log(editorRef.current);
+    }, []);
 
     return (
         <div className="writing-page">
@@ -36,6 +41,21 @@ export default function Writing() {
             <Toolbar />
             <div className="container col-12 mt-3">
                 <TextEditor></TextEditor>
+                {/* <CKEditor
+                    editor={ ClassicEditor }
+                    data="abc"
+                    onInit={ editor => {
+                        console.log( 'Editor is ready to use!', editor );
+                        // editorRef.current = editor;
+                    }}
+                    onReady={ editor => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log( 'Editor is ready to use!', editor );
+                    }}
+                ></CKEditor> */}
+                <div id="editor" ref={editorRef}>
+
+                </div>
             </div>
         </div>
     );

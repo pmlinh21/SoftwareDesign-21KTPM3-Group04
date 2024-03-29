@@ -4,23 +4,55 @@ import {CKEditor} from '@ckeditor/ckeditor5-react'
 export default function TextEditor(){
     const editorConfiguration = {
         toolbar: {
-            items: [
-                'undo',
-                'redo',
-                '|', 'heading',
-                '|', 'fontSize', 'fontColor',
-                '|', 'bold', 'italic', 'underline', 'strikethrough',  'subscript',  'superscript', 
-                '|', 'alignment', 'link', 'insertImage', 'blockQuote', 'mediaEmbed', 'codeBlock',
-                '|', 'bulletedList', 'numberedList',
-                '|', 'selectAll'
-            ]
-        },
-        language: 'en',
+			items: [
+				'undo',
+				'redo',
+				'heading',
+				'|',
+				'fontSize',
+				'fontColor',
+				'bold',
+				'italic',
+				'underline',
+				'strikethrough',
+				'code',
+				'superscript',
+				'subscript',
+                '|',
+				'alignment',
+				'bulletedList',
+				'numberedList',
+                '|',
+				'link',
+				'blockQuote',
+				'codeBlock',
+				'imageInsert',
+				'imageUpload',
+				'mediaEmbed',
+                '|',
+				'selectAll',
+				'findAndReplace',
+				'aiCommands',
+				'aiAssistant'
+			]
+		},
+		language: 'en',
+		image: {
+			toolbar: [
+				'imageTextAlternative',
+				'toggleImageCaption',
+				'imageStyle:inline',
+				'imageStyle:block',
+				'imageStyle:side'
+			]
+		},
+        
+        licenseKey: 'b3lIK3VyOFdJOFZVanBtRE94V3hET3h2WS95N3RsVERKZllUWVhUZWM5SjZPSC81Qm16Rm9VOU4rSWNDLU1qQXlOREEwTWpjPQ==',
         shouldNotGroupWhenFull: true,
         wordCount: {
             onUpdate: stats => {
                 // Prints the current content statistics.
-                console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
+                // console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
             }
         }
 
@@ -39,15 +71,15 @@ export default function TextEditor(){
                 } }
 
                 onChange={ ( event ) => {
-                    console.log( event );
+                    // console.log( event );
                 } }
 
                 onBlur={ ( event, editor ) => {
-                    console.log( 'Blur.', editor );
+                    // console.log( 'Blur.', editor );
                 } }
 
                 onFocus={ ( event, editor ) => {
-                    console.log( 'Focus.', editor );
+                    // console.log( 'Focus.', editor );
                 } }
         ></CKEditor>
         </>
