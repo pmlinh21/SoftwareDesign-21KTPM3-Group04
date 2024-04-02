@@ -1,0 +1,16 @@
+.search-container .search-bar #search-input:focus-within{
+    box-shadow: none;
+    background-color: var(--blue-50);
+}
+
+.search-container .search-section{
+    z-index: 1000
+}
+
+.search-container .search-recent:hover{
+    background-color: var(--blue-100);
+}
+
+.search-container .search-recent button:focus-within{
+    border:none
+}

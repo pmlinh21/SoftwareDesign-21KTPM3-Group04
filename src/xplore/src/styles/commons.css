@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: bold-font;
 }
 
-.title1, .title2 {
+.title1, .title2, .title3 {
     font-family: medium-font;
 }
 
@@ -141,8 +141,8 @@ h6 {
 }
 
 .subtitle2 {
-    font-size: 14px;
-    line-height: 120%;
+    font-size: 12px;
+    line-height: 14px;
 }
 
 .title1 {
@@ -153,6 +153,11 @@ h6 {
 .title2 {
     font-size: 16px;
     line-height: 18px;
+}
+
+.title3 {
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .button1 {
@@ -305,9 +310,9 @@ body {
 }
 
 .tert-btn:hover {
-    background: transparent;
+    /* background: transparent; */
     /* same as default */
-    color: var(--black);
+    /* color: var(--black); */
     /* same as default */
     cursor: pointer;
 }
@@ -328,4 +333,66 @@ body {
 .link-disabled {
     color: var(--neutral-300) !important;
     cursor: default !important;
+}
+
+/*text with color*/
+
+.text-black{
+    color: var(--black)
+}
+
+.text-white{
+    color: var(--black)
+}
+
+.text-scheme-main-text{
+    color: var(--scheme-main-text)
+}
+
+.text-scheme-primary{
+    color: var(--scheme-primary)
+}
+
+.text-scheme-sub-text{
+    color: var(--scheme-sub-text)
+}
+
+.text-neutral-400{
+    color: var(--neutral-400)
+}
+
+.text-neutral-50{
+    color: var(--neutral-50)
+}
+
+/*background with color*/
+
+.bg-black{
+    background-color: var(--black)
+}
+
+.bg-neutral-50{
+    background-color: var(--neutral-50)
+}
+
+.bg-blue-50{
+    background-color: var(--blue-50)
+}
+
+.bg-blue-100{
+    background-color: var(--blue-100)
+}
+
+/*border with color*/
+
+.border-scheme-sub-text{
+    border-color: var(--scheme-sub-text)
+}
+
+.border-scheme-primary{
+    border-color: var(--scheme-primary)
+}
+
+a{
+    text-decoration: none;
 }

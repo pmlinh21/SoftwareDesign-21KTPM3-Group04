@@ -1,11 +1,22 @@
 @charset "utf-8";
 @import url("../styles/commons.css");
 
-.search-page .search-field,
-.search-page .search-field #search-input{
-    background-color: var(--blue-50);
+.search-result-page .search-result{
+    z-index: -9;
+
 }
 
-.search-page .search-field #search-input:focus-within{
-    box-shadow: none;
+@media (min-width: 768px) {
+    .search-result-page .search-result .list-post > .blog-post-card {
+      flex-basis: calc(33.33% - 20px); /* Adjust the gap between columns */
+    }
+
+    .search-result-page .search-result .list-author > .col {
+        flex-basis: calc(50% - 20px); /* Adjust the gap between columns */
+      }
 }
+
+.search-result-page a{
+    text-decoration: none;
+}
+  
