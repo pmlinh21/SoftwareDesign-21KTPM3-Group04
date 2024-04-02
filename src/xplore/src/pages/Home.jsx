@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import "../styles/commons.css";
 import Navbar from '../components/navbar/Navbar';
 import LoginPopup from './LoginPopup';
+import SignupPopup from './SignupPopup';
 
 export default function Home() {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const [showSignupPopup, setShowSignupPopup] = useState(false);
 
-    function togglePopup(){
+    function toggleLoginPopup(){
         setShowLoginPopup(!showLoginPopup);
+    };
+
+    function toggleSignupPopup(){
+        setShowSignupPopup(!showSignupPopup);
     };
 
     return (
@@ -23,15 +29,16 @@ export default function Home() {
                     </div>
                     <div className="row my-5">
                         <div className="gap-3 d-flex justify-content-center">
-                            <button className="button1 btn-nm sec-btn" onClick={togglePopup}>Get started</button>
-                            <button className="button1 btn-nm prim-btn">
+                            <button className="button1 btn-nm sec-btn" onClick={toggleLoginPopup}>Get started</button>
+                            <button className="button1 btn-nm prim-btn" onClick={toggleSignupPopup}>
                                 <i className="fa-solid fa-book-open"></i> Learn more
                             </button>
                         </div>
                     </div>
                 </section>
             </div>
-            {showLoginPopup ? <LoginPopup toggle={togglePopup} /> : null}
+            {showLoginPopup ? <LoginPopup toggle={toggleLoginPopup} /> : null}
+            {showSignupPopup ? <SignupPopup toggle={toggleSignupPopup} /> : null}
         </div>
     );
 }
