@@ -17,9 +17,9 @@
   
   .login-popup {
     background: var(--white);
-    padding: 30px 60px;
+    padding: 55px 50px;
     border-radius: 8px;
-    width: 500px;
+    width: 480px;
     position: relative;
     text-align: center;
   }
@@ -38,7 +38,7 @@
   }
   
   .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
   
   .form-group label {
@@ -59,7 +59,7 @@
   .form-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 15px;
     margin-bottom: 20px;
   }
 
@@ -130,6 +130,7 @@
     font-size: 16px;
     text-decoration: none;
     margin-bottom: 24px;
+    margin-top: -15px;
   }
 
   .close-button {

@@ -11,7 +11,7 @@ const { successCode, failCode, errorCode } = require('../config/response');
 
 // GET: Login
 const login = async(req, res) =>{
-    let { email, pwd } = req.body
+    let { email, password } = req.body
 
     try{
         let user = await model.user.findOne({
@@ -21,16 +21,16 @@ const login = async(req, res) =>{
         });
 
         if (user){
-            //let checkPass = bcrypt.compareSync(pwd, user.password);
-            if(pwd === user.password){
+            let checkPass = bcrypt.compareSync(password, user.password);
+            // if(password === user.password){
+            //     successCode(res, user, "Login successfully");
+            //     return;
+            // }
+            if(checkPass){
+                user.password = '**********';
                 successCode(res, user, "Login successfully");
                 return;
             }
-            // if(checkPass){
-            //     user.password = '**********';
-            //     sucessCode(res, user, "Login successfully");
-            //     return;
-            // }
             else{
                 failCode(res, "", "Email or password wrong");
                 return;
@@ -46,20 +46,26 @@ const login = async(req, res) =>{
 // POST: Signup
 const signup = async(req, res) =>{
     try{
-        let { email, password } = req.body;
-        let checkEmail = await model.user.findOne({
-            where:{
-                email
+        let { fullname, email, password, id_role } = req.body;
+        if(id_role == '4'){
+            let checkEmail = await model.user.findOne({
+                where:{
+                    email
+                }
+            })
+            if(checkEmail){
+                failCode(res,"","Email is existing");
+                return;
             }
-        })
-        if(checkEmail){
-            failCode(res,"","Email is existing");
-            return;
+            else{
+                let passWordHash = bcrypt.hashSync(password, 10);
+                let data = await model.user.create({ email, password: passWordHash, fullname, is_member: false });
+                successCode(res, data, "Sign up successfully");
+                return;
+            }
         }
         else{
-            let passWordHash = bcrypt.hashSync(password, 10);
-            let data = await model.user.create({ email, password: passWordHash });
-            successCode(res, data, "Sign up successfully");
+            failCode(res, "", "Not guest");
             return;
         }
     }
@@ -194,6 +200,28 @@ const getUserByID = async (req, res) => {
         })
         if (!user) {
             failCode(res, null, "Invalid ID")
+        }
+        else{
+            successCode(res, user, "User found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get user by Email
+const getUserByEmail = async (req, res) => {
+    let { email } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                email: email
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid Email")
         }
         else{
             successCode(res, user, "User found")
@@ -788,7 +816,7 @@ const getUserHighLight = async (req, res) => {
 }
 
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
-                sendEmail, getUserByID, updateUserByID, getUserTopic, 
+                sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
                 updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
                 blockAnotherUser, unblockAnotherUser,

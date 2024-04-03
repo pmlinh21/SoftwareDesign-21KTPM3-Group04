@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import "../styles/commons.css";
 import "./LoginPopup.css"
+import { loginAction } from "../redux/actions/UserAction";
 
 export default function LoginPopup(props) {
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     function handleLogin(e) {
         e.preventDefault()
+
+        const user_login = {
+            email: email,
+            password: password
+        };
+        console.log("user_login: ", user_login);
+
+        dispatch(loginAction(user_login));
+
         props.toggle()
     }
       
@@ -17,7 +29,7 @@ export default function LoginPopup(props) {
                 <i class="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
                 <div>
                     <div className="navbar-brand">
-                        <img src="/logo128.png" alt="logo" width="30" height="30" className="align-self-center"/>
+                        <img src="/logo128.png" alt="logo" width="22" height="22" className="align-self-center"/>
                         <br></br>
                         Xplore
                     </div>

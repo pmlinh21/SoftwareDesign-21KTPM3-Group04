@@ -4,8 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createBrowserHistory } from "history";
 import { useSelector } from 'react-redux';
-import { useEffect,useState } from 'react';
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Home from './pages/Home';

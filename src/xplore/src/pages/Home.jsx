@@ -3,10 +3,17 @@ import "../styles/commons.css";
 import Navbar from '../components/navbar/Navbar';
 import LoginPopup from './LoginPopup';
 import SignupPopup from './SignupPopup';
+import { RoleKey } from "../util/config";
 
 export default function Home() {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
+
+    const roleId = localStorage.getItem(RoleKey);
+    if(!roleId)
+        localStorage.setItem(RoleKey, JSON.stringify(4));
+    
+    console.log(roleId);
 
     function toggleLoginPopup(){
         setShowLoginPopup(!showLoginPopup);

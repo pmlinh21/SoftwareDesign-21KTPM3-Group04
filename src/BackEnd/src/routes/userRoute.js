@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoute = express.Router();
 const { login, signup, searchAccountByName, getUserSubscriber,
-    sendEmail, getUserByID, updateUserByID, getUserTopic,
+    sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
     updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
     blockAnotherUser, unblockAnotherUser,
@@ -27,6 +27,9 @@ userRoute.get("/sendEmail", sendEmail)
 
 // GET: Get user by ID
 userRoute.get("/:id_user", getUserByID)
+
+// GET: Get user by Email
+userRoute.get("/getUser/:email", getUserByEmail)
 
 // PUT: Update user by ID
 userRoute.put("/:id_user", updateUserByID)
