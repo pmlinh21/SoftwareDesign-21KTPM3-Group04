@@ -8,10 +8,10 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
     getUserList, createList, editList, deleteList,
-    addPostToList, deletePostFromList, getUserHighLight } = require("../controllers/userController")
+    addPostToList, deletePostFromList, getUserHighLight, updatePassword } = require("../controllers/userController")
 
 // GET: Login
-userRoute.get("/login", login)
+userRoute.post("/login", login)
 
 // POST: Signup
 userRoute.post("/signup", signup)
@@ -93,5 +93,8 @@ userRoute.delete("/list/post/:id_list/:id_post", deletePostFromList)
 
 // GET: Get all user highlight
 userRoute.get("/highlight/:id_user", getUserHighLight)
+
+// PUT: Harshing user password
+userRoute.put("/update/:id_admin", updatePassword)
 
 module.exports = userRoute;

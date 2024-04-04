@@ -20,7 +20,7 @@ export default function LoginPopup(props) {
 
         dispatch(loginAction(user_login));
 
-        props.toggle()
+        //props.toggle()
     }
       
     return (

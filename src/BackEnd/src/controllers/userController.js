@@ -8,12 +8,33 @@ const nodeMailer = require('nodemailer');
 const bcrypt = require('bcryptjs'); 
 const moment = require('moment')
 const { successCode, failCode, errorCode } = require('../config/response');
+const { parseToken } = require('../middlewares/baseToken');
 
 // GET: Login
 const login = async(req, res) =>{
     let { email, password } = req.body
-
+    
     try{
+        // Admin 
+        let admin = await model.admin.findOne({
+            where: {
+                email
+            }
+        });
+
+        if (admin){
+            let checkPass = bcrypt.compareSync(password, admin.password);
+            if(checkPass){
+                successCode(res, parseToken(admin), "Login successfully");
+                return;
+            }
+            else{
+                failCode(res, "", "Email or password wrong");
+                return;
+            }
+        } 
+        
+        // User
         let user = await model.user.findOne({
             where: {
                 email
@@ -22,13 +43,8 @@ const login = async(req, res) =>{
 
         if (user){
             let checkPass = bcrypt.compareSync(password, user.password);
-            // if(password === user.password){
-            //     successCode(res, user, "Login successfully");
-            //     return;
-            // }
             if(checkPass){
-                user.password = '**********';
-                successCode(res, user, "Login successfully");
+                successCode(res, parseToken(user), "Login successfully");
                 return;
             }
             else{
@@ -202,6 +218,7 @@ const getUserByID = async (req, res) => {
             failCode(res, null, "Invalid ID")
         }
         else{
+            user.password = '**********';
             successCode(res, user, "User found")
         }
     } catch (err) {
@@ -221,9 +238,21 @@ const getUserByEmail = async (req, res) => {
             } 
         })
         if (!user) {
-            failCode(res, null, "Invalid Email")
+            let admin = await model.admin.findOne({
+                where:{
+                    email: email
+                } 
+            })
+            if(!admin){
+                failCode(res, null, "Invalid Email")
+            }
+            else{
+                admin.password = '**********';
+                successCode(res, admin, "Admin found")
+            }   
         }
         else{
+            user.password = '**********';
             successCode(res, user, "User found")
         }
     } catch (err) {
@@ -267,6 +296,41 @@ const updateUserByID = async (req, res) => {
     }
 }
 
+// PUT: Harshing user password
+const updatePassword = async(req,res) => {
+    let { id_admin } = req.params
+    let { new_password } = req.body;
+    console.log(id_admin,new_password)
+    try{
+        let admin = await model.admin.findOne({
+            where: {
+                id_admin: id_admin
+            }
+        });
+        if(admin){
+            let passWordHash = bcrypt.hashSync(new_password, 10);
+            await model.admin.update({
+                password:passWordHash
+            }, {
+                where: {
+                    id_admin: id_admin
+                }
+            })
+            let data = await model.admin.findOne({
+                where: {
+                    id_admin:id_admin
+                }
+            });
+            successCode(res, data, "Update thành công");
+            return;
+        }
+        else{
+            failCode(res, null, "Invalid id")
+        }     
+    }catch(err){
+        errorCode(res,"Lỗi BE")
+    }
+}
 
 // GET: Get all user following topics
 const getUserTopic = async (req, res) => {
@@ -823,4 +887,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
                 getUserReceivedNotifications, getUserSentNotifications,
                 getUserReadingHistory, deleteReadingHistory,
                 getUserList, createList, editList, deleteList,
-                addPostToList, deletePostFromList, getUserHighLight }
+                addPostToList, deletePostFromList, getUserHighLight, updatePassword }

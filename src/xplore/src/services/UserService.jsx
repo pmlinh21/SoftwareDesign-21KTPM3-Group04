@@ -3,7 +3,8 @@ import { baseService } from "./BaseService";
 export class UserService extends baseService {
     // Api 1: login
     login = (user_login) => {
-        return this.get(`user/login`, user_login);
+        console.log("user_login: ", user_login);
+        return this.post(`user/login`, user_login);
     }
 
     //Api 2: get user info by email
@@ -13,7 +14,7 @@ export class UserService extends baseService {
 
     // Api 3: Signup
     signup = (formData) =>{
-      return this.post(`user/signup`, formData);
+        return this.post(`user/signup`, formData);
     };
 
     

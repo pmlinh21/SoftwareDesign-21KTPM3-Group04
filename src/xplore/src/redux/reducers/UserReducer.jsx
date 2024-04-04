@@ -12,15 +12,14 @@ export const stateDefault = {
 };
 
 export const UserReducer = (state = stateDefault, action) => {
-  console.log(action)
-  switch (action.type) {
-    case LOGIN:{
-        return { ...state, user_login: action.user_login };
+    switch (action.type) {
+        case LOGIN:{
+            return { ...state, user_login: action.user_login };
+        }
+        case SIGNUP:{
+            return { ...state, user_signup: action.formData };
+        }
+        default:
+            return { ...state };
     }
-    case SIGNUP:{
-        return { ...state, user_signup: action.formData };
-      }
-    default:
-        return { ...state };
-  }
 };
