@@ -131,7 +131,7 @@
     font-family: semibold-font;
   }
 
-  .navbar-brand {
+  .navbar-brand-signup {
     color: var(--scheme-primary);
     font-family: bold-font;
     font-size: 16px;

@@ -25,7 +25,7 @@ export default function Home() {
 
     return (
         <div className='homepage'>
-            <Navbar/>
+            {/* <Navbar/> */}
             <div className="container-fluid grid">
                 <section className="container-sm col-6 grid">
                     <div className="row my-10">

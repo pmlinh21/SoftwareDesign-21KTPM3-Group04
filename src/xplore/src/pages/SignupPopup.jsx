@@ -52,7 +52,7 @@ export default function SignupPopup(props) {
             <div className="signup-popup">
                 <i class="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
                 <div>
-                    <div className="navbar-brand">
+                    <div className="navbar-brand-signup">
                         <img src="/logo128.png" alt="logo" width="22" height="22" className="align-self-center"/>
                         <br></br>
                         Xplore
