@@ -1,0 +1,149 @@
+@charset "utf-8";
+@import url("../styles/commons.css");
+
+.signup-popup-overlay {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+  }
+  
+  .signup-popup {
+    background: var(--white);
+    padding: 30px 50px;
+    border-radius: 8px;
+    width: 480px;
+    position: relative;
+    text-align: center;
+  }
+  
+  .signup-popup h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #101828;
+    font-family: semibold-font;
+  }
+  
+  .signup-popup p {
+    font-size: 16px;
+    color: #475467;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    font-family: medium-font;
+    font-size: 14px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+  }
+  
+  .hint{
+    text-align: left;
+    margin-top: 10px;
+    font-size: 14px !important;
+    font-family: regular-font;
+  }
+
+  /* .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .checkbox input{
+    width: 16px;
+    height: 16px;
+  }
+  
+  .checkbox label {
+    margin-left: 5px;
+    font-family: medium-font;
+    font-size: 14px;
+  } */
+  
+  .btn-sign-up {
+    background: #004EEA;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: -webkit-fill-available;
+    margin-bottom: 15px;
+    font-family: medium-font;
+  }
+  
+  /* .forgot-password {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    font-family: semibold-font;
+  } */
+
+
+  .btn-sign-up-google {
+    background: #ffffff;
+    color: #344054;
+    border: 1px solid #D0D5DD;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+    font-family: medium-font;
+  }
+  
+  .sign-in{
+    color: #475467;
+    font-size: 14px;
+    font-family: regular-font;
+  }
+  .sign-in a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: semibold-font;
+  }
+
+  .navbar-brand {
+    color: var(--scheme-primary);
+    font-family: bold-font;
+    font-size: 16px;
+    text-decoration: none;
+    margin-bottom: 15px;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #8D90A4;
+}

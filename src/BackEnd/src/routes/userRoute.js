@@ -1,17 +1,17 @@
 const express = require('express');
 const userRoute = express.Router();
 const { login, signup, searchAccountByName, getUserSubscriber,
-    sendEmail, getUserByID, updateUserByID, getUserTopic,
+    sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
     updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
     blockAnotherUser, unblockAnotherUser,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
     getUserList, createList, editList, deleteList,
-    addPostToList, deletePostFromList, getUserHighLight } = require("../controllers/userController")
+    addPostToList, deletePostFromList, getUserHighLight, updatePassword } = require("../controllers/userController")
 
 // GET: Login
-userRoute.get("/login", login)
+userRoute.post("/login", login)
 
 // POST: Signup
 userRoute.post("/signup", signup)
@@ -27,6 +27,9 @@ userRoute.get("/sendEmail", sendEmail)
 
 // GET: Get user by ID
 userRoute.get("/:id_user", getUserByID)
+
+// GET: Get user by Email
+userRoute.get("/getUser/:email", getUserByEmail)
 
 // PUT: Update user by ID
 userRoute.put("/:id_user", updateUserByID)
@@ -90,5 +93,8 @@ userRoute.delete("/list/post/:id_list/:id_post", deletePostFromList)
 
 // GET: Get all user highlight
 userRoute.get("/highlight/:id_user", getUserHighLight)
+
+// PUT: Harshing user password
+userRoute.put("/update/:id_admin", updatePassword)
 
 module.exports = userRoute;

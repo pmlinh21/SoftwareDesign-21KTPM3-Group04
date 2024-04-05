@@ -1,17 +1,15 @@
 const jwt = require('jsonwebtoken');
 
-const cookieParser = require("cookie-parser");
-
 // Create a new JWT based on the provided payload data
 const parseToken = (data) => {
-    let token = jwt.sign({ data }, process.env.JWT_SECRET_KEY, { algorithm: 'HS256', expiresIn: "10y" });
+    let token = jwt.sign({ data }, "xplore", { algorithm: 'HS256', expiresIn: "10y" });
     return token;
 }
 
 // Verify the validity of a given JWT
 const checkToken = (token) => {
     try {
-        let checkT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        let checkT = jwt.verify(token, "xplore");
         if (checkT) {
             return { checkData: true, messagse: "" };
         } else {
@@ -43,7 +41,7 @@ const decodeToken = (token) => {
     }
 
     try {
-        const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const decode = jwt.verify(token, "xplore");
         return decode;
     } catch (error) {
         // Handle token verification error
