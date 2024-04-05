@@ -1,7 +1,7 @@
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 
-export default function TextEditor(){
+export default function TextEditor({content, setContent}){
     const editorConfiguration = {
         toolbar: {
 			items: [
@@ -46,8 +46,6 @@ export default function TextEditor(){
 				'imageStyle:side'
 			]
 		},
-        
-        licenseKey: 'b3lIK3VyOFdJOFZVanBtRE94V3hET3h2WS95N3RsVERKZllUWVhUZWM5SjZPSC81Qm16Rm9VOU4rSWNDLU1qQXlOREEwTWpjPQ==',
         shouldNotGroupWhenFull: true,
         wordCount: {
             onUpdate: stats => {
@@ -58,12 +56,16 @@ export default function TextEditor(){
 
     }
 
+    function handleData(event, editor) {
+        setContent(editor.getData())
+    }
+
     return(
         <>
         <CKEditor
                 editor={ Editor }
                 config={ editorConfiguration }
-                data=""
+                data={content}
                 
                 onReady={ editor => {
                     // You can store the "editor" and use when it is needed.
@@ -74,9 +76,7 @@ export default function TextEditor(){
                     // console.log( event );
                 } }
 
-                onBlur={ ( event, editor ) => {
-                    // console.log( 'Blur.', editor );
-                } }
+                onBlur={handleData}
 
                 onFocus={ ( event, editor ) => {
                     // console.log( 'Focus.', editor );

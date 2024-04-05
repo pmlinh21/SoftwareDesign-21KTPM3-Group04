@@ -3,15 +3,17 @@ import "../styles/commons.css";
 import "./Writing.css";
 import Navbar from '../components/navbar/Navbar';
 import TextEditor from './TextEditor';
+import {Link, useNavigate } from 'react-router-dom'
 
 function Toolbar() {
+    // declare button
     return (
         <div className="container toolbar">
             <div className="col-12 m-0 p-0 d-flex justify-content-between align-items-center">
-                <a href={`#`} className='text-black link-sm'>
+                <Link to="#" onClick={() => window.history.back()} className='text-black link-sm'>
                     <i className="text-black fa-solid fa-arrow-left"></i>
                     &nbsp;Back
-                </a>
+                </Link>
                 <div className="col-auto">
                     <button className="link-nm rounded-1 button2 bg-white text-scheme-sub-text border-left">
                         Save
@@ -29,33 +31,18 @@ function Toolbar() {
 }
 
 export default function Writing() {
-    const editorRef = useRef(null);
+    const [content, setContent] = useState("You can create a simple event bus that allows components to subscribe to and emit events. When the backend response is received, emit an event containing the response data, and the components interested in that data can subscribe to the event.")
+    const [title, setTitle] = useState("")
+    const [topic, setTopic] = useState([])
 
-    useEffect(() => {
-        console.log(editorRef.current);
-    }, []);
-
+    const tmp = ""
+    // console.log(content)
     return (
         <div className="writing-page">
-            <Navbar />
+            {/* <Navbar /> */}
             <Toolbar />
             <div className="container col-12 mt-3">
-                <TextEditor></TextEditor>
-                {/* <CKEditor
-                    editor={ ClassicEditor }
-                    data="abc"
-                    onInit={ editor => {
-                        console.log( 'Editor is ready to use!', editor );
-                        // editorRef.current = editor;
-                    }}
-                    onReady={ editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editor );
-                    }}
-                ></CKEditor> */}
-                <div id="editor" ref={editorRef}>
-
-                </div>
+                <TextEditor content={content} setContent={setContent}></TextEditor>
             </div>
         </div>
     );

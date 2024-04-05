@@ -1,29 +1,36 @@
 import React from "react";
 import "./Navbar.css";
 import Avatar from "../avatar/Avatar";
+import {Link} from "react-router-dom"
 
 export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-sm">
             <div className="container justify-content-between align-items-center">
                 <div className="d-flex ">
-                    <a className="navbar-brand d-flex gap-1 align-items-center" href="/">
+                    <Link className="navbar-brand d-flex gap-1 align-items-center" to="/">
                         <img src="/logo128.png" alt="logo" width="30" height="30" className="align-self-center"/>
                         XPlore
-                    </a>
+                    </Link>
 
                     <div className="nav">
                         <ul className="navbar-nav">
                             {/* <li className="nav-item title2"><a className="nav-link active" aria-current="page" href="/">Home</a></li> */}
-                            <li className="nav-item subtitle1"><a className="nav-link" href="/about-us">About us</a></li>
                             <li className="nav-item subtitle1">
-                                <a className="nav-link" href="#">
+                                <Link className="nav-link" to="/about-us">About us</Link>
+                            </li>
+                            <li className="nav-item subtitle1">
+                                <Link className="nav-link" to="#">
                                     Topics
                                     <i className="fa-solid fa-chevron-down ms-2"></i>
-                                </a>
+                                </Link>
                             </li>
-                            <li className="nav-item subtitle1"><a className="nav-link" href="/support">Support</a></li>
-                            <li className="nav-item subtitle1"><a className="nav-link" href="/pricing">Pricing</a></li>
+                            <li className="nav-item subtitle1">
+                                <Link className="nav-link" to="/support">Support</Link>
+                            </li>
+                            <li className="nav-item subtitle1">
+                                <Link className="nav-link" to="/pricing">Pricing</Link>
+                            </li>
                         </ul>
                     </div>
 
@@ -32,24 +39,24 @@ export default function Navbar() {
                 <div className="nav">
                     <ul className="navbar-nav">
                         <li className="nav-item subtitle1 me-4">
-                            <a className="nav-link blue-500" href="/write">
+                            <Link className="nav-link blue-500" to="/write">
                                 <i className="fa-regular fa-pen-to-square me-2"></i>Write
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/list">
+                            <Link className="nav-link" to="/list">
                                 <i className="fa-regular fa-bookmark"></i>
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <Link className="nav-link" to="#">
                                 <i className="fa-regular fa-bell"></i>
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item" >
-                            <a className="nav-link" href="/profile">
+                            <Link className="nav-link" to="/profile">
                                 <Avatar />
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

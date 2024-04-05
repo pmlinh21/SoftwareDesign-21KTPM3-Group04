@@ -42,16 +42,16 @@ export default function SearchResult() {
 
     return (
     <div className="search-result-page">
-        <Navbar/>
+        {/* <Navbar/> */}
         <Search search={searchText} isResult={searchText !== null}/>
 
-        <div className="search-result container mt-5 px-3">
-            <div className="row mt-4 px-2 d-flex justify-content-between">
+        <div className="search-result container mt-5 px-3 pt-3">
+            <div className="row px-2 pt-3 d-flex justify-content-between">
 
             {
                 type == "all" && (
                 <>
-                    <div className="col-7 px-0 mt-5 ">
+                    <div className="col-7 px-0 mt-5">
                         <ResultText type={type} searchText={searchText}/>
 
                         <div className="container d-flex flex-wrap gap-3 px-0">
