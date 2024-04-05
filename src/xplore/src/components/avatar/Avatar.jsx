@@ -1,5 +1,5 @@
 import React from "react";
-import "./avatar.css";
+import "./Avatar.css";
 
 export default function Avatar({avatar, size = "big"}) {
 
