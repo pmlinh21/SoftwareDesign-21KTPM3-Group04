@@ -1,0 +1,28 @@
+@charset "utf-8";
+@import url("../../styles/commons.css");
+
+.thumbnail-container{
+    height: 15rem;
+}
+
+.thumbnail-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-card-horizontal .long-text{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-card-horizontal .content-text{
+    -webkit-line-clamp: 5;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.blog-card-horizontal .title-text{
+    -webkit-line-clamp: 2;
+}

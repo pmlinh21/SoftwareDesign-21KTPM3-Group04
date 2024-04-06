@@ -101,8 +101,6 @@ const getTrendingTopics = async (req, res) => {
                 },
             ],
         });
-
-    
         successCode(res, topics, "Trending topics found");
     }
     catch(err){
