@@ -3,18 +3,21 @@ import "./AuthorVertical.css";
 
 export default function AuthorVertical() {
 
-  const user = {
-    name: "John Doe",
+    // const { author } = props;
+
+
+  const author = {
+    fullname: "John Doe",
     bio: "I'm a software engineer",
-    photo: "https://picsum.photos/id/5/820/1000"
+    avatar: "https://res.cloudinary.com/dklt21uks/image/upload/v1707242646/xplore/hgaazvbsjbm9tpp2wvdx.jpg"
   }
 
   return (
     <div className="author-card">
-      <img src={user.photo || "../../assets/images/avatar-placeholder.jpg"} alt="user's photo" className="photo" />
+      <img src={author.avatar} className="photo" />
       <div className="info-container">
-        <div className="name title1">{user.name}</div>
-        <div className="bio p3">{user.bio}</div>
+        <div className="name title1">{author.fullname}</div>
+        <div className="bio p3">{author.bio}</div>
       </div>
     </div>
   )
