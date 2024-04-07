@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
+import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 
 export default function Home() {
     const settings = {
@@ -105,8 +106,32 @@ export default function Home() {
                         </div>
                         <div className="row">
                             <h4>Who to follow</h4>
-
+                            <div className="d-flex flex-column gap-2">
+                                <AuthorHorizontal />
+                                <AuthorHorizontal />
+                                <AuthorHorizontal />
+                            </div>
+                            <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
+                                See all popular writers <i class="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="container my-5 py-5">
+                <div className="row">
+                    <div className="col">
+                    </div>
+                    <div className="col">
+                        <p className="title1" style={{color: "grey"}}>Who we are</p>
+                        <h4>Actionable ideas and insights from Xplore</h4>
+                        <p className="p1 my-5">Weaker carriers have fallen by the wayside amid fierce competition, while others have been hit by bad luck. The result: thousands of canceled flights.</p>
+                        <div className="d-flex justify-content-start gap-3">
+                            <button className="button1 btn-nm sec-btn">Contact us</button>
+                            <button className="button1 btn-nm prim-btn">About us</button>
+                        </div>
+
                     </div>
                 </div>
             </section>
