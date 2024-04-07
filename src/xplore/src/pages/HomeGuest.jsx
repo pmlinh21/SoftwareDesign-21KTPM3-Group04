@@ -39,6 +39,7 @@ export default function Home() {
 
     return (
         <div className='homepage'>
+            {/* <Navbar/> */}
             <section className="container grid">
                 <section className="container-sm col-6 grid">
                     <div className="row my-10">

@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useState } from 'react';
+import LoginPopup from '../../pages/LoginPopup';
+import SignupPopup from '../../pages/SignupPopup';
+import { RoleKey } from "../../util/config";
+
 import "./Navbar.css";
 import Avatar from "../avatar/Avatar";
 import {Link} from "react-router-dom"
 
 export default function Navbar() {
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const [showSignupPopup, setShowSignupPopup] = useState(false);
+
+    const roleId = localStorage.getItem(RoleKey);
+    if(!roleId) {
+        localStorage.setItem(RoleKey, JSON.stringify(4));
+    }
+    
+    console.log(roleId);
+    if (roleId === "4") {
+        document.getElementById("user-nav").style.display = "none";
+        document.getElementById("guest-nav").style.display = "block";
+    }
+
+    function toggleLoginPopup(){
+        setShowLoginPopup(!showLoginPopup);
+    };
+
+    function toggleSignupPopup(){
+        setShowSignupPopup(!showSignupPopup);
+    };
+
     return (
         <nav className="navbar navbar-expand-sm">
             <div className="container justify-content-between align-items-center">
@@ -17,26 +43,25 @@ export default function Navbar() {
                         <ul className="navbar-nav">
                             {/* <li className="nav-item title2"><a className="nav-link active" aria-current="page" href="/">Home</a></li> */}
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link" to="/about-us">About us</Link>
+                                <Link className="nav-link button1" to="/about-us">About us</Link>
                             </li>
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link" to="#">
+                                <Link className="nav-link button1" to="#">
                                     Topics
                                     <i className="fa-solid fa-chevron-down ms-2"></i>
                                 </Link>
                             </li>
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link" to="/support">Support</Link>
+                                <Link className="nav-link button1" to="/support">Support</Link>
                             </li>
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link" to="/pricing">Pricing</Link>
+                                <Link className="nav-link button1" to="/pricing">Pricing</Link>
                             </li>
                         </ul>
                     </div>
-
                 </div>
                 
-                <div className="nav">
+                <div className="nav" id="user-nav">
                     <ul className="navbar-nav">
                         <li className="nav-item subtitle1 me-4">
                             <Link className="nav-link blue-500" to="/write">
@@ -60,7 +85,15 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
+
+                <div className="nav" id="guest-nav" style={{display: "none"}}>
+                    <button className="button2 btn-nm link-nm" onClick={toggleLoginPopup} >Log in</button>
+                    <button className="button2 btn-nm prim-btn" onClick={toggleSignupPopup} >Sign up</button>
+                </div>
             </div>
+            
+            {showLoginPopup ? <LoginPopup toggle={toggleLoginPopup} /> : null}
+            {showSignupPopup ? <SignupPopup toggle={toggleSignupPopup} /> : null}
         </nav>
     )
 }

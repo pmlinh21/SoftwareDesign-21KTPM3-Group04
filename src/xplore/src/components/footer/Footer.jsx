@@ -80,8 +80,8 @@ export default function Footer() {
                     </div>
                 </div>
                 
-                <div className="container">
-                    <hr/>
+                <div className="container py-2">
+                    <hr className="pb-2"/>
                     <p className="rights float-start">&copy; 2024 Xplore. All rights reserved.</p>
                     <i className="fa-brands fa-github float-end"></i>
                     <i className="fa-brands fa-facebook float-end me-3"></i>
