@@ -17,6 +17,10 @@ export class UserService extends baseService {
         return this.post(`user/signup`, formData);
     };
 
+    // Api 4: Get User info by id
+    getUserById = (id) =>{
+        return this.get(`user/${id}`);
+    };
     
   }
   

@@ -9,7 +9,7 @@ export default function Navbar() {
             <div className="container justify-content-between align-items-center">
                 <div className="d-flex ">
                     <Link className="navbar-brand d-flex gap-1 align-items-center" to="/">
-                        <img src="/logo128.png" alt="logo" width="30" height="30" className="align-self-center"/>
+                        <img src="/logo128.png" alt="logo" width="24" height="24" className="align-self-center"/>
                         XPlore
                     </Link>
 

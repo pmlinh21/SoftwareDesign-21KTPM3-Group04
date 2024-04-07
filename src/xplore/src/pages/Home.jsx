@@ -5,6 +5,11 @@ import LoginPopup from './LoginPopup';
 import SignupPopup from './SignupPopup';
 import { RoleKey } from "../util/config";
 
+import AuthorVertical from '../components/author-card/AuthorVertical';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
 export default function Home() {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
@@ -23,10 +28,20 @@ export default function Home() {
         setShowSignupPopup(!showSignupPopup);
     };
 
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000
+    }
+
     return (
         <div className='homepage'>
             {/* <Navbar/> */}
-            <div className="container-fluid grid">
+            <section className="container grid">
                 <section className="container-sm col-6 grid">
                     <div className="row my-10">
                         <h1 className="text-center col">The world's destination for avid readers</h1>
@@ -43,9 +58,21 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-            </div>
+            </section>
             {showLoginPopup ? <LoginPopup toggle={toggleLoginPopup} /> : null}
             {showSignupPopup ? <SignupPopup toggle={toggleSignupPopup} /> : null}
+
+            <div className="container">
+                <Slider {...settings}>
+                    <AuthorVertical />
+                    <AuthorVertical />
+                    <AuthorVertical />
+                    <AuthorVertical />
+                    <AuthorVertical />
+                    <AuthorVertical />
+                    <AuthorVertical />
+                </Slider>
+            </div>
         </div>
     );
 }
