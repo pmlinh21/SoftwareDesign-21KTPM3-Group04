@@ -10,23 +10,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function Home() {
-    const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const [showSignupPopup, setShowSignupPopup] = useState(false);
-
-    const roleId = localStorage.getItem(RoleKey);
-    if(!roleId)
-        localStorage.setItem(RoleKey, JSON.stringify(4));
-    
-    console.log(roleId);
-
-    function toggleLoginPopup(){
-        setShowLoginPopup(!showLoginPopup);
-    };
-
-    function toggleSignupPopup(){
-        setShowSignupPopup(!showSignupPopup);
-    };
-
     const settings = {
         dots: true,
         infinite: true,
@@ -38,28 +21,21 @@ export default function Home() {
     }
 
     return (
-        <div className='homepage'>
-            {/* <Navbar/> */}
-            <section className="container grid">
-                <section className="container-sm col-6 grid">
-                    <div className="row my-10">
-                        <h1 className="text-center col">The world's destination for avid readers</h1>
-                    </div>
-                    <div className="row my-5">
-                        <p className="p1 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </div>
-                    <div className="row my-5">
-                        <div className="gap-3 d-flex justify-content-center">
-                            <button className="button1 btn-nm sec-btn" onClick={toggleLoginPopup}>Get started</button>
-                            <button className="button1 btn-nm prim-btn" onClick={toggleSignupPopup}>
-                                <i className="fa-solid fa-book-open"></i> Learn more
-                            </button>
-                        </div>
-                    </div>
-                </section>
+        <div className='container-fluid'>
+            <section className="container">
+                <div className="row my-5  d-flex justify-content-center">
+                    <h1 className="text-center col-8">The world's destination for avid readers</h1>
+                </div>
+                <div className="row my-5 d-flex justify-content-center">
+                    <p className="p1 text-justify col-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div className="my-5 d-flex justify-content-center">
+                    <button className="button1 btn-nm prim-btn" >
+                        Explore now
+                        <i className="fa-solid fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
             </section>
-            {showLoginPopup ? <LoginPopup toggle={toggleLoginPopup} /> : null}
-            {showSignupPopup ? <SignupPopup toggle={toggleSignupPopup} /> : null}
 
             <div className="container">
                 <Slider {...settings}>

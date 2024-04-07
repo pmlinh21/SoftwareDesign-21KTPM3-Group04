@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 import { RoleKey } from "../../util/config";
@@ -17,10 +17,14 @@ export default function Navbar() {
     }
     
     console.log(roleId);
-    if (roleId === "4") {
-        document.getElementById("user-nav").style.display = "none";
-        document.getElementById("guest-nav").style.display = "block";
-    }
+    useEffect(() => {
+        if (roleId === "4") {
+            const userNav = document.getElementById("user-nav");
+            const guestNav = document.getElementById("guest-nav");
+            if (userNav) userNav.style.display = "none";
+            if (guestNav) guestNav.style.display = "block";
+        }
+    }, [roleId]);
 
     function toggleLoginPopup(){
         setShowLoginPopup(!showLoginPopup);
@@ -87,8 +91,8 @@ export default function Navbar() {
                 </div>
 
                 <div className="nav" id="guest-nav" style={{display: "none"}}>
-                    <button className="button2 btn-nm link-nm" onClick={toggleLoginPopup} >Log in</button>
-                    <button className="button2 btn-nm prim-btn" onClick={toggleSignupPopup} >Sign up</button>
+                    <button className="button2 btn-md link-nm" onClick={toggleLoginPopup} >Log in</button>
+                    <button className="button2 btn-md prim-btn" onClick={toggleSignupPopup} >Sign up</button>
                 </div>
             </div>
             
