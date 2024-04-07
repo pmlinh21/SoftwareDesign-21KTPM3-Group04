@@ -13,7 +13,6 @@
 
 .blog-card.horizontal.no-thumb {
     box-sizing: border-box;
-    width: 390px;
     /* height: 187px; */
     display: flex;
     flex-direction: column;
@@ -26,7 +25,7 @@
     justify-content: space-between;
 }
 
-.blog-card.horizontal.no-thumb .top .topic {
+.blog-card.horizontal.no-thumb .top .topic-plain {
     color: var(--scheme-primary);
     text-transform: uppercase;
 }

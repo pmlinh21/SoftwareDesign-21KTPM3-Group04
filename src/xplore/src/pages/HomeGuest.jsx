@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
+import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 
 export default function Home() {
@@ -65,10 +66,20 @@ export default function Home() {
                 </Slider>
             </section>
 
-            <section className="container my-5">
+            <section className="container my-5 py-5">
                 <h4>
                     <i class="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h4>
+                <div className="d-flex justify-content-between gap-3 mt-5">
+                    <BlogCardNoThumb />
+                    <BlogCardNoThumb />
+                    <BlogCardNoThumb />
+                </div>
+                <div className="d-flex justify-content-between gap-3 mt-3">
+                    <BlogCardNoThumb />
+                    <BlogCardNoThumb />
+                    <BlogCardNoThumb />
+                </div>
             </section>
 
             <section className="container my-5">
