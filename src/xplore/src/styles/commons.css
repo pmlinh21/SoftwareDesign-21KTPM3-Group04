@@ -405,3 +405,19 @@ body {
 a{
     text-decoration: none;
 }
+
+/* Gradient Background */
+.gradient-bg {
+    background-image: radial-gradient(closest-side,var(--scheme-secondary) 10%, var(--scheme-background) 80%);
+    z-index: -1;
+}
+
+.border-bg {
+    background-image: radial-gradient(circle, var(--neutral-0) 50%);
+    z-index: -1;
+}
+
+.circle-bg {
+    background-image: radial-gradient(circle, var(--neutral-0) 70%, var(--scheme-background) 70%);
+    z-index: -1;
+}

@@ -11,6 +11,9 @@ import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 
+import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
+import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
+import ZoomLogo from '../assets/logos/Zoom_logo.svg';
 export default function Home() {
     const settings = {
         infinite: true,
@@ -31,7 +34,8 @@ export default function Home() {
 
     return (
         <div className='container-fluid'>
-            <section className="container my-5">
+            <section className="container my-5 gradient-bg">
+                
                 <div className="row my-5  d-flex justify-content-center">
                     <h1 className="text-center col-8">The world's destination for avid readers</h1>
                 </div>
@@ -66,7 +70,7 @@ export default function Home() {
                 </Slider>
             </section>
 
-            <section className="container my-5 py-5">
+            <section className="container my-5 py-5 gradient-bg">
                 <h4>
                     <i class="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h4>
@@ -145,6 +149,26 @@ export default function Home() {
 
                     </div>
                 </div>
+            </section>
+
+            <section className="container mt-5 pt-5">
+                <div className="row d-flex justify-content-center">
+                    <div className="col-4 text-center">
+                        <h4>Trusted 100% by our partners</h4>
+                    </div>
+                </div>
+                <div className="row d-flex justify-content-center my-3">
+                    <div className="col-6 text-justify">
+                        <p className="p1 text-scheme-sub-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore </p>
+                    </div>
+                </div>
+                <p className="p1 text-scheme-sub-text text-center mb-3">Trusted Partner</p>
+                <div className="row d-flex justify-content-center gap-3">
+                    <img src={MicrosoftLogo} alt="" className="col-2"/>
+                    <img src={GoogleMeetLogo} alt="" className="col-2"/>
+                    <img src={ZoomLogo} alt="" className="col-2"/>
+                </div>
+
             </section>
         </div>
     );
