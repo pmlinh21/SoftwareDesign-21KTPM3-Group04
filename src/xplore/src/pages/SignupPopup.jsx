@@ -46,11 +46,11 @@ export default function SignupPopup(props) {
         setEmail('');
         setPassword('');
     }
-      
+
     return (
         <div className="signup-popup-overlay">
             <div className="signup-popup">
-                <i class="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
+                <i className="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
                 <div>
                     <div className="navbar-brand-signup">
                         <img src="/logo128.png" alt="logo" width="22" height="22" className="align-self-center"/>
@@ -63,7 +63,7 @@ export default function SignupPopup(props) {
                 </div>
                 
                 <form onSubmit={handleSignup}>
-                <div className="form-group">
+                    <div className="form-group">
                         <label>Full name</label>
                         <input type="text" placeholder="Enter your full name" value={fullname} onChange={e => setFullname(e.target.value)}/>
                     </div>

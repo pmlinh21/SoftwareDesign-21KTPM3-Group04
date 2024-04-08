@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import "../styles/commons.css";
 import Navbar from '../components/navbar/Navbar';
 import LoginPopup from './LoginPopup';
 import SignupPopup from './SignupPopup';
-import { RoleKey } from "../util/config";
+import { RoleKey, TokenKey, USER_LOGIN } from "../util/config";
+import { getUserByEmailAction } from "../redux/actions/UserAction";
 
 export default function Home() {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
-
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        if (params.has('email')) {
+            const email = params.get('email');
+            dispatch(getUserByEmailAction(email));  
+        }
+    }, []);
+    
     const roleId = localStorage.getItem(RoleKey);
     if(!roleId)
         localStorage.setItem(RoleKey, JSON.stringify(4));

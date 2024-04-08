@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
 
 // Create a new JWT based on the provided payload data
 const parseToken = (data) => {
@@ -24,15 +25,14 @@ const checkToken = (token) => {
 const verifyToken = (req, res, next) => {
     const token = req.cookies?.token;
     const verifyToken = checkToken(token);
-    console.log('verifyToken', verifyToken)
+    
     if (verifyToken.checkData) {
         next();
     } 
     else {
         res.clearCookie('token');
-        res.redirect("/login")
+        res.redirect("/")
     }
-
 }
 
 const decodeToken = (token) => {
@@ -44,7 +44,6 @@ const decodeToken = (token) => {
         const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
         return decode;
     } catch (error) {
-        // Handle token verification error
         throw new Error('Invalid token');
     }
 }

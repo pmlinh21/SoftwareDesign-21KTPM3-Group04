@@ -8,7 +8,7 @@ const nodeMailer = require('nodemailer');
 const bcrypt = require('bcryptjs'); 
 const moment = require('moment')
 const { successCode, failCode, errorCode } = require('../config/response');
-const { parseToken } = require('../middlewares/baseToken');
+const { parseToken, decodeToken } = require('../middlewares/baseToken');
 
 // GET: Login
 const login = async(req, res) =>{
@@ -18,7 +18,7 @@ const login = async(req, res) =>{
         // Admin 
         let admin = await model.admin.findOne({
             where: {
-                email
+                email:email
             }
         });
 
@@ -37,7 +37,7 @@ const login = async(req, res) =>{
         // User
         let user = await model.user.findOne({
             where: {
-                email
+                email:email
             }
         });
 
@@ -879,6 +879,43 @@ const getUserHighLight = async (req, res) => {
     }
 }
 
+// GET: Get user from token
+const getUserToken = async (req, res) => {
+    let { email } = req.params
+
+    try {
+        let admin = await model.admin.findOne({
+            where: {
+                email:email
+            }
+        });
+    
+        if (admin){
+            successCode(res, parseToken(admin), "Get successfully");
+            return;
+        }
+        else{
+            let user = await model.user.findOne({
+                where: {
+                    email: email
+                }
+            });
+    
+            if (user){
+                successCode(res, parseToken(user), "Get successfully");
+                return;
+            } 
+            else{
+                failCode(res, "", "Email wrong");
+                return;
+            }
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
@@ -887,4 +924,5 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
                 getUserReceivedNotifications, getUserSentNotifications,
                 getUserReadingHistory, deleteReadingHistory,
                 getUserList, createList, editList, deleteList,
-                addPostToList, deletePostFromList, getUserHighLight, updatePassword }
+                addPostToList, deletePostFromList, getUserHighLight, updatePassword, 
+                getUserToken }

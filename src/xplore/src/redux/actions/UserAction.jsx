@@ -12,6 +12,12 @@ export const loginAction = (user_login) => {
                 // Store token in localStorage
                 localStorage.setItem(TokenKey, result.data.content);
 
+                var date = new Date();
+                date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toUTCString();
+
+                document.cookie = "token" + "=" + result.data.content + expires + "; path=/";
+
                 const userResult = await userService.getUserByEmail(user_login.email);
                 console.log("userResult: ", userResult)
 
@@ -49,18 +55,67 @@ export const loginAction = (user_login) => {
 
 export const signupAction = (formData) => {
     return async (dispatch) =>{
-      try {
-        console.log(formData)
-        const result = await userService.signup(formData);
-        if (result.status === 200){
-          dispatch({
-            type: SIGNUP,
-            formData: result.data.content
-          });
+        try {
+            console.log(formData)
+            const result = await userService.signup(formData);
+            if (result.status === 200){
+            dispatch({
+                type: SIGNUP,
+                formData: result.data.content
+            });
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
         }
-      } catch (error) {
-        console.log("error", error.response);
-        alert(error.response.data.message)
-      }
+    };
+};
+
+export const getUserByEmailAction = (email) => {
+    return async (dispatch) => {
+        try {
+            const userResult = await userService.getUserByEmail(email);
+
+            if (userResult.status === 200) {
+                dispatch({
+                    type: LOGIN,
+                    user_login: userResult.data.content
+                });
+
+
+                // Store user information in localStorage
+                localStorage.setItem(USER_LOGIN, JSON.stringify(userResult.data.content));
+                
+                if(userResult.data.message === "User found")
+                    localStorage.setItem(RoleKey, userResult.data.content.is_member ? "2" : "1");
+                else
+                    localStorage.setItem(RoleKey, "3");
+
+                const userToken = await userService.getUserToken(email);
+                console.log("userToken: ", userToken)
+
+                if (userToken.status === 200) {
+                    // Store token in localStorage
+                    localStorage.setItem(TokenKey, userToken.data.content);
+
+                    var date = new Date();
+                    date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000));
+                    var expires = "; expires=" + date.toUTCString();
+
+                    document.cookie = "token" + "=" + userToken.data.content + expires + "; path=/";
+
+                    const searchParams = new URLSearchParams(window.location.search);
+                    searchParams.delete('email');
+
+                    // Replace the URL with new URLSearchParams
+                    window.history.replaceState({}, '', `${window.location.pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`)
+                }
+
+                
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
     };
 };

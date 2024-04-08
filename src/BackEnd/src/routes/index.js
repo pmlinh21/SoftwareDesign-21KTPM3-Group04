@@ -12,4 +12,14 @@ rootRoute.use("/report", reportRoute);
 rootRoute.use("/post", postRoute);
 rootRoute.use("/auth", authRoute);
 
+rootRoute.get("/", (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        res.render('/', { showLoginPopup: true });
+    }
+    else{
+        console.log("User login")
+    }
+});
+
 module.exports = rootRoute;

@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoute = express.Router();
+const cookieParser = require("cookie-parser");
 const { login, signup, searchAccountByName, getUserSubscriber,
     sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
@@ -8,7 +9,10 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
     getUserList, createList, editList, deleteList,
-    addPostToList, deletePostFromList, getUserHighLight, updatePassword } = require("../controllers/userController")
+    addPostToList, deletePostFromList, getUserHighLight, updatePassword,
+    getUserToken } = require("../controllers/userController")
+    
+userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
 // GET: Login
 userRoute.post("/login", login)
@@ -96,5 +100,8 @@ userRoute.get("/highlight/:id_user", getUserHighLight)
 
 // PUT: Harshing user password
 userRoute.put("/update/:id_admin", updatePassword)
+
+// GET: Get user from token
+userRoute.get("/getToken/:email", getUserToken)
 
 module.exports = userRoute;
