@@ -1,14 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-
 import { BrowserRouter as Router, Route, Routes, Outlet  } from 'react-router-dom';
 import { createBrowserHistory } from "history";
 import { useSelector } from 'react-redux';
 import React, { useEffect,useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Navbar from './components/navbar/Navbar'; // Import your Navbar component
-import Home from './pages/Home';
+import Navbar from './components/navbar/Navbar';
+import Footer from './components/footer/Footer';
+import HomeGuest from './pages/HomeGuest';
 import SearchResult from './pages/SearchResult';
 import Writing from './pages/Writing';
 
@@ -19,6 +18,7 @@ function Layout() {
     <div>
       <Navbar />
       <Outlet />
+      <Footer />
     </div>
   );
 }
@@ -31,7 +31,7 @@ function App() {
       <Routes>
         <Route path="" element={<Layout />}>
           
-          <Route path="" element={<Home />} />
+          <Route path="" element={<HomeGuest />} />
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
         </Route>

@@ -6,7 +6,7 @@ export default function BlogCardNoThumb() {
     return (
         <div className="blog-card horizontal no-thumb shadow-sm">
             <div className="top">
-                <span className="topic subtitle2">Software design</span>
+                <span className="topic-plain subtitle2">Software design</span>
                 <i className="fa-solid fa-bookmark bookmark"></i>
             </div>
 

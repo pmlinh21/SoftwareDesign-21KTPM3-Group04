@@ -13,13 +13,13 @@ export default function BlogCardHorizontal(props) {
     
 
     return (
-        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex ">
+        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
             <div className="col-12 d-flex py-3 px-2">
                 <div className="col-5 thumbnail-container bg-white">
                     <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
                 </div>
  
-                <div className="col-7 bg-white ps-4">
+                <div className="col-7 ps-4">
                     <div className="d-flex justify-content-between ">
                         <p className="subtitle2 text-scheme-primary">
                             {firstTopic?.toUpperCase() || "FIRST TOPIC"}
