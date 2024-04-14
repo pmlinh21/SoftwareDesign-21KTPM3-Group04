@@ -1,5 +1,5 @@
 import { USER_LOGIN } from "../../util/config";
-import { LOGIN, SIGNUP } from "../types";
+import { LOGIN, SIGNUP, GET_USER_BY_EMAIL } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){

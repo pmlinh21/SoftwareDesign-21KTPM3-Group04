@@ -6,6 +6,7 @@
     --white: #fff;
     /*----------Tonal----------*/
     /*--Blue--*/
+    --blue-0: #F1F6FF;
     --blue-50: #F1F6FF;
     --blue-100: #DEE9FF;
     --blue-200: #84ADFF;
@@ -184,17 +185,17 @@ h6 {
 /*-- Body --*/
 .p1 {
     font-size: 18px;
-    line-height: 20px;
+    line-height: 28px;
 }
 
 p, .p2 {
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
 }
 
 .p3 {
     font-size: 14px;
-    line-height: 16px;
+    line-height: 18px;
 }
 
 .label1 {
@@ -335,6 +336,14 @@ body {
     cursor: default !important;
 }
 
+.topic {
+    background-color: var(--neutral-50);
+    color: var(--black);
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+}
+
 /*text with color*/
 
 .text-black{
@@ -395,4 +404,20 @@ body {
 
 a{
     text-decoration: none;
+}
+
+/* Gradient Background */
+.gradient-bg {
+    background-image: radial-gradient(closest-side,var(--scheme-secondary) 10%, var(--scheme-background) 80%);
+    z-index: -1;
+}
+
+.border-bg {
+    background-image: radial-gradient(circle, var(--neutral-0) 50%);
+    z-index: -1;
+}
+
+.circle-bg {
+    background-image: radial-gradient(circle, var(--neutral-0) 70%, var(--scheme-background) 70%);
+    z-index: -1;
 }

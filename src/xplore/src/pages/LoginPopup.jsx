@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import "../styles/commons.css";
 import "./LoginPopup.css"
 import { loginAction } from "../redux/actions/UserAction";
+import { DOMAIN } from "../util/config";
 
 export default function LoginPopup(props) {
     const dispatch = useDispatch();
@@ -19,14 +20,16 @@ export default function LoginPopup(props) {
         console.log("user_login: ", user_login);
 
         dispatch(loginAction(user_login));
+    }
 
-        //props.toggle()
+    function handleSigninWithGoogle() {
+        window.location.href = `${DOMAIN}/auth/google`;
     }
       
     return (
         <div className="login-popup-overlay">
             <div className="login-popup">
-                <i class="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
+                <i className="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
                 <div>
                     <div className="navbar-brand-login">
                         <img src="/logo128.png" alt="logo" width="22" height="22" className="align-self-center"/>
@@ -59,7 +62,7 @@ export default function LoginPopup(props) {
 
                     <button type="submit" className="btn-sign-in">Sign in</button>
                 </form>
-                <button type="button" className="btn-sign-in-google">
+                <button type="button" className="btn-sign-in-google" onClick={handleSigninWithGoogle}>
                     <img src="/search.png" alt="google" style={{ marginRight: "10px" }}/>
                     Sign in with Google
                 </button>
