@@ -24,15 +24,13 @@ const searchTopicByName = async (req, res) => {
     let { topic_name } = req.params
 
     try {
-        let topic = await model.topic.findOne({
+        let topic = await model.topic.findAll({
             where:{
-                topic: topic_name
+                topic:{
+                    [Op.like]: `%${topic_name}%`,
+                }
             } 
         })
-        if (!topic) {
-            failCode(res, null, "Invalid Name")
-        }
-
         successCode(res, topic, "Topic found")
     } catch (err) {
         console.log(err)

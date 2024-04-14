@@ -93,7 +93,7 @@ const signup = async(req, res) =>{
 
 // GET: Search account
 const searchAccountByName = async (req, res) => {
-    let { fullname } = req.body
+    let { fullname } = req.params
 
     try {
         let user = await model.user.findAll({
@@ -103,12 +103,7 @@ const searchAccountByName = async (req, res) => {
                 }
             } 
         })
-        if (!user) {
-            failCode(res, null, "Invalid Name")
-        }
-        else{
             successCode(res, user, "Account found")
-        }
     } catch (err) {
         console.log(err)
         errorCode(res,"Internal Server Error")

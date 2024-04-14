@@ -34,6 +34,7 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
+
         </Route>
 
         <Route path="login" element={<SearchResult />} />

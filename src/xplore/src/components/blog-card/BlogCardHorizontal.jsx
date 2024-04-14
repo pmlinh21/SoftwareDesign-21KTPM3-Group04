@@ -10,7 +10,6 @@ export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, firstTopic, author_name, author_avatar,
     publish_date, response, like} = props;
 
-    
 
     return (
         <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex ">

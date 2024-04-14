@@ -7,9 +7,13 @@
     object-fit: cover;
 }
 
-.thumbnail-container .fa-bookmark{
-    top: 1.2rem;
-    right:1.8rem;
+.thumbnail-container button{
+    top: 0.5rem;
+    right:1.1rem;
+}
+
+.thumbnail-container button:focus-within{
+    border: none
 }
 
 .blog-post-card .long-text{

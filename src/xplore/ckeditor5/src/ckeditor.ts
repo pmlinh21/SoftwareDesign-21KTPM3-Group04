@@ -122,10 +122,10 @@ class Editor extends ClassicEditor {
 		licenseKey: 'b3lIK3VyOFdJOFZVanBtRE94V3hET3h2WS95N3RsVERKZllUWVhUZWM5SjZPSC81Qm16Rm9VOU4rSWNDLU1qQXlOREEwTWpjPQ==',
 		ai: {
             openAI: {
-				apiUrl: 'http://localhost:8080/api/auth/request-gpt',
-				// requestHeaders: {
-				// 	Authorization: 'Bearer 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'
-				// }
+				// apiUrl: 'http://localhost:8080/api/auth/request-gpt',
+				requestHeaders: {
+					Authorization: 'Bearer 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'
+				}
             },
 			// aiAssistant: {
 			// 	contentAreaCssClass: "gpt-response"

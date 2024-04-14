@@ -4,6 +4,10 @@ import Avatar from "../avatar/Avatar";
 import {Link} from "react-router-dom"
 
 export default function Navbar() {
+    function showTopicDropdown(){
+
+    }
+    
     return (
         <nav className="navbar navbar-expand-sm">
             <div className="container justify-content-between align-items-center">
@@ -20,10 +24,10 @@ export default function Navbar() {
                                 <Link className="nav-link" to="/about-us">About us</Link>
                             </li>
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link" to="#">
+                                <span className="nav-link" onClick={showTopicDropdown}>
                                     Topics
                                     <i className="fa-solid fa-chevron-down ms-2"></i>
-                                </Link>
+                                </span>
                             </li>
                             <li className="nav-item subtitle1">
                                 <Link className="nav-link" to="/support">Support</Link>

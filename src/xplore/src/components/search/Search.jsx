@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate   } from 'react-router-dom';
+import { useNavigate, redirect   } from 'react-router-dom';
 import React from 'react';
 import "../../styles/commons.css";
 import "./Search.css"
+
 
 export default function Search({search, isResult}){
     const navigate  = useNavigate();
@@ -13,8 +14,6 @@ export default function Search({search, isResult}){
 
     const searchSectionRef = useRef(null);
 
-    // console.log(searchText)
-    // console.log("search: ", search)
     useEffect(() => {
         function handleClickOutside(event) {
             if (searchSectionRef.current && !searchSectionRef.current.contains(event.target)) {
@@ -35,10 +34,28 @@ export default function Search({search, isResult}){
 
     }, [searchSectionRef]);
 
+    function updateRecentSearch(search){
+        let newRecentSearch
+
+        if (!recentSearch.includes(search)) {
+             newRecentSearch = [search, ...recentSearch]
+
+        } else{
+            const index = recentSearch.indexOf(search);
+            newRecentSearch = [...recentSearch]
+            newRecentSearch.splice(index, 1)
+            newRecentSearch = [search, ...newRecentSearch]
+        }
+
+        localStorage.setItem('userRecentSearch', newRecentSearch.join("\\n"));
+        setRecentSearch(newRecentSearch)
+    }
+
     function handleSearchButtonClick(type, search = searchText){
         if (search){
             setDisplaySearchOption(false)
             setSearchText(search)
+            updateRecentSearch(search)
             navigate(`/search-result?type=${type}&searchText=${search}`)
             
         }
@@ -56,6 +73,12 @@ export default function Search({search, isResult}){
         setRecentSearch(newRecentSearch)
     }
 
+    function handleKeyDown(e){
+        if (e.key === "Enter") {
+            handleSearchButtonClick("all")
+        }
+    }
+
     return(
         <div className="container search-container position-relative mt-4">
             <div className="container search-section position-absolute "
@@ -70,6 +93,7 @@ export default function Search({search, isResult}){
                             type="text"
                             autoComplete="off"
                             value={searchText}
+                            onKeyDown={handleKeyDown}
                             onMouseDown={() => setDisplaySearchOption(true)}
                             onChange={(e) => setSearchText(e.target.value)}
                         />
@@ -96,7 +120,7 @@ export default function Search({search, isResult}){
                         <button 
                             className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2  text-black"
                             onClick={() => {handleSearchButtonClick("post")}}>
-                            Post title
+                            Post
                         </button>
                         <button 
                             className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2 text-black"
@@ -105,7 +129,7 @@ export default function Search({search, isResult}){
                         </button>
                         <button 
                             className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2 text-black"
-                            onClick={() => {handleSearchButtonClick("author")}}>
+                            onClick={() => {handleSearchButtonClick("user")}}>
                             Author
                         </button>
                     </div>

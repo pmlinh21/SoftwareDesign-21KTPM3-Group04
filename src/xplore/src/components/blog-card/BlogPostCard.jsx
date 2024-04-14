@@ -1,6 +1,7 @@
 import React from "react";
 import "./BlogPostCard.css";
 import Avatar from "../avatar/Avatar";
+import BookmarkIcon from "../bookmark-icon/BookmarkIcon"
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
@@ -10,13 +11,11 @@ export default function BlogPostCard(props) {
     const {id_post, title, content, thumbnail, firstTopic, author_name, author_avatar,
     publish_date, response, like} = props;
 
-    
-
     return (
-        <div className="blog-post-card col d-flex flex-wrap bg-white p-0">
+        <div className="blog-post-card  d-flex flex-wrap bg-white p-0">
 
             <div className="col-12 thumbnail-container bg-white p-0 m-0 position-relative">
-                <i className="text-scheme-sub-text fa-solid fa-bookmark position-absolute"></i>
+                <BookmarkIcon id_post={id_post} />
                 <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
             </div>
             

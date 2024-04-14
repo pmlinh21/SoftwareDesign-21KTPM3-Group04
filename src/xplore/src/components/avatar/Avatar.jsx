@@ -1,11 +1,10 @@
 import React from "react";
 import "./Avatar.css";
+import avatarPlaceholder from "../../assets/images/avatar-placeholder.jpg"
 
 export default function Avatar({avatar, size = "big"}) {
 
-    avatar = "https://picsum.photos/id/2/600/600"
-
     return (
-        <img src={avatar || "../../assets/images/avatar-placeholder.png"} alt="user's avatar" className= {"avatar-container " + size} />
+        <img src={avatar || avatarPlaceholder} alt="user's avatar" className= {"avatar-container " + size} />
     )
 }

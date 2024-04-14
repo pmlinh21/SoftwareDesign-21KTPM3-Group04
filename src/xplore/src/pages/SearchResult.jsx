@@ -1,7 +1,6 @@
 import React from 'react';
 import "../styles/commons.css";
 import "./SearchResult.css"
-import Navbar from '../components/navbar/Navbar'
 import Search from '../components/search/Search'
 import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
@@ -10,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation   } from 'react-router-dom';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
-
+import Loading from '../components/loading/Loading';
 
 function ResultText({type, searchText}){
     return(
@@ -34,142 +33,219 @@ function ResultText({type, searchText}){
 
 }
 
+const fetchData = async (type, search, result, setResult, setLoading) => {
+    try {
+      setLoading((val) => true);
+      const response = await fetch(`http://localhost:8080/api/${type}/search/${search}`);
+      const jsonData = await response.json();
+      
+
+      setResult((result) => { return {...result, [`${type}`]: jsonData.content}} );
+      setLoading((val) => false);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+};
+
 export default function SearchResult() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const searchText = searchParams.get('searchText');
     const type = searchParams.get('type');
 
+    const [loading, setLoading] = useState(true);
+    const [result, setResult] = useState({});
+
+    useEffect(()=>{
+        
+        console.log(loading);
+        if (type === "all"){
+            fetchData("post",searchText, result, setResult, setLoading );
+            fetchData("topic",searchText, result, setResult, setLoading);
+            fetchData("user",searchText, result, setResult, setLoading);
+        } else
+            fetchData(type,searchText, result, setResult, setLoading);
+        
+    
+    },[searchText,type])
+
+    console.log(result);
+    console.log(loading);
+
     return (
     <div className="search-result-page">
-        {/* <Navbar/> */}
-        <Search search={searchText} isResult={searchText !== null}/>
 
-        <div className="search-result container mt-5 px-3 pt-3">
-            <div className="row px-2 pt-3 d-flex justify-content-between">
+    <Search search={searchText} isResult={searchText !== null}/>
 
+    <div className="search-result container my-5 px-3 pt-3">
+        <div className="row px-2 pt-3 d-flex justify-content-between">
+            <div className="px-0 mt-5 row">
+            <ResultText type={type} searchText={searchText}/>
             {
-                type == "all" && (
+                loading && <Loading/>
+            }
+            {
+                type === "all" && !loading && (
                 <>
-                    <div className="col-7 px-0 mt-5">
-                        <ResultText type={type} searchText={searchText}/>
-
+                    <div className="col-7">
                         <div className="container d-flex flex-wrap gap-3 px-0">
-                            <BlogCardHorizontal/>
-                            <BlogCardHorizontal/>
+                        {
+                            result?.post?.map((item) => {
+                                return (
+                                    <BlogCardHorizontal
+                                        key={item.id_post}
+                                        {...item}
+                                    />
+                                )
+                            })
+                        }
                         </div>
                     </div>
-
-                    <div className="col-4 px-0 mt-5">
-                        <div className="row mt-4">
+                    <div className="col-1"></div>
+                    <div className="col-4">
+                        <div className="row">
                             <h6 className="text-black mb-4">
                                 Matching authors
                             </h6>
                         </div>
-                        <div className="row">
-                            <p className="p3 text-black">
-                                You are following <span className="text-scheme-primary"> {0} </span> authors
-                            </p>
-                        </div>
-                        <div className="container d-flex gap-3 flex-wrap">
-                            <AuthorHorizontal/>
-                            <AuthorHorizontal isSubscribe={false}/>
-                        </div>
-                        <div className="row mt-4">
-                            <p className="button-1 text-scheme-primary mb-4 link-sm">
-                                <a href={`/search-result?type=author&searchText=${searchText}`}>
-                                    See all authors <i className="fa-solid fa-arrow-right"></i>
-                                </a>
-                            </p>
-                        </div>
+                        {
+                            result?.user?.length ? (
+                                <>
+                                    <div className="container d-flex gap-3 flex-wrap">
+                                    {
+                                            result?.user?.map((item) => {  
+                                                return (
+                                                        <AuthorHorizontal
+                                                            key={item.id_user}
+                                                            {...item}
+                                                        />
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div className="row mt-4">
+                                        <p className="button-1 text-scheme-primary mb-4 link-sm">
+                                            <a href={`/search-result?type=user&searchText=${searchText}`}>
+                                                See all authors <i className="fa-solid fa-arrow-right"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </>
+                            ): (
+                                <div className="row">
+                                    <p className="text-scheme-sub-text mb-4 subtitle1 text-align-center">
+                                        No matching authors
+                                    </p>
+                                </div>
+                            )
+                        }
+                        
                         
                         <div className="row mt-4">
                             <h6 className="text-black mb-4">
                                 Matching topics
                             </h6>
                         </div>
-                        <div className="container px-0 d-flex gap-2 flex-wrap">
-                            <TopicTag topic_name="So" />
-                            <TopicTag topic_name="Sof" />
-                            <TopicTag topic_name="Soft" />
-                            <TopicTag topic_name="Softw" />
-                            <TopicTag topic_name="Softwa" />
-                            <TopicTag topic_name="Softwar" />
-                        </div>
-                        <div className="row mt-4">
-                            <p className="button-1 text-scheme-primary mb-4 link-sm">
-                                <a href={`/search-result?type=topic&searchText=${searchText}`}>
-                                    See all topics <i className="fa-solid fa-arrow-right"></i>
-                                </a>
-                            </p>
-                        </div>
+                        
+                        {
+                            result?.topic?.length ? (
+                                <>
+                                <div className="container px-0 d-flex gap-2 flex-wrap">
+                                {
+                                    result?.topic?.map((item) => {
+                                        return (
+                                            <TopicTag
+                                                key={item.id_topic}
+                                                {...item}
+                                            />
+                                        )
+                                    })
+                                }
+                                </div>
+                                <div className="row mt-4">
+                                    <p className="button-1 text-scheme-primary mb-4 link-sm">
+                                        <a href={`/search-result?type=topic&searchText=${searchText}`}>
+                                            See all topics <i className="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                                </>
+                            ) : (
+                                <div className="row">
+                                    <p className="text-scheme-sub-text mb-4 subtitle1 text-align-center">
+                                        No matching authors
+                                    </p>
+                                </div>
+                            )
+                        }
+                        {
+                            
+                        }
+                        
                     </div>
+
                 </>
                 )
             }
 
             {
-                type == "post" && 
-                <div className="px-0 mt-5">
-                    <ResultText type={type} searchText={searchText}/>
-                    <div className="container px-0 ps-3">
-                        <div className="list-post row row-cols-3 gap-3">
-                            <BlogPostCard />
-                            <BlogPostCard />
-                            <BlogPostCard />
-                            <BlogPostCard />
+                type === "post" && !loading &&
+                    <div className="container px-0 ps-4 ">
+                        <div className="list-post row row-cols-3 gap-4">
+                        {
+                            result?.post?.map((item) => {
+                                return (
+                                    <BlogPostCard
+                                        key={item.id_post}
+                                        {...item}
+                                    />
+                                )
+                            })
+                        }
                         </div>
                         
                     </div>
-                </div>
             }
 
             {
-                type == "topic" && 
-                <div className="px-0 mt-5">
-                    <ResultText type={type} searchText={searchText}/>
+                type === "topic" && !loading &&
                     <div className="container col-6 px-0 d-flex gap-2 flex-wrap justify-content-center">
-                        <TopicTag topic_name="So" />
-                        <TopicTag topic_name="Sof" />
-                        <TopicTag topic_name="Soft" />
-                        <TopicTag topic_name="Softw" />
-                        <TopicTag topic_name="Softwa" />
-                        <TopicTag topic_name="Softwar" />
-                        <TopicTag topic_name="So" />
-                        <TopicTag topic_name="Sof" />
-                        <TopicTag topic_name="Soft" />
-                        <TopicTag topic_name="Softw" />
-                        <TopicTag topic_name="Softwa" />
-                        <TopicTag topic_name="Softwar" />
+                        {
+                            result?.topic?.map((item) => {
+                                return (
+                                    <TopicTag
+                                        key={item.id_topic}
+                                        {...item}
+                                    />
+                                )
+                            })
+                        }
                     </div>
-                </div>
             }
 
             {
-                type == "author" && 
-                <div className="px-0 mt-5">
-                    <ResultText type={type} searchText={searchText}/>
+                type === "user" && !loading &&
                     <div className="container px-0 ps-3">
                         <div className="list-author row row-cols-2 gap-3">
-                            <div className="col">
-                                <AuthorHorizontal isSubscribe={false}/>
-                            </div>
-
-                            <div className="col">
-                                <AuthorHorizontal isSubscribe={false}/>
-                            </div>
-
-                            <div className="col">
-                                <AuthorHorizontal/>
-                            </div>
-
+                            {
+                                result?.user?.map((item) => {  
+                                    return (
+                                        <div className="col">
+                                            <AuthorHorizontal
+                                                key={item.id_user}
+                                                {...item}
+                                            />
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>   
                     </div>
-                </div>
             }
                 
             </div>
-            
+            </div>
         </div>
     </div>
   );
