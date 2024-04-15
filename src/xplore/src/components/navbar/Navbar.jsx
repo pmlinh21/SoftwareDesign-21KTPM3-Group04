@@ -15,6 +15,12 @@ function capitalizeFirstLetter(str) {
     return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
 }
 
+function logout() {
+    localStorage.removeItem(USER_LOGIN);
+    localStorage.setItem(RoleKey, JSON.stringify(4));
+    window.location.reload();
+}
+
 export default function Navbar() {
 
     let user_login = {};
@@ -96,10 +102,6 @@ export default function Navbar() {
                                         ))}
                                     </ul>
                                 ) : null}
-                                {/* <span className="nav-link button1" onClick={showTopicDropdown}>
-                                    Topics
-                                    <i className="fa-solid fa-chevron-down ms-2"></i>
-                                </span> */}
                             </li>
                             <li className="nav-item subtitle1">
                                 <Link className="nav-link button1" to="/support">Support</Link>
@@ -128,10 +130,24 @@ export default function Navbar() {
                                 <i className="fa-regular fa-bell"></i>
                             </Link>
                         </li>
-                        <li className="nav-item" >
-                            <Link className="nav-link" to="/profile">
+                        <li className="nav-item dropdown" >
+                            <Link className="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <Avatar avatar={user_login.avatar} size="small"/>
                             </Link>
+
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <Link className="dropdown-item" to={'/profile'} >
+                                       Profile
+                                    </Link>
+                                </li>
+                                <li><hr className="dropdown-divider" ></hr></li>
+                                <li>
+                                    <Link className="dropdown-item" to={'/'} onClick={logout}>
+                                       Log out
+                                    </Link>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
