@@ -10,7 +10,6 @@ import Avatar from "../avatar/Avatar";
 import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 
-import { topicService } from "../../services/TopicService";
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
 
 function capitalizeFirstLetter(str) {

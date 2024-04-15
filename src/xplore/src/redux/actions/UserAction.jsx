@@ -119,7 +119,7 @@ export const getUserByEmailAction = (email) => {
         }
     };
 };
-
+/*
 export const getTopUsers = () => {
     const topId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return async (dispatch) => {
@@ -143,3 +143,4 @@ export const getTopUsers = () => {
         }
     };
 }
+*/

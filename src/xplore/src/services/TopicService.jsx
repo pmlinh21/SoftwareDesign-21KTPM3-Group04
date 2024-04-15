@@ -1,6 +1,6 @@
-import { baseService } from "./BaseService";
+import { BaseService } from "./BaseService";
 
-export class TopicService extends baseService {
+export class TopicService extends BaseService {
     // Api 1: Get all topics
     getAllTopics = () => {
         return this.get(`topic/`);

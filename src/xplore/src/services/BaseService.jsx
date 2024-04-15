@@ -1,7 +1,7 @@
 import { DOMAIN, TokenKey, RoleKey, RoleMapping } from "../util/config";
 import axios from "axios";
 
-export class baseService {
+export class BaseService {
     getUserRole = () =>{
         const roleId = localStorage.getItem(RoleKey);
         return RoleMapping[roleId];

@@ -11,3 +11,11 @@ export const GET_TOP_USERS = "GET_TOP_USERS";
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 
 export const GET_TOPIC_BY_ID = "GET_TOPIC_BY_ID";
+
+// POST
+export const GET_ALL_POSTS = "GET_ALL_POSTS";
+
+export const GET_TOP_POSTS = "GET_TOP_POSTS";
+
+export const GET_POST_BY_ID = "GET_POST_BY_ID";
+

@@ -11,7 +11,6 @@ export const getAllTopicsAction = () => {
                     type: GET_ALL_TOPICS,
                     topics: result.data.content,
                 });
-                console.log("result: ", result.data.content);
             }
         } catch (error) {
             console.log("error", error.response);
