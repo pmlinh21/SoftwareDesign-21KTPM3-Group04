@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom"
 
-import { RoleKey } from "../../util/config";
+import { RoleKey, USER_LOGIN } from "../../util/config";
 
 import "./Navbar.css";
 
@@ -9,13 +9,18 @@ import Avatar from "../avatar/Avatar";
 import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 
-import {topicService} from "../../services/TopicService";
+import { topicService } from "../../services/TopicService";
 
 function capitalizeFirstLetter(str) {
     return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
 }
 
 export default function Navbar() {
+
+    let user_login = {};
+    if(localStorage.getItem(USER_LOGIN)){
+        user_login = JSON.parse(localStorage.getItem(USER_LOGIN));
+    }
 
     const [topics, setTopics] = useState([]);
 
@@ -125,7 +130,7 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item" >
                             <Link className="nav-link" to="/profile">
-                                <Avatar />
+                                <Avatar avatar={user_login.avatar} size="small"/>
                             </Link>
                         </li>
                     </ul>
