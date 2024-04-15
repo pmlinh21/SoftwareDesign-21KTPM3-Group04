@@ -5,7 +5,7 @@ let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
     user_login = JSON.parse(localStorage.getItem(USER_LOGIN));
 }
-
+ 
 export const stateDefault = {
     user_login: user_login,
     user_signup: {}
