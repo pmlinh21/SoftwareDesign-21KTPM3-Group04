@@ -27,6 +27,7 @@ export class UserService extends baseService {
     getUserToken = (email) =>{
       return this.get(`user/getToken/${email}`);
     }
+    
   }
   
 export const userService = new UserService();

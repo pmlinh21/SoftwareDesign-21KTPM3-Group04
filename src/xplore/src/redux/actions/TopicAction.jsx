@@ -1,7 +1,7 @@
 import { topicService } from "../../services/TopicService";
 import { GET_ALL_TOPICS, GET_TOPIC_BY_ID } from "../types";
 
-export const getAllTopics = () => {
+export const getAllTopicsAction = () => {
     return async (dispatch) => {
         try {
             const result = await topicService.getAllTopics();
@@ -11,7 +11,7 @@ export const getAllTopics = () => {
                     type: GET_ALL_TOPICS,
                     topics: result.data.content,
                 });
-                console.log("result.data.content", result.data.content)
+                console.log("result: ", result.data.content);
             }
         } catch (error) {
             console.log("error", error.response);

@@ -1,6 +1,6 @@
 import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
-import { LOGIN, SIGNUP } from "../types";
+import { LOGIN, SIGNUP, GET_TOP_USERS } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -119,3 +119,27 @@ export const getUserByEmailAction = (email) => {
         }
     };
 };
+
+export const getTopUsers = () => {
+    const topId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    return async (dispatch) => {
+        try {
+            let topUsers = []
+            for (let i = 0; i < topId.length; i++) {
+                const result = await userService.getUserById(topId[i]);
+                if (result.status === 200) {
+                    topUsers.push(result.data.content)
+                }
+            }
+            
+            dispatch({
+                type: GET_TOP_USERS,
+                topUsers: topUsers
+            });
+
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+}

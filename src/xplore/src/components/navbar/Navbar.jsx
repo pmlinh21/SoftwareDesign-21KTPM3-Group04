@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 
 import { RoleKey, USER_LOGIN } from "../../util/config";
@@ -10,6 +11,7 @@ import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 
 import { topicService } from "../../services/TopicService";
+import { getAllTopicsAction } from '../../redux/actions/TopicAction';
 
 function capitalizeFirstLetter(str) {
     return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
@@ -22,29 +24,23 @@ function logout() {
 }
 
 export default function Navbar() {
-
+    // Get user information from localStorage (user's avatar)
     let user_login = {};
     if(localStorage.getItem(USER_LOGIN)){
         user_login = JSON.parse(localStorage.getItem(USER_LOGIN));
     }
 
-    const [topics, setTopics] = useState([]);
-
+    const dispatch = useDispatch();
+    
+    // Get all topics
     useEffect(() => {
-        const fetchTopics = async () => {
-            const result = await topicService.getAllTopics();
-            if (result.status === 200) {
-                const topics = result.data.content;
-                // Set the fetched topics into the topics state
-                setTopics(topics);
-            } else {
-                console.log("error", result);
-            }
-        };
+        dispatch(getAllTopicsAction()); // Dispatch the getAllTopics action when the component mounts
+    }, [dispatch]);
+   
+    const topics = useSelector(state => state.TopicReducer.topics);
+    console.log("topics: ", topics);
 
-        fetchTopics(); // Call the function to fetch topics
-    }, []); // Pass an empty array to ensure it only runs once on mount
-
+    // Set up login and signup popups
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
 

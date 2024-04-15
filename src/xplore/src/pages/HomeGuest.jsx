@@ -68,6 +68,7 @@ export default function Home() {
                     <AuthorVertical />
                     <AuthorVertical />
                     <AuthorVertical />
+                    <AuthorVertical />
                 </Slider>
             </section>
 
@@ -174,4 +175,3 @@ export default function Home() {
         </div>
     );
 }
-
