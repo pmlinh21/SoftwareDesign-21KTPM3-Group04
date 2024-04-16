@@ -8,7 +8,7 @@ function capitalizeFirstLetter(str) {
 
 export default function TopicTag({topic}) {
     return (
-        <button className="topic col-auto btn btn-sm rounded-pill bg-neutral-50 title2  text-black">
+        <button className="topic col-auto btn btn-sm rounded-pill bg-neutral-50 label2  text-black">
             {capitalizeFirstLetter(topic)}
         </button>
     )
