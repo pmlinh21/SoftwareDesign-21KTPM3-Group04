@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 
 import { getTopPostsAction } from '../redux/actions/PostAction';
+import { RoleKey } from "../util/config";
 
 import "../styles/commons.css";
 import "slick-carousel/slick/slick.css";
@@ -19,6 +20,12 @@ import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
 
 export default function Home() {
+
+    const roleId = localStorage.getItem(RoleKey);
+    if (!roleId) {
+        localStorage.setItem(RoleKey, JSON.stringify(4));
+    }
+
     const settings = {
         infinite: true,
         speed: 500,
@@ -121,14 +128,14 @@ export default function Home() {
                         <div className="row mb-5">
                             <h4>Hot topics</h4>
                             <div className="d-flex flex-wrap gap-2">
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all topics <i className="fa-solid fa-arrow-right"></i>
@@ -186,5 +193,5 @@ export default function Home() {
 
             </section>
         </div>
-    );
+    )
 }

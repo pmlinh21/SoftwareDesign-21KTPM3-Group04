@@ -11,6 +11,7 @@ import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
+import { getUserByEmailAction } from '../../redux/actions/UserAction';
 
 function capitalizeFirstLetter(str) {
     return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
@@ -43,18 +44,22 @@ export default function Navbar() {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
 
-    const roleId = localStorage.getItem(RoleKey);
+    var roleId = localStorage.getItem(RoleKey);
     if(!roleId) {
         localStorage.setItem(RoleKey, JSON.stringify(4));
     }
     
     console.log(roleId);
     useEffect(() => {
+        const userNav = document.getElementById("user-nav");
+        const guestNav = document.getElementById("guest-nav");
         if (roleId === "4") {
-            const userNav = document.getElementById("user-nav");
-            const guestNav = document.getElementById("guest-nav");
             if (userNav) userNav.style.display = "none";
             if (guestNav) guestNav.style.display = "block";
+        }
+        else{
+            if (userNav) userNav.style.display = "block";
+            if (guestNav) guestNav.style.display = "none";
         }
 
     }, [roleId]);
@@ -66,6 +71,15 @@ export default function Navbar() {
     function toggleSignupPopup(){
         setShowSignupPopup(!showSignupPopup);
     };
+
+    useEffect(() => {
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        if (params.has('email')) {
+            const email = params.get('email');
+            dispatch(getUserByEmailAction(email));
+        }
+    }, []);
 
     return (
         <nav className="navbar navbar-expand-sm">
@@ -126,13 +140,13 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item dropdown" >
-                            <Link className="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div className="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <Avatar avatar={user_login.avatar} size="small"/>
-                            </Link>
+                            </div>
 
                             <ul className="dropdown-menu">
                                 <li>
-                                    <Link className="dropdown-item" to={'/profile'} >
+                                    <Link className="dropdown-item" to={'/my-profile'} >
                                        Profile
                                     </Link>
                                 </li>

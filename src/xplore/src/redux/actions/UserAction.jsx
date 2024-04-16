@@ -92,7 +92,6 @@ export const getUserByEmailAction = (email) => {
                     localStorage.setItem(RoleKey, "3");
 
                 const userToken = await userService.getUserToken(email);
-                console.log("userToken: ", userToken)
 
                 if (userToken.status === 200) {
                     // Store token in localStorage
