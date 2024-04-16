@@ -81,7 +81,7 @@ export default function Home() {
 
             <section className="container my-5 py-5 gradient-bg">
                 <h4>
-                    <i class="fa-solid fa-chart-line"></i> Trending on Xplore
+                    <i className="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h4>
                 <div className="d-flex flex-column gap-3">
                 <div className="row d-flex flex-row justify-content-between">
@@ -107,7 +107,7 @@ export default function Home() {
                         <div className="d-flex align-items-center justify-content-between">
                             <h4>Explore more</h4>
                             <Link to="#" className="link-nm button1">
-                                See all posts <i class="fa-solid fa-check"></i>
+                                See all posts <i className="fa-solid fa-check"></i>
                             </Link>
                         </div>
 
@@ -131,7 +131,7 @@ export default function Home() {
                                 <button className="topic title1">Technology</button>
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all topics <i class="fa-solid fa-arrow-right"></i>
+                                See all topics <i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                         <div className="row">
@@ -142,7 +142,7 @@ export default function Home() {
                                 <AuthorHorizontal />
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all popular writers <i class="fa-solid fa-arrow-right"></i>
+                                See all popular writers <i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>

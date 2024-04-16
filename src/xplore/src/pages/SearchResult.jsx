@@ -6,6 +6,7 @@ import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
 
 import { useState, useEffect, useRef } from 'react';
+import {useSelector} from 'react-redux'
 import { useNavigate, useLocation   } from 'react-router-dom';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
@@ -33,10 +34,10 @@ function ResultText({type, searchText}){
 
 }
 
-const fetchData = async (type, search, result, setResult, setLoading) => {
+const fetchData = async (type, search, setResult, setLoading, id_user) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`http://localhost:8080/api/${type}/search/${search}`);
+      const response = await fetch(`http://localhost:8080/api/${type}/search/${search}/user/${id_user}`);
       const jsonData = await response.json();
       
 
@@ -53,25 +54,26 @@ export default function SearchResult() {
     const searchParams = new URLSearchParams(location.search);
     const searchText = searchParams.get('searchText');
     const type = searchParams.get('type');
+    // const topic = searchParams.get('topic');
+
+    const {user_login} = useSelector(state => state.UserReducer)
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState({});
 
     useEffect(()=>{
-        
-        console.log(loading);
         if (type === "all"){
-            fetchData("post",searchText, result, setResult, setLoading );
-            fetchData("topic",searchText, result, setResult, setLoading);
-            fetchData("user",searchText, result, setResult, setLoading);
+            fetchData("post",searchText, setResult, setLoading,  user_login.id_user);
+            fetchData("topic",searchText, setResult, setLoading, user_login.id_user);
+            fetchData("user",searchText, setResult, setLoading, user_login.id_user);
         } else
-            fetchData(type,searchText, result, setResult, setLoading);
+            fetchData(type,searchText, setResult, setLoading, user_login.id_user);
         
     
     },[searchText,type])
 
-    console.log(result);
-    console.log(loading);
+    // console.log(result);
+    // console.log(loading);
 
     return (
     <div className="search-result-page">

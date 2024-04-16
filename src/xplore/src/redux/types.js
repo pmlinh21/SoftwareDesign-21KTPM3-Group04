@@ -19,3 +19,5 @@ export const GET_TOP_POSTS = "GET_TOP_POSTS";
 
 export const GET_POST_BY_ID = "GET_POST_BY_ID";
 
+export const GET_POST_BY_USER = "GET_POST_BY_USER";
+
