@@ -6,7 +6,7 @@ export class PostService extends BaseService {
         return this.get(`post/${id}`);
     }
     
-    // Api 1: Get post by user
+    // Api 2: Get post by user
     getPostByUser = (id_user) => {
       console.log("id_user: ", id_user);
       return this.get(`post/user/${id_user}`);

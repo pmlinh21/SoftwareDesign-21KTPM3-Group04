@@ -9,7 +9,7 @@ export const getPostByUser = (id_user) => {
             if (result.status === 200) {
                 dispatch({
                     type: GET_POST_BY_USER,
-                    post: result.data.content
+                    posts: result.data.content
                 });
                 
             }

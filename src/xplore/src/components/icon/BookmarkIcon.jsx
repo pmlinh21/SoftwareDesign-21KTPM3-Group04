@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import './BookmarkIcon.css';
+// import './BookmarkIcon.css';
 
-export default function BookmarkIcon({id_post, is_saved}){
+export default function BookmarkIcon({id_post, is_saved, set_absolute}){
     const [displayPopup, setDisplayPopup] = useState(false)
 
     function handleBookmarkClick(){
@@ -11,9 +11,10 @@ export default function BookmarkIcon({id_post, is_saved}){
     }
 
     const icon_color = is_saved ? 'text-scheme-primary' : 'text-scheme-sub-text'
+    const is_absolute = set_absolute ? 'position-absolute' : ''
 
     return(
-        <button className="bookmard-icon btn position-absolute" onClick={handleBookmarkClick}>
+        <button className={`${is_absolute} bookmard-icon btn`} onClick={handleBookmarkClick}>
             <i className={`${icon_color} fa-solid fa-bookmark h-100`} ></i>
         </button>
 

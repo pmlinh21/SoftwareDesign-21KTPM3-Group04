@@ -1,7 +1,7 @@
 import { GET_ALL_POSTS, GET_TOP_POSTS, GET_POST_BY_USER } from "../types";
 
 export const stateDefault = {
-    post: [],
+    posts: [],
     topPosts: [],
 };
 
@@ -10,7 +10,7 @@ export const PostReducer = (state = stateDefault, action) => {
         case GET_POST_BY_USER:{
             return { 
                 ...state, 
-                post: [...action.post] 
+                posts: [...action.posts] 
             };
         }
         case GET_TOP_POSTS: {

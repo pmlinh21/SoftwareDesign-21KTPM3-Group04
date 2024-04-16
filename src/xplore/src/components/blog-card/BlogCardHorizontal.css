@@ -26,3 +26,7 @@
 .blog-card-horizontal .title-text{
     -webkit-line-clamp: 2;
 }
+
+.blog-card-horizontal .bookmard-icon{
+    margin-left: auto
+}

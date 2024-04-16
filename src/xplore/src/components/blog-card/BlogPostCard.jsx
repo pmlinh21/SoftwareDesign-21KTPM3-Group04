@@ -16,12 +16,12 @@ export default function BlogPostCard(props) {
         <div className="blog-post-card  d-flex flex-wrap bg-white p-0">
 
             <div className="col-12 thumbnail-container bg-white p-0 m-0 position-relative">
-                <BookmarkIcon id_post={id_post} is_saved={is_saved.length > 0}/>
+                <BookmarkIcon id_post={id_post} is_saved={is_saved.length > 0} set_absolute={true}/>
                 <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
             </div>
             
             {
-                list_topic.length > 0 ?
+                list_topic?.length > 0 ?
                 (
                     <div className="row col-12 m-0 mt-4 mb-2">
                         <p className="col-auto title3 text-black m-0 p-2 rounded-1 bg-blue-100">
@@ -52,12 +52,12 @@ export default function BlogPostCard(props) {
             <div className="row col-12 d-flex align-items-center justify-content-between p-0 m-0">
                 <div className="col-8 d-flex align-items-center gap-2 p-0">
                     <div className="col-3">
-                        <Avatar avatar={author.author_avatar} size="small"/>
+                        <Avatar avatar={author?.author_avatar} size="small"/>
                     </div>
 
                     <div className="col-9 row d-flex flex-column align-items-start gap-1 ">
                         <p className="col-auto title2 text-black m-0 p-0">
-                            {author.fullname || "Author name"}
+                            {author?.fullname || "Author name"}
                         </p>
                         <p className="col-auto support text-scheme-sub-text m-0 p-0">
                             {(publish_time && formatToMDY(publish_time)) || "Aug 6, 2024"}

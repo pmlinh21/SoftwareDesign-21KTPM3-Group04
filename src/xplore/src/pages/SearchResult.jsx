@@ -63,7 +63,7 @@ export default function SearchResult() {
 
     useEffect(()=>{
         if (type === "all"){
-            fetchData("post",searchText, setResult, setLoading,  );
+            fetchData("post",searchText, setResult, setLoading,  user_login.id_user);
             fetchData("topic",searchText, setResult, setLoading, user_login.id_user);
             fetchData("user",searchText, setResult, setLoading, user_login.id_user);
         } else

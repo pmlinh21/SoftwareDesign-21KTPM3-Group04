@@ -9,23 +9,56 @@ const LIKE_NOTI = 1, RESPONSE_NOTI = 2, REPLY_NOTI = 3, SUBSCRIBE_NOTI = 4
 
 
 const getTrendingPost = async (req,res) => {
+    const {id_user} = req.params
     try{
-        const posts = await model.reading_history.findAll({
+        const readingHistories = await model.reading_history.findAll({
             where: {
                 reading_time: {
-                    [Op.gte]: literal(`NOW() - INTERVAL '24 hour'`), // Greater than or equal to 24 hours ago
+                    [Op.gte]: literal(`NOW() - INTERVAL '72 hour'`), // Greater than or equal to 24 hours ago
                 },
             },
             group: ['id_post'],
             attributes: [
-                'id_post',
+                "id_post",
                 [sequelize.fn('count', '*'), 'readingCount'],
             ],
             order: [[sequelize.col('readingCount'), 'DESC']], // Order by userCount descending
-            limit: 3,
+            limit: 6,
         });
-        
-        console.log(posts)
+
+        const postIds = readingHistories.map(history => history.id_post);
+
+        const posts = await model.post.findAll({
+            where: {
+                id_post: postIds,
+            },
+            include: [
+                {
+                    model: model.topic,
+                    as: "list_topic",
+                    attributes: ["topic"],
+                    through: { attributes: [] },
+                },
+                {
+                    model: model.user,
+                    as: "author",
+                    attributes: ["fullname", "avatar", "id_user"],
+                },
+                {
+                    model: model.list,
+                    as: "is_saved",
+                    attributes: ["id_list"],
+                    through: { attributes: [] },
+                    where: {
+                        id_user: id_user
+                    },
+                    required: false
+                },
+            ],
+            attributes: ["id_post", "title", "content", "publish_time", "thumbnail"],
+            order: [[sequelize.literal(`ARRAY_POSITION(ARRAY[${postIds.join(',')}], "post"."id_post")`)]],
+        });
+
         successCode(res, posts,"Post found")
     }
     catch(err){
@@ -36,13 +69,37 @@ const getTrendingPost = async (req,res) => {
 }
 
 const getPostByID = async (req,res) => {
-    const {id_post} = req.params;
+    const {id_post, id_user} = req.params;
 
     try{
         const post = await model.post.findOne({
             where:{
                 id_post: id_post
-            }
+            },
+            include: [
+                {
+                    model: model.topic,
+                    as: "list_topic",
+                    attributes: ["topic"],
+                    through: { attributes: [] },
+                },
+                {
+                    model: model.user,
+                    as: "author",
+                    attributes: ["fullname", "avatar", "id_user"],
+                },
+                {
+                    model: model.list,
+                    as: "is_saved",
+                    attributes: ["id_list"],
+                    through: { attributes: [] },
+                    where: {
+                        id_user: id_user
+                    },
+                    required: false
+                },
+            ],
+            attributes: ["title", "content", "publish_time", "thumbnail", "id_post"]
         }); 
 
         if (!post) {

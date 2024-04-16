@@ -24,12 +24,12 @@ const {
     getPostMonthlyData
 } = require('../controllers/postController')
 
-postRoute.get("/trending", getTrendingPost)
+postRoute.get("/trending-view/user/:id_user", getTrendingPost)
 
 postRoute.get("/monthly-data", getPostMonthlyData)
 
 
-postRoute.get("/:id_post", getPostByID)
+postRoute.get("/:id_post/user/:id_user", getPostByID)
 
 
 postRoute.get("/search/:keyword/user/:id_user", getPostByKeyword)
