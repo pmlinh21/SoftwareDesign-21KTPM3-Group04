@@ -2,48 +2,48 @@
 @import url("../../styles/commons.css");
 
 .blog-card {
-    position: relative;
     border-radius: 10px;
     background-color: var(--white);
+    height: 100%;
 }
 
-.blog-card.horizontal {
-    padding: 24px;
-}
-
-.blog-card.horizontal.no-thumb {
-    box-sizing: border-box;
-    /* height: 187px; */
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.blog-card.horizontal.no-thumb .top {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.blog-card.horizontal.no-thumb .top .topic-plain {
+.blog-card .topic-plain {
     color: var(--scheme-primary);
     text-transform: uppercase;
 }
 
-.blog-card.horizontal.no-thumb .top .bookmark {
+.blog-card .bookmark {
     color: var(--neutral-100);
     font-size: 18px;
 }
 
-.blog-card.horizontal.no-thumb .center {
+.blog-card .center {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
 
     max-height: 2.5em;
-    line-height: 1.25em;
+    line-height: 1.25em;    
 }
 
+.blog-card .author-name {
+    color: var(--black);
+}
+
+.blog-card .post-info {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    color: var(--scheme-sub-text);
+}
+
+.avatar {
+    width: 32px !important;
+    height: 32px  !important;
+    border-radius: 50%;
+}
+
+/*
 .blog-card.horizontal.no-thumb .bottom {
     display: flex;
     flex-direction: row;
@@ -63,16 +63,9 @@
     align-items: flex-start;
 }
 
-.blog-card.horizontal.no-thumb .bottom .bottom-left .info-container .author-name {
-    color: var(--black);
-}
 
-.blog-card.horizontal.no-thumb .bottom .bottom-left .info-container .post-info {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    color: var(--scheme-sub-text);
-}
+
+
 
 .blog-card.horizontal.no-thumb .bottom .bottom-right {
     display: flex;
@@ -80,9 +73,4 @@
     align-items: center;
     gap: 8px;
 }
-
-.avatar {
-    width: 32px !important;
-    height: 32px  !important;
-    border-radius: 50%;
-}
+*/
