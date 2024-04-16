@@ -1,6 +1,6 @@
 const db = require('../models/index');
 const sequelize = db.sequelize;
-const { Op, literal } = require("sequelize");
+const { Op, literal, where } = require("sequelize");
 const init_models = require('../models/init-models');
 const model = init_models(sequelize);
 require('dotenv').config()
@@ -93,17 +93,45 @@ const signup = async(req, res) =>{
 
 // GET: Search account
 const searchAccountByName = async (req, res) => {
-    let { fullname } = req.params
+    let { fullname, id_user } = req.params
 
     try {
-        let user = await model.user.findAll({
+        let users = await model.user.findAll({
             where:{
                 fullname: {
                     [Op.like]: `%${fullname}%`
                 }
-            } 
+            }
         })
-            successCode(res, user, "Account found")
+        let blocks = await model.block.findAll({
+            attributes: ['block'],
+            where:{
+                user: id_user
+            }
+        })
+        console.log(users)
+        console.log(blocks)
+
+        users = users.filter(user => {
+            return !blocks.find(block => block.block === user.id_user);
+        });
+
+        // thêm attribute ['is_subscribe'] nếu item trong users subscribe user có id_user
+        for (let user of users) {
+            let isSubscribed = await model.subscribe.findOne({
+                where: {
+                    user: user.id_user,
+                    subscriber: id_user
+                }
+            });
+
+            user.dataValues.is_subscribe = isSubscribed ? true : false;
+        }
+
+        if(users.length > 0)
+            successCode(res, users, "Account found")
+        else
+            failCode(res, "", "Not found")
     } catch (err) {
         console.log(err)
         errorCode(res,"Internal Server Error")
