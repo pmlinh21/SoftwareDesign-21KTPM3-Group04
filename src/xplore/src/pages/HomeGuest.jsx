@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 
 import { getTopPostsAction } from '../redux/actions/PostAction';
+import { RoleKey } from "../util/config";
 
 import "../styles/commons.css";
 import "slick-carousel/slick/slick.css";
@@ -19,6 +20,12 @@ import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
 
 export default function Home() {
+
+    const roleId = localStorage.getItem(RoleKey);
+    if (!roleId) {
+        localStorage.setItem(RoleKey, JSON.stringify(4));
+    }
+
     const settings = {
         infinite: true,
         speed: 500,
@@ -186,5 +193,5 @@ export default function Home() {
 
             </section>
         </div>
-    );
+    )
 }
