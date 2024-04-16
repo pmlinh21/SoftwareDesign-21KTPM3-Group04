@@ -57,23 +57,47 @@ const getPostByID = async (req,res) => {
     }
 }
 
-const getPostByKeyword = async (req,res) => {
-    const {keyword} = req.params;
+const getPostByKeyword = async (req, res) => {
+    const { keyword, id_user } = req.params;
 
-    try{
+    try {
         const posts = await model.post.findAll({
             where: {
-              content: {
-                [Op.like]: `%${keyword}%`,
-              },
+                content: {
+                    [Op.like]: `%${keyword}%`,
+                },
             },
-          });
+            include: [
+                {
+                    model: model.topic,
+                    as: "list_topic",
+                    attributes: ["topic"],
+                    through: { attributes: [] },
+                },
+                {
+                    model: model.user,
+                    as: "author",
+                    attributes: ["fullname", "avatar", "id_user"],
+                },
+                {
+                    model: model.list,
+                    as: "is_saved",
+                    attributes: ["id_list"],
+                    through: { attributes: [] },
+                    where: {
+                        id_user: id_user
+                    },
+                    required: false
+                },
+            ],
+            attributes: ["title", "content", "publish_time", "thumbnail", "id_post"]
+        });
 
-        successCode(res,posts,"Get thành công")
+        successCode(res, posts, "Get thành công")
     }
-    catch(err){
+    catch (err) {
         console.log(err)
-        errorCode(res,"Internal Server Error")
+        errorCode(res, "Internal Server Error")
     }
 
 }

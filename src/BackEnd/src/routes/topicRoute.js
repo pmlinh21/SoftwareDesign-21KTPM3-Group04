@@ -6,7 +6,7 @@ const { getAllTopic, searchTopicByName, searchTopicPostByID, getTrendingTopics }
 topicRoute.get("/", getAllTopic)
 
 // GET: Search topic by name
-topicRoute.get("/search/:topic_name", searchTopicByName)
+topicRoute.get("/search/:topic_name/user/:id_user", searchTopicByName)
 
 // GET: Search topic by id and get all posts by following topic
 topicRoute.get("/search/:id/post", searchTopicPostByID)

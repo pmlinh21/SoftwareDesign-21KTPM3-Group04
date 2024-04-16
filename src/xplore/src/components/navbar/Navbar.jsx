@@ -54,7 +54,7 @@ export default function Navbar() {
                                 <Link className="nav-link button1" to="/about-us">About us</Link>
                             </li>
                             <li className="nav-item subtitle1">
-                                <span className="nav-link" onClick={showTopicDropdown}>
+                                <span className="nav-link button1 " onClick={showTopicDropdown}>
                                     Topics
                                     <i className="fa-solid fa-chevron-down ms-2"></i>
                                 </span>

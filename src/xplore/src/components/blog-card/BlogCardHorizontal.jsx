@@ -53,13 +53,13 @@ export default function BlogCardHorizontal(props) {
                                         {publish_date || "Aug 6"}
                                     </p>
                                     <p className="support mb-0">
-                                        <i class="fa-solid fa-message"></i>
+                                        <i className="fa-solid fa-message"></i>
                                     </p>
                                     <p className="support mb-0">
                                         {response || "000"}
                                     </p>
                                     <p className="support mb-0">
-                                        <i class="fa-solid fa-heart"></i>
+                                        <i className="fa-solid fa-heart"></i>
                                     </p>
                                     <p className="support mb-0">
                                         {like || "000"}

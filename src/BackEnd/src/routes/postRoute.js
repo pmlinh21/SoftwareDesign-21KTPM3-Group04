@@ -24,31 +24,21 @@ const {
     getPostMonthlyData
 } = require('../controllers/postController')
 
-postRoute.get("/reading_history", getTrendingPost)
+postRoute.get("/trending", getTrendingPost)
 
 postRoute.get("/monthly-data", getPostMonthlyData)
 
+
 postRoute.get("/:id_post", getPostByID)
 
-postRoute.get("/search/:keyword", getPostByKeyword)
 
-postRoute.get("/author/:id_user", getPostByUser)
+postRoute.get("/search/:keyword/user/:id_user", getPostByKeyword)
 
-postRoute.get("/like/:id_post", getLikeOfPost)
 
-postRoute.get("/response/:id_post", getResponseOfPost)
+postRoute.get("/user/:id_user", getPostByUser)
 
 
 postRoute.post("", createPost)
-
-postRoute.post("/like", likePost)
-
-postRoute.post("/response", responsePost)
-
-postRoute.post("/reply", replyResponse)
-
-// postRoute.post("/highlight", createHighlight)
-
 
 postRoute.put("", updatePost)
 
@@ -58,14 +48,29 @@ postRoute.put("/publish_time/:id_post", updatePublishTimeOfPost)
 
 postRoute.put("/schedule_time/:id_post", updateScheduleTimeOfPost)
 
-
 postRoute.delete("", deletePost)
+
+
+postRoute.get("/like/:id_post", getLikeOfPost)
+
+postRoute.post("/like", likePost)
 
 postRoute.delete("/like", unlikePost)
 
-postRoute.delete("/reply", deleteReply)
+
+postRoute.get("/response/:id_post", getResponseOfPost)
+
+postRoute.post("/response", responsePost)
 
 postRoute.delete("/response", deleteResponse)
+
+
+postRoute.post("/reply", replyResponse)
+
+postRoute.delete("/reply", deleteReply)
+
+
+// postRoute.post("/highlight", createHighlight)
 
 // postRoute.delete("/highlight/:id_highlight", deleteHighlight)
 

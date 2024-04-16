@@ -28,8 +28,17 @@
 
 .blog-post-card .title-text{
     -webkit-line-clamp: 2;
+    min-height: 4rem;
 }
 
 .blog-post-card a{
     text-decoration: none;
+}
+
+.blog-post-card .title-block{
+    min-height: 8rem;
+}
+
+.blog-post-card .topic-block{
+    min-height: 1.5rem;
 }
