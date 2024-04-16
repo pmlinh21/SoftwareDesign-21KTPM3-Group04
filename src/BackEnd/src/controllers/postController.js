@@ -126,7 +126,13 @@ const getPostByID = async (req,res) => {
                     required: false
                 },
             ],
-            attributes: ["title", "content", "publish_time", "thumbnail", "id_post"]
+            attributes: [
+                "title", "content", "publish_time", "thumbnail", "id_post",
+                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
+                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+            ],
+            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
+            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"] 
         }); 
 
         if (!post) {
