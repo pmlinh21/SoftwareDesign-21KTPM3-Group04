@@ -4,11 +4,13 @@ import "../styles/commons.css";
 import "./LoginPopup.css"
 import { loginAction } from "../redux/actions/UserAction";
 import { DOMAIN } from "../util/config";
+import Loading from '../components/loading/Loading';
 
 export default function LoginPopup(props) {
     const dispatch = useDispatch();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false);
 
     function handleLogin(e) {
         e.preventDefault()
@@ -19,7 +21,13 @@ export default function LoginPopup(props) {
         };
         console.log("user_login: ", user_login);
 
-        dispatch(loginAction(user_login));
+        setLoading(true);
+        dispatch(loginAction(user_login)).then(() => {
+            setLoading(false); 
+        })
+        .catch(() => {
+            setLoading(false);
+        });
     }
 
     function handleSigninWithGoogle() {
@@ -29,6 +37,7 @@ export default function LoginPopup(props) {
     return (
         <div className="login-popup-overlay">
             <div className="login-popup">
+                {loading && <Loading/>}
                 <i className="fa-solid fa-xmark close-button" onClick={props.toggle}></i>
                 <div>
                     <div className="navbar-brand-login">
