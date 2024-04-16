@@ -9,7 +9,7 @@ export class BaseService {
     
     addCommonHeaders = (headers = {}) => {
         const role = this.getUserRole();
-        console.log("role: ", role)
+        // console.log("role: ", role)
         const Token = localStorage.getItem(TokenKey);
         if(Token){
             return {

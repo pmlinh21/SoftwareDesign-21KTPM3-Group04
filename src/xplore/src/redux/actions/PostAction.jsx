@@ -1,5 +1,8 @@
 import { postService } from "../../services/PostService";
-import { GET_POST_BY_USER, GET_TOP_POSTS } from "../types";
+import { 
+    GET_POST_BY_USER, 
+    GET_TOP_POSTS,
+    CREATE_POST } from "../types";
 
 export const getPostByUser = (id_user) => {
     return async (dispatch) => {
@@ -44,3 +47,23 @@ export const getTopPostsAction = () => {
         }
     };
 };
+
+export const createPostAction = (postInfo) => {
+    return async (dispatch) => {
+        try {
+
+            const result = await postService.createPost(postInfo);
+            
+            if (result.status === 200) {
+                dispatch({
+                    type: CREATE_POST,
+                    posts: result.data.content
+                });
+                
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+}

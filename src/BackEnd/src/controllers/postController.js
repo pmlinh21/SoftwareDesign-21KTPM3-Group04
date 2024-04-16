@@ -5,7 +5,7 @@ const init_models = require("../models/init-models");
 const model = init_models(sequelize);
 const { successCode, failCode, errorCode } = require("../config/response");
 
-const LIKE_NOTI = 1, RESPONSE_NOTI = 2, REPLY_NOTI = 3, SUBSCRIBE_NOTI = 4
+const {LIKE_NOTI, RESPONSE_NOTI, REPLY_NOTI} = require("../config/noti_type")
 
 
 const getTrendingPost = async (req,res) => {
@@ -216,17 +216,26 @@ const getPostByUser = async (req,res) => {
     const {id_user} = req.params;
 
     try{
-        const post = await model.post.findAll({
+        const posts = await model.post.findAll({
             where:{
                 id_user: id_user
-            }
+            },
+            include: [
+                {
+                    model: model.topic,
+                    as: "list_topic",
+                    attributes: ["topic"],
+                    through: { attributes: [] },
+                    
+                },
+            ],
+            attributes: [
+                "title", "content", "publish_time", "thumbnail", "id_post",
+                "creation_time", "status", "is_member_only"
+            ],
         }); 
 
-        if (!post) {
-            failCode(res, null, "Invalid ID")
-        }
-
-        successCode(res,post,"Post found")
+        successCode(res,posts,"Post found")
     }
     catch(err){
         console.log(err)
@@ -310,12 +319,12 @@ const getResponseOfPost = async (req,res) => {
 
 const createPost = async (req,res) => {
     const {id_user, title, content, thumbnail,creation_time,
-            status, publish_time, is_member_only} = req.body;
+            publish_time, is_member_only, status} = req.body;
 
     try{
         const post = await model.post.create({
             id_user, title, content, thumbnail,creation_time,
-            status: 0, publish_time, is_member_only
+            status: status, publish_time, is_member_only
         }); 
 
         if (!post) {
@@ -488,7 +497,7 @@ const likePost = async (req,res) => {
             receiver: post.id_user,
             id_post: id_post,
             id_response: null,
-            noti_type: 1,
+            noti_type: LIKE_NOTI,
             noti_time: new Date(),
         }); 
 
@@ -551,7 +560,7 @@ const responsePost = async (req,res) => {
             receiver: post.id_user,
             id_post: id_post,
             id_response: data.id_response,
-            noti_type: 2,
+            noti_type: RESPONSE_NOTI,
             noti_time: response_time,
         });  
 

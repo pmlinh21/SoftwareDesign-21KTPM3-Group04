@@ -377,6 +377,10 @@ body {
 /*background with color*/
 
 .bg-black{
+    background-color: var(--white)
+}
+
+.bg-black{
     background-color: var(--black)
 }
 

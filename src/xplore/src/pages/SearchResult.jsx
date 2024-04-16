@@ -1,16 +1,19 @@
 import React from 'react';
 import "../styles/commons.css";
 import "./SearchResult.css"
+
+import { useState, useEffect } from 'react';
+import {useSelector} from 'react-redux'
+import { useLocation   } from 'react-router-dom';
+
 import Search from '../components/search/Search'
 import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
-
-import { useState, useEffect, useRef } from 'react';
-import {useSelector} from 'react-redux'
-import { useNavigate, useLocation   } from 'react-router-dom';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import Loading from '../components/loading/Loading';
+
+import { DOMAIN } from "../util/config";
 
 function ResultText({type, searchText}){
     return(
@@ -37,7 +40,7 @@ function ResultText({type, searchText}){
 const fetchData = async (type, search, setResult, setLoading, id_user) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`http://localhost:8080/api/${type}/search/${search}/user/${id_user}`);
+      const response = await fetch(`${DOMAIN}/api/${type}/search/${search}/user/${id_user}`);
       const jsonData = await response.json();
       
 
@@ -54,7 +57,6 @@ export default function SearchResult() {
     const searchParams = new URLSearchParams(location.search);
     const searchText = searchParams.get('searchText');
     const type = searchParams.get('type');
-    // const topic = searchParams.get('topic');
 
     const {user_login} = useSelector(state => state.UserReducer)
 

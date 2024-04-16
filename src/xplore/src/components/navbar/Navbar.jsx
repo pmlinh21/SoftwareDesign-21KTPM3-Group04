@@ -37,7 +37,7 @@ export default function Navbar() {
     }, [dispatch]);
    
     const topics = useSelector(state => state.TopicReducer.topics);
-    console.log("topics: ", topics);
+    // console.log("topics: ", topics);
 
     // Set up login and signup popups
     const [showLoginPopup, setShowLoginPopup] = useState(false);

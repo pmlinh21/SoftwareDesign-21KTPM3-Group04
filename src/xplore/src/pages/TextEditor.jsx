@@ -58,6 +58,7 @@ export default function TextEditor({content, setContent}){
 
     function handleData(event, editor) {
         setContent(editor.getData())
+		console.log(editor.getData())
     }
 
     return(
@@ -66,20 +67,24 @@ export default function TextEditor({content, setContent}){
                 editor={ Editor }
                 config={ editorConfiguration }
                 data={content}
-                
                 onReady={ editor => {
                     // You can store the "editor" and use when it is needed.
                     console.log( 'Editor is ready to use!', editor );
+					editor.editing.view.change((writer) => {
+						writer.setStyle(
+							"height",
+							"40rem",
+							editor.editing.view.document.getRoot()
+						);
+						});
                 } }
 
                 onChange={ ( event ) => {
-                    // console.log( event );
                 } }
 
                 onBlur={handleData}
 
                 onFocus={ ( event, editor ) => {
-                    // console.log( 'Focus.', editor );
                 } }
         ></CKEditor>
         </>

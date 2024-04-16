@@ -10,7 +10,9 @@ import Loading from '../components/loading/Loading';
 import Search from '../components/search/Search'
 import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
+
 import {formatCapitalCase} from '../util/formatText';
+import { DOMAIN } from "../util/config";
 
 function ResultText({topic_name, related_posts, followerCount}){
     return(
@@ -20,7 +22,7 @@ function ResultText({topic_name, related_posts, followerCount}){
                     {formatCapitalCase(topic_name)}
                 </h5>
                 <p className="p2 text-scheme-sub-text p-0 m-0 mt-2 col-12 text-center">
-                    Topic ~ {followerCount} followers ~ {related_posts} related posts
+                    Topic • {followerCount} followers • {related_posts} related posts
                 </p>
             </div>
         </>
@@ -31,7 +33,7 @@ function ResultText({topic_name, related_posts, followerCount}){
 const fetchPost = async (id_topic, setResult, setLoading, id_user) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`http://localhost:8080/api/topic/${id_topic}/post/user/${id_user}`);
+      const response = await fetch(`${DOMAIN}/topic/${id_topic}/post/user/${id_user}`);
       const jsonData = await response.json();
       setResult([...jsonData.content]);
 
@@ -45,7 +47,7 @@ const fetchPost = async (id_topic, setResult, setLoading, id_user) => {
 const fetchFollowerCount = async (id_topic, setResult, setLoading) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`http://localhost:8080/api/topic/${id_topic}/follower-count`);
+      const response = await fetch(`${DOMAIN}/api/topic/${id_topic}/follower-count`);
       const jsonData = await response.json();
       setResult(jsonData.content.followerCount);
 
@@ -67,7 +69,7 @@ export default function ExploreTopic() {
 
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState({});
-    const [followerCount, setFollowerCount] = useState(0)
+    const [followerCount, setFollowerCount] = useState(null)
 
     useEffect(()=>{
         fetchPost(id_topic, setPost, setLoading, user_login.id_user);
