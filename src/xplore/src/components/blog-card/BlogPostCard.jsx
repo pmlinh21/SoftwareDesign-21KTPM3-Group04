@@ -10,7 +10,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogPostCard(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, response, like, is_saved} = props;
+        publish_time, is_saved} = props;
 
     return (
         <div className="blog-post-card  d-flex flex-wrap bg-white p-0">

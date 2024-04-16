@@ -1,6 +1,6 @@
 const db = require("../models/index");
 const sequelize = db.sequelize;
-const { Op, literal } = require("sequelize");
+const { Op, literal, fn, col } = require("sequelize");
 const init_models = require("../models/init-models");
 const model = init_models(sequelize);
 const { successCode, failCode, errorCode } = require("../config/response");
@@ -40,6 +40,16 @@ const getTrendingPost = async (req,res) => {
                     through: { attributes: [] },
                 },
                 {
+                    model: model.like_post,
+                    as: "like_posts",
+                    attributes: [],
+                },
+                {
+                    model: model.response,
+                    as: "responses",
+                    attributes: [],
+                },
+                {
                     model: model.user,
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
@@ -55,7 +65,13 @@ const getTrendingPost = async (req,res) => {
                     required: false
                 },
             ],
-            attributes: ["id_post", "title", "content", "publish_time", "thumbnail"],
+            attributes: [
+                "id_post", "title", "content", "publish_time", "thumbnail",
+                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
+                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+            ],
+            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
+            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"] ,
             order: [[sequelize.literal(`ARRAY_POSITION(ARRAY[${postIds.join(',')}], "post"."id_post")`)]],
         });
 
@@ -132,6 +148,16 @@ const getPostByKeyword = async (req, res) => {
                     through: { attributes: [] },
                 },
                 {
+                    model: model.like_post,
+                    as: "like_posts",
+                    attributes: [],
+                },
+                {
+                    model: model.response,
+                    as: "responses",
+                    attributes: [],
+                },
+                {
                     model: model.user,
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
@@ -147,7 +173,13 @@ const getPostByKeyword = async (req, res) => {
                     required: false
                 },
             ],
-            attributes: ["title", "content", "publish_time", "thumbnail", "id_post"]
+            attributes: [
+                "title", "content", "publish_time", "thumbnail", "id_post",
+                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
+                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+            ],
+            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
+            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"]        
         });
 
         successCode(res, posts, "Get thành công")

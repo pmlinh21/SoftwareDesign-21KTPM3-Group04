@@ -10,7 +10,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, response, like, is_saved} = props;
+        publish_time, responseCount, likeCount, is_saved} = props;
 
 
     return (
@@ -68,13 +68,13 @@ export default function BlogCardHorizontal(props) {
                                         <i className="fa-solid fa-message"></i>
                                     </p>
                                     <p className="support mb-0">
-                                        {response || "000"}
+                                        {responseCount || "000"}
                                     </p>
                                     <p className="support mb-0">
                                         <i className="fa-solid fa-heart"></i>
                                     </p>
                                     <p className="support mb-0">
-                                        {like || "000"}
+                                        {likeCount || "000"}
                                     </p>
                                 </div>
                             </div>
