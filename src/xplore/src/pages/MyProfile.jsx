@@ -21,9 +21,11 @@ export default function MyProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <button className="btn-nm prim-btn button1">
-                        <i class="fa-regular fa-pen-to-square me-1"></i> Edit profile
-                    </button>
+                    <a href='/edit-profile'>
+                        <button className="btn-nm prim-btn button1">
+                            <i class="fa-regular fa-pen-to-square me-1"></i> Edit profile
+                        </button>
+                    </a>
                     <button className="btn-nm tert-btn button1">
                         <i class="fa-solid fa-user-plus me-1"></i> Share profile
                     </button>
