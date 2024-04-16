@@ -16,7 +16,7 @@ export default function BlogPostCard(props) {
         <div className="blog-post-card  d-flex flex-wrap bg-white p-0">
 
             <div className="col-12 thumbnail-container bg-white p-0 m-0 position-relative">
-                <BookmarkIcon id_post={id_post} is_saved={is_saved.length > 0} set_absolute={true}/>
+                <BookmarkIcon id_post={id_post} is_saved={is_saved?.length > 0} set_absolute={true}/>
                 <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
             </div>
             

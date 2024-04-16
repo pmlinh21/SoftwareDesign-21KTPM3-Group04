@@ -100,6 +100,17 @@ const getPostByID = async (req,res) => {
                     through: { attributes: [] },
                 },
                 {
+                    model: model.like_post,
+                    as: "like_posts",
+                    attributes: [],
+                },
+                {
+                    model: model.response,
+                    as: "responses",
+                    attributes: [],
+                    
+                },
+                {
                     model: model.user,
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
@@ -132,11 +143,11 @@ const getPostByID = async (req,res) => {
 
 const getPostByKeyword = async (req, res) => {
     const { keyword, id_user } = req.params;
-
+    console.log(keyword)
     try {
         const posts = await model.post.findAll({
             where: {
-                content: {
+                title: {
                     [Op.like]: `%${keyword}%`,
                 },
             },
@@ -146,16 +157,19 @@ const getPostByKeyword = async (req, res) => {
                     as: "list_topic",
                     attributes: ["topic"],
                     through: { attributes: [] },
+                    
                 },
                 {
                     model: model.like_post,
                     as: "like_posts",
                     attributes: [],
+                    
                 },
                 {
                     model: model.response,
                     as: "responses",
                     attributes: [],
+                    
                 },
                 {
                     model: model.user,
@@ -182,6 +196,7 @@ const getPostByKeyword = async (req, res) => {
             "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"]        
         });
 
+        console.log(posts.length)
         successCode(res, posts, "Get thành công")
     }
     catch (err) {

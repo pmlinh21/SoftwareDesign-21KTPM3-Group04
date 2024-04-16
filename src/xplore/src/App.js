@@ -10,6 +10,7 @@ import Footer from './components/footer/Footer';
 import HomeGuest from './pages/HomeGuest';
 import SearchResult from './pages/SearchResult';
 import Writing from './pages/Writing';
+import ExploreTopic from './pages/ExploreTopic';
 
 export const history = createBrowserHistory();
 
@@ -32,9 +33,9 @@ function App() {
         <Route path="" element={<Layout />}>
           
           <Route path="" element={<HomeGuest />} />
+          <Route path="topic" element={<ExploreTopic />} />
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
-
         </Route>
 
         <Route path="login" element={<SearchResult />} />
