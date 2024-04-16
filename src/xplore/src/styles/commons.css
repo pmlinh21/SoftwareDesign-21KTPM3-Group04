@@ -82,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .title1, .title2, .title3 {
-    font-family: medium-font;
+    font-family: semibold-font;
 }
 
 .button1, .button2, .button3 {
@@ -147,18 +147,18 @@ h6 {
 }
 
 .title1 {
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 20px;
+    line-height: 24px;
 }
 
 .title2 {
-    font-size: 16px;
-    line-height: 18px;
+    font-size: 24px;
+    line-height: 20px;
 }
 
 .title3 {
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 18px;
+    line-height: 18px;
 }
 
 .button1 {

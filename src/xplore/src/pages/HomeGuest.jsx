@@ -31,12 +31,14 @@ export default function Home() {
 
     const dispatch = useDispatch();
 
+    // Lấy data top posts từ backend
     useEffect(() => {
         dispatch(getTopPostsAction());
     }, [dispatch]);
 
     const topPosts = useSelector(state => state.PostReducer.topPosts);
-    console.log("topPosts: ", topPosts);
+    const topHalfOfPosts = topPosts.slice(0, topPosts.length / 2);
+    const bottomHalfOfPosts = topPosts.slice(topPosts.length / 2, topPosts.length);
 
     return (
         <div className='container-fluid'>
@@ -81,15 +83,21 @@ export default function Home() {
                 <h4>
                     <i class="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h4>
-                <div className="d-flex justify-content-between gap-3 mt-5">
-                    <BlogCardNoThumb />
-                    <BlogCardNoThumb />
-                    <BlogCardNoThumb />
+                <div className="d-flex flex-column gap-3">
+                <div className="row d-flex flex-row justify-content-between">
+                {topHalfOfPosts.map((post, index) => (
+                    <div className="col-4">
+                        <BlogCardNoThumb post={post}/>
+                    </div>
+                ))}
                 </div>
-                <div className="d-flex justify-content-between gap-3 mt-3">
-                    <BlogCardNoThumb />
-                    <BlogCardNoThumb />
-                    <BlogCardNoThumb />
+                <div className="row d-flex flex-row justify-content-between">
+                {bottomHalfOfPosts.map((post, index) => (
+                    <div className="col-4">
+                        <BlogCardNoThumb post={post}/>
+                    </div>
+                ))}
+                </div>
                 </div>
             </section>
 
