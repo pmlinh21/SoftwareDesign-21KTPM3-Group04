@@ -12,3 +12,12 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import Loading from '../components/loading/Loading';
 
+function HomeLogin() {
+    return (
+        <div>
+            <Search search="" isResult={false} />
+        </div>
+    );
+}
+export default HomeLogin;
+

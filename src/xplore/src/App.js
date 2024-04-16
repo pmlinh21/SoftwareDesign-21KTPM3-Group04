@@ -11,6 +11,9 @@ import HomeGuest from './pages/HomeGuest';
 import Home from './pages/Home';
 import SearchResult from './pages/SearchResult';
 import Writing from './pages/Writing';
+import MyProfile from './pages/MyProfile';
+import ExploreTopic from './pages/ExploreTopic';
+import HomeLogin from './pages/HomeLogin';
 
 export const history = createBrowserHistory();
 
@@ -37,7 +40,7 @@ function App() {
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
           <Route path="my-profile" element={<MyProfile />} />
-
+          <Route path="home" element={<HomeLogin />} />
         </Route>
 
         <Route path="login" element={<SearchResult />} />
