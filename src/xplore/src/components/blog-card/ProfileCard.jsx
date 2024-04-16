@@ -1,14 +1,15 @@
 import React from "react";
 import "./BlogCardHorizontal.css";
+import "./ProfileCard.css";
 import Avatar from "../avatar/Avatar";
-import BookmarkIcon from "../icon/BookmarkIcon"
 import { formatToMD } from "../../util/formatDate";
+
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
-export default function BlogCardHorizontal(props) {
+export default function ProfileCard(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
         publish_time, responseCount, likeCount, is_saved} = props;
 
@@ -34,9 +35,23 @@ export default function BlogCardHorizontal(props) {
                                     
                                 )
                             }
-                            <BookmarkIcon id_post={id_post} is_saved={is_saved?.length > 0}/>
-                        </div>
+                            <div className="dropdown">
+                                <i className="fa-solid fa-ellipsis" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                </i>
 
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                    <li><a className="dropdown-item" href="#">Edit post</a></li>
+                                    <li><a className="dropdown-item" href="#">Pin post</a></li>
+                                    <li><a className="dropdown-item" href="#">Settings</a></li>
+                                    <li><a className="dropdown-item" href="#">Stats</a></li>
+                                    <li><hr className="dropdown-divider"></hr></li>
+                                    <li><a className="dropdown-item delete-dropdown" href="#">
+                                        <i className="fa-regular fa-trash-can"></i> Delete Post
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
                         <div className="pt-2 mb-0">
                             <p className="title1 text-black title-text long-text">
                                 {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
