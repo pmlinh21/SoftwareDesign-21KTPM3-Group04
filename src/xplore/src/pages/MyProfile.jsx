@@ -7,6 +7,19 @@ import Avatar from '../components/avatar/Avatar';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
+import BlogPostCard from '../components/blog-card/BlogPostCard';
+import ProfileCard from '../components/blog-card/ProfileCard';
+
+let props = {
+    id_post: 1,
+    title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    thumbnail: `https://picsum.photos/id/2/600/600`,
+    list_topic: "First topic",
+    author: "Author name",
+    publish_time: "2021-09-01",
+    is_saved: true
+}
 
 export default function MyProfile() {
     return (
@@ -36,9 +49,9 @@ export default function MyProfile() {
                 <div className=" row mt-5 d-flex flex-row justify-content-between">
                     <div className="col-7 d-flex flex-column gap-2">
                         <h6>Posted</h6>
-                        <BlogCardHorizontal />
-                        <BlogCardHorizontal />
-                        <BlogCardHorizontal />
+                        <ProfileCard {...props}/>
+                        <ProfileCard {...props}/>
+                        <ProfileCard {...props}/>
                     </div>
                     <div className="col-4 d-flex flex-column gap-2">
                         <div className="d-flex flex-row justify-content-between align-items-center">
@@ -47,6 +60,9 @@ export default function MyProfile() {
                         </div>
                         <AuthorHorizontal />
                         <AuthorHorizontal />
+                        <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-2">
+                            See all <i className="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>

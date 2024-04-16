@@ -1,0 +1,6 @@
+@charset "utf-8";
+@import url("../../styles/commons.css");
+
+.delete-dropdown {
+    color: var(--feedback-error);
+}
