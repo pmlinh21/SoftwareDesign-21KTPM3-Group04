@@ -44,8 +44,6 @@ function App() {
           <Route path="home" element={<HomeLogin />} />
           <Route path='edit-profile' element={<EditProfile />}/>
         </Route>
-
-        <Route path="login" element={<SearchResult />} />
       </Routes>
     </Router>
   );
