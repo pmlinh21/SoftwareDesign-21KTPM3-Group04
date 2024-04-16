@@ -2,22 +2,22 @@
 @import url("../styles/commons.css");
 
 
-.search-result-page .search-result{
+.explore-topic-page .explore-topic{
     z-index: -9;
 
 }
 
 @media (min-width: 768px) {
-    .search-result-page .search-result .list-post > .blog-post-card {
+    .explore-topic-page .explore-topic .list-post > .blog-post-card {
       flex-basis: calc(33.33% - 16px); /* Adjust the gap between columns */
     }
 
-    .search-result-page .search-result .list-author > .col {
+    .explore-topic-page .explore-topic .list-author > .col {
         flex-basis: calc(50% - 20px); /* Adjust the gap between columns */
       }
 }
 
-.search-result-page a{
+.explore-topic-page a{
     text-decoration: none;
 }
   

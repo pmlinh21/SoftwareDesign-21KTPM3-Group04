@@ -1,6 +1,6 @@
 const db = require('../models/index');
 const sequelize = db.sequelize;
-const { Op, literal } = require("sequelize");
+const { Op, literal, fn, col } = require("sequelize");
 const init_models = require('../models/init-models');
 const model = init_models(sequelize);
 
@@ -40,7 +40,7 @@ const searchTopicByName = async (req, res) => {
 
 // GET: Search topic by id and get all posts by following topic
 const searchTopicPostByID = async (req, res) => {
-    let { id } = req.params
+    let { id, id_user } = req.params
 
     try {
         // Check if topic is exist
@@ -53,11 +53,37 @@ const searchTopicPostByID = async (req, res) => {
             failCode(res, null, "Invalid ID")
         }
         else{
-            const [posts, metadata] = await sequelize.query
-            (`SELECT p.* FROM topic t 
-            JOIN topic_post tp ON t.id_topic = tp.id_topic
-            JOIN post p ON tp.id_post = p.id_post
-            WHERE t.id_topic = ${id}`);
+            const posts = await model.post.findAll({
+                include: [
+                    {
+                        model: model.topic,
+                        as: "list_topic",
+                        attributes: ["topic"],
+                        through: { attributes: [] },
+                        where: {
+                            id_topic: id
+                        },
+                    },
+                    {
+                        model: model.user,
+                        as: "author",
+                        attributes: ["fullname", "avatar", "id_user"],
+                    },
+                    {
+                        model: model.list,
+                        as: "is_saved",
+                        attributes: ["id_list"],
+                        through: { attributes: [] },
+                        where: {
+                            id_user: id_user
+                        },
+                        required: false
+                    },
+                ],
+                attributes: [
+                    "title", "content", "publish_time", "thumbnail", "id_post",
+                ],     
+            });
 
             successCode(res, posts, "Topic and it's posts found") 
         }
@@ -108,4 +134,36 @@ const getTrendingTopics = async (req, res) => {
 
 }
 
-module.exports = { getAllTopic, searchTopicByName, searchTopicPostByID, getTrendingTopics }
+const getFollowerUser = async (req,res) => {
+    let { id } = req.params
+
+    try {
+        // Check if topic is exist
+        let check = await model.topic.findOne({
+            where:{
+                id_topic: id
+            } 
+        })
+        if (!check) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            const followerCount = await model.topic_user.findOne({
+                where:{
+                    id_topic: id
+                },
+                attributes: [
+                    [fn('COUNT', col('id_user')), 'followerCount'],
+                ],     
+            });
+
+            successCode(res, followerCount, "Topic and it's posts found") 
+        }
+
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }    
+}
+
+module.exports = { getAllTopic, searchTopicByName, searchTopicPostByID, getTrendingTopics, getFollowerUser }
