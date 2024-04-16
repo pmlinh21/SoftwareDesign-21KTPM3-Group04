@@ -8,9 +8,9 @@ import { useHistory } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
 import HomeGuest from './pages/HomeGuest';
+import Home from './pages/Home';
 import SearchResult from './pages/SearchResult';
 import Writing from './pages/Writing';
-import HomeLogin from './pages/HomeLogin';
 
 export const history = createBrowserHistory();
 
@@ -33,9 +33,10 @@ function App() {
         <Route path="" element={<Layout />}>
           
           <Route path="" element={<HomeGuest />} />
+          <Route path="topic" element={<ExploreTopic />} />
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
-          <Route path="home" element={<HomeLogin />} />
+          <Route path="my-profile" element={<MyProfile />} />
 
         </Route>
 

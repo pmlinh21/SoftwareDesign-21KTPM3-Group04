@@ -132,7 +132,7 @@ export default function Navbar() {
 
                             <ul className="dropdown-menu">
                                 <li>
-                                    <Link className="dropdown-item" to={'/profile'} >
+                                    <Link className="dropdown-item" to={'/my-profile'} >
                                        Profile
                                     </Link>
                                 </li>

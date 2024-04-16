@@ -1,15 +1,20 @@
 import React from "react";
 import "./TopicTag.css";
+import { useNavigate   } from 'react-router-dom';
+import {formatCapitalCase} from '../../util/formatText';
 
-function capitalizeFirstLetter(str) {
-    return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
-  }
-  
+export default function TopicTag({topic, id_topic}) {
+    const navigate = useNavigate()
 
-export default function TopicTag({topic}) {
+    function handleButtonClick(id_topic){
+    
+        navigate(`/topic/?id_topic=${id_topic}&topic_name=${topic}`)
+    }
+    
     return (
-        <button className="topic col-auto btn btn-sm rounded-pill bg-neutral-50 label2  text-black">
-            {capitalizeFirstLetter(topic)}
+        <button className="topic col-auto btn btn-sm rounded-pill bg-neutral-50 title2  text-black"
+                onClick={() => {handleButtonClick(id_topic)}}>
+            {formatCapitalCase(topic)}
         </button>
     )
 }
