@@ -38,11 +38,8 @@ function App() {
           <Route path="topic" element={<ExploreTopic />} />
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
-<<<<<<< HEAD
           <Route path="my-profile" element={<MyProfile />} />
 
-=======
->>>>>>> 525efc09f75061464f64d905d85d4d0cb1b79ac8
         </Route>
 
         <Route path="login" element={<SearchResult />} />
