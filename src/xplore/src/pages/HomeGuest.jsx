@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-// import { UserService } from '../services/UserService';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Slider from "react-slick";
+
+import { getTopPostsAction } from '../redux/actions/PostAction';
 
 import "../styles/commons.css";
-import AuthorVertical from '../components/author-card/AuthorVertical';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { Link } from 'react-router-dom';
+
+import AuthorVertical from '../components/author-card/AuthorVertical';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
@@ -14,6 +17,7 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
+
 export default function Home() {
     const settings = {
         infinite: true,
@@ -25,12 +29,14 @@ export default function Home() {
         swipeToSlide: true
     }
 
-    // const userService = new UserService();
-    // const authors = [];
-    // for (let i = 1; i < 10; i++) {
-    //     authors.push(userService.getUserById(i));
-    //     console.log(authors);
-    // }
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getTopPostsAction());
+    }, [dispatch]);
+
+    const topPosts = useSelector(state => state.PostReducer.topPosts);
+    console.log("topPosts: ", topPosts);
 
     return (
         <div className='container-fluid'>
@@ -58,6 +64,7 @@ export default function Home() {
                 </Slider> */}
 
                 <Slider {...settings}>
+                    <AuthorVertical />
                     <AuthorVertical />
                     <AuthorVertical />
                     <AuthorVertical />
@@ -173,4 +180,3 @@ export default function Home() {
         </div>
     );
 }
-

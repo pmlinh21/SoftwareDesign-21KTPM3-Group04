@@ -1,17 +1,16 @@
-import { baseService } from "./BaseService";
+import { BaseService } from "./BaseService";
 
-export class PostService extends baseService {
+export class PostService extends BaseService {
+    // Api 1: Get post by id
+    getPostById = (id) => {
+        return this.get(`post/${id}`);
+    }
+    
     // Api 1: Get post by user
     getPostByUser = (id_user) => {
       console.log("id_user: ", id_user);
       return this.get(`post/user/${id_user}`, user_login);
     }
+}
 
-    // Api 2: Create a post
-    // createPost = (formData) => {
-    //   return this.post(`post/`, formData);
-    // };
-
-  }
-  
 export const postService = new PostService();

@@ -1,6 +1,6 @@
-import { baseService } from "./BaseService";
+import { BaseService } from "./BaseService";
 
-export class UserService extends baseService {
+export class UserService extends BaseService {
     // Api 1: login
     login = (user_login) => {
       console.log("user_login: ", user_login);
@@ -27,6 +27,7 @@ export class UserService extends baseService {
     getUserToken = (email) =>{
       return this.get(`user/getToken/${email}`);
     }
+
   }
   
 export const userService = new UserService();
