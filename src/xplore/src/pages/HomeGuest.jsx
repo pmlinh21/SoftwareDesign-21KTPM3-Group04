@@ -128,14 +128,14 @@ export default function Home() {
                         <div className="row mb-5">
                             <h4>Hot topics</h4>
                             <div className="d-flex flex-wrap gap-2">
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
-                                <button className="topic title1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
+                                <button className="topic label1">Technology</button>
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all topics <i className="fa-solid fa-arrow-right"></i>
