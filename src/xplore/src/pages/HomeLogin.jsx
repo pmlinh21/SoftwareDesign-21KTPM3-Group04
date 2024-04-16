@@ -15,7 +15,16 @@ import Loading from '../components/loading/Loading';
 function HomeLogin() {
     return (
         <div>
+            
             <Search search="" isResult={false} />
+            
+            <div className="container-fluid">
+                <div className="container">
+                    <div className="row g-4">
+
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
