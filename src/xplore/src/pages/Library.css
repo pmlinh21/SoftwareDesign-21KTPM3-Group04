@@ -1,0 +1,26 @@
+@charset "utf-8";
+@import 'react-tabs/style/react-tabs.css';
+
+.react-tabs__tab-list {
+    border-bottom: 15px solid var(--neutral-50) !important;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.react-tabs__tab {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+    background: #fff;
+    border-color: #aaa;
+    color: blue;
+    border-radius: 5px 5px 0 0;
+}

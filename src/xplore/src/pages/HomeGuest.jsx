@@ -18,13 +18,9 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
+import BlogPostCard from '../components/blog-card/BlogPostCard';
 
 export default function Home() {
-
-    const roleId = localStorage.getItem(RoleKey);
-    if (!roleId) {
-        localStorage.setItem(RoleKey, JSON.stringify(4));
-    }
 
     const settings = {
         infinite: true,

@@ -15,6 +15,7 @@ import MyProfile from './pages/MyProfile';
 import ExploreTopic from './pages/ExploreTopic';
 import HomeLogin from './pages/HomeLogin';
 import EditProfile from './pages/EditProfile';
+import Library from './pages/Library';
 
 export const history = createBrowserHistory();
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="home" element={<HomeLogin />} />
           <Route path='edit-profile' element={<EditProfile />}/>
+          <Route path="library" element={<Library />} />
         </Route>
       </Routes>
     </Router>
