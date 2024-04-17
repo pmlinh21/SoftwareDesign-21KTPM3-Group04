@@ -2,7 +2,6 @@ import React from 'react';
 import "../styles/commons.css";
 import "./SearchResult.css"
 import Search from '../components/search/Search'
-import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
 
 import { useState, useEffect, useRef } from 'react';
@@ -15,13 +14,20 @@ import Loading from '../components/loading/Loading';
 function HomeLogin() {
     return (
         <div>
-            
+            {/* Search bar */}
             <Search search="" isResult={false} />
-            
+
             <div className="container-fluid">
+                <img src="/assets/images/who_we_are.png"></img>
                 <div className="container">
                     <div className="row g-4">
+                        {/* Tab bar */}
+                        <div className="col-6">
 
+                        </div>
+                        {/* Trending */}
+                        {/* Following */}
+                        {/* Topics */}
                     </div>
                 </div>
             </div>

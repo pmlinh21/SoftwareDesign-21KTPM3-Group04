@@ -52,7 +52,7 @@ export default function Home() {
             <section className="container my-5 gradient-bg">
                 
                 <div className="row my-5  d-flex justify-content-center">
-                    <h1 className="text-center col-8">The world's destination for avid readers</h1>
+                    <h3 className="text-center col-8">The world's destination for avid readers</h3>
                 </div>
                 <div className="row my-5 d-flex justify-content-center">
                     <p className="p1 text-justify col-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -128,14 +128,14 @@ export default function Home() {
                         <div className="row mb-5">
                             <h4>Hot topics</h4>
                             <div className="d-flex flex-wrap gap-2">
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
-                                <button className="topic label1">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
+                                <button className="topic label2">Technology</button>
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all topics <i className="fa-solid fa-arrow-right"></i>
