@@ -1,7 +1,7 @@
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 
-export default function TextEditor({content, setContent}){
+export default function TextEditor({content, changePostInfo}){
     const editorConfiguration = {
         toolbar: {
 			items: [
@@ -57,7 +57,7 @@ export default function TextEditor({content, setContent}){
     }
 
     function handleData(event, editor) {
-        setContent(editor.getData())
+        changePostInfo("content",editor.getData())
 		console.log(editor.getData())
     }
 

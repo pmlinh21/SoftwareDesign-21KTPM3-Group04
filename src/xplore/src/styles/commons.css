@@ -372,8 +372,16 @@ body {
     color: var(--neutral-400)
 }
 
+.text-drag-and-drop{
+    color: #757575
+}
+
 .text-neutral-50{
     color: var(--neutral-50)
+}
+
+.text-error{
+    color: var(--feedback-error)
 }
 
 /*background with color*/
