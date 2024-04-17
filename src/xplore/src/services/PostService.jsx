@@ -23,6 +23,11 @@ export class PostService extends BaseService {
       console.log("updatePost: ", formData);
       return this.put(`post/`, formData);
     }
+
+    // Api 5: Get trending posts
+    getTredingPosts = (id_user) => {
+        return this.get(`post/trending-view/user/${id_user}`);
+    }
 }
 
 export const postService = new PostService();

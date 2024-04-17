@@ -14,3 +14,7 @@
 .search-container .search-recent button:focus-within{
     border:none
 }
+
+.search-container .search-icon {
+    font-size: 50px;
+}
