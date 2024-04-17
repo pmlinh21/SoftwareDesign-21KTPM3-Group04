@@ -81,27 +81,28 @@ export default function Search({search, isResult}){
 
     return(
         <div className="container search-container position-relative mt-4">
-            <div className="container search-section position-absolute "
+            <div className="container search-section"
             ref={searchSectionRef}>
-
-                <div className="row col-12 search-bar p-2 pe-0 rounded bg-blue-50">
-                    <div className="d-flex justify-content-between">
-                        <input 
-                            id="search-input"
-                            className="form-control border-0 bg-blue-50 p1 text-scheme-main-text"
-                            placeholder="Typing something"
-                            type="text"
-                            autoComplete="off"
-                            value={searchText}
-                            onKeyDown={handleKeyDown}
-                            onMouseDown={() => setDisplaySearchOption(true)}
-                            onChange={(e) => setSearchText(e.target.value)}
-                        />
-                        <button 
-                            className="prim-btn btn-md rounded-circle"
-                            onClick={() => {handleSearchButtonClick("all")}}>
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                <div className="row pe-0">
+                    <div className="col-12 search-bar p-2 rounded bg-blue-50">
+                        <div className="d-flex justify-content-between">
+                            <input 
+                                id="search-input"
+                                className="form-control border-0 bg-blue-50 p1 text-scheme-main-text"
+                                placeholder="Typing something"
+                                type="text"
+                                autoComplete="off"
+                                value={searchText}
+                                onKeyDown={handleKeyDown}
+                                onMouseDown={() => setDisplaySearchOption(true)}
+                                onChange={(e) => setSearchText(e.target.value)}
+                            />
+                            <button 
+                                className="prim-btn btn-md rounded-circle"
+                                onClick={() => {handleSearchButtonClick("all")}}>
+                                <i className="fa-solid fa-magnifying-glass fa-lg"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 

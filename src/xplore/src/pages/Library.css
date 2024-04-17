@@ -1,26 +1,25 @@
 @charset "utf-8";
-@import 'react-tabs/style/react-tabs.css';
+@import url("../styles/commons.css");
 
-.react-tabs__tab-list {
-    border-bottom: 15px solid var(--neutral-50) !important;
-    margin: 0 0 10px;
-    padding: 0;
-}
-
-.react-tabs__tab {
-    display: inline-block;
-    border: 1px solid transparent;
-    border-bottom: none;
-    bottom: -1px;
-    position: relative;
+.tab-panel {
     list-style: none;
-    padding: 6px 12px;
-    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    background-color: var(--scheme-background);
+    border-bottom: 1px solid var(--neutral-50);
 }
 
-.react-tabs__tab--selected {
-    background: #fff;
-    border-color: #aaa;
-    color: blue;
-    border-radius: 5px 5px 0 0;
+.tab-item {
+    height: 100%;
+}
+
+.tab-item.focused {
+    background-color: var(--blue-0);
+    color: var(--scheme-primary);
+    border-bottom: 2px solid var(--scheme-primary);
+}
+
+.tab-item:hover {
+    background-color: var(--blue-0);
+    color: var(--scheme-primary);
 }

@@ -11,7 +11,7 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import Loading from '../components/loading/Loading';
 
-import WhoWeAre from '../assets/images/who_we_are.png';
+// import WhoWeAre from '../assets/images/who_we_are.png';
 
 function HomeLogin() {
     return (
@@ -24,7 +24,7 @@ function HomeLogin() {
                     <div className="row g-4">
                         {/* Tab bar */}
                         <div className="col-6">
-                            <img src={WhoWeAre} alt=""/>
+                            {/* <img src={WhoWeAre} alt=""/> */}
                         </div>
                         {/* Trending */}
                         {/* Following */}
