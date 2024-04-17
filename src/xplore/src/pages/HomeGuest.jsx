@@ -18,7 +18,6 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
-import WhoWeAre from '../assets/images/who_we_are.png';
 
 export default function Home() {
 
@@ -160,7 +159,7 @@ export default function Home() {
             <section className="container my-5 py-5">
                 <div className="row g-4">
                     <div className="col">
-                        <img src={WhoWeAre} alt="" style={{ width: '100%'}}/>
+                        <img src="/imgs/who_we_are.png" alt="" style={{ width: '100%'}}/>
                     </div>
                     <div className="col">
                         <p className="title1" style={{color: "grey"}}>Who we are</p>
