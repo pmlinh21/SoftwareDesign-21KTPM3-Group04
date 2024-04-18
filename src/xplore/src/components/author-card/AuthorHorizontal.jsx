@@ -4,7 +4,8 @@ import Avatar from "../avatar/Avatar";
 import ButtonUnsubscribe from "../button/ButtonUnsubscribe";
 import ButtonSubscribe from "../button/ButtonSubscribe";
 
-export default function AuthorHorizontal({fullname, bio, avatar, is_subscribe}) {
+export default function AuthorHorizontal(props) {
+    const {fullname, bio, avatar, is_subscribe} = props.author;
     return (
         <div className="author-horizontal row py-3 pe-3 d-flex
             bg-white rounded-3 shadow-sm overflow-hidden w-100">

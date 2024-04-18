@@ -95,6 +95,9 @@ export default function Home() {
     const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
     const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
 
+    const slidingAuthors = topAuthors.slice(0, 7);
+    const authorsToFollow = topAuthors.slice(7, 10);
+
     return (
         <div className='container-fluid'>
             <section className="container my-5 gradient-bg">
@@ -115,7 +118,7 @@ export default function Home() {
 
             <section className="container my-5">
                 <Slider {...settings}>
-                    {topAuthors.map(author => (
+                    {slidingAuthors.map(author => (
                         <AuthorVertical author={author} />
                     ))}
                 </Slider>
@@ -174,9 +177,9 @@ export default function Home() {
                         <div className="row">
                             <h4>Who to follow</h4>
                             <div className="d-flex flex-column gap-2">
-                                <AuthorHorizontal />
-                                <AuthorHorizontal />
-                                <AuthorHorizontal />
+                                {authorsToFollow.map(author => (
+                                    <AuthorHorizontal author={author} />
+                                ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all popular writers <i className="fa-solid fa-arrow-right"></i>
