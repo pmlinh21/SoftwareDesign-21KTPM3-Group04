@@ -62,17 +62,17 @@ export default function Writing() {
 
     }
 
-    function schedulePost(){
-        changePostInfo("status", 2)
-        changePostInfo("publish_time",scheduleTime)
-        saveChanges()
-    }
+    // function schedulePost(){
+    //     changePostInfo("status", 2)
+    //     changePostInfo("publish_time",scheduleTime)
+    //     saveChanges()
+    // }
 
-    function publishPost(){
-        changePostInfo("status", 1)
-        changePostInfo("publish_time",formartToSQLDatetime(new Date()))
-        saveChanges()
-    }
+    // function publishPost(){
+    //     changePostInfo("status", 1)
+    //     changePostInfo("publish_time",formartToSQLDatetime(new Date()))
+    //     saveChanges()
+    // }
 
     function saveChanges(status){
         const newTopic = postInfo.topic?.map(topic => topic.value)
@@ -94,7 +94,8 @@ export default function Writing() {
                 ...postInfo, 
                 topic: [...newTopic],
                 id_user: user_login?.id_user,
-                creation_time: formartToSQLDatetime(new Date()), }))
+                creation_time: formartToSQLDatetime(new Date())
+            }))
         // }
         // else {
         //     dispatch(createPostAction({

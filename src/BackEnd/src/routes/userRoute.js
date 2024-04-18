@@ -21,7 +21,7 @@ userRoute.post("/login", login)
 userRoute.post("/signup", signup)
 
 // GET: Search account
-userRoute.get("/search/:fullname/user/:id_user", searchAccountByName)
+userRoute.get("/search/:fullname", searchAccountByName)
 
 // GET: Get subscriber of an account
 userRoute.get("/subscriber/:id_user", getUserSubscriber)

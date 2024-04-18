@@ -33,7 +33,7 @@ function ResultText({topic_name, related_posts, followerCount}){
 const fetchPost = async (id_topic, setResult, setLoading, id_user) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`${DOMAIN}/topic/${id_topic}/post/user/${id_user}`);
+      const response = await fetch(`${DOMAIN}/topic/${id_topic}/post`);
       const jsonData = await response.json();
       setResult([...jsonData.content]);
 

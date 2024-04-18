@@ -8,13 +8,13 @@
 }
 
 @media (min-width: 768px) {
-    .search-result-page .search-result .list-post > .blog-post-card {
-      flex-basis: calc(33.33% - 16px); /* Adjust the gap between columns */
+    .search-result-page .search-result .list-post .blog-post-card {
+      width: calc(33.33% - 15px); /* Adjust the gap between columns */
     }
 
-    .search-result-page .search-result .list-author > .col {
-        flex-basis: calc(50% - 20px); /* Adjust the gap between columns */
-      }
+    .search-result-page .search-result .list-author .author-horizontal {
+      width: calc(50% - 20px) !important;
+    }
 }
 
 .search-result-page a{

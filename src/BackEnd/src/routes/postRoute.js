@@ -25,15 +25,15 @@ const {
 } = require('../controllers/postController')
 
 // Get trending post from view
-postRoute.get("/trending-view/user/:id_user", getTrendingPost)
+postRoute.get("/trending-view", getTrendingPost)
 
 postRoute.get("/monthly-data", getPostMonthlyData)
 
 
-postRoute.get("/:id_post/user/:id_user", getPostByID)
+postRoute.get("/:id_post", getPostByID)
 
 // Search for post by keyword
-postRoute.get("/search/:keyword/user/:id_user", getPostByKeyword)
+postRoute.get("/search/:keyword", getPostByKeyword)
 
 // Get all posts of a user
 postRoute.get("/user/:id_user", getPostByUser)

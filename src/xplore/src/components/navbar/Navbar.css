@@ -16,3 +16,8 @@
 .nav .navbar-nav li a.blue-500 {
     color: var(--scheme-primary)
 }
+
+.dropdown-menu{
+    z-index: 1200;
+    position: relative;
+}
