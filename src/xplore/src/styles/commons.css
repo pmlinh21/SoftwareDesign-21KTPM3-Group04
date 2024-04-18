@@ -139,16 +139,18 @@ h6 {
 .subtitle1 {
     font-size: 14px;
     line-height: 120%;
+    text-transform: capitalize;
 }
 
 .subtitle2 {
     font-size: 12px;
     line-height: 14px;
+    text-transform: capitalize;
 }
 
 .title1 {
     font-size: 24px;
-    line-height: 28px;
+    line-height: 32px;
 }
 
 .title2 {
