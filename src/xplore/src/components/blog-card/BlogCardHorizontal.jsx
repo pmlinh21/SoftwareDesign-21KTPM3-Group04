@@ -10,8 +10,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, responseCount, likeCount, is_saved} = props;
-
+        publish_time, responseCount, likeCount, is_saved} = props.post;
 
     return (
         <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
@@ -26,12 +25,9 @@ export default function BlogCardHorizontal(props) {
                             {
                                 list_topic && list_topic?.length > 0 &&
                                 (
-                                    
                                     <p className="subtitle2 text-scheme-primary p-0 m-0">
                                         {`${list_topic[0]?.topic?.toUpperCase()}` || "FIRST TOPIC"}
                                     </p>
-                                        
-                                    
                                 )
                             }
                             <BookmarkIcon id_post={id_post} is_saved={is_saved?.length > 0}/>
@@ -44,9 +40,10 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="pt-0 mt-0">
-                            <p className="p3 text-scheme-sub-text long-text content-text">
-                                {content || LONG_PASSAGE}
-                            </p>
+                            <p
+                                className="p3 text-scheme-sub-text long-text content-text"
+                                dangerouslySetInnerHTML={{ __html: content || LONG_PASSAGE }}
+                            ></p>
                         </div>
                     </div>
                     

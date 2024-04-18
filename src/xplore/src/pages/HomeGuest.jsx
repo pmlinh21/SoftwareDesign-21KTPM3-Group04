@@ -37,6 +37,7 @@ export default function Home() {
     const [trendingPosts, setTrendingPosts] = useState([]);
     const [topAuthors, setTopAuthors] = useState([]);
     const [hotTopics, setHotTopics] = useState([]);
+    const [morePosts, setMorePosts] = useState([]);
 
     const fetchTrendingPosts = async (id_user) => {
         try {
@@ -52,10 +53,10 @@ export default function Home() {
 
     const fetchTopAuthors = async () => {
         try {
-            const topUserIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             const users = [];
-            for (let i = 0; i < topUserIds.length; i++) {
-                const result = await userService.getUserById(topUserIds[i]);
+            for (let i = 0; i < ids.length; i++) {
+                const result = await userService.getUserById(ids[i]);
                 if (result.status === 200) {
                     users.push(result.data.content);
                 }
@@ -82,15 +83,33 @@ export default function Home() {
         }
     }
 
+    const fetchMorePosts = async () => {
+        try {
+            const ids = [1, 2, 3];
+            const posts = [];
+            for (let i = 0; i < 3; i++) {
+                const result = await postService.getPostById(ids[i]);
+                posts.push(result.data.content);
+            }
+            setMorePosts(posts);
+        }
+        catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+
     useEffect(() => {
         fetchTopAuthors();
         fetchTrendingPosts(1);
         fetchHotTopics();
+        fetchMorePosts();
     }, []);
 
     console.log("trendingPosts", trendingPosts.length);
     console.log("topAuthors", topAuthors);
     console.log("hotTopics", hotTopics);
+    console.log("morePosts", morePosts);
 
     const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
     const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
@@ -157,9 +176,9 @@ export default function Home() {
                         </div>
 
                         <div className="d-flex flex-column gap-2">
-                            <BlogCardHorizontal />
-                            <BlogCardHorizontal />
-                            <BlogCardHorizontal />
+                            {morePosts.map(post => (
+                                <BlogCardHorizontal post={post} />
+                            ))}
                         </div>
                     </div>
                     <div className="col-4">

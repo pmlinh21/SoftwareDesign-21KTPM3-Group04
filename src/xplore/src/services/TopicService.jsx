@@ -12,7 +12,7 @@ export class TopicService extends BaseService {
     }
 
     getHotTopics = () => {
-        return this.get(`topic/reading_history`);
+        return this.get(`topic/trending`);
     }
 }
 

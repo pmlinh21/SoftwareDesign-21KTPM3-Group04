@@ -3,7 +3,7 @@ import { BaseService } from "./BaseService";
 export class PostService extends BaseService {
     // Api 1: Get post by id
     getPostById = (id) => {
-        return this.get(`post/${id}/user/0`);
+        return this.get(`post/${id}`);
     }
     
     // Api 2: Get post by user
