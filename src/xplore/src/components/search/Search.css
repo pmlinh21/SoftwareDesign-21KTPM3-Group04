@@ -4,7 +4,8 @@
 }
 
 .search-container .search-section{
-    z-index: 1000
+    z-index: 1000;
+    position: relative;
 }
 
 .search-container .search-recent:hover{

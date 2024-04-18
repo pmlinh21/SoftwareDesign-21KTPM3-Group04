@@ -103,35 +103,32 @@ const searchAccountByName = async (req, res) => {
                 }
             }
         })
-        let blocks = await model.block.findAll({
-            attributes: ['block'],
-            where:{
-                user: id_user
-            }
-        })
-        console.log(users)
-        console.log(blocks)
+        // let blocks = await model.block.findAll({
+        //     attributes: ['block'],
+        //     where:{
+        //         user: id_user
+        //     }
+        // })
+        // console.log(users)
+        // console.log(blocks)
 
-        users = users.filter(user => {
-            return !blocks.find(block => block.block === user.id_user);
-        });
+        // users = users.filter(user => {
+        //     return !blocks.find(block => block.block === user.id_user);
+        // });
 
         // thêm attribute ['is_subscribe'] nếu item trong users subscribe user có id_user
-        for (let user of users) {
-            let isSubscribed = await model.subscribe.findOne({
-                where: {
-                    user: user.id_user,
-                    subscriber: id_user
-                }
-            });
+        // for (let user of users) {
+        //     let isSubscribed = await model.subscribe.findOne({
+        //         where: {
+        //             user: user.id_user,
+        //             subscriber: id_user
+        //         }
+        //     });
 
-            user.dataValues.is_subscribe = isSubscribed ? true : false;
-        }
+        //     user.dataValues.is_subscribe = isSubscribed ? true : false;
+        // }
 
-        if(users.length > 0)
             successCode(res, users, "Account found")
-        else
-            failCode(res, "", "Not found")
     } catch (err) {
         console.log(err)
         errorCode(res,"Internal Server Error")

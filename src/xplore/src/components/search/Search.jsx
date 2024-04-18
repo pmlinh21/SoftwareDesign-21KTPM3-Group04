@@ -26,7 +26,6 @@ export default function Search({search, isResult}){
         if (userRecentSearch) {
             setRecentSearch(userRecentSearch.split("\\n"));
         }
-
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };

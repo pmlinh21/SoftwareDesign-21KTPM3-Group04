@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 
 import {postService} from '../services/PostService';
+import {userService} from '../services/UserService';
+import {topicService} from '../services/TopicService';
 import { RoleKey } from "../util/config";
 
 import "../styles/commons.css";
+import "./HomeGuest.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -17,7 +20,7 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
-import ZoomLogo from '../assets/logos/Zoom_logo.svg';
+import ZoomLogo from '../assets/logos/Zoom_logo.svg'
 
 export default function Home() {
 
@@ -32,6 +35,8 @@ export default function Home() {
     }
 
     const [trendingPosts, setTrendingPosts] = useState([]);
+    const [topAuthors, setTopAuthors] = useState([]);
+    const [hotTopics, setHotTopics] = useState([]);
 
     const fetchTrendingPosts = async (id_user) => {
         try {
@@ -45,14 +50,53 @@ export default function Home() {
         }
     };
 
+    const fetchTopAuthors = async () => {
+        try {
+            const topUserIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            const users = [];
+            for (let i = 0; i < topUserIds.length; i++) {
+                const result = await userService.getUserById(topUserIds[i]);
+                if (result.status === 200) {
+                    users.push(result.data.content);
+                }
+            }
+            setTopAuthors(users);
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+
+    const fetchHotTopics = async () => {
+        try {
+            const topics = [];
+            const result = await topicService.getAllTopics();
+            for (let i = 0; i < result.data.content.length; i++) {
+                topics.push(result.data.content[i]);
+            }
+            setHotTopics(topics);
+        }
+        catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+
     useEffect(() => {
+        fetchTopAuthors();
         fetchTrendingPosts(1);
+        fetchHotTopics();
     }, []);
 
     console.log("trendingPosts", trendingPosts.length);
+    console.log("topAuthors", topAuthors);
+    console.log("hotTopics", hotTopics);
 
     const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
     const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
+
+    const slidingAuthors = topAuthors.slice(0, 7);
+    const authorsToFollow = topAuthors.slice(7, 10);
 
     return (
         <div className='container-fluid'>
@@ -73,23 +117,10 @@ export default function Home() {
             </section>
 
             <section className="container my-5">
-                {/* <Slider {...settings}>
-                    {authors.map((author, index) => (
-                        <AuthorVertical key={index} author={author} />
-                    ))}
-                </Slider> */}
-
                 <Slider {...settings}>
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
+                    {slidingAuthors.map(author => (
+                        <AuthorVertical author={author} />
+                    ))}
                 </Slider>
             </section>
 
@@ -100,15 +131,15 @@ export default function Home() {
                 <div className="d-flex flex-column gap-3">
                 <div className="row d-flex flex-row justify-content-between">
                 {topHalfOfPosts.map((post, index) => (
-                    <div className="col-4">
+                    <div className="col-4" key={post.id_post}>
                         <BlogCardNoThumb post={post}/>
                     </div>
                 ))}
                 </div>
                 <div className="row d-flex flex-row justify-content-between">
                 {bottomHalfOfPosts.map((post, index) => (
-                    <div className="col-4">
-                        <BlogCardNoThumb post={post}/>
+                    <div className="col-4" key={post.id_post}>
+                        <BlogCardNoThumb  post={post}/>
                     </div>
                 ))}
                 </div>
@@ -135,14 +166,9 @@ export default function Home() {
                         <div className="row mb-5">
                             <h4>Hot topics</h4>
                             <div className="d-flex flex-wrap gap-2">
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
-                                <button className="topic label2">Technology</button>
+                                {hotTopics.map(topic => (
+                                    <button className="topic label2 capitalize">{topic.topic}</button>
+                                ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all topics <i className="fa-solid fa-arrow-right"></i>
@@ -151,9 +177,9 @@ export default function Home() {
                         <div className="row">
                             <h4>Who to follow</h4>
                             <div className="d-flex flex-column gap-2">
-                                <AuthorHorizontal />
-                                <AuthorHorizontal />
-                                <AuthorHorizontal />
+                                {authorsToFollow.map(author => (
+                                    <AuthorHorizontal author={author} />
+                                ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
                                 See all popular writers <i className="fa-solid fa-arrow-right"></i>
