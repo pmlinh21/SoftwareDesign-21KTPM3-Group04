@@ -27,12 +27,9 @@ export default function ProfileCard(props) {
                             {
                                 list_topic && list_topic?.length > 0 &&
                                 (
-                                    
                                     <p className="subtitle2 text-scheme-primary p-0 m-0">
                                         {`${list_topic[0]?.topic?.toUpperCase()}` || "FIRST TOPIC"}
                                     </p>
-                                        
-                                    
                                 )
                             }
                             <div className="dropdown">

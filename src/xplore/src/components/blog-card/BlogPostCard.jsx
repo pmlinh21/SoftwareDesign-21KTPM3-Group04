@@ -13,7 +13,7 @@ export default function BlogPostCard(props) {
         publish_time, is_saved} = props;
 
     return (
-        <div className="blog-post-card  d-flex flex-wrap bg-white p-0">
+        <div className="blog-post-card d-flex flex-wrap p-0">
 
             <div className="col-12 thumbnail-container bg-white p-0 m-0 position-relative">
                 <BookmarkIcon id_post={id_post} is_saved={is_saved?.length > 0} set_absolute={true}/>
@@ -24,8 +24,8 @@ export default function BlogPostCard(props) {
                 list_topic?.length > 0 ?
                 (
                     <div className="row col-12 m-0 mt-4 mb-2">
-                        <p className="col-auto title3 text-black m-0 p-2 rounded-1 bg-blue-100">
-                            {`${list_topic[0]?.topic?.slice(0,1).toUpperCase()}${list_topic[0]?.topic?.slice(1)}`|| "First topic"}
+                        <p className="col-auto title3 text-black m-0 p-2 rounded-1 bg-blue-100 post-topic">
+                            {list_topic[0]?.topic || "First topic"}
                         </p>
                     </div>
                 ) : 

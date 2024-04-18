@@ -5,14 +5,14 @@ import Avatar from "../avatar/Avatar";
 export default function BlogCardNoThumb(post) {
     console.log("BlogCardNoThumb", post);
     return (
-            <div className="d-flex flex-column justify-content-between blog-card p-3 shadow-sm gap-3">
+            <div className="d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2">
                 <div>
                     <div className="d-flex flex-row justify-content-between align-items-center gap-2">
                         <span className="topic-plain subtitle2">Post Topic</span>
                         <i className="fa-solid fa-bookmark bookmark"></i>
                     </div>
 
-                    <div className="center title1 mt-3">{post.post.title}</div>
+                    <div className="center title1 mt-2">{post.post.title}</div>
                 </div>
 
                 <div className="d-flex flex-row justify-content-between align-items-center gap-2">

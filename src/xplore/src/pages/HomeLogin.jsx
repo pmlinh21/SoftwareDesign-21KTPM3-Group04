@@ -22,7 +22,7 @@ function HomeLogin() {
                     <div className="row g-4">
                         {/* Tab bar */}
                         <div className="col-6">
-                            
+                            <img src={WhoWeAre} alt=""/>
                         </div>
                         {/* Trending */}
                         {/* Following */}
