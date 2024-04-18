@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 
-import { getTopPostsAction } from '../redux/actions/PostAction';
+import {postService} from '../services/PostService';
 import { RoleKey } from "../util/config";
 
 import "../styles/commons.css";
@@ -18,7 +18,6 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
-import BlogPostCard from '../components/blog-card/BlogPostCard';
 
 export default function Home() {
 
@@ -32,16 +31,28 @@ export default function Home() {
         swipeToSlide: true
     }
 
-    const dispatch = useDispatch();
+    const [trendingPosts, setTrendingPosts] = useState([]);
 
-    // Lấy data top posts từ backend
+    const fetchTrendingPosts = async (id_user) => {
+        try {
+            const result = await postService.getTrendingPosts(id_user);
+            if (result.status === 200) {
+                setTrendingPosts(result.data.content);
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+
     useEffect(() => {
-        dispatch(getTopPostsAction());
-    }, [dispatch]);
+        fetchTrendingPosts(1);
+    }, []);
 
-    const topPosts = useSelector(state => state.PostReducer.topPosts);
-    const topHalfOfPosts = topPosts.slice(0, topPosts.length / 2);
-    const bottomHalfOfPosts = topPosts.slice(topPosts.length / 2, topPosts.length);
+    console.log("trendingPosts", trendingPosts.length);
+
+    const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
+    const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
 
     return (
         <div className='container-fluid'>
