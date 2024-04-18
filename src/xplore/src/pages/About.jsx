@@ -66,7 +66,7 @@ function About() {
                 <p className='label1' >We are hiring</p>  
                 <h4>Meet our team</h4>
                 <p className='p1' style={{color: 'var(--scheme-sub-text'}}>Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do you best work.</p>
-                <div className='row g-4 d-flex'>
+                <div className='about-buttons justify-content-center'>
                     <button className='tert-btn btn-md'>Learn more</button>
                     <button className='prim-btn btn-md'>Contact us</button>
                 </div>
