@@ -11,7 +11,7 @@ import { useNavigate, useLocation   } from 'react-router-dom';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 
-function HomeLogin() {
+function Home() {
     return (
         <div>
             {/* Search bar */}
@@ -33,4 +33,4 @@ function HomeLogin() {
         
     );
 }
-export default HomeLogin;
+export default Home;

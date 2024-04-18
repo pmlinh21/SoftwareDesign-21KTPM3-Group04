@@ -15,6 +15,8 @@ import MyProfile from './pages/MyProfile';
 import ExploreTopic from './pages/ExploreTopic';
 import EditProfile from './pages/EditProfile';
 import Library from './pages/Library';
+import Pricing from './pages/Pricing';
+import Support from './pages/Support';
 
 export const history = createBrowserHistory();
 
@@ -47,6 +49,8 @@ function App() {
           <Route path="saved" element={<Library link="saved"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="history" element={<Library link="history"/>} />
+          <Route path="pricing" element={<Pricing />}/>
+          <Route path="support" element={<Support />}/>
         </Route>
       </Routes>
     </Router>
