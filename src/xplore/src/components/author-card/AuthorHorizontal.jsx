@@ -6,8 +6,8 @@ import ButtonSubscribe from "../button/ButtonSubscribe";
 
 export default function AuthorHorizontal({fullname, bio, avatar, is_subscribe}) {
     return (
-        <div className="author-horizontal row py-3 pe-3 d-flex w-100
-            bg-white rounded-3 shadow-sm overflow-hidden">
+        <div className="author-horizontal row py-3 pe-3 d-flex
+            bg-white rounded-3 shadow-sm overflow-hidden w-100">
             <div className=" col-2 d-flex align-items-start justify-content-center ">
                 <Avatar avatar={avatar} size="small"/>
             </div>

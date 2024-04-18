@@ -6,10 +6,10 @@ const { getAllTopic, searchTopicByName, searchTopicPostByID, getTrendingTopics, 
 topicRoute.get("/", getAllTopic)
 
 // GET: Search topic by name
-topicRoute.get("/search/:topic_name/user/:id_user", searchTopicByName)
+topicRoute.get("/search/:topic_name", searchTopicByName)
 
 // GET: Search topic by id and get all posts by following topic
-topicRoute.get("/:id/post/user/:id_user", searchTopicPostByID)
+topicRoute.get("/:id/post", searchTopicPostByID)
 
 // GET: Search topic by id and get the number of followers
 topicRoute.get("/:id/follower-count", getFollowerUser)

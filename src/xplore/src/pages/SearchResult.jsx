@@ -37,10 +37,10 @@ function ResultText({type, searchText}){
 
 }
 
-const fetchData = async (type, search, setResult, setLoading, id_user) => {
+const fetchData = async (type, search, setResult, setLoading) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`${DOMAIN}/${type}/search/${search}/user/${id_user}`);
+      const response = await fetch(`${DOMAIN}/${type}/search/${search}`);
       const jsonData = await response.json();
       
 
@@ -74,9 +74,6 @@ export default function SearchResult() {
     
     },[searchText,type])
 
-    // console.log(result);
-    // console.log(loading);
-
     return (
     <div className="search-result-page">
 
@@ -93,18 +90,28 @@ export default function SearchResult() {
                 type === "all" && !loading && (
                 <>
                     <div className="col-7">
-                        <div className="container d-flex flex-wrap gap-3 px-0">
-                        {
-                            result?.post?.map((item) => {
-                                return (
-                                    <BlogCardHorizontal
-                                        key={item.id_post}
-                                        {...item}
-                                    />
-                                )
-                            })
+                        { result?.post?.length ? (
+                            <div className="container d-flex flex-wrap gap-3 px-0">
+                            {
+                                result?.post?.map((item) => {
+                                    return (
+                                        <BlogCardHorizontal
+                                            key={item.id_post}
+                                            {...item}
+                                        />
+                                    )
+                                })
+                            }
+                            </div>
+                        ): (
+                            <div className="row">
+                                <p className="text-scheme-sub-text subtitle1 text-center">
+                                    No matching posts
+                                </p>
+                            </div>
+                        )
                         }
-                        </div>
+                        
                     </div>
                     <div className="col-1"></div>
                     <div className="col-4">
@@ -138,7 +145,7 @@ export default function SearchResult() {
                                 </>
                             ): (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text mb-4 subtitle1 text-align-center">
+                                    <p className="text-scheme-sub-text mb-4 subtitle1">
                                         No matching authors
                                     </p>
                                 </div>
@@ -177,7 +184,7 @@ export default function SearchResult() {
                                 </>
                             ) : (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text mb-4 subtitle1 text-align-center">
+                                    <p className="text-scheme-sub-text mb-4 subtitle1">
                                         No matching authors
                                     </p>
                                 </div>
@@ -196,19 +203,28 @@ export default function SearchResult() {
             {
                 type === "post" && !loading &&
                     <div className="container px-0 ps-4 ">
-                        <div className="list-post row row-cols-3 gap-4">
                         {
-                            result?.post?.map((item) => {
-                                return (
-                                    <BlogPostCard
-                                        key={item.id_post}
-                                        {...item}
-                                    />
-                                )
-                            })
-                        }
-                        </div>
-                        
+                            result?.post?.length ? (
+                                <div className="list-post row row-cols-3 gap-3 d-flex">
+                                {
+                                    result?.post?.map((item) => {
+                                        return (
+                                            <BlogPostCard
+                                                key={item.id_post}
+                                                {...item}
+                                            />
+                                        )
+                                    })
+                                }
+                                </div>
+                            ): (
+                                <div className="row">
+                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                        No matching posts
+                                    </p>
+                                </div>
+                            )
+                        }                        
                     </div>
             }
 
@@ -216,14 +232,26 @@ export default function SearchResult() {
                 type === "topic" && !loading &&
                     <div className="container col-6 px-0 d-flex gap-2 flex-wrap justify-content-center">
                         {
-                            result?.topic?.map((item) => {
-                                return (
-                                    <TopicTag
-                                        key={item.id_topic}
-                                        {...item}
-                                    />
-                                )
-                            })
+                            result?.topic?.length ? (
+                                <>
+                                {
+                                    result?.topic?.map((item) => {
+                                        return (
+                                            <TopicTag
+                                                key={item.id_topic}
+                                                {...item}
+                                            />
+                                        )
+                                    })
+                                }
+                                </>
+                            ) : (
+                                <div className="row">
+                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                        No matching topics
+                                    </p>
+                                </div>
+                            )
                         }
                     </div>
             }
@@ -231,20 +259,28 @@ export default function SearchResult() {
             {
                 type === "user" && !loading &&
                     <div className="container px-0 ps-3">
-                        <div className="list-author row row-cols-2 gap-3">
-                            {
-                                result?.user?.map((item) => {  
-                                    return (
-                                        <div className="col">
+                        {
+                            result?.user?.length ? (
+                                <div className="list-author row row-cols-2 gap-3 d-flex justify-content-between">
+                                {
+                                    result?.user?.map((item) => {
+                                        return (
                                             <AuthorHorizontal
                                                 key={item.id_user}
                                                 {...item}
                                             />
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>   
+                                        )
+                                    })
+                                }
+                                </div>
+                            ) : (
+                                <div className="row">
+                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                        No matching authors
+                                    </p>
+                                </div>
+                            )
+                        }
                     </div>
             }
                 

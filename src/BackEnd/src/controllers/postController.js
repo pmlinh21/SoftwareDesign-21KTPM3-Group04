@@ -9,7 +9,6 @@ const {LIKE_NOTI, RESPONSE_NOTI, REPLY_NOTI} = require("../config/noti_type")
 
 
 const getTrendingPost = async (req,res) => {
-    const {id_user} = req.params
     try{
         const readingHistories = await model.reading_history.findAll({
             where: {
@@ -36,7 +35,7 @@ const getTrendingPost = async (req,res) => {
                 {
                     model: model.topic,
                     as: "list_topic",
-                    attributes: ["topic"],
+                    attributes: ["topic", "id_topic"],
                     through: { attributes: [] },
                 },
                 {
@@ -54,16 +53,6 @@ const getTrendingPost = async (req,res) => {
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
                 },
-                {
-                    model: model.list,
-                    as: "is_saved",
-                    attributes: ["id_list"],
-                    through: { attributes: [] },
-                    where: {
-                        id_user: id_user
-                    },
-                    required: false
-                },
             ],
             attributes: [
                 "id_post", "title", "content", "publish_time", "thumbnail",
@@ -71,7 +60,7 @@ const getTrendingPost = async (req,res) => {
                 [fn('COUNT', col('responses.id_response')), 'responseCount'],
             ],
             group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"] ,
+            "author.fullname", "author.avatar", "author.id_user"] ,
             order: [[sequelize.literal(`ARRAY_POSITION(ARRAY[${postIds.join(',')}], "post"."id_post")`)]],
         });
 
@@ -85,7 +74,7 @@ const getTrendingPost = async (req,res) => {
 }
 
 const getPostByID = async (req,res) => {
-    const {id_post, id_user} = req.params;
+    const {id_post} = req.params;
 
     try{
         const post = await model.post.findOne({
@@ -115,16 +104,6 @@ const getPostByID = async (req,res) => {
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
                 },
-                {
-                    model: model.list,
-                    as: "is_saved",
-                    attributes: ["id_list"],
-                    through: { attributes: [] },
-                    where: {
-                        id_user: id_user
-                    },
-                    required: false
-                },
             ],
             attributes: [
                 "title", "content", "publish_time", "thumbnail", "id_post",
@@ -132,11 +111,11 @@ const getPostByID = async (req,res) => {
                 [fn('COUNT', col('responses.id_response')), 'responseCount'],
             ],
             group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"] 
+            "author.fullname", "author.avatar", "author.id_user"] 
         }); 
 
         if (!post) {
-            failCode(res, null, "Invalid ID")
+            failCode(res, [], "Invalid ID")
         }
 
         successCode(res,post,"Post found")
@@ -148,7 +127,7 @@ const getPostByID = async (req,res) => {
 }
 
 const getPostByKeyword = async (req, res) => {
-    const { keyword, id_user } = req.params;
+    const { keyword } = req.params;
     console.log(keyword)
     try {
         const posts = await model.post.findAll({
@@ -182,16 +161,6 @@ const getPostByKeyword = async (req, res) => {
                     as: "author",
                     attributes: ["fullname", "avatar", "id_user"],
                 },
-                {
-                    model: model.list,
-                    as: "is_saved",
-                    attributes: ["id_list"],
-                    through: { attributes: [] },
-                    where: {
-                        id_user: id_user
-                    },
-                    required: false
-                },
             ],
             attributes: [
                 "title", "content", "publish_time", "thumbnail", "id_post",
@@ -199,10 +168,9 @@ const getPostByKeyword = async (req, res) => {
                 [fn('COUNT', col('responses.id_response')), 'responseCount'],
             ],
             group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user", "is_saved.id_list"]        
+            "author.fullname", "author.avatar", "author.id_user"]        
         });
 
-        console.log(posts.length)
         successCode(res, posts, "Get thành công")
     }
     catch (err) {
@@ -242,6 +210,8 @@ const getPostByUser = async (req,res) => {
         errorCode(res,"Internal Server Error")
     }
 }
+
+
 
 const getLikeOfPost = async (req,res) => {
     const {id_post} = req.params;

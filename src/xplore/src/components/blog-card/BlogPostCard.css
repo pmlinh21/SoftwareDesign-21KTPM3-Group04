@@ -20,6 +20,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    /* max-width: 50%; */
 }
 
 .blog-post-card .content-text{

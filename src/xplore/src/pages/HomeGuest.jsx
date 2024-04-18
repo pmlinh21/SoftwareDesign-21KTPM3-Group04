@@ -100,15 +100,15 @@ export default function Home() {
                 <div className="d-flex flex-column gap-3">
                 <div className="row d-flex flex-row justify-content-between">
                 {topHalfOfPosts.map((post, index) => (
-                    <div className="col-4">
+                    <div className="col-4" key={post.id_post}>
                         <BlogCardNoThumb post={post}/>
                     </div>
                 ))}
                 </div>
                 <div className="row d-flex flex-row justify-content-between">
                 {bottomHalfOfPosts.map((post, index) => (
-                    <div className="col-4">
-                        <BlogCardNoThumb post={post}/>
+                    <div className="col-4" key={post.id_post}>
+                        <BlogCardNoThumb  post={post}/>
                     </div>
                 ))}
                 </div>
