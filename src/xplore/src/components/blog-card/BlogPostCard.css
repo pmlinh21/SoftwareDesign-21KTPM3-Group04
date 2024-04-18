@@ -42,3 +42,7 @@
 .blog-post-card .topic-block{
     min-height: 1.5rem;
 }
+
+.blog-post-card .post-topic{
+    text-transform: capitalize;
+}

@@ -38,6 +38,17 @@ export default function Library(props) {
         { id: 'for-history', name: 'History' },
     ];
 
+    const postProps = {
+        id_post: 1, 
+        title: 'Title',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        thumbnail: 'https://picsum.photos/id/2/600/600',
+        list_topic: [{topic: 'topic'}, {topic:'topic2'}],
+        author: {author_avatar: 'https://picsum.photos/id/2/600/600', fullname: 'Author name'},
+        publish_time: '2021-09-09',
+        is_saved: true
+    }
+
     return (
         <div className='container-fluid'>
             <Search />
@@ -55,10 +66,17 @@ export default function Library(props) {
                         <h6 className='text-scheme-sub-text mt-5'>You are reading 0 posts</h6>
                     </div>
 
-                    <div className='row justify-content-between'>
-                        <BlogPostCard />
-                        <BlogPostCard />
-                        <BlogPostCard />
+                    <div className='row'>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        
                     </div>
                 </div>
                 <div className='tab-content' id='saved'>
