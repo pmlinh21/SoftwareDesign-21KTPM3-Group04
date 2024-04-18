@@ -22,9 +22,21 @@
 .team-info {
     padding: 72px 0;
 }
+.about-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.about-buttons button {
+    width: 210px;
+}
+.team-ctn {
+    background-color: var(--blue-0);
+}
 
 #company-img {
     width: 100%;
     height: auto;
     object-fit: contain;
 }
+
