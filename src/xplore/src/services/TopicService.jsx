@@ -10,6 +10,10 @@ export class TopicService extends BaseService {
     getTopicById = (id) => {
         return this.get(`topic/${id}/post`);
     }
+
+    getHotTopics = () => {
+        return this.get(`topic/reading_history`);
+    }
 }
 
 export const topicService = new TopicService();
