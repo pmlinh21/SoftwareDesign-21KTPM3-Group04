@@ -45,9 +45,9 @@ function App() {
           <Route path="home" element={<HomeLogin />} />
           <Route path='edit-profile' element={<EditProfile />}/>
           <Route path="reading" element={<Library link="reading" />} />
-          <Route path="saved" element={<Library />} />
-          <Route path="highlight" element={<Library />} />
-          <Route path="history" element={<Library  />} />
+          <Route path="saved" element={<Library link="saved"/>} />
+          <Route path="highlight" element={<Library link="highlight"/>} />
+          <Route path="history" element={<Library link="history"/>} />
         </Route>
       </Routes>
     </Router>

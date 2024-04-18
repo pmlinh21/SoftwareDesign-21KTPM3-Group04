@@ -11,6 +11,8 @@
 
 .tab-item {
     height: 100%;
+    width: 100%;
+    color: var(--scheme-sub-text);
 }
 
 .tab-item.focused {
@@ -22,4 +24,9 @@
 .tab-item:hover {
     background-color: var(--blue-0);
     color: var(--scheme-primary);
+}
+
+.no-margin-padding {
+    margin: 0;
+    padding: 0;
 }
