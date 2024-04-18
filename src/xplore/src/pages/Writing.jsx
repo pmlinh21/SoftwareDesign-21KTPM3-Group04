@@ -33,7 +33,7 @@ export default function Writing() {
         status: 0,
         publish_time: null
     })
-    const [scheduleTime, setScheduleTime] = useState(new Date())
+    const [scheduleTime, setScheduleTime] = useState(null, true, true)
     const [displayModal, setDisplayModal] = useState(false)
 
     const dispatch = useDispatch();
@@ -70,19 +70,31 @@ export default function Writing() {
 
     function publishPost(){
         changePostInfo("status", 1)
-        changePostInfo(formartToSQLDatetime(new Date()))
+        changePostInfo("publish_time",formartToSQLDatetime(new Date()))
         saveChanges()
     }
 
-    function saveChanges(){
+    function saveChanges(status){
         const newTopic = postInfo.topic?.map(topic => topic.value)
-        postInfo.topic = [...newTopic]
+
+        postInfo.status = status
+        changePostInfo("status", status)
+
+        if (status == 1){
+            postInfo.publish_time = formartToSQLDatetime(new Date())
+            changePostInfo("publish_time",formartToSQLDatetime(new Date()))
+        } else{
+            postInfo.publish_time = scheduleTime
+            changePostInfo("publish_time",scheduleTime)
+        }
+        
 
         // if (id_post == null){
-        //     dispatch(createPostAction({
-        //         ...postInfo, 
-        //         id_user: user_login?.id_user,
-        //         creation_time: formartToSQLDatetime(new Date()), }))
+            dispatch(createPostAction({
+                ...postInfo, 
+                topic: [...newTopic],
+                id_user: user_login?.id_user,
+                creation_time: formartToSQLDatetime(new Date()), }))
         // }
         // else {
         //     dispatch(createPostAction({
@@ -90,8 +102,6 @@ export default function Writing() {
         //         id_user: user_login?.id_user,
         //         id_post: id_post }))
         // }
-        
-        console.log(postInfo)
     }
 
     function handleBackButton(){
@@ -100,8 +110,8 @@ export default function Writing() {
     }
 
     function changePostInfo(field, value){
-        setPostInfo({
-           ...postInfo,
+        setPostInfo( {
+            ...postInfo,
             [`${field}`]: value
         })
     }
@@ -126,7 +136,7 @@ export default function Writing() {
                             </div>
                             <div className="form-group">
                                 <label>Title</label>
-                                <input type="text" name="title"/>
+                                <input type="text" name="title" value={postInfo.title} onChange={(e)=>{changePostInfo("title",e.target.value)}}/>
                             </div>
                             <div className="form-group">
                                 <label>Topic</label>
@@ -134,7 +144,8 @@ export default function Writing() {
                             </div>
                             <div className="form-row">
                                 <div className="checkbox d-flex align-items-center">
-                                    <input type="checkbox" id="remember" />
+                                    <input type="checkbox" id="remember" checked={postInfo.is_member_only} 
+                                        onChange={(e)=>{changePostInfo("is_member_only",e.target.checked)}}/>
                                     <label htmlFor="remember">Make the post be member-only</label>
                                 </div>
                             </div>
@@ -151,12 +162,13 @@ export default function Writing() {
                             </div>
 
                             <div className="row col-12 d-flex justify-content-between m-0 p-0">
-                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
-                                        onClick={schedulePost}>Schedule</button>
-                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
-                                        onClick={publishPost}>Publish now</button>
                                 <button type="button" onClick={() => setDisplayModal(false)}
-                                className=" btn col-4 link-md rounded-1 button2 bg-white text-scheme-sub-text p-3">Cancel</button>
+                                    className=" btn col-4 link-md rounded-1 button2 bg-white text-scheme-sub-text p-3">Cancel</button>
+                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
+                                        onClick={() => {saveChanges(2)}}>Schedule</button>
+                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
+                                        onClick={() => {saveChanges(1)}}>Publish now</button>
+                                
                             </div>
                         </form>
                     </div>

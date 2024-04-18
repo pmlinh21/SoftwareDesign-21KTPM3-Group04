@@ -40,7 +40,7 @@ function ResultText({type, searchText}){
 const fetchData = async (type, search, setResult, setLoading, id_user) => {
     try {
       setLoading((val) => true);
-      const response = await fetch(`${DOMAIN}/api/${type}/search/${search}/user/${id_user}`);
+      const response = await fetch(`${DOMAIN}/${type}/search/${search}/user/${id_user}`);
       const jsonData = await response.json();
       
 

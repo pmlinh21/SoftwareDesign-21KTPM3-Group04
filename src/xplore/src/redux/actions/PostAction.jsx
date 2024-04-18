@@ -52,15 +52,16 @@ export const createPostAction = (postInfo) => {
     return async (dispatch) => {
         try {
 
-            const result = await postService.createPost(postInfo);
+            console.log(postInfo)
+            // const result = await postService.createPost(postInfo);
             
-            if (result.status === 200) {
-                dispatch({
-                    type: CREATE_POST,
-                    posts: result.data.content
-                });
+            // if (result.status === 200) {
+            //     dispatch({
+            //         type: CREATE_POST,
+            //         posts: result.data.content
+            //     });
                 
-            }
+            // }
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)

@@ -1,6 +1,6 @@
 import React from 'react';
 import "../styles/commons.css";
-import "./SearchResult.css"
+import "./HomeLogin.css"
 import Search from '../components/search/Search'
 import TopicTag from '../components/topic/TopicTag'
 
@@ -15,11 +15,11 @@ import Loading from '../components/loading/Loading';
 
 function HomeLogin() {
     return (
-        <div>
+        <div className="home-login-page">
             {/* Search bar */}
-            <Search search="" isResult={false} />
+            <Search isResult={false}/>
 
-            <div className="container-fluid">
+            <div className="home-login container-fluid">
                 <div className="container">
                     <div className="row g-4">
                         {/* Tab bar */}

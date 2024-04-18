@@ -4,7 +4,7 @@ import Avatar from "../avatar/Avatar";
 import ButtonUnsubscribe from "../button/ButtonUnsubscribe";
 import ButtonSubscribe from "../button/ButtonSubscribe";
 
-export default function AuthorHorizontal({fullname, bio, avatar, isSubscribe = true}) {
+export default function AuthorHorizontal({fullname, bio, avatar, is_subscribe}) {
     return (
         <div className="author-horizontal row py-3 pe-3 d-flex w-100
             bg-white rounded-3 shadow-sm overflow-hidden">
@@ -19,7 +19,7 @@ export default function AuthorHorizontal({fullname, bio, avatar, isSubscribe = t
 
             <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
                 {
-                    isSubscribe?
+                    is_subscribe?
                         <ButtonUnsubscribe/>
                     :
                         <ButtonSubscribe />

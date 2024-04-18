@@ -109,8 +109,8 @@ const searchAccountByName = async (req, res) => {
                 user: id_user
             }
         })
-        console.log(users)
-        console.log(blocks)
+        // console.log(users)
+        // console.log(blocks)
 
         users = users.filter(user => {
             return !blocks.find(block => block.block === user.id_user);
@@ -128,10 +128,7 @@ const searchAccountByName = async (req, res) => {
             user.dataValues.is_subscribe = isSubscribed ? true : false;
         }
 
-        if(users.length > 0)
             successCode(res, users, "Account found")
-        else
-            failCode(res, "", "Not found")
     } catch (err) {
         console.log(err)
         errorCode(res,"Internal Server Error")
