@@ -13,7 +13,6 @@ import SearchResult from './pages/SearchResult';
 import Writing from './pages/Writing';
 import MyProfile from './pages/MyProfile';
 import ExploreTopic from './pages/ExploreTopic';
-import HomeLogin from './pages/HomeLogin';
 import EditProfile from './pages/EditProfile';
 import Library from './pages/Library';
 
@@ -42,7 +41,7 @@ function App() {
           <Route path="search-result" element={<SearchResult />} />
           <Route path="write" element={<Writing />} />
           <Route path="my-profile" element={<MyProfile />} />
-          <Route path="home" element={<HomeLogin />} />
+          <Route path="home" element={<Home />} />
           <Route path='edit-profile' element={<EditProfile />}/>
           <Route path="reading" element={<Library link="reading" />} />
           <Route path="saved" element={<Library link="saved"/>} />
