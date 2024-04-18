@@ -1,11 +1,12 @@
 import React, { useEffect,useState } from 'react';
-import "./Library.css";
+import './Library.css';
+import { Link } from 'react-router-dom';
 import Search from '../components/search/Search';
+import BlogPostCard from '../components/blog-card/BlogPostCard';
 
 
-export default function Library(link) {
-    const [tab, setTab] = React.useState(link);
-    
+export default function Library(props) {
+    const [tab, setTab] = React.useState(props.link);
 
     useEffect(() => {
         const tabItems = document.querySelectorAll('.tab-item');
@@ -29,40 +30,70 @@ export default function Library(link) {
             }
         });
     });
-    
+
+    const tabs = [
+        { id: 'for-reading', name: 'Reading' },
+        { id: 'for-saved', name: 'Saved' },
+        { id: 'for-highlight', name: 'Highlight' },
+        { id: 'for-history', name: 'History' },
+    ];
+
+    const postProps = {
+        id_post: 1, 
+        title: 'Title',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        thumbnail: 'https://picsum.photos/id/2/600/600',
+        list_topic: [{topic: 'topic'}, {topic:'topic2'}],
+        author: {author_avatar: 'https://picsum.photos/id/2/600/600', fullname: 'Author name'},
+        publish_time: '2021-09-09',
+        is_saved: true
+    }
 
     return (
         <div className='container-fluid'>
             <Search />
             <div className='container'>
                 <ul className='row tab-panel my-4'>
-                    <li className='col-3 py-2 button2 text-scheme-sub-text tab-item' id="for-reading">Reading</li>
-                    <li className='col-3 py-2 button2 text-scheme-sub-text tab-item' id="for-saved">Saved</li>
-                    <li className='col-3 py-2 button2 text-scheme-sub-text tab-item' id="for-highlight">Highlight</li>
-                    <li className='col-3 py-2 button2 text-scheme-sub-text tab-item' id="for-history">History</li>
+                    {tab == "reading" ? <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-reading" >Reading</li></Link> : <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-reading" >Reading</li></Link>}
+                    {tab == "saved" ? <Link to="/saved" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-saved" >Saved</li></Link> : <Link to="/saved" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-saved" >Saved</li></Link>}
+                    {tab == "highlight" ? <Link to="/highlight" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-highlight" >Highlight</li></Link> : <Link className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-highlight" >Highlight</li></Link>}
+                    {tab == "history" ? <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-history" >History</li></Link> : <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-history" >History</li></Link>}
                 </ul>
 
-                <div className="tab-content" id="reading">
-                    <div className="empty-box text-center my-5 py-5">
-                        <img src="./imgs/empty-box.png" alt="empty-box" className="mt-5" />
+                <div className='tab-content' id='reading'>
+                    <div className='empty-box text-center my-5 py-5'>
+                        <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You are reading 0 posts</h6>
                     </div>
+
+                    <div className='row'>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        <div className='col-4'>
+                            <BlogPostCard {...postProps} />
+                        </div>
+                        
+                    </div>
                 </div>
-                <div className="tab-content" id="saved">
-                    <div className="empty-box text-center my-5 py-5">
-                        <img src="./imgs/empty-box.png" alt="empty-box" className="mt-5" />
+                <div className='tab-content' id='saved'>
+                    <div className='empty-box text-center my-5 py-5'>
+                        <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You saved 0 posts</h6>
                     </div>
                 </div>
-                <div className="tab-content" id="highlight">
-                    <div className="empty-box text-center my-5 py-5">
-                        <img src="./imgs/empty-box.png" alt="empty-box" className="mt-5"/>
+                <div className='tab-content' id='highlight'>
+                    <div className='empty-box text-center my-5 py-5'>
+                        <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5'/>
                         <h6 className='text-scheme-sub-text mt-5'>You have 0 highlights</h6>
                     </div>
                 </div>
-                <div className="tab-content" id="history">
-                    <div className="empty-box text-center my-5 py-5">
-                        <img src="./imgs/empty-box.png" alt="empty-box" className="mt-5" />
+                <div className='tab-content' id='history'>
+                    <div className='empty-box text-center my-5 py-5'>
+                        <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You read 0 posts</h6>
                     </div>
                 </div>
