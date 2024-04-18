@@ -49,8 +49,23 @@ function About() {
                 </div>
             </div>
             {/*Partners*/}
-            <div className='container-fluid'>
-                
+            <div className='container-fluid partners-info'>
+                <p className='label1' style={{textAlign: 'center'}}>Join 4,000+ companies already growing</p>
+                <div className='container'>
+                    <div className='row g-4' style={{margin: '32px 0'}}>
+                        <div className='col'><img src='/imgs/about-layers.svg'></img></div>
+                        <div className='col'><img src='/imgs/about-sisyphus.svg'></img></div>
+                        <div className='col'><img src='/imgs/about-circooles.svg'></img></div>
+                        <div className='col'><img src='/imgs/about-catalog.svg'></img></div>
+                        <div className='col'><img src='/imgs/about-quotient.svg'></img></div>
+                    </div>
+                </div>
+            </div>
+            {/*Team*/}
+            <div className='container-fluid team-info' style={{textAlign: 'center'}}>
+                <p className='label1' >We are hiring</p>  
+                <h4>Meet our team</h4>
+                <p className='p1'>Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do you best work.</p>
             </div>
         </div>
     )

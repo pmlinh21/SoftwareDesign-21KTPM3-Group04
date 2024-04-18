@@ -4,11 +4,9 @@
     color: var(--scheme-primary);
     text-align: center;
 }
-
 .label1 {
     color: var(--blue-700);
 }
-
 .subtext {
     color: var(--scheme-sub-text);
     text-align: center;
@@ -17,6 +15,12 @@
 .about-info {
     padding: 96px 0;
     background-color: var(--blue-0);
+}
+.partners-info {
+    padding: 96px 0;
+}
+.team-info {
+    padding: 72px 0;
 }
 
 #company-img {
