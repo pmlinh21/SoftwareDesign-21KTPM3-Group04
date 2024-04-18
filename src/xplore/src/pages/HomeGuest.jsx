@@ -18,6 +18,7 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg';
+import { userService } from '../services/UserService';
 
 export default function Home() {
 
@@ -32,6 +33,7 @@ export default function Home() {
     }
 
     const [trendingPosts, setTrendingPosts] = useState([]);
+    const [topAuthors, setTopAuthors] = useState([]);
 
     const fetchTrendingPosts = async (id_user) => {
         try {
@@ -45,11 +47,30 @@ export default function Home() {
         }
     };
 
+    const fetchTopAuthors = async () => {
+        try {
+            const topUserIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            const topUsers = [];
+            for (let i = 0; i < topUserIds.length; i++) {
+                const result = await userService.getUserById(topUserIds[i]);
+                if (result.status === 200) {
+                    topUsers.push(result.data.content);
+                }
+            }
+            setTopAuthors(topUsers);
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+
     useEffect(() => {
         fetchTrendingPosts(1);
+        fetchTopAuthors();
     }, []);
 
     console.log("trendingPosts", trendingPosts.length);
+    console.log("topAuthors", topAuthors);
 
     const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
     const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
@@ -73,23 +94,10 @@ export default function Home() {
             </section>
 
             <section className="container my-5">
-                {/* <Slider {...settings}>
-                    {authors.map((author, index) => (
-                        <AuthorVertical key={index} author={author} />
-                    ))}
-                </Slider> */}
-
                 <Slider {...settings}>
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
-                    <AuthorVertical />
+                    {topAuthors.map(author => (
+                        <AuthorVertical author={author} />
+                    ))}
                 </Slider>
             </section>
 
