@@ -2,8 +2,9 @@ import React from "react";
 import "./BlogCardNoThumb.css";
 import Avatar from "../avatar/Avatar";
 
-export default function BlogCardNoThumb(post) {
-    console.log("BlogCardNoThumb", post);
+export default function BlogCardNoThumb(props) {
+    const { id_post, title, content, publish_time, thumbnail, likeCount, responseCount } = props.post;
+
     return (
             <div className="d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2">
                 <div>
@@ -12,7 +13,7 @@ export default function BlogCardNoThumb(post) {
                         <i className="fa-solid fa-bookmark bookmark"></i>
                     </div>
 
-                    <div className="center title1 mt-2">{post.post.title}</div>
+                    <div className="center title1 mt-2">{title}</div>
                 </div>
 
                 <div className="d-flex flex-row justify-content-between align-items-center gap-2">

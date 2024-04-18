@@ -25,7 +25,7 @@ function HomeLogin() {
                         </div>
                         {/* Trending */}
                         {/* Following */}
-                           {/* Topics */}
+                        {/* Topics */}
                     </div>
                 </div>
             </div>
