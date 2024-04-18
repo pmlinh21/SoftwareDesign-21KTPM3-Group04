@@ -1,4 +1,5 @@
 import React from 'react';
+import "./Home.css"
 import "../styles/commons.css";
 import "./SearchResult.css"
 import Search from '../components/search/Search'
