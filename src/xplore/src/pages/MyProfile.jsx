@@ -16,7 +16,7 @@ let props = {
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     thumbnail: `https://picsum.photos/id/2/600/600`,
     list_topic: "First topic",
-    author: "Author name",
+    author: {fullname: "Author name", avatar: avatarPlaceholder},
     publish_time: "2021-09-01",
     is_saved: true
 }

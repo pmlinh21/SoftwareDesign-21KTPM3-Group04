@@ -3,6 +3,7 @@ import './Library.css';
 import { Link } from 'react-router-dom';
 import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
+import ListCard from '../components/list-card/ListCard';
 
 
 export default function Library(props) {
@@ -83,6 +84,13 @@ export default function Library(props) {
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You saved 0 posts</h6>
+                    </div>
+
+                    <div className='row d-flex flex-row flex-wrap justify-content-between gap-3'>
+                            <ListCard />
+                            <ListCard />
+                            <ListCard />
+                            <ListCard />
                     </div>
                 </div>
                 <div className='tab-content' id='highlight'>
