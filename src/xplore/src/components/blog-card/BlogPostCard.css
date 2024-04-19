@@ -16,6 +16,10 @@
     border: none
 }
 
+.blog-post-card {
+    width: 32%;
+}
+
 .blog-post-card .long-text{
     display: -webkit-box;
     -webkit-box-orient: vertical;

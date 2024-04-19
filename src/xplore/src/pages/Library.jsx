@@ -67,17 +67,10 @@ export default function Library(props) {
                         <h6 className='text-scheme-sub-text mt-5'>You are reading 0 posts</h6>
                     </div>
 
-                    <div className='row'>
-                        <div className='col-4'>
-                            <BlogPostCard {...postProps} />
-                        </div>
-                        <div className='col-4'>
-                            <BlogPostCard {...postProps} />
-                        </div>
-                        <div className='col-4'>
-                            <BlogPostCard {...postProps} />
-                        </div>
-                        
+                    <div className='row d-flex flex-row flex-wrap justify-content-between gy-5'>
+                        <BlogPostCard {...postProps} />
+                        <BlogPostCard {...postProps} />
+                        <BlogPostCard {...postProps} />
                     </div>
                 </div>
                 <div className='tab-content' id='saved'>
@@ -87,10 +80,10 @@ export default function Library(props) {
                     </div>
 
                     <div className='row d-flex flex-row flex-wrap justify-content-between gap-3'>
-                            <ListCard />
-                            <ListCard />
-                            <ListCard />
-                            <ListCard />
+                        <ListCard />
+                        <ListCard />
+                        <ListCard />
+                        <ListCard />
                     </div>
                 </div>
                 <div className='tab-content' id='highlight'>
