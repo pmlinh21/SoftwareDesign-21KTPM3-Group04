@@ -58,8 +58,8 @@ export default function MyProfile() {
                             <h6>Following</h6>
                             <p className="p1">120</p>
                         </div>
-                        <AuthorHorizontal />
-                        <AuthorHorizontal />
+                        <AuthorHorizontal author={props.author}/>
+                        <AuthorHorizontal author={props.author}/>
                         <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-2">
                             See all <i className="fa-solid fa-arrow-right"></i>
                         </button>
