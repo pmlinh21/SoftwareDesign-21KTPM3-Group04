@@ -49,24 +49,32 @@ export default function EditProfile() {
                     </div>
                     <div className="col-8 d-flex flex-column gap-2 p-4 form-info rounded-3 shadow-sm">
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
+                            <div className="mb-3 position-relative">
                                 <div className="col">
                                     <label htmlFor="fullName" className="form-label">Full name</label>
                                     <input type="text" className="form-control" id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                                 </div>
+                                <i className="fa-regular fa-pen-to-square position-absolute top-50 translate-middle-y end-0 me-2 mt-3"></i>
                             </div>
-                            <div className="mb-3">
+                            <div className="mb-3 position-relative">
                                 <label htmlFor="email" className="form-label">Email</label>
                                 <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <i className="fa-regular fa-pen-to-square position-absolute top-50 translate-middle-y end-0 me-2 mt-3"></i>
                             </div>
                             <div className="row mb-3">
-                                <div className="col">
+                                <div className="col position-relative">
+                                    <i class="fa-regular fa-calendar-plus position-absolute translate-middle-y end-1 top-50 ms-2 mt-3"></i>
                                     <label htmlFor="birthdate" className="form-label">Birthdate</label>
-                                    <input type="text" className="form-control" id="birthdate" value="22/03/2003" readOnly />
+                                    <input type="text" className="form-control" id="birthdate" value="22/03/2003" readOnly style={{ paddingLeft: "28px" }}/>
                                 </div>
-                                <div className="col">
+                                <div className="col position-relative">
+                                    <select className="form-select-borderless position-absolute translate-middle-y end-1 top-50 mt-3 ms-1" aria-label="Default select example">
+                                        <option selected>VN</option>
+                                        <option value="1">EU</option>
+                                        <option value="2">US</option>
+                                    </select>
                                     <label htmlFor="phone" className="form-label">Phone number</label>
-                                    <input type="text" className="form-control" id="phone" value="+84 855 995 203" readOnly />
+                                    <input type="text" className="form-control" id="phone" value="+84 855 995 203" readOnly style={{ paddingLeft: "50px" }}/>
                                 </div>
                                 <div className="col">
                                     <label htmlFor="gender" className="form-label">Gender</label>
@@ -82,25 +90,26 @@ export default function EditProfile() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row mb-3 mt-4 justify-content-center">
-                                <div className="col-4 avatar-con">
-                                    <img src={avatarPlaceholder} alt="user's avatar" className="avatar"/>
+                            <div className="row mb-3 mt-4 pe-3">
+                                <div className="col-2">
+                                    <img src="https://res.cloudinary.com/dklt21uks/image/upload/v1713205107/lvkujmkg3jxoqfytzcxj.jpg" alt="user's avatar" className="avatar-form"/>
                                 </div>
-                                <div className="col-7 d-flex rounded-3 shadow-sm justify-content-center">
+                                <div className="col-10 d-flex rounded-3 shadow-sm justify-content-center">
                                     <label htmlFor="photo" className="form-label upload-label">
                                         <input type="file" className="form-control visually-hidden" id="photo" accept="image/*" onChange={(e) => setPhoto(e.target.files[0])} />
                                         <div className="upload-icon">
                                             <i className="fas fa-cloud-upload-alt"></i>
                                         </div>
                                         <div className="upload-text">
-                                            <span>Click to upload or drag and drop</span>
+                                            <span><span className='upload-text-1'>Click to upload</span> or drag and drop</span>
                                             <span>(SVG, PNG, JPG or GIF max. 800x400px)</span>
                                         </div>
                                     </label>
                                 </div>
                             </div>
                         </form>
-                        <div className="d-flex flex-row justify-content-end align-items-center gap-2">
+                        <hr className='space'></hr>
+                        <div className="btn-info d-flex flex-row justify-content-end align-items-center gap-2">
                             <a href='/my-profile'>
                                 <button className="btn-nm tert-btn button1 edit-style">Cancel</button>
                             </a>

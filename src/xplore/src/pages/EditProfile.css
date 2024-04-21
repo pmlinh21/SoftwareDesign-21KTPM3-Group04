@@ -37,6 +37,19 @@
     padding-right: 80px;
 }
 
+.form-select-borderless {
+    border: none;
+    outline: none;
+}
+
+.avatar-form {
+    margin-top: 0px;
+    width: 90px;
+    height: 90px;
+    border: 5px solid var(--scheme-background);
+    border-radius: 50%;
+}
+
 .upload-label {
     cursor: pointer;
     align-items: center;
@@ -50,13 +63,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0px 10px 0px;
+    margin: 10px 0px 10px 115px;
 }
 
 .upload-text {
-    color: #000;
+    color: #475467;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.upload-text-1 {
+    color: #004EEA;
+    font-weight: 500;
 }
 
 .visually-hidden {
@@ -74,4 +93,16 @@
     font-size: 14px !important;
     padding: 10px;
     height: 40px;
+}
+
+.space{
+    margin-left: -24px;
+    margin-right: -24px;
+    color: #c2bebe;
+    margin-top: 0px;
+}
+
+.btn-info{
+    margin-top: -5px;
+    margin-bottom: -7px;
 }
