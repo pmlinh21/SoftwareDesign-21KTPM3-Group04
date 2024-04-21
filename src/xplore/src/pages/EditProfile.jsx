@@ -12,8 +12,10 @@ export default function EditProfile() {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [photo, setPhoto] = useState('');
+    const [userName, setUserName] = useState('');
+    const [tippingLink, setTippingLink] = useState('');
+    const [bio, setBio] = useState('');
 
-    
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -122,8 +124,34 @@ export default function EditProfile() {
                         <h6>Profile</h6>
                         <p>Update your portfolio and bio.</p>
                     </div>
-                    <div className="col-7 d-flex flex-column gap-2">
-                    
+                    <div className="col-8 d-flex flex-column gap-2 p-4 form-info rounded-3 shadow-sm">
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <div className="col">
+                                    <label htmlFor="userName" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="userName" value={userName} onChange={(e) => setUserName(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="mb-3 position-relative">
+                                <label htmlFor="tipping-link" className="form-label">Tipping link</label>
+                                <div className="input-group">
+                                    <span className="input-group-text">http://</span>
+                                    <input type="text" className="form-control" id="tippingLink" value={tippingLink} onChange={(e) => setTippingLink(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="bio" className="form-label">Bio</label>
+                                <textarea className="form-control" id="bio" rows="3" value={bio} onChange={(e) => setBio(e.target.value)}></textarea>
+                                <small className="form-text text-muted">275 characters left</small>
+                            </div>
+                        </form>
+                        <hr className='space'></hr>
+                        <div className="btn-info d-flex flex-row justify-content-end align-items-center gap-2">
+                            <a href='/my-profile'>
+                                <button className="btn-nm tert-btn button1 edit-style">Cancel</button>
+                            </a>
+                            <button className="btn-nm prim-btn button1 edit-style">Save changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
