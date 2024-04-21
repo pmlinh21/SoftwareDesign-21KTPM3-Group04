@@ -27,6 +27,16 @@
     color: var(--black);
 }
 
+/* .form-info{
+    border-radius: 12px;
+    box-sizing: border-box;
+} */
+
+.select-gender{
+    margin: 6px 0px 0px 0px;
+    padding-right: 80px;
+}
+
 .upload-label {
     cursor: pointer;
     align-items: center;

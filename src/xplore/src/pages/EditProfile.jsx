@@ -9,8 +9,7 @@ import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 
 export default function EditProfile() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [photo, setPhoto] = useState('');
 
@@ -43,21 +42,17 @@ export default function EditProfile() {
             </div>
 
             <div className="container">
-                <div className=" row mt-5 d-flex flex-row justify-content-between">
+                <div className=" row mt-5 d-flex flex-row justify-content-center">
                     <div className="col-4 d-flex flex-column gap-2">
                         <h6>Personal info</h6>
                         <p>Update your photo and personal details.</p>
                     </div>
-                    <div className="col-7 d-flex flex-column gap-2">
+                    <div className="col-8 d-flex flex-column gap-2 p-4 form-info rounded-3 shadow-sm">
                         <form onSubmit={handleSubmit}>
-                            <div className="row mb-3">
+                            <div className="mb-3">
                                 <div className="col">
-                                    <label htmlFor="firstName" className="form-label">First name</label>
-                                    <input type="text" className="form-control" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                                </div>
-                                <div className="col">
-                                    <label htmlFor="lastName" className="form-label">Last name</label>
-                                    <input type="text" className="form-control" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                    <label htmlFor="fullName" className="form-label">Full name</label>
+                                    <input type="text" className="form-control" id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                                 </div>
                             </div>
                             <div className="mb-3">
@@ -65,10 +60,33 @@ export default function EditProfile() {
                                 <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className="row mb-3">
+                                <div className="col">
+                                    <label htmlFor="birthdate" className="form-label">Birthdate</label>
+                                    <input type="text" className="form-control" id="birthdate" value="22/03/2003" readOnly />
+                                </div>
+                                <div className="col">
+                                    <label htmlFor="phone" className="form-label">Phone number</label>
+                                    <input type="text" className="form-control" id="phone" value="+84 855 995 203" readOnly />
+                                </div>
+                                <div className="col">
+                                    <label htmlFor="gender" className="form-label">Gender</label>
+                                    <div className='row select-gender'>
+                                        <div className="col form-check">
+                                            <input className="form-check-input" type="radio" name="gender" id="male" checked />
+                                            <label className="form-check-label" htmlFor="male">Male</label>
+                                        </div>
+                                        <div className="col form-check">
+                                            <input className="form-check-input" type="radio" name="gender" id="female" />
+                                            <label className="form-check-label" htmlFor="female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row mb-3 mt-4 justify-content-center">
                                 <div className="col-4 avatar-con">
                                     <img src={avatarPlaceholder} alt="user's avatar" className="avatar"/>
                                 </div>
-                                <div className="col-7 d-flex">
+                                <div className="col-7 d-flex rounded-3 shadow-sm justify-content-center">
                                     <label htmlFor="photo" className="form-label upload-label">
                                         <input type="file" className="form-control visually-hidden" id="photo" accept="image/*" onChange={(e) => setPhoto(e.target.files[0])} />
                                         <div className="upload-icon">
@@ -81,17 +99,13 @@ export default function EditProfile() {
                                     </label>
                                 </div>
                             </div>
-                            <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                                <a href='/my-profile'>
-                                    <button className="btn-nm tert-btn button1 edit-style">
-                                        Cancel
-                                    </button>
-                                </a>
-                                <button type='submit' className="btn-nm prim-btn button1 edit-style">
-                                    Save changes
-                                </button>
-                            </div>
                         </form>
+                        <div className="d-flex flex-row justify-content-end align-items-center gap-2">
+                            <a href='/my-profile'>
+                                <button className="btn-nm tert-btn button1 edit-style">Cancel</button>
+                            </a>
+                            <button className="btn-nm prim-btn button1 edit-style">Save changes</button>
+                        </div>
                     </div>
                 </div>
                 <div className=" row mt-5 d-flex flex-row justify-content-between">
