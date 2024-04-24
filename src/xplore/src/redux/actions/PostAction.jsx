@@ -2,11 +2,16 @@ import { postService } from "../../services/PostService";
 import { 
     GET_POST_BY_USER, 
     GET_TOP_POSTS,
-    CREATE_POST } from "../types";
+    CREATE_POST,
+
+    HIDE_LOADING, DISPLAY_LOADING} from "../types";
 
 export const getPostByUser = (id_user) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
             const result = await postService.getPostByUser(id_user);
 
             if (result.status === 200) {
@@ -14,7 +19,9 @@ export const getPostByUser = (id_user) => {
                     type: GET_POST_BY_USER,
                     posts: result.data.content
                 });
-                
+                dispatch({
+                    type: HIDE_LOADING
+                });
             }
         } catch (error) {
             console.log("error", error.response);
@@ -51,13 +58,15 @@ export const getTopPostsAction = () => {
 export const createPostAction = (postInfo) => {
     return async (dispatch) => {
         try {
-
-            console.log(postInfo)
             const result = await postService.createPost(postInfo);
             
             if (result.status === 200) {
-                console.log(result.message )
-                
+                console.log(result)
+                const {id_user,...newPost} = result.data.content
+                dispatch({
+                    type: CREATE_POST,
+                    newPost: newPost
+                });
             }
         } catch (error) {
             console.log("error", error.response);

@@ -1,6 +1,6 @@
 import "../styles/commons.css";
 import "./Writing.css";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
 import DatePicker from 'react-datepicker';
@@ -10,25 +10,28 @@ import { useSelector, useDispatch} from 'react-redux'
 import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 
 import TextEditor from './TextEditor';
-
+import Loading from '../components/loading/Loading'
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
 
-function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postInfo }){
+function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postInfo, handleSaveButton }){
 
 
     return(
         <div className="container toolbar">
         <div className="col-12 m-0 p-0 d-flex justify-content-between align-items-center">
-            <Link to="#" onClick={handleBackButton} className='text-black link-sm'>
+            <button onClick={handleBackButton} className='text-black link-sm p-0 m-0'>
                 <i className="text-black fa-solid fa-arrow-left"></i>
                 &nbsp;Back
-            </Link>
+            </button>
             <div className="col-auto">
-                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                    onClick={handleBackButton}>
-                    Save
-                </button>
+                {
+                postInfo.status === 0 && 
+                    <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
+                        onClick={handleSaveButton}>
+                        Save
+                    </button>
+                }
                 <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
                     onClick={handlePreviewButton}>
                     Preview
@@ -52,6 +55,7 @@ export default function Writing() {
     const {posts} =  useSelector(state => state.PostReducer)
     const {user_login} =  useSelector(state => state.UserReducer)
     const {topics} =  useSelector(state => state.TopicReducer)
+    const {loading} =  useSelector(state => state.LoadingReducer)
 
     const [postInfo, setPostInfo] = useState({
         content: "",
@@ -68,8 +72,9 @@ export default function Writing() {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        if (posts == null)
+        if (posts == null){
             dispatch(getPostByUser(user_login?.id_user))
+        }
     },[])
 
     useEffect(()=>{
@@ -88,18 +93,28 @@ export default function Writing() {
                     status: selectedPost?.status ,
                     publish_time: selectedPost?.publish_time
                 })
+
+                if (selectedPost.status === 2){
+                    setScheduleTime(new Date(selectedPost.publish_time))
+                }
             }
     },[posts])
 
     function handlePreviewButton(){
-
+        navigate("/home");
     }
 
     function handleBackButton(){
         if (!postInfo.title && !postInfo.content){
-            window.history.replaceState({}, document.title, window.location.href);
-            navigate("/")
-            
+            navigate('/', { replace: true });
+        } else if (postInfo.title && postInfo.content){
+            saveChanges()
+        }
+    }
+
+    function handleSaveButton(){
+        if (!postInfo.title && !postInfo.content){
+            navigate('/', { replace: true });
         } else if (postInfo.title && postInfo.content){
             saveChanges()
         } else {
@@ -145,8 +160,7 @@ export default function Writing() {
                 id_post: id_post }))
         }
 
-        window.history.replaceState({}, document.title, window.location.href);
-        navigate('/');
+        // navigate('/', { replace: true });
 
     }
 
@@ -163,9 +177,10 @@ export default function Writing() {
              topic: [...newTopic]
          })
     }
-      
+    
+
     return (
-        <div className="writing-page">
+        <div className="writing-page h-100">
             {
                 displayModal && (
                     <div className="modal-overlay">
@@ -220,7 +235,7 @@ export default function Writing() {
                                     )
                                 }
                                 <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 publish-btn" 
-                                         style={postInfo?.status === 1 ? { flexGrow: 1 } : {}}
+                                        style={postInfo?.status === 1 ? { flexGrow: 1 } : {}}
                                         onClick={() => {saveChanges(1)}}>Publish now</button>
                                 
                             </div>
@@ -229,14 +244,26 @@ export default function Writing() {
                 </div>
                 )
             }
-            <Toolbar
-                handlePreviewButton={handlePreviewButton}
-                handleBackButton={handleBackButton}
-                setDisplayModal={setDisplayModal}
-                postInfo={postInfo}/>
-            <div className="container col-12 mt-3">
-                <TextEditor content={postInfo.content} changePostInfo={changePostInfo}></TextEditor>
-            </div>
+            {
+                !loading ? (
+                    <>
+                        <Toolbar
+                            handlePreviewButton={handlePreviewButton}
+                            handleBackButton={handleBackButton}
+                            handleSaveButton={handleSaveButton}
+                            setDisplayModal={setDisplayModal}
+                            postInfo={postInfo}
+                            navigate={navigate}/>
+                        <div className="container col-12 mt-3">
+                            <TextEditor content={postInfo.content} 
+                            changePostInfo={changePostInfo}></TextEditor>
+                        </div>
+                    </>
+                )
+                :
+                <Loading/>
+            }
+            
         </div>
     );
 }

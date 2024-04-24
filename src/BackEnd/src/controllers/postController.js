@@ -114,10 +114,6 @@ const getPostByID = async (req,res) => {
             "author.fullname", "author.avatar", "author.id_user"] 
         }); 
 
-        if (!post) {
-            failCode(res, [], "Invalid ID")
-        }
-
         successCode(res,post,"Post found")
     }
     catch(err){
@@ -198,8 +194,8 @@ const getPostByUser = async (req,res) => {
                 },
             ],
             attributes: [
-                "title", "content", "publish_time", "thumbnail", "id_post",
-                "creation_time", "status", "is_member_only"
+                "id_post", "title", "content", "thumbnail", 
+                "creation_time", "status","publish_time", "is_member_only"
             ],
         }); 
 
@@ -210,8 +206,6 @@ const getPostByUser = async (req,res) => {
         errorCode(res,"Internal Server Error")
     }
 }
-
-
 
 const getLikeOfPost = async (req,res) => {
     const {id_post} = req.params;
@@ -289,21 +283,46 @@ const getResponseOfPost = async (req,res) => {
 
 const createPost = async (req,res) => {
     const {id_user, title, content, thumbnail,creation_time,
-            publish_time, is_member_only, status} = req.body;
+            publish_time, is_member_only, status, topic} = req.body;
 
     try{
-        // const post = await model.post.create({
-        //     id_user, title, content, thumbnail,creation_time,
-        //     status: status, publish_time, is_member_only
-        // }); 
+        const post = await model.post.create({
+            id_user, title, content, thumbnail,creation_time,
+            status: status, publish_time, is_member_only
+        }); 
 
-        // if (!post) {
-        //     failCode(res, null, "Invalid ID")
-        // }
-        console.log({id_user, title, content, thumbnail,creation_time,
-            publish_time, is_member_only, status})
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
 
-        successCode(res,null,"Post created")
+        const topicPostPromises = topic.map(async (id_topic) => {
+            await model.topic_post.create({
+                id_post: post.id_post,
+                id_topic: id_topic
+            });
+        });
+
+        await Promise.all(topicPostPromises);
+
+        const result = await model.topic_post.findAll({
+            where: {
+                id_post: post.id_post
+            },
+            include: [
+                {
+                    model: model.topic,
+                    as: "id_topic_topic",
+                },
+            ],
+        });
+
+        const list_topic = result.map(item => {
+            return {id_topic : item.id_topic,
+                topic : item.id_topic_topic.topic}
+        })
+
+        const plainPost = post.get({ plain: true });
+        successCode(res,{...plainPost, list_topic: list_topic},"Post created")
     }
     catch(err){
         console.log(err)

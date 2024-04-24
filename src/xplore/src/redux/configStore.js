@@ -4,11 +4,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TopicReducer } from "./reducers/TopicReducer";
 import { UserReducer } from "./reducers/UserReducer";
 import { PostReducer } from "./reducers/PostReducer";
+import {LoadingReducer} from "./reducers/LoadingReducer";
 
 const rootReducer = combineReducers({
     UserReducer,
     TopicReducer,
-    PostReducer
+    PostReducer,
+    LoadingReducer
 })
 
 const middleWare = [thunk];
