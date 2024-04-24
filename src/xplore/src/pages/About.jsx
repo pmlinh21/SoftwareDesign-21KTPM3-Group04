@@ -9,7 +9,8 @@ function About() {
             {/*Headline*/}
             <div className='container-fluid'>
                 <div className='container' style={{padding: '72px 0'}}>
-                    <p className='subtitle1'>ABOUT US</p>
+                    <p className='subtitle1' style={{color: 'var(--scheme-primary)',
+    textAlign: 'center'}}>ABOUT US</p>
                     <h4 style={{textAlign: 'center'}}>About the company</h4>
                     <p className='p1 subtext'>Learn more about the company and the team behind it.</p>
                 </div>
@@ -63,7 +64,7 @@ function About() {
             </div>
             {/*Team*/}
             <div className='container-fluid team-info' style={{textAlign: 'center'}}>
-                <p className='label1' >We are hiring</p>  
+                <p className='label1'>We are hiring</p>  
                 <h4>Meet our team</h4>
                 <p className='p1' style={{color: 'var(--scheme-sub-text'}}>Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do you best work.</p>
                 <div className='about-buttons justify-content-center'>
