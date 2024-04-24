@@ -319,10 +319,7 @@ button {
 }
 
 .tert-btn:hover {
-    /* background: transparent; */
-    /* same as default */
-    /* color: var(--black); */
-    /* same as default */
+    background: var(--neutral-0);
     cursor: pointer;
 }
 
