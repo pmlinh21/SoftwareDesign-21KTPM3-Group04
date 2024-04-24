@@ -3,6 +3,7 @@ import "./BlogCardHorizontal.css";
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon"
 import { formatToMD } from "../../util/formatDate";
+import { sanitizeContent } from "../../util/formatText";
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
@@ -42,7 +43,7 @@ export default function BlogCardHorizontal(props) {
                         <div className="pt-0 mt-0">
                             <p
                                 className="p3 text-scheme-sub-text long-text content-text"
-                                dangerouslySetInnerHTML={{ __html: content || LONG_PASSAGE }}
+                                dangerouslySetInnerHTML={{ __html: sanitizeContent(content) || LONG_PASSAGE }}
                             ></p>
                         </div>
                     </div>

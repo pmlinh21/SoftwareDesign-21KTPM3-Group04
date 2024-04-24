@@ -726,10 +726,26 @@ const getUserList = async (req, res) => {
         let list = await model.list.findAll({
             where: {
                 id_user: id_user
-            }
+            },
+            include:[
+                {
+                    model: model.post,
+                    as: "saved_posts",
+                    attributes: ["id_post"],
+                    through: { attributes: [] },
+                }
+            ],
+            attributes: ["id_list","list_name"],
         });
+
+        list = list.map(item => {
+            const plainItem = item.get({ plain: true });
+            plainItem.saved_posts = plainItem.saved_posts.map(post => post.id_post);
+            return plainItem;
+        });
+
         if(!list){
-            failCode(res, null, "User has no listings")
+            failCode(res, [], "User has no listings")
         }
         else{
             successCode(res, list, "List found")

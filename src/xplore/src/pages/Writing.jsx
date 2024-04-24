@@ -5,18 +5,47 @@ import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; 
-import {Link, useLocation,redirect } from 'react-router-dom'
+import {Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
-import { getPostByUser, createPostAction } from "../redux/actions/PostAction";
+import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 
 import TextEditor from './TextEditor';
 
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
 
+function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postInfo }){
+
+
+    return(
+        <div className="container toolbar">
+        <div className="col-12 m-0 p-0 d-flex justify-content-between align-items-center">
+            <Link to="#" onClick={handleBackButton} className='text-black link-sm'>
+                <i className="text-black fa-solid fa-arrow-left"></i>
+                &nbsp;Back
+            </Link>
+            <div className="col-auto">
+                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
+                    onClick={handleBackButton}>
+                    Save
+                </button>
+                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
+                    onClick={handlePreviewButton}>
+                    Preview
+                </button>
+                <button className="prim-btn rounded-1 button2"
+                    onClick={() => {setDisplayModal(true)}}>
+                    Publish
+                </button>
+            </div>
+        </div>
+    </div>
+    )
+}
   
 export default function Writing() {
     const location = useLocation();
+    const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const id_post = searchParams.get('id_post');
 
@@ -33,24 +62,28 @@ export default function Writing() {
         status: 0,
         publish_time: null
     })
-    const [scheduleTime, setScheduleTime] = useState(null, true, true)
+    const [scheduleTime, setScheduleTime] = useState(null)
     const [displayModal, setDisplayModal] = useState(false)
 
     const dispatch = useDispatch();
     
     useEffect(() => {
-        dispatch(getPostByUser(user_login?.id_user))
+        if (posts == null)
+            dispatch(getPostByUser(user_login?.id_user))
     },[])
 
     useEffect(()=>{
-            const selectedPost = posts.find(post => post.id_post == id_post)
+            const selectedPost = posts?.find(post => post.id_post == id_post)
+            const topic = selectedPost?.list_topic.map(topic => {
+                return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
+            })
             if(selectedPost){
                 setPostInfo(
                     {...postInfo,
                     content: selectedPost?.content ,
                     title: selectedPost?.title,
                     thumbnail: selectedPost?.thumbnail ,
-                    topic: selectedPost?.topic ,
+                    topic: topic ,
                     is_member_only: selectedPost?.is_member_only ,
                     status: selectedPost?.status ,
                     publish_time: selectedPost?.publish_time
@@ -62,52 +95,59 @@ export default function Writing() {
 
     }
 
-    // function schedulePost(){
-    //     changePostInfo("status", 2)
-    //     changePostInfo("publish_time",scheduleTime)
-    //     saveChanges()
-    // }
-
-    // function publishPost(){
-    //     changePostInfo("status", 1)
-    //     changePostInfo("publish_time",formartToSQLDatetime(new Date()))
-    //     saveChanges()
-    // }
+    function handleBackButton(){
+        if (!postInfo.title && !postInfo.content){
+            window.history.replaceState({}, document.title, window.location.href);
+            navigate("/")
+            
+        } else if (postInfo.title && postInfo.content){
+            saveChanges()
+        } else {
+            alert("Please enter the title and content")
+        }
+    }
 
     function saveChanges(status){
         const newTopic = postInfo.topic?.map(topic => topic.value)
 
-        postInfo.status = status
-        changePostInfo("status", status)
+        // user do not press "Back" or "Save" button
+        if (status){
+            postInfo.status = status
+            changePostInfo("status", status)
+        }
 
         if (status == 1){
             postInfo.publish_time = formartToSQLDatetime(new Date())
             changePostInfo("publish_time",formartToSQLDatetime(new Date()))
-        } else{
+        } else if (status == 2){
+
+            if (!scheduleTime){
+                alert ("Please select schedule date")
+                return
+            }
             postInfo.publish_time = scheduleTime
             changePostInfo("publish_time",scheduleTime)
         }
-        
 
-        // if (id_post == null){
+        if (id_post == null){
             dispatch(createPostAction({
                 ...postInfo, 
                 topic: [...newTopic],
                 id_user: user_login?.id_user,
                 creation_time: formartToSQLDatetime(new Date())
             }))
-        // }
-        // else {
-        //     dispatch(createPostAction({
-        //         ...postInfo, 
-        //         id_user: user_login?.id_user,
-        //         id_post: id_post }))
-        // }
-    }
+        }
+        else {
+            dispatch(updatePostAction({
+                ...postInfo, 
+                topic: [...newTopic],
+                id_user: user_login?.id_user,
+                id_post: id_post }))
+        }
 
-    function handleBackButton(){
-        saveChanges()
-        window.history.back()
+        window.history.replaceState({}, document.title, window.location.href);
+        navigate('/');
+
     }
 
     function changePostInfo(field, value){
@@ -143,31 +183,44 @@ export default function Writing() {
                                 <label>Topic</label>
                                 <TopicDropdown topicOption={topics} setTopic={setTopic} topic={postInfo.topic}/>
                             </div>
-                            <div className="form-row">
-                                <div className="checkbox d-flex align-items-center">
-                                    <input type="checkbox" id="remember" checked={postInfo.is_member_only} 
-                                        onChange={(e)=>{changePostInfo("is_member_only",e.target.checked)}}/>
-                                    <label htmlFor="remember">Make the post be member-only</label>
-                                </div>
-                            </div>
-                            <div className="form-group d-flex flex-column ">
-                                <label>Schedule</label>
-                                    <DatePicker
-                                        selected={scheduleTime}
-                                        onChange={(date) => setScheduleTime(date)}
-                                        dateFormat="dd-MM-yyyy HH:mm:ss"
-                                        minDate={new Date()}
-                                        className="date-picker"
-                                        placeholderText="Select a date"
-                                    />
-                            </div>
-
+                            {
+                                user_login.is_member && (
+                                    <div className="form-row">
+                                        <div className="checkbox d-flex align-items-center">
+                                            <input type="checkbox" id="remember" checked={postInfo.is_member_only} 
+                                                onChange={(e)=>{changePostInfo("is_member_only",e.target.checked)}}/>
+                                            <label htmlFor="remember">Make the post be member-only</label>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            {
+                                postInfo?.status !== 1 && (
+                                <  div className="form-group d-flex flex-column ">
+                                    <label>Schedule</label>
+                                        <DatePicker
+                                            selected={scheduleTime}
+                                            onChange={(date) => setScheduleTime(date)}
+                                            dateFormat="dd-MM-yyyy HH:mm:ss"
+                                            minDate={new Date()}
+                                            className="date-picker"
+                                            placeholderText="Select a date"
+                                        />
+                                </div>      
+                                )
+                            }
+                            
                             <div className="row col-12 d-flex justify-content-between m-0 p-0">
                                 <button type="button" onClick={() => setDisplayModal(false)}
                                     className=" btn col-4 link-md rounded-1 button2 bg-white text-scheme-sub-text p-3">Cancel</button>
-                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
-                                        onClick={() => {saveChanges(2)}}>Schedule</button>
-                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
+                                {
+                                    postInfo?.status !== 1 && (
+                                        <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 " 
+                                            onClick={() => {saveChanges(2)}}>Schedule</button>
+                                    )
+                                }
+                                <button type="submit" className="col-4 btn prim-btn rounded-1 button2 p-3 publish-btn" 
+                                         style={postInfo?.status === 1 ? { flexGrow: 1 } : {}}
                                         onClick={() => {saveChanges(1)}}>Publish now</button>
                                 
                             </div>
@@ -176,28 +229,11 @@ export default function Writing() {
                 </div>
                 )
             }
-            <div className="container toolbar">
-                <div className="col-12 m-0 p-0 d-flex justify-content-between align-items-center">
-                    <Link to="#" onClick={handleBackButton} className='text-black link-sm'>
-                        <i className="text-black fa-solid fa-arrow-left"></i>
-                        &nbsp;Back
-                    </Link>
-                    <div className="col-auto">
-                        <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                            onClick={saveChanges}>
-                            Save
-                        </button>
-                        <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                            onClick={handlePreviewButton}>
-                            Preview
-                        </button>
-                        <button className="prim-btn rounded-1 button2"
-                            onClick={() => {setDisplayModal(true)}}>
-                            Publish
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <Toolbar
+                handlePreviewButton={handlePreviewButton}
+                handleBackButton={handleBackButton}
+                setDisplayModal={setDisplayModal}
+                postInfo={postInfo}/>
             <div className="container col-12 mt-3">
                 <TextEditor content={postInfo.content} changePostInfo={changePostInfo}></TextEditor>
             </div>
@@ -205,7 +241,7 @@ export default function Writing() {
     );
 }
 
-const ThumbnailDrop = ({thumbnail, changePostInfo}) => {
+function ThumbnailDrop ({thumbnail, changePostInfo}) {
   
     const onDrop = (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -213,7 +249,7 @@ const ThumbnailDrop = ({thumbnail, changePostInfo}) => {
   
       reader.onload = () => {
         // console.log(file)
-        changePostInfo("thumbnail",reader.result);
+        // changePostInfo("thumbnail",reader.result);
         setFilename(file.name)
       };
   
@@ -226,6 +262,7 @@ const ThumbnailDrop = ({thumbnail, changePostInfo}) => {
         multiple: false, });
   
     const [fileName, setFilename] = useState("")
+
     return (
       <div {...getRootProps()} className="image-input-container">
         <input {...getInputProps()} />
@@ -244,7 +281,7 @@ const ThumbnailDrop = ({thumbnail, changePostInfo}) => {
     );
 };
 
-const TopicDropdown = ({topicOption, topic, setTopic, maxOptions = 5}) => {
+function TopicDropdown ({topicOption, topic, setTopic, maxOptions = 5}){
     const [error, setError] = useState("")
   const options = topicOption.map(topic => {
     return {

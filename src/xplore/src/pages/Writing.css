@@ -98,6 +98,7 @@
 @media (min-width: 768px) {
   .modal-popup .btn{
     flex-basis: calc(33.33% - 16px); /* Adjust the gap between columns */
+    flex-grow: 0;
   }
 }
 

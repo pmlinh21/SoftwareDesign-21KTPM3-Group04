@@ -97,7 +97,7 @@ export default function SearchResult() {
                                     return (
                                         <BlogCardHorizontal
                                             key={item.id_post}
-                                            {...item}
+                                            post={item}
                                         />
                                     )
                                 })
@@ -129,7 +129,7 @@ export default function SearchResult() {
                                                 return (
                                                         <AuthorHorizontal
                                                             key={item.id_user}
-                                                            {...item}
+                                                            author={item}
                                                         />
                                                 )
                                             })
@@ -267,7 +267,7 @@ export default function SearchResult() {
                                         return (
                                             <AuthorHorizontal
                                                 key={item.id_user}
-                                                {...item}
+                                                author={item}
                                             />
                                         )
                                     })

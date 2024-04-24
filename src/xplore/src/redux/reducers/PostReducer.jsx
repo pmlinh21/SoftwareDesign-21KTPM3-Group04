@@ -1,7 +1,7 @@
 import { GET_ALL_POSTS, GET_TOP_POSTS, GET_POST_BY_USER } from "../types";
 
 export const stateDefault = {
-    posts: [],
+    posts: null,
     topPosts: [],
 };
 

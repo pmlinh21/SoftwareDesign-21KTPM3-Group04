@@ -40,7 +40,7 @@ const searchTopicByName = async (req, res) => {
 
 // GET: Search topic by id and get all posts by following topic
 const searchTopicPostByID = async (req, res) => {
-    let { id, id_user } = req.params
+    let { id } = req.params
 
     try {
         // Check if topic is exist
@@ -68,16 +68,6 @@ const searchTopicPostByID = async (req, res) => {
                         model: model.user,
                         as: "author",
                         attributes: ["fullname", "avatar", "id_user"],
-                    },
-                    {
-                        model: model.list,
-                        as: "is_saved",
-                        attributes: ["id_list"],
-                        through: { attributes: [] },
-                        where: {
-                            id_user: id_user
-                        },
-                        required: false
                     },
                 ],
                 attributes: [

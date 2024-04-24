@@ -44,7 +44,7 @@ function initModels(sequelize) {
   var topic_user = _topic_user(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
 
-  list.belongsToMany(post, { as: 'id_post_post_list_posts', through: list_post, foreignKey: "id_list", otherKey: "id_post" });
+  list.belongsToMany(post, { as: 'saved_posts', through: list_post, foreignKey: "id_list", otherKey: "id_post" });
   post.belongsToMany(list, { as: 'is_saved', through: list_post, foreignKey: "id_post", otherKey: "id_list" });
   post.belongsToMany(topic, { as: 'list_topic', through: topic_post, foreignKey: "id_post", otherKey: "id_topic" });
   post.belongsToMany(user, { as: 'id_user_users', through: like_post, foreignKey: "id_post", otherKey: "id_user" });

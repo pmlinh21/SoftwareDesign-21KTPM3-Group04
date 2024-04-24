@@ -24,16 +24,23 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    /* max-width: 50%; */
+    font-style: normal !important;
+}
+
+.blog-post-card .long-text *{
+    font-style: normal !important;
+    font-weight: normal !important;
 }
 
 .blog-post-card .content-text{
-    -webkit-line-clamp: 2;
+    text-align: justify;
+    text-justify: inter-word;
+    height: 2.8rem;
 }
 
 .blog-post-card .title-text{
-    -webkit-line-clamp: 2;
     min-height: 4rem;
+    height: 4rem;
 }
 
 .blog-post-card a{

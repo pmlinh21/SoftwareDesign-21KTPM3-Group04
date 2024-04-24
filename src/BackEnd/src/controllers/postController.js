@@ -85,7 +85,7 @@ const getPostByID = async (req,res) => {
                 {
                     model: model.topic,
                     as: "list_topic",
-                    attributes: ["topic"],
+                    attributes: ["topic", "id_topic"],
                     through: { attributes: [] },
                 },
                 {
@@ -192,7 +192,7 @@ const getPostByUser = async (req,res) => {
                 {
                     model: model.topic,
                     as: "list_topic",
-                    attributes: ["topic"],
+                    attributes: ["topic", "id_topic"],
                     through: { attributes: [] },
                     
                 },
@@ -292,16 +292,18 @@ const createPost = async (req,res) => {
             publish_time, is_member_only, status} = req.body;
 
     try{
-        const post = await model.post.create({
-            id_user, title, content, thumbnail,creation_time,
-            status: status, publish_time, is_member_only
-        }); 
+        // const post = await model.post.create({
+        //     id_user, title, content, thumbnail,creation_time,
+        //     status: status, publish_time, is_member_only
+        // }); 
 
-        if (!post) {
-            failCode(res, null, "Invalid ID")
-        }
+        // if (!post) {
+        //     failCode(res, null, "Invalid ID")
+        // }
+        console.log({id_user, title, content, thumbnail,creation_time,
+            publish_time, is_member_only, status})
 
-        successCode(res,post,"Post created")
+        successCode(res,null,"Post created")
     }
     catch(err){
         console.log(err)
@@ -310,21 +312,21 @@ const createPost = async (req,res) => {
 }
 
 const updatePost = async (req,res) => {
-    const {id_post, title, content, thumbnail} = req.body;
+    const {id_post, title, content, thumbnail, publish_time, is_member_only, status} = req.body;
     try{
-        const post = await model.post.update({
-            title: title, content: content, thumbnail: thumbnail
-        },{
-            where:{
-                id_post: id_post
-            }
-        }); 
+    //     const post = await model.post.update({
+    //         title: title, content: content, thumbnail: thumbnail
+    //     },{
+    //         where:{
+    //             id_post: id_post
+    //         }
+    //     }); 
 
-        if (!post) {
-            failCode(res, null, "Invalid ID")
-        }
-
-        successCode(res,post,"Post updated")
+    //     if (!post) {
+    //         failCode(res, null, "Invalid ID")
+    //     }
+        console.log({id_post, title, content, thumbnail, publish_time, is_member_only, status})
+        successCode(res,null,"Post updated")
     }
     catch(err){
         console.log(err)

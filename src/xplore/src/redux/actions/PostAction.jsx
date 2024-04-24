@@ -65,3 +65,21 @@ export const createPostAction = (postInfo) => {
         }
     }
 }
+
+export const updatePostAction = (postInfo) => {
+    return async (dispatch) => {
+        try {
+
+            console.log(postInfo)
+            const result = await postService.updatePost(postInfo);
+            
+            if (result.status === 200) {
+                console.log(result.message )
+                
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+}

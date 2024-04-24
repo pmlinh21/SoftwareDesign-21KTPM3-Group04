@@ -17,8 +17,14 @@
     overflow: hidden;
 }
 
+.blog-card-horizontal .long-text *{
+    font-style: normal !important;
+    font-weight: normal !important;
+}
+
 .blog-card-horizontal .content-text{
     -webkit-line-clamp: 5;
+    height: 6rem;
     text-align: justify;
     text-justify: inter-word;
 }

@@ -3,6 +3,7 @@ import "./BlogPostCard.css";
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon"
 import { formatToMDY } from "../../util/formatDate";
+import { sanitizeContent } from "../../util/formatText";
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
@@ -42,8 +43,8 @@ export default function BlogPostCard(props) {
                 </div>
 
                 <div className="row col-12 m-0 mt-2 mb-3">
-                    <p className="col-auto p3 text-scheme-sub-text m-0 p-0 content-text long-text">
-                        {content || LONG_PASSAGE}
+                    <p className="col-auto p3 text-scheme-sub-text m-0 p-0 content-text long-text "
+                    dangerouslySetInnerHTML={{ __html: sanitizeContent(content) || "" }}>
                     </p>
                 </div>
             </div>

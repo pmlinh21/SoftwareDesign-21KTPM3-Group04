@@ -30,7 +30,7 @@ function ResultText({topic_name, related_posts, followerCount}){
 
 }
 
-const fetchPost = async (id_topic, setResult, setLoading, id_user) => {
+const fetchPost = async (id_topic, setResult, setLoading) => {
     try {
       setLoading((val) => true);
       const response = await fetch(`${DOMAIN}/topic/${id_topic}/post`);
@@ -68,15 +68,15 @@ export default function ExploreTopic() {
     const {user_login} = useSelector(state => state.UserReducer)
 
     const [loading, setLoading] = useState(true);
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState([]);
     const [followerCount, setFollowerCount] = useState(null)
 
     useEffect(()=>{
-        fetchPost(id_topic, setPost, setLoading, user_login.id_user);
+        fetchPost(id_topic, setPost, setLoading);
         fetchFollowerCount(id_topic, setFollowerCount, setLoading);
     },[id_topic])
 
-    // console.log(result);
+    console.log(post);
     // console.log(loading);
 
     return (
