@@ -1,6 +1,8 @@
 import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
-import { LOGIN, SIGNUP, GET_TOP_USERS } from "../types";
+import { LOGIN, SIGNUP, 
+    GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
+    HIDE_LOADING, DISPLAY_LOADING } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -118,6 +120,73 @@ export const getUserByEmailAction = (email) => {
         }
     };
 };
+
+export const getListByUserAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const listResult = await userService.getListByUser(id_user);
+
+            if (listResult.status === 200) {
+                dispatch({
+                    type: GET_LIST_BY_USER,
+                    list: listResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const addPostToListAction = (id_list, id_post) => {
+    return async (dispatch) => {
+        try {
+            const listResult = await userService.addPostToList({id_list, id_post});
+
+            if (listResult.status === 200) {
+                dispatch({
+                    type: ADD_POST_TO_LIST,
+                    id_list: id_list,
+                    id_post: id_post
+                });
+            }
+
+        } catch (error) {
+            console.log("error", error);
+            // alert(error.response.data.message)
+        }
+    };
+};
+
+export const deletePostFromListAction = (id_list, id_post) => {
+    return async (dispatch) => {
+        try {
+            
+            const listResult = await userService.deletePostFromList(id_list, id_post);
+
+            if (listResult.status === 200) {
+                dispatch({
+                    type: DELETE_POST_FROM_LIST,
+                    id_list: id_list,
+                    id_post: id_post
+                });
+            }
+        } catch (error) {
+            console.log("error", error);
+            // alert(error.response.data.message)
+        }
+    };
+};
+
 /*
 export const getTopUsers = () => {
     const topId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

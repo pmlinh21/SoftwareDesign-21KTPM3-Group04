@@ -124,12 +124,12 @@ const getPostByID = async (req,res) => {
 
 const getPostByKeyword = async (req, res) => {
     const { keyword } = req.params;
-    console.log(keyword)
+
     try {
         const posts = await model.post.findAll({
             where: {
                 title: {
-                    [Op.like]: `%${keyword}%`,
+                    [Op.iLike]: `%${keyword}%`,
                 },
             },
             include: [

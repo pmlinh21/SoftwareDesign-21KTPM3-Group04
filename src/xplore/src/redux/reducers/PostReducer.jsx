@@ -2,7 +2,7 @@ import { CREATE_POST, GET_TOP_POSTS, GET_POST_BY_USER, UPDATE_POST } from "../ty
 
 export const stateDefault = {
     posts: null,
-    topPosts: [],
+    topPosts: null,
 };
 
 export const PostReducer = (state = stateDefault, action) => {

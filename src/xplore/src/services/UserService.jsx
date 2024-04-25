@@ -22,12 +22,25 @@ export class UserService extends BaseService {
         return this.get(`user/${id}`);
     };
     
-    
     // Api 5: Get user token
     getUserToken = (email) =>{
       return this.get(`user/getToken/${email}`);
     }
 
+    // Api 6: Get list by user 
+    getListByUser = (id_user) =>{
+      return this.get(`user/list/${id_user}`);
+    }
+
+    // Api 7: Add post to list
+    addPostToList = (formData) =>{
+      return this.post(`user/list/post`, formData);
+    }
+
+    // Api 8: Delete post from list 
+    deletePostFromList = (id_list, id_post) =>{
+      return this.delete(`user/list/post/${id_list}/${id_post}`);
+    }
   }
   
 export const userService = new UserService();

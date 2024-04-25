@@ -1,7 +1,7 @@
 import { GET_ALL_TOPICS, GET_TOPIC_BY_ID } from "../types";
 
 let stateDefault = {
-    topics: [],
+    topics: null,
 };
 
 export const TopicReducer = (state = stateDefault, action) => {

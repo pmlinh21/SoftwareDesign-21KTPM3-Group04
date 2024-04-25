@@ -27,7 +27,7 @@ const searchTopicByName = async (req, res) => {
         let topic = await model.topic.findAll({
             where:{
                 topic:{
-                    [Op.like]: `%${topic_name}%`,
+                    [Op.iLike]: `%${topic_name}%`,
                 }
             } 
         })

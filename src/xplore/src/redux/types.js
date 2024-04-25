@@ -13,6 +13,14 @@ export const GET_USER_BY_EMAIL = "GET_USER_BY_EMAIL";
 
 export const GET_TOP_USERS = "GET_TOP_USERS";
 
+export const GET_LIST_BY_USER = "GET_LIST_BY_USER";
+
+export const ADD_POST_TO_LIST = "ADD_POST_TO_LIST";
+
+export const DELETE_POST_FROM_LIST = "DELETE_POST_FROM_LIST";
+
+
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 

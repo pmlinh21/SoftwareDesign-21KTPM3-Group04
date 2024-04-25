@@ -19,10 +19,12 @@ export const getPostByUser = (id_user) => {
                     type: GET_POST_BY_USER,
                     posts: result.data.content
                 });
-                dispatch({
-                    type: HIDE_LOADING
-                });
             }
+
+            dispatch({
+                type: HIDE_LOADING
+            });
+            
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)

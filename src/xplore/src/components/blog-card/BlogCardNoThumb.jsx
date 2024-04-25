@@ -1,6 +1,7 @@
 import React from "react";
 import "./BlogCardNoThumb.css";
 import Avatar from "../avatar/Avatar";
+import BookmarkIcon from "../icon/BookmarkIcon"
 
 export default function BlogCardNoThumb(props) {
     const { id_post, title, content, publish_time, thumbnail, likeCount, responseCount } = props.post;
@@ -10,7 +11,7 @@ export default function BlogCardNoThumb(props) {
                 <div>
                     <div className="d-flex flex-row justify-content-between align-items-center gap-2">
                         <span className="topic-plain subtitle2">Post Topic</span>
-                        <i className="fa-solid fa-bookmark bookmark"></i>
+                        <BookmarkIcon id_post={id_post} is_saved={false}/>
                     </div>
 
                     <div className="center title1 mt-2">{title}</div>

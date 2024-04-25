@@ -93,13 +93,13 @@ const signup = async(req, res) =>{
 
 // GET: Search account
 const searchAccountByName = async (req, res) => {
-    let { fullname, id_user } = req.params
+    let { fullname } = req.params
 
     try {
         let users = await model.user.findAll({
             where:{
                 fullname: {
-                    [Op.like]: `%${fullname}%`
+                    [Op.iLike]: `%${fullname}%`
                 }
             }
         })
