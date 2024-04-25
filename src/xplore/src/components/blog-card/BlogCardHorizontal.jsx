@@ -11,7 +11,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, responseCount, likeCount, is_saved} = props.post;
+        publish_time, responseCount, likeCount} = props.post;
 
     return (
         <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
@@ -31,7 +31,7 @@ export default function BlogCardHorizontal(props) {
                                     </p>
                                 )
                             }
-                            <BookmarkIcon id_post={id_post} is_saved={is_saved?.length > 0}/>
+                            <BookmarkIcon id_post={id_post}/>
                         </div>
 
                         <div className="pt-2 mb-0">

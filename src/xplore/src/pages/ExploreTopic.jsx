@@ -3,7 +3,7 @@ import "../styles/commons.css";
 import "./ExploreTopic.css"
 
 import { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { useLocation   } from 'react-router-dom';
 
 import Loading from '../components/loading/Loading';
@@ -13,6 +13,7 @@ import TopicTag from '../components/topic/TopicTag'
 
 import {formatCapitalCase} from '../util/formatText';
 import { DOMAIN } from "../util/config";
+import { FollowTopicAction, getTopicByUserAction, UnfollowTopicAction } from '../redux/actions/UserAction';
 
 function ResultText({topic_name, related_posts, followerCount}){
     return(
@@ -61,24 +62,38 @@ const fetchFollowerCount = async (id_topic, setResult, setLoading) => {
 export default function ExploreTopic() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const id_topic = searchParams.get('id_topic');
+    const id_topic = parseInt(searchParams.get('id_topic'));
     const topic_name = searchParams.get('topic_name');
-    // const topic = searchParams.get('topic');
+    
+    const dispatch = useDispatch();
 
-    const {user_login} = useSelector(state => state.UserReducer)
+    const {user_login, topic} = useSelector(state => state.UserReducer)
 
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState([]);
     const [followerCount, setFollowerCount] = useState(null)
+    const [isFollow, setIsFollow] = useState(topic?.includes(id_topic))
 
     useEffect(()=>{
         fetchPost(id_topic, setPost, setLoading);
         fetchFollowerCount(id_topic, setFollowerCount, setLoading);
+
+        if (topic == null){
+            dispatch(getTopicByUserAction(user_login?.id_user))
+        }
     },[id_topic])
 
-    console.log(post);
-    // console.log(loading);
+    function handleUnfollowButton(){
+        dispatch(UnfollowTopicAction(user_login?.id_user, id_topic))
+        setIsFollow(false)
+    }
 
+    function handleFollowButton(){
+        dispatch(FollowTopicAction(user_login?.id_user, id_topic))
+        setIsFollow(true)
+    }
+
+    
     return (
     <div className="explore-topic-page">
 
@@ -86,14 +101,31 @@ export default function ExploreTopic() {
 
     <div className="explore-topic container my-5 px-3 pt-3">
         <div className="row px-2 pt-3 d-flex justify-content-between">
-            <div className="px-0 mt-5 row">
-            <ResultText topic_name={topic_name} related_posts = {post?.length} followerCount={followerCount}/>
+            <div className="px-0 mt-5 row d-flex flex-column align-items-center">
             {
                 loading && <Loading/>
             }
 
             {
                 !isNaN(id_topic) && !loading &&
+                <>
+                    <ResultText topic_name={topic_name} related_posts = {post?.length} followerCount={followerCount}/>
+                
+                    {
+                        isFollow ? (
+                            <button className="unfollow-btn tert-btn rounded-1 button1 col-auto p-3 px-5 mb-5"
+                                onClick={handleUnfollowButton}>
+                                Unfollow
+                            </button>  
+                        )
+                        :(
+                            <button className="follow-btn prim-btn rounded-1 button1 col-auto p-3 px-5 mb-5 "
+                                onClick={handleFollowButton}>
+                                Follow <i className="fa-solid fa-plus m-0 ms-1"></i>
+                            </button>
+                        )
+                    }
+
                     <div className="container px-0 ps-4 ">
                         <div className="list-post row row-cols-3 gap-4">
                         {
@@ -107,8 +139,8 @@ export default function ExploreTopic() {
                             })
                         }
                         </div>
-                        
                     </div>
+                </>
             }
 
             {/* {

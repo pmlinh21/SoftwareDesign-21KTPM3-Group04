@@ -28,7 +28,7 @@ function BookmarkModal({id_post, list,loading, handleBookmarkClick, handleListCl
                             return(
                                 <div className="form-row" key={item.id_list}>
                                     <div className="checkbox d-flex align-items-center">
-                                        <input type="checkbox" id="list" checked={item.saved_posts.includes(id_post)} 
+                                        <input type="checkbox" id="list" defaultChecked ={item.saved_posts.includes(id_post)} 
                                             onChange={(e)=>{handleListClick(item.id_list,e.target.checked)}}/>
                                         <p className="list p2 m-0 ms-3">{item.list_name}</p>
                                     </div>

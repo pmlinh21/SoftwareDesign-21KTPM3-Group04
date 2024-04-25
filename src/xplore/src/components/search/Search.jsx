@@ -107,7 +107,7 @@ export default function Search({search, isResult}){
 
             {
                 (displaySearchOption || (searchText !== "" && !isResult))  &&
-                <div className="row col-12 search-dropdown py-4 mt-2 rounded bg-blue-50">
+                <div className="row search-dropdown py-4 mt-2 rounded bg-blue-50">
                     <div className="row ms-2">
                         <p className="subtitle2 text-neutral-400">SEARCH BY</p>
                     </div>

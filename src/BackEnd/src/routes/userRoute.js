@@ -41,8 +41,8 @@ userRoute.put("/:id_user", updateUserByID)
 // GET: Get all user following topics
 userRoute.get("/topic/:id_user", getUserTopic)
 
-// POST: Follow a topic
-userRoute.post("/topic", followATopic)
+// PUT: Follow / unfollow a topic
+userRoute.put("/topic/:id_user/:id_topic", followATopic)
 
 // GET: Get all user subscriptions
 userRoute.get("/subscription/:id_user", getUserSubscription)

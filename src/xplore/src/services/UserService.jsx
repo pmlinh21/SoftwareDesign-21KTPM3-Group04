@@ -41,6 +41,16 @@ export class UserService extends BaseService {
     deletePostFromList = (id_list, id_post) =>{
       return this.delete(`user/list/post/${id_list}/${id_post}`);
     }
+
+    // Api 8: Get topic by user
+    getTopicByUser = (id_user) =>{
+      return this.get(`user/topic/${id_user}`);
+    }
+
+    // Api 8: Follow / unfollow topic 
+    followTopic = (id_user, id_topic) =>{
+      return this.put(`user/topic/${id_user}/${id_topic}`);
+    }
   }
   
 export const userService = new UserService();

@@ -369,13 +369,11 @@ const getUserTopic = async (req, res) => {
             let topics = await model.topic_user.findAll({
                 where: {
                     id_user: id_user
-                },
-                include: [
-                    {
-                        model: model.topic,
-                        as: 'id_topic_topic'
-                    }
-                ]
+                }
+            });
+
+            topics = topics.map(topic => {
+                return topic.id_topic;
             });
             successCode(res, topics, "Topics found");
         }
@@ -385,9 +383,9 @@ const getUserTopic = async (req, res) => {
     }
 }
 
-// POST: Follow a topic
+// PUT: Follow a topic
 const followATopic = async (req, res) => {
-    let { id_user, id_topic } = req.body
+    let { id_user, id_topic } = req.params
 
     try {
         let user = await model.user.findOne({
@@ -404,16 +402,31 @@ const followATopic = async (req, res) => {
             failCode(res, null, "User or topic not found")
         }
         else{
-            await model.topic_user.create({
-                id_user, id_topic
-            });
             let topic_user = await model.topic_user.findOne({
                 where: {
                     id_user: id_user,
                     id_topic: id_topic
                 }
             });
-            successCode(res, topic_user, "Follow successfully");
+
+            if (topic_user){
+                await model.topic_user.destroy({
+                    where: {
+                        id_user: id_user,
+                        id_topic: id_topic
+                    }
+                });
+
+                successCode(res, null, "Unfollow successfully");
+
+            } else{
+                const result = await model.topic_user.create({
+                    id_user, id_topic
+                });
+
+                successCode(res, result, "Follow successfully");
+            }
+        
         }
     } catch (err) {
         console.log(err)

@@ -19,7 +19,11 @@ export const ADD_POST_TO_LIST = "ADD_POST_TO_LIST";
 
 export const DELETE_POST_FROM_LIST = "DELETE_POST_FROM_LIST";
 
+export const GET_TOPIC_BY_USER = "GET_TOPIC_BY_USER";
 
+export const FOLLOW_TOPIC = "FOLLOW_TOPIC";
+
+export const UNFOLLOW_TOPIC = "UNFOLLOW_TOPIC";
 
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";

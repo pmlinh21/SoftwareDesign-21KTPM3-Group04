@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; 
-import {Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
 import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 

@@ -1,6 +1,7 @@
 import { USER_LOGIN } from "../../util/config";
 import { LOGIN, SIGNUP, GET_USER_BY_EMAIL, 
-    GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST } from "../types";
+    GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
+    GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -11,6 +12,7 @@ export const stateDefault = {
     user_login: user_login,
     user_signup: {},
     list: null, 
+    topic: null
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -45,9 +47,19 @@ export const UserReducer = (state = stateDefault, action) => {
                 }
                 return item
             })
-
-            console.log(newList)
             return { ...state, list: newList}
+        }
+        case GET_TOPIC_BY_USER:{
+            return { ...state, topic: action.topic}
+        }
+        case FOLLOW_TOPIC:{
+            return { ...state, topic: [...state.topic, action.id_topic]}
+        }
+        case UNFOLLOW_TOPIC:{
+            const newTopic = state.topic.filter(
+                id_topic => id_topic !== action.id_topic
+            )
+            return { ...state, topic: [...newTopic]}
         }
         default:
             return { ...state };

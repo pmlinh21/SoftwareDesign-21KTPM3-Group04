@@ -2,6 +2,7 @@ import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
 import { LOGIN, SIGNUP, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
+    GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING } from "../types";
 
 export const loginAction = (user_login) => {
@@ -186,6 +187,68 @@ export const deletePostFromListAction = (id_list, id_post) => {
         }
     };
 };
+
+export const getTopicByUserAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const topicResult = await userService.getTopicByUser(id_user);
+
+            if (topicResult.status === 200) {
+                dispatch({
+                    type: GET_TOPIC_BY_USER,
+                    topic: topicResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
+export const FollowTopicAction = (id_user, id_topic) => {
+    return async (dispatch) => {
+        try {
+            const topicResult = await userService.followTopic(id_user, id_topic);
+
+            if (topicResult.status === 200) {
+                dispatch({
+                    type: FOLLOW_TOPIC,
+                    id_topic: id_topic
+                });
+            }
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
+export const UnfollowTopicAction = (id_user, id_topic) => {
+    return async (dispatch) => {
+        try {
+            const topicResult = await userService.followTopic(id_user, id_topic);
+
+            if (topicResult.status === 200) {
+                dispatch({
+                    type: UNFOLLOW_TOPIC,
+                    id_topic: id_topic
+                });
+            }
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
 
 /*
 export const getTopUsers = () => {
