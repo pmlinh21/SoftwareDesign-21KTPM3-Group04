@@ -295,31 +295,7 @@ const createPost = async (req,res) => {
             failCode(res, null, "Invalid ID")
         }
 
-        const topicPostPromises = topic.map(async (id_topic) => {
-            await model.topic_post.create({
-                id_post: post.id_post,
-                id_topic: id_topic
-            });
-        });
-
-        await Promise.all(topicPostPromises);
-
-        const result = await model.topic_post.findAll({
-            where: {
-                id_post: post.id_post
-            },
-            include: [
-                {
-                    model: model.topic,
-                    as: "id_topic_topic",
-                },
-            ],
-        });
-
-        const list_topic = result.map(item => {
-            return {id_topic : item.id_topic,
-                topic : item.id_topic_topic.topic}
-        })
+        const list_topic = await updateTopicPost(topic, post.id_post);
 
         const plainPost = post.get({ plain: true });
         successCode(res,{...plainPost, list_topic: list_topic},"Post created")
@@ -330,22 +306,56 @@ const createPost = async (req,res) => {
     }
 }
 
-const updatePost = async (req,res) => {
-    const {id_post, title, content, thumbnail, publish_time, is_member_only, status} = req.body;
-    try{
-    //     const post = await model.post.update({
-    //         title: title, content: content, thumbnail: thumbnail
-    //     },{
-    //         where:{
-    //             id_post: id_post
-    //         }
-    //     }); 
+const updateTopicPost = async(topic, id_post) => {
+    const topicPostPromises = topic.map(async (item) => {
+        await model.topic_post.create({
+            id_post: id_post,
+            id_topic: item.value
+        });
+    });
 
-    //     if (!post) {
-    //         failCode(res, null, "Invalid ID")
-    //     }
-        console.log({id_post, title, content, thumbnail, publish_time, is_member_only, status})
-        successCode(res,null,"Post updated")
+    await Promise.all(topicPostPromises);
+
+    const result = await model.topic_post.findAll({
+        where: {
+            id_post: id_post
+        },
+        include: [
+            {
+                model: model.topic,
+                as: "id_topic_topic",
+            },
+        ],
+    });
+
+    return result.map(item => {
+        return {id_topic : item.id_topic,
+            topic : item.id_topic_topic.topic}
+    })
+}
+
+const updatePost = async (req,res) => {
+    const {id_post, title, content, thumbnail, publish_time, is_member_only, status, topic} = req.body;
+    try{
+        const [count, post] = await model.post.update({
+            title: title, content: content, thumbnail: thumbnail,
+            publish_time:publish_time, is_member_only:is_member_only, status: status
+        },{
+            where:{
+                id_post: id_post
+            },
+            returning: true,
+        }); 
+
+        await model.topic_post.destroy({
+            where:{
+                id_post: id_post
+            }
+        })
+
+        const list_topic = await updateTopicPost(topic, post[0].id_post);
+
+        successCode(res,{id_post, title, content, thumbnail, publish_time, is_member_only, status, list_topic: list_topic},"Post updated")
     }
     catch(err){
         console.log(err)

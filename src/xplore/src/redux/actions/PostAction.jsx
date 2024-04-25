@@ -3,7 +3,7 @@ import {
     GET_POST_BY_USER, 
     GET_TOP_POSTS,
     CREATE_POST,
-
+    UPDATE_POST,
     HIDE_LOADING, DISPLAY_LOADING} from "../types";
 
 export const getPostByUser = (id_user) => {
@@ -61,7 +61,6 @@ export const createPostAction = (postInfo) => {
             const result = await postService.createPost(postInfo);
             
             if (result.status === 200) {
-                console.log(result)
                 const {id_user,...newPost} = result.data.content
                 dispatch({
                     type: CREATE_POST,
@@ -78,13 +77,15 @@ export const createPostAction = (postInfo) => {
 export const updatePostAction = (postInfo) => {
     return async (dispatch) => {
         try {
-
-            console.log(postInfo)
             const result = await postService.updatePost(postInfo);
             
             if (result.status === 200) {
-                console.log(result.message )
-                
+                // console.log(result.data.content)
+                const {id_user,...updatedPost} = result.data.content
+                dispatch({
+                    type: UPDATE_POST,
+                    updatedPost: updatedPost
+                });
             }
         } catch (error) {
             console.log("error", error.response);

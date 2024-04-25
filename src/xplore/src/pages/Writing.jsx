@@ -25,13 +25,12 @@ function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postIn
                 &nbsp;Back
             </button>
             <div className="col-auto">
-                {
-                postInfo.status === 0 && 
-                    <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                        onClick={handleSaveButton}>
-                        Save
-                    </button>
-                }
+                
+                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
+                    onClick={handleSaveButton}>
+                    Save
+                </button>
+
                 <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
                     onClick={handlePreviewButton}>
                     Preview
@@ -50,7 +49,7 @@ export default function Writing() {
     const location = useLocation();
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
-    const id_post = searchParams.get('id_post');
+    const id_post = parseInt(searchParams.get('id_post'));
 
     const {posts} =  useSelector(state => state.PostReducer)
     const {user_login} =  useSelector(state => state.UserReducer)
@@ -105,41 +104,34 @@ export default function Writing() {
     }
 
     function handleBackButton(){
-        if (!postInfo.title && !postInfo.content){
-            navigate('/', { replace: true });
-        } else if (postInfo.title && postInfo.content){
-            saveChanges()
-        }
+        navigate('/', { replace: true });
     }
 
     function handleSaveButton(){
-        if (!postInfo.title && !postInfo.content){
-            navigate('/', { replace: true });
+        if (!postInfo.title || !postInfo.content){
+            alert("Please enter the title and content")
         } else if (postInfo.title && postInfo.content){
             saveChanges()
-        } else {
-            alert("Please enter the title and content")
-        }
+        } 
     }
 
     function saveChanges(status){
-        const newTopic = postInfo.topic?.map(topic => topic.value)
-
-        // user do not press "Back" or "Save" button
+        // user do not press "Save" button
         if (status){
             postInfo.status = status
             changePostInfo("status", status)
         }
 
-        if (status == 1){
+        if (status === 1){
             postInfo.publish_time = formartToSQLDatetime(new Date())
             changePostInfo("publish_time",formartToSQLDatetime(new Date()))
-        } else if (status == 2){
+        } else if (status === 2 || postInfo.status === 2){
 
             if (!scheduleTime){
                 alert ("Please select schedule date")
                 return
             }
+
             postInfo.publish_time = scheduleTime
             changePostInfo("publish_time",scheduleTime)
         }
@@ -147,7 +139,6 @@ export default function Writing() {
         if (id_post == null){
             dispatch(createPostAction({
                 ...postInfo, 
-                topic: [...newTopic],
                 id_user: user_login?.id_user,
                 creation_time: formartToSQLDatetime(new Date())
             }))
@@ -155,12 +146,10 @@ export default function Writing() {
         else {
             dispatch(updatePostAction({
                 ...postInfo, 
-                topic: [...newTopic],
-                id_user: user_login?.id_user,
                 id_post: id_post }))
         }
 
-        // navigate('/', { replace: true });
+        navigate('/', { replace: true });
 
     }
 
