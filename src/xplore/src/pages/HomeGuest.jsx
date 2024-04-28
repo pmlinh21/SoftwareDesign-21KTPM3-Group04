@@ -39,9 +39,9 @@ export default function Home() {
     const [hotTopics, setHotTopics] = useState([]);
     const [morePosts, setMorePosts] = useState([]);
 
-    const fetchTrendingPosts = async (id_user) => {
+    const fetchTrendingPosts = async () => {
         try {
-            const result = await postService.getTrendingPosts(id_user);
+            const result = await postService.getTrendingPosts();
             if (result.status === 200) {
                 setTrendingPosts(result.data.content);
             }
@@ -101,7 +101,7 @@ export default function Home() {
 
     useEffect(() => {
         fetchTopAuthors();
-        fetchTrendingPosts(1);
+        fetchTrendingPosts();
         fetchHotTopics();
         fetchMorePosts();
     }, []);

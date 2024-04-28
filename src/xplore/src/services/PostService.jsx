@@ -25,9 +25,10 @@ export class PostService extends BaseService {
     }
 
     // Api 5: Get trending posts
-    getTrendingPosts = (id_user) => {
+    getTrendingPosts = () => {
         return this.get(`post/trending-view`);
     }
+
 }
 
 export const postService = new PostService();
