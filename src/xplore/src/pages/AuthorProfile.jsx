@@ -30,6 +30,22 @@ export default function AuthorProfile() {
     const postCount = author_post ? author_post.length : 0;
     const subscriberCount = author_subscriber ? author_subscriber.length : 0;
 
+    const formatCount = (count) => {
+        if (count >= 1000) {
+            const kCount = Math.floor(count / 1000);
+            const remainder = count % 1000;
+            const formattedCount = remainder >= 100 ? kCount + '.' + Math.floor(remainder / 100) + 'K' : kCount + 'K';
+            return formattedCount;
+        } else {
+            return count;
+        }
+    };
+    
+    const formattedPostCount = formatCount(postCount);
+    const formattedSubscriberCount = formatCount(subscriberCount);
+
+    const [activeTab, setActiveTab] = useState('posts');
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -54,29 +70,54 @@ export default function AuthorProfile() {
             <div className="container">
                 <div className=" row mt-5 d-flex flex-row justify-content-between">
                     <div className="col-7 d-flex flex-column gap-2">
-                        <h6>Posted</h6>
-                        <ProfileCard {...props}/>
-                        <ProfileCard {...props}/>
-                        <ProfileCard {...props}/>
-                    </div>
-                    <div className="col-4 d-flex flex-column gap-2">
-                    <div className="d-flex flex-row justify-content-between align-items-center">
-                        <h6>About</h6>
-                        <div>
-                            <span className="p2" style={{marginRight: "15px"}}>{postCount} posts</span>
-                            <span className="p2">{subscriberCount} followers</span>
+                        <div className="row">
+                            <div className="col">
+                                <ul className="nav nav-tabs">
+                                    <li className="nav-item" style={{ width: "50%" }}>
+                                        <button className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>Posts</button>
+                                    </li>
+                                    <li className="nav-item" style={{ width: "50%" }}>
+                                        <button className={`nav-link ${activeTab === 'list' ? 'active' : ''}`} onClick={() => setActiveTab('list')}>List</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="tab-content">
+                                <div id="posts" className={`tab-pane fade ${activeTab === 'posts' ? 'show active' : ''}`}>
+                                    <div className="d-flex flex-column gap-2">
+                                        {author_post && author_post.map((post, index) => (
+                                            <ProfileCard key={index} {...props} />
+                                        ))}
+                                    </div>
+                                </div>
+                                <div id="list" className={`tab-pane fade ${activeTab === 'list' ? 'show active' : ''}`}>
+                                    <div className="d-flex flex-column gap-2">
+                                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p className="p1">
-                        I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development.
-                    </p>
-                    <div className="tip-section">
-                        <p className="p1" style={{fontWeight: "600"}}>Enjoy the read? Reward the writer!</p>
-                        <p className="p2">Your tip will go to Olivia through a third-party platform of their choice.</p>
-                        <button className="tip-button">
-                            <i className="fa-solid fa-hand-holding-heart" style={{marginRight: "8px"}}></i>Give a tip
-                        </button>
-                    </div>
+
+                    <div className="col-4 d-flex flex-column gap-2">
+                        <div className="d-flex flex-row justify-content-between align-items-center">
+                            <h6>About</h6>
+                            <div>
+                                <span className="p2" style={{marginRight: "15px"}}>{formattedPostCount} posts</span>
+                                <span className="p2">{formattedSubscriberCount} followers</span>
+                            </div>
+                        </div>
+                        <p className="p1">
+                            I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development.
+                        </p>
+                        <div className="tip-section">
+                            <p className="p1" style={{fontWeight: "600"}}>Enjoy the read? Reward the writer!</p>
+                            <p className="p2">Your tip will go to Olivia through a third-party platform of their choice.</p>
+                            <button className="tip-button">
+                                <i className="fa-solid fa-hand-holding-heart" style={{marginRight: "8px"}}></i>Give a tip
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
