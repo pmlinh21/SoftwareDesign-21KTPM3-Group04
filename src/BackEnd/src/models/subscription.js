@@ -16,9 +16,13 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_user'
       }
     },
-    plan: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
+    id_membership: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'membership',
+        key: 'id_membership'
+      }
     },
     start_time: {
       type: DataTypes.DATE,

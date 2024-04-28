@@ -42,8 +42,22 @@ function Checkout() {
 
     return (
         <div className="checkout-page container d-flex align-items-center flex-column">
-            <div className="checkout-info-section bg-black my-5 h-50 w-75">
-                abc
+            <div className="checkout-info-section bg-blue my-5 h-50 w-75">
+                <p>
+                    Thong tin don hang
+                </p>
+                <p>
+                    $10
+                </p>
+                <p>
+                    User info
+                </p>
+                <p>
+                    Type: montly subscription
+                </p>
+                <p>
+                    Time: hh:mm:ss dd-mm-yyyy
+                </p>
             </div>
             <div className="checkout-section w-50">
                 <PayPalScriptProvider options={initialOptions}>

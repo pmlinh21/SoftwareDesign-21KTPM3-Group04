@@ -1,5 +1,5 @@
 import { postService } from "../../services/PostService";
-import { cloudinaryService } from "../../services/CloudinaryService";
+import { commonService } from "../../services/CommonService";
 import { 
     GET_POST_BY_USER, 
     GET_TOP_POSTS,
@@ -63,7 +63,7 @@ export const createPostAction = (postInfo, uploadedThumbnail) => {
         try {
             let imgResult;
             if (uploadedThumbnail) {
-                imgResult = await cloudinaryService.uploadImgToCloudinary( uploadedThumbnail)
+                imgResult = await commonService.uploadImgToCloudinary( uploadedThumbnail)
             }
 
             if (!uploadedThumbnail || imgResult){
@@ -93,7 +93,7 @@ export const updatePostAction = (postInfo, uploadedThumbnail) => {
         try {
             let imgResult;
             if (uploadedThumbnail) {
-                imgResult = await cloudinaryService.uploadImgToCloudinary( uploadedThumbnail)
+                imgResult = await commonService.uploadImgToCloudinary( uploadedThumbnail)
             }
 
             if (!uploadedThumbnail || imgResult){

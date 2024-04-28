@@ -4,6 +4,12 @@ export const formatCapitalCase = (str) => {
     });
 }
 
+export function formatCapitalFirstLetter(str) {
+  if (str.length === 0) return str;
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export const sanitizeContent = (html) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
 

@@ -1,13 +1,14 @@
 import { BaseService } from "./BaseService";
 
-export class CloudinaryService extends BaseService {
+export class CommonService extends BaseService {
     // Api 1: Get config to upload image
     getConfigCloundinary = () => {
       return this.get(`cloudinary`);
     }
 
+    // Api 2: Upload image to cloudinary
     uploadImgToCloudinary = async (image) => {
-      const config = await cloudinaryService.getConfigCloundinary();
+      const config = await commonService.getConfigCloundinary();
       if (config.data) {
         const url = "https://api.cloudinary.com/v1_1/" + config.data.cloudname + "/auto/upload";
 
@@ -38,6 +39,11 @@ export class CloudinaryService extends BaseService {
       } 
       return null
     }
+
+    // Api 3: Get all memberships
+    getAllMembership = () => {
+      return this.get(`membership`);
+    }
 }
 
-export const cloudinaryService = new CloudinaryService();
+export const commonService = new CommonService();

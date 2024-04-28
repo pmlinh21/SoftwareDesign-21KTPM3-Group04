@@ -5,6 +5,7 @@ var _highlight = require("./highlight");
 var _like_post = require("./like_post");
 var _list = require("./list");
 var _list_post = require("./list_post");
+var _membership = require("./membership");
 var _notification = require("./notification");
 var _post = require("./post");
 var _post_monthly_data = require("./post_monthly_data");
@@ -28,6 +29,7 @@ function initModels(sequelize) {
   var like_post = _like_post(sequelize, DataTypes);
   var list = _list(sequelize, DataTypes);
   var list_post = _list_post(sequelize, DataTypes);
+  var membership = _membership(sequelize, DataTypes);
   var notification = _notification(sequelize, DataTypes);
   var post = _post(sequelize, DataTypes);
   var post_monthly_data = _post_monthly_data(sequelize, DataTypes);
@@ -102,6 +104,8 @@ function initModels(sequelize) {
   user.hasMany(like_post, { as: "like_posts", foreignKey: "id_user"});
   list.belongsTo(user, { as: "id_user_user", foreignKey: "id_user"});
   user.hasMany(list, { as: "lists", foreignKey: "id_user"});
+  subscription.belongsTo(membership, { as: "membership", foreignKey: "id_membership"});
+  membership.hasMany(subscription, { as: "subscriptions", foreignKey: "id_membership"});
   notification.belongsTo(user, { as: "creator_user", foreignKey: "creator"});
   user.hasMany(notification, { as: "notifications", foreignKey: "creator"});
   notification.belongsTo(user, { as: "receiver_user", foreignKey: "receiver"});
@@ -133,6 +137,7 @@ function initModels(sequelize) {
     like_post,
     list,
     list_post,
+    membership,
     notification,
     post,
     post_monthly_data,
