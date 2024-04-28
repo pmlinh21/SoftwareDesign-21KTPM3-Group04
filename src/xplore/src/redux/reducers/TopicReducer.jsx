@@ -1,4 +1,4 @@
-import { GET_ALL_TOPICS, GET_TOPIC_BY_ID } from "../types";
+import { GET_ALL_TOPICS } from "../types";
 
 let stateDefault = {
     topics: null,

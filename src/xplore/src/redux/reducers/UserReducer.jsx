@@ -1,5 +1,5 @@
 import { USER_LOGIN } from "../../util/config";
-import { LOGIN, SIGNUP, GET_USER_BY_EMAIL, 
+import { LOGIN, SIGNUP, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST } from "../types";

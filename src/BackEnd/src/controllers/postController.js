@@ -13,7 +13,7 @@ const getTrendingPost = async (req,res) => {
         const readingHistories = await model.reading_history.findAll({
             where: {
                 reading_time: {
-                    [Op.gte]: literal(`NOW() - INTERVAL '72 hour'`), // Greater than or equal to 24 hours ago
+                    [Op.gte]: literal(`NOW() - INTERVAL '500 hour'`), // Greater than or equal to 24 hours ago
                 },
             },
             group: ['id_post'],

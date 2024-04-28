@@ -16,6 +16,7 @@ import ExploreTopic from './pages/ExploreTopic';
 import EditProfile from './pages/EditProfile';
 import Library from './pages/Library';
 import Pricing from './pages/Pricing';
+import Checkout from './pages/Checkout';
 import Support from './pages/Support';
 import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
@@ -52,6 +53,7 @@ function App() {
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="history" element={<Library link="history"/>} />
           <Route path="pricing" element={<Pricing />}/>
+          <Route path="checkout" element={<Checkout />}/>
           <Route path="support" element={<Support />}/>
           <Route path="about" element={<About />}/>
           <Route path="author-profile" element={<AuthorProfile />}/>
