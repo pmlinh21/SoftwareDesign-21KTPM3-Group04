@@ -27,6 +27,12 @@ const getTrendingPost = async (req,res) => {
 
         const postIds = readingHistories.map(history => history.id_post);
 
+        if (postIds.length == 0){
+            successCode(res, [], "Empty trending post ")
+            return
+        }
+            
+
         const posts = await model.post.findAll({
             where: {
                 id_post: postIds,

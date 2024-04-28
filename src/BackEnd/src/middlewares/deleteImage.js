@@ -10,7 +10,7 @@ cloudinary.config({
 const deleteImage = function (link) {
     const indexSplash = link.lastIndexOf("/");
     const indexDot = link.lastIndexOf(".");
-    const public_id = "image" + link.substring(indexSplash,indexDot);
+    const public_id = "xplore" + link.substring(indexSplash,indexDot);
 
     cloudinary.uploader
         .destroy(public_id)

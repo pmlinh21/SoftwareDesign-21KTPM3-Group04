@@ -66,6 +66,7 @@ export default function Writing() {
         publish_time: null
     })
     const [scheduleTime, setScheduleTime] = useState(null)
+    const [uploadedThumbnail, setUploadedThumbnail] = useState(null)
     const [displayModal, setDisplayModal] = useState(false)
 
     const dispatch = useDispatch();
@@ -92,6 +93,8 @@ export default function Writing() {
                     status: selectedPost?.status ,
                     publish_time: selectedPost?.publish_time
                 })
+
+                setUploadedThumbnail(selectedPost?.thumbnail)
 
                 if (selectedPost.status === 2){
                     setScheduleTime(new Date(selectedPost.publish_time))
@@ -136,20 +139,23 @@ export default function Writing() {
             changePostInfo("publish_time",scheduleTime)
         }
 
-        if (id_post == null){
+        if (isNaN(id_post)){
             dispatch(createPostAction({
                 ...postInfo, 
                 id_user: user_login?.id_user,
                 creation_time: formartToSQLDatetime(new Date())
-            }))
+            }, uploadedThumbnail
+        ))
         }
         else {
             dispatch(updatePostAction({
                 ...postInfo, 
-                id_post: id_post }))
+                id_post: id_post 
+            },uploadedThumbnail
+        ))
         }
 
-        navigate('/', { replace: true });
+        // navigate('/', { replace: true });
 
     }
 
@@ -177,7 +183,7 @@ export default function Writing() {
                         <form onSubmit={(e) => {e.preventDefault()}}>
                             <div className="form-group">
                                 <label className="button1">Upload thumbnail</label>
-                                <ThumbnailDrop thumbnail={postInfo.thumbnail} changePostInfo={changePostInfo}/>
+                                <ThumbnailDrop uploadedThumbnail={uploadedThumbnail} setUploadedThumbnail={setUploadedThumbnail}/>
                             </div>
                             <div className="form-group">
                                 <label>Title</label>
@@ -257,16 +263,14 @@ export default function Writing() {
     );
 }
 
-function ThumbnailDrop ({thumbnail, changePostInfo}) {
+function ThumbnailDrop ({uploadedThumbnail, setUploadedThumbnail}) {
   
     const onDrop = (acceptedFiles) => {
       const file = acceptedFiles[0];
       const reader = new FileReader();
   
       reader.onload = () => {
-        // console.log(file)
-        // changePostInfo("thumbnail",reader.result);
-        setFilename(file.name)
+        setUploadedThumbnail(reader.result);
       };
   
       reader.readAsDataURL(file);
@@ -276,21 +280,24 @@ function ThumbnailDrop ({thumbnail, changePostInfo}) {
         onDrop, 
         accept: 'image/jpeg, image/png',
         multiple: false, });
-  
-    const [fileName, setFilename] = useState("")
+
+    const deleteUploadedThumbnail = (e) => {
+        e.stopPropagation()
+        setUploadedThumbnail(null)
+    }
 
     return (
-      <div {...getRootProps()} className="image-input-container">
+      <div {...getRootProps()} className="image-input-container d-flex align-items-center justify-content-center gap-3">
         <input {...getInputProps()} />
         {
           isDragActive ?
             <p className="p2 m-0 text-drag-and-drop">Drop the image here...</p> :
-            <p className="p2 m-0 text-drag-and-drop">Drag and drop an image here, or click to select an image</p>
+            <p className="p2 m-0 text-drag-and-drop text-center">Drag and drop an image here, or click to select an image</p>
         }
-        {thumbnail && (
-          <div className="image-preview">
-            {/* <img src={thumbnail} alt="Selected" className="preview-image" /> */}
-            <p className="p2 m-0 text-scheme-primary">{fileName}</p>
+        {uploadedThumbnail && (
+          <div className="image-preview position-relative">
+            <i className="fa-solid fa-xmark close-button" onClick={deleteUploadedThumbnail}></i>
+            <img src={uploadedThumbnail} alt="Selected" className="preview-image" />
           </div>
         )}
       </div>

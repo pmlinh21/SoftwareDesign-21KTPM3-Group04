@@ -1,4 +1,5 @@
 import { postService } from "../../services/PostService";
+import { cloudinaryService } from "../../services/CloudinaryService";
 import { 
     GET_POST_BY_USER, 
     GET_TOP_POSTS,
@@ -57,18 +58,29 @@ export const getTopPostsAction = () => {
     };
 };
 
-export const createPostAction = (postInfo) => {
+export const createPostAction = (postInfo, uploadedThumbnail) => {
     return async (dispatch) => {
         try {
-            const result = await postService.createPost(postInfo);
-            
-            if (result.status === 200) {
-                const {id_user,...newPost} = result.data.content
-                dispatch({
-                    type: CREATE_POST,
-                    newPost: newPost
-                });
+            let imgResult;
+            if (uploadedThumbnail) {
+                imgResult = await cloudinaryService.uploadImgToCloudinary( uploadedThumbnail)
             }
+
+            if (!uploadedThumbnail || imgResult){
+                const postResult = await postService.createPost({
+                    ...postInfo,
+                    thumbnail: imgResult || null
+                });
+            
+                if (postResult.status === 200) {
+                    const {id_user,...newPost} = postResult.data.content
+                    dispatch({
+                        type: CREATE_POST,
+                        newPost: newPost
+                    });
+                }
+            }
+            
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -76,18 +88,28 @@ export const createPostAction = (postInfo) => {
     }
 }
 
-export const updatePostAction = (postInfo) => {
+export const updatePostAction = (postInfo, uploadedThumbnail) => {
     return async (dispatch) => {
         try {
-            const result = await postService.updatePost(postInfo);
-            
-            if (result.status === 200) {
-                // console.log(result.data.content)
-                const {id_user,...updatedPost} = result.data.content
-                dispatch({
-                    type: UPDATE_POST,
-                    updatedPost: updatedPost
+            let imgResult;
+            if (uploadedThumbnail) {
+                imgResult = await cloudinaryService.uploadImgToCloudinary( uploadedThumbnail)
+            }
+
+            if (!uploadedThumbnail || imgResult){
+                const result = await postService.updatePost({
+                    ...postInfo,
+                    thumbnail: imgResult || null
                 });
+                
+                if (result.status === 200) {
+                    // console.log(result.data.content)
+                    const {id_user,...updatedPost} = result.data.content
+                    dispatch({
+                        type: UPDATE_POST,
+                        updatedPost: updatedPost
+                    });
+                }
             }
         } catch (error) {
             console.log("error", error.response);
