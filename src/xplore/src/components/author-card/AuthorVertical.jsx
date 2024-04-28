@@ -4,7 +4,7 @@ import "./AuthorVertical.css";
 export default function AuthorVertical(props) {
 
     const { id_user, avatar, bio, fullname } = props.author;
-
+    
     return (
         <div className="author-card">
             <img src={avatar} className="photo" />

@@ -18,6 +18,7 @@ import Library from './pages/Library';
 import Pricing from './pages/Pricing';
 import Support from './pages/Support';
 import About from './pages/About';
+import AuthorProfile from './pages/AuthorProfile';
 
 export const history = createBrowserHistory();
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="pricing" element={<Pricing />}/>
           <Route path="support" element={<Support />}/>
           <Route path="about" element={<About />}/>
+          <Route path="author-profile" element={<AuthorProfile />}/>
         </Route>
       </Routes>
     </Router>
