@@ -56,6 +56,11 @@ export class UserService extends BaseService {
     getAuthorPost = (id_user) =>{
       return this.get(`user/post/${id_user}`);
     }
+
+    // Api 10: Get author subscriber 
+    getAuthorSubscriber = (id_user) =>{
+      return this.get(`user/subscriber/${id_user}`);
+    }
   }
   
 export const userService = new UserService();

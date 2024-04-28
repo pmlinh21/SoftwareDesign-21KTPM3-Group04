@@ -21,3 +21,19 @@
 .profile .fullname {
     color: var(--black);
 }
+
+.tip-section {
+    background-color: var(--blue-0);
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.tip-button {
+    background-color: var(--scheme-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
