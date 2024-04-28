@@ -51,6 +51,11 @@ export class UserService extends BaseService {
     followTopic = (id_user, id_topic) =>{
       return this.put(`user/topic/${id_user}/${id_topic}`);
     }
+
+    // Api 9: Get author post 
+    getAuthorPost = (id_user) =>{
+      return this.get(`user/post/${id_user}`);
+    }
   }
   
 export const userService = new UserService();

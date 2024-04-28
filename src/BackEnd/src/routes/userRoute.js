@@ -10,7 +10,7 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserReadingHistory, deleteReadingHistory,
     getUserList, createList, editList, deleteList,
     addPostToList, deletePostFromList, getUserHighLight, updatePassword,
-    getUserToken } = require("../controllers/userController")
+    getUserToken, getAuthorPosts } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -103,5 +103,8 @@ userRoute.put("/update/:id_admin", updatePassword)
 
 // GET: Get user from token
 userRoute.get("/getToken/:email", getUserToken)
+
+// GET: Get all author post
+userRoute.get("/post/:id_user", getAuthorPosts)
 
 module.exports = userRoute;

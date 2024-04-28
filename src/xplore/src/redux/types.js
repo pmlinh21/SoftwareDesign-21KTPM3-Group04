@@ -25,6 +25,8 @@ export const FOLLOW_TOPIC = "FOLLOW_TOPIC";
 
 export const UNFOLLOW_TOPIC = "UNFOLLOW_TOPIC";
 
+export const GET_AUTHOR_POST = "GET_AUTHOR_POST";
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 
