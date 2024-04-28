@@ -4,7 +4,7 @@ import { LOGIN, SIGNUP,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
-    GET_AUTHOR_POST } from "../types";
+    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -290,6 +290,32 @@ export const getAuthorPostAction = (id_user) => {
                 dispatch({
                     type: GET_AUTHOR_POST,
                     author_post: postResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const getAuthorSubscriberAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const subscriberResult = await userService.getAuthorSubscriber(id_user);
+
+            if (subscriberResult.status === 200) {
+                dispatch({
+                    type: GET_AUTHOR_SUBSCRIBER,
+                    author_subscriber: subscriberResult.data.content
                 });
             }
             
