@@ -965,6 +965,48 @@ const getUserToken = async (req, res) => {
     }
 }
 
+// GET: Get all author posts
+const getAuthorPosts = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let posts = await model.post.findAll({
+            where: {
+                id_user: id_user
+            },
+            include:[
+                {
+                    model: model.topic_post,
+                    as: "topic_posts",
+                    include:[
+                        {
+                            model: model.topic,
+                            as: "id_topic_topic",
+                            attributes: ["topic"]
+                        }
+                    ],
+                }
+            ],
+        });
+
+        if(!posts){
+            failCode(res, [], "User has no posts")
+        }
+        else{
+            const formattedPosts = posts.map(post => {
+                const { id_post, id_user, title, content, thumbnail, creation_time, status, publish_time, is_member_only } = post.toJSON();
+                const list_topic = post.topic_posts.map(item => item.id_topic_topic.topic);
+                return { id_post, id_user, title, content, thumbnail, creation_time, status, publish_time, is_member_only, list_topic };
+            });
+
+            successCode(res, formattedPosts, "Posts found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
                 sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
                 followATopic, getUserSubscription, makeASubscription,
@@ -974,4 +1016,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
                 getUserReadingHistory, deleteReadingHistory,
                 getUserList, createList, editList, deleteList,
                 addPostToList, deletePostFromList, getUserHighLight, updatePassword, 
-                getUserToken }
+                getUserToken, getAuthorPosts }

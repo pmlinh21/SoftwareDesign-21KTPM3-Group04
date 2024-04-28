@@ -1,7 +1,8 @@
 import { USER_LOGIN } from "../../util/config";
 import { LOGIN, SIGNUP, GET_USER_BY_EMAIL, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
-    GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC } from "../types";
+    GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
+    GET_AUTHOR_POST } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -12,7 +13,8 @@ export const stateDefault = {
     user_login: user_login,
     user_signup: {},
     list: null, 
-    topic: null
+    topic: null,
+    author_post: null,
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -60,6 +62,9 @@ export const UserReducer = (state = stateDefault, action) => {
                 id_topic => id_topic !== action.id_topic
             )
             return { ...state, topic: [...newTopic]}
+        }
+        case GET_AUTHOR_POST:{
+            return { ...state, author_post: action.author_post}
         }
         default:
             return { ...state };

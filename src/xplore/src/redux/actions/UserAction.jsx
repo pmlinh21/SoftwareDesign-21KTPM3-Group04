@@ -3,7 +3,8 @@ import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
 import { LOGIN, SIGNUP, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
-    HIDE_LOADING, DISPLAY_LOADING } from "../types";
+    HIDE_LOADING, DISPLAY_LOADING,
+    GET_AUTHOR_POST } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -275,3 +276,29 @@ export const getTopUsers = () => {
     };
 }
 */
+
+export const getAuthorPostAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const postResult = await userService.getAuthorPost(id_user);
+
+            if (postResult.status === 200) {
+                dispatch({
+                    type: GET_AUTHOR_POST,
+                    author_post: postResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
