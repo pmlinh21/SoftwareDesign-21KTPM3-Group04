@@ -9,7 +9,7 @@ topicRoute.get("/", getAllTopic)
 topicRoute.get("/search/:topic_name", searchTopicByName)
 
 // GET: Search topic by id and get all posts by following topic
-topicRoute.get("/:id/post", searchTopicPostByID)
+topicRoute.get("/:ids/post", searchTopicPostByID)
 
 // GET: Search topic by id and get the number of followers
 topicRoute.get("/:id/follower-count", getFollowerUser)

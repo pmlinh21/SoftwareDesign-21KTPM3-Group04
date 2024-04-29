@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { useLocation   } from 'react-router-dom';
+import { useLocation, Link   } from 'react-router-dom';
 import { useSelector   } from 'react-redux';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import "../styles/commons.css";
@@ -61,43 +61,54 @@ function Checkout() {
 
     return (
         <div className="checkout-page container d-flex align-items-center flex-column">
-            <div className='container-fluid'>
-                <div className='container' style={{padding: '72px 0'}}>
-                    <p className='subtitle1' style={{color: 'var(--scheme-primary)',
-    textAlign: 'center'}}>ABOUT US</p>
-                    <h4 style={{textAlign: 'center'}}>About the company</h4>
-                    <p className='p1 subtext'>Learn more about the company and the team behind it.</p>
+            <div className='container my-5'>
+                <p className='subtitle1 text-center text-scheme-primary'>PRICING</p>
+                <h4 className="text-center">Checkout</h4>
+            </div>
+            <div className="d-flex justify-content-evenly row col-12">
+            <div className="checkout-info-section d-flex col-4 flex-column"> 
+                    <h6 className="text-scheme-primary mb-3">Subscription information</h6>
+                    {/* <p className="p1 d-flex justify-content-between mb-2">
+                        <span className="button1 text-scheme-main-text mt-1">Order ID </span>
+                        <span>xxxxxxxx</span>
+                    </p> */}
+                    <p className="p1 d-flex justify-content-between mb-2">
+                        <span className="button1 text-scheme-main-text mt-1">Payment</span>
+                        <span>xxxxxxxx</span>
+                    </p>
+                    <p className="p1 d-flex justify-content-between mb-2">
+                        <span className="button1 text-scheme-main-text mt-1"> Start date </span>
+                        <span>xxxxxxxx</span>
+                    </p>
+                    <p className="p1 d-flex justify-content-between mb-2">
+                    <span className="button1 text-scheme-main-text mt-1"> Expired date </span> 
+                        <span>xxxxxxxx</span>
+                    </p>
+                    <h6 className="text-scheme-primary mt-4 mb-3">User information</h6>
+                    <div className="form-group">
+                        <label className="label2">Full name</label>
+                        <input type="text" name="fullname"/>
+                    </div>
+                    <div className="form-group mb-4">
+                        <label className="label2">Email address</label>
+                        <input type="email" name="email"/>
+                    </div>
+                    <PayPalScriptProvider options={initialOptions}>
+                        <PayPalButtons 
+                            style={{ layout: "horizontal" }}
+                            createOrder={(data,actions) => createOrder(data,actions)}
+                            onApprove={(data,actions) => onApprove(data,actions)} />
+                    </PayPalScriptProvider>
+                    <Link to="/pricing" className="button2 bg-white text-neutral-700 mt-2">
+                        <i className="text-neutral-700 fa-solid fa-arrow-left me-2"></i>Back to Pricing
+                    </Link>
                 </div>
+                <div className="membership-section bg-black col-4">
+                    abc
+                </div>
+                
             </div>
-            <div className="checkout-info-section bg-blue my-5 h-50 w-50">
-                <p className="title1">
-                    Payment information
-                </p>
-                <p className="title2">
-                    Membership information
-                </p>
-                <p className="">
-                    ${price}
-                </p>
-                <p className="">
-                    Type: {type} membership
-                </p>
-                <p className="title2">
-                    User information
-                </p>
-
-                <p className="">
-                    Time: hh:mm:ss dd-mm-yyyy
-                </p>
-            </div>
-            <div className="checkout-section w-50">
-                <PayPalScriptProvider options={initialOptions}>
-                    <PayPalButtons 
-                        style={{ layout: "horizontal" }}
-                        createOrder={(data,actions) => createOrder(data,actions)}
-                        onApprove={(data,actions) => onApprove(data,actions)} />
-                </PayPalScriptProvider>
-            </div>
+            
 
         </div>
     )

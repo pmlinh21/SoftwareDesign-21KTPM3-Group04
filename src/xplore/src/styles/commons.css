@@ -375,6 +375,10 @@ button {
     color: var(--neutral-400)
 }
 
+.text-neutral-700{
+    color: var(--neutral-700)
+}
+
 .text-drag-and-drop{
     color: #757575
 }

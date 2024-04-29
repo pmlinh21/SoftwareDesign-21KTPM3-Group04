@@ -1,9 +1,9 @@
 {
     "development": {
       "username": "xplore_db_user",
-      "password": "v48HurCElV8R96vmRppnzt5GiyCyHhSL",
-      "database": "xplore_db",
-      "host": "dpg-cmsg9k8l5elc738q0qe0-a.oregon-postgres.render.com",
+      "password": "W2ZjTKGwsKQZ1b0PpEcdlrhAUaShzKEE",
+      "database": "xplore_db_6b4f",
+      "host": "dpg-consoo4f7o1s73frevlg-a.oregon-postgres.render.com",
       "dialect": "postgres",
       "dialectOptions": {
         "ssl": {
@@ -15,9 +15,9 @@
     },
     "test": {
       "username": "xplore_db_user",
-      "password": "v48HurCElV8R96vmRppnzt5GiyCyHhSL",
-      "database": "xplore_db",
-      "host": "dpg-cmsg9k8l5elc738q0qe0-a.oregon-postgres.render.com",
+      "password": "W2ZjTKGwsKQZ1b0PpEcdlrhAUaShzKEE",
+      "database": "xplore_db_6b4f",
+      "host": "dpg-consoo4f7o1s73frevlg-a.oregon-postgres.render.com",
       "dialect": "postgres",
       "dialectOptions": {
         "ssl": {
@@ -29,9 +29,9 @@
     },
     "production": {
       "username": "xplore_db_user",
-      "password": "v48HurCElV8R96vmRppnzt5GiyCyHhSL",
-      "database": "xplore_db",
-      "host": "dpg-cmsg9k8l5elc738q0qe0-a.oregon-postgres.render.com",
+      "password": "W2ZjTKGwsKQZ1b0PpEcdlrhAUaShzKEE",
+      "database": "xplore_db_6b4f",
+      "host": "dpg-consoo4f7o1s73frevlg-a.oregon-postgres.render.com",
       "dialect": "postgres",
       "dialectOptions": {
         "ssl": {

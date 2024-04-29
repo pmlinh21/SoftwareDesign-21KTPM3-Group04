@@ -40,13 +40,13 @@ const searchTopicByName = async (req, res) => {
 
 // GET: Search topic by id and get all posts by following topic
 const searchTopicPostByID = async (req, res) => {
-    let { id } = req.params
+    let { ids } = req.params
 
     try {
         // Check if topic is exist
         let check = await model.topic.findOne({
             where:{
-                id_topic: id
+                id_topic: ids
             } 
         })
         if (!check) {
@@ -61,7 +61,7 @@ const searchTopicPostByID = async (req, res) => {
                         attributes: ["topic"],
                         through: { attributes: [] },
                         where: {
-                            id_topic: id
+                            id_topic: ids
                         },
                     },
                     {
