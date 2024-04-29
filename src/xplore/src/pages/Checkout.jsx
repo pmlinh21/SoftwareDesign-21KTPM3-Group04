@@ -61,6 +61,14 @@ function Checkout() {
 
     return (
         <div className="checkout-page container d-flex align-items-center flex-column">
+            <div className='container-fluid'>
+                <div className='container' style={{padding: '72px 0'}}>
+                    <p className='subtitle1' style={{color: 'var(--scheme-primary)',
+    textAlign: 'center'}}>ABOUT US</p>
+                    <h4 style={{textAlign: 'center'}}>About the company</h4>
+                    <p className='p1 subtext'>Learn more about the company and the team behind it.</p>
+                </div>
+            </div>
             <div className="checkout-info-section bg-blue my-5 h-50 w-50">
                 <p className="title1">
                     Payment information
