@@ -391,6 +391,11 @@ button {
     color: var(--feedback-error)
 }
 
+.text-success{
+    color: var(--feedback-success)
+}
+
+
 /*background with color*/
 
 .bg-black{

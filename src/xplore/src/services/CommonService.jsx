@@ -44,6 +44,11 @@ export class CommonService extends BaseService {
     getAllMembership = () => {
       return this.get(`membership`);
     }
+
+    // Api 4: Get membership by id
+    getMembershipById = (id_membership) => {
+      return this.get(`membership/${id_membership}`);
+    }
 }
 
 export const commonService = new CommonService();

@@ -1038,6 +1038,7 @@ const createOrder = async (req, res) => {
     try {
         // use the cart information passed from the front-end to calculate the order amount detals
         const { price } = req.body;
+        console.log(price)
 
         const accessToken = await generateAccessToken();
         const url = `${base}/v2/checkout/orders`;
@@ -1047,7 +1048,7 @@ const createOrder = async (req, res) => {
             {
                 amount: {
                 currency_code: "USD",
-                value: price,
+                value: price + "",
                 },
             },
             ],
