@@ -1,10 +1,10 @@
 import React from 'react';
-import "../styles/commons.css";
-import "./SearchResult.css"
-
 import { useState, useEffect } from 'react';
 import {useSelector} from 'react-redux'
 import { useLocation   } from 'react-router-dom';
+
+import "../styles/commons.css";
+import "./SearchResult.css"
 
 import Search from '../components/search/Search'
 import BlogPostCard from '../components/blog-card/BlogPostCard'

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation, Link   } from 'react-router-dom';
 import { useSelector   } from 'react-redux';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 import "../styles/commons.css";
 
 import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'

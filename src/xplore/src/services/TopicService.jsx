@@ -11,9 +11,9 @@ export class TopicService extends BaseService {
         return this.get(`topic/${id}/post`);
     }
 
-    // getPostByTopic = (id_topics) => {
-    //     return this.get(`topic/${id}/post`);
-    // }
+    getPostByTopic = (id_topics) => {
+        return this.get(`topic/${id_topics}/post`);
+    }
 
     getHotTopics = () => {
         return this.get(`topic/trending`);

@@ -42,6 +42,8 @@ const searchTopicByName = async (req, res) => {
 const searchTopicPostByID = async (req, res) => {
     let { ids } = req.params
 
+    ids = ids.split(",")
+
     try {
         // Check if topic is exist
         let check = await model.topic.findOne({
@@ -53,29 +55,34 @@ const searchTopicPostByID = async (req, res) => {
             failCode(res, null, "Invalid ID")
         }
         else{
-            const posts = await model.post.findAll({
-                include: [
-                    {
-                        model: model.topic,
-                        as: "list_topic",
-                        attributes: ["topic"],
-                        through: { attributes: [] },
-                        where: {
-                            id_topic: ids
+            const results = await Promise.all(ids.map(async (item) => {
+                const posts = await model.post.findAll({
+                    include: [
+                        {
+                            model: model.topic,
+                            as: "list_topic",
+                            attributes: ["topic"],
+                            through: { attributes: [] },
+                            where: {
+                                id_topic: item, // Use item instead of ids
+                            },
                         },
-                    },
-                    {
-                        model: model.user,
-                        as: "author",
-                        attributes: ["fullname", "avatar", "id_user"],
-                    },
-                ],
-                attributes: [
-                    "title", "content", "publish_time", "thumbnail", "id_post",
-                ],     
-            });
+                        {
+                            model: model.user,
+                            as: "author",
+                            attributes: ["fullname", "avatar", "id_user"],
+                        },
+                    ],
+                    attributes: [
+                        "title", "content", "publish_time", "thumbnail", "id_post",
+                    ],
+                });
+            
+                return posts;
+            }));
+            
 
-            successCode(res, posts, "Topic and it's posts found") 
+            successCode(res, results, "Topic and it's posts found") 
         }
 
     } catch (err) {

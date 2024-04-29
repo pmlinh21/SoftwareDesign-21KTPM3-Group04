@@ -1,5 +1,3 @@
-import "../styles/commons.css";
-import "./Writing.css";
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
@@ -7,10 +5,15 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"; 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
+
+import "../styles/commons.css";
+import "./Writing.css";
+
 import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 
 import TextEditor from './TextEditor';
 import Loading from '../components/loading/Loading'
+
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
 

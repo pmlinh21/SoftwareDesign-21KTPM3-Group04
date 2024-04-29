@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+
 import { getTopicByUserAction } from '../redux/actions/UserAction';
+import { topicService } from "../services/TopicService";
+
 import {formatCapitalCase} from '../util/formatText'
+
 import Loading from '../components/loading/Loading';
+import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 
 const MyTabs = () => {
   const dispatch = useDispatch();
@@ -21,32 +26,31 @@ const MyTabs = () => {
     } else {
 
       // if followed topic !== null, then get relevant posts
-      // const fetchPost = async () => {
-      //   try {
-      //     const post = await userService
+      const fetchPost = async () => {
+        try {
+          const result = await topicService.getPostByTopic(topic.join(","))
 
-      //     console.log(data);
-      //   } catch (error) {
-      //     console.error('Error fetching data:', error);
-      //   }
-      // };
-
-      // fetchPost();
-
-      const followedTopic = topics.filter(item => topic.includes(item.id_topic))
-      const tabsData = followedTopic.map(item => {
-        return {
-          title: formatCapitalCase(item.topic),
-          content: `Content for ${item.topic}`
+          const followedTopic = topics.filter(item => topic.includes(item.id_topic))
+          const tabsData = followedTopic.map((item, index) => {
+            return {
+              id_topic: item.id_topic,
+              title: formatCapitalCase(item.topic),
+              post: result.data.content[index]
+            }
+          })
+      
+          setTabsData(tabsData)
+        } catch (error) {
+          console.error('Error fetching data:', error);
         }
-      })
-  
-      setTabsData(tabsData)
+      };
+
+      fetchPost(topic);
     }
 
   }, [topic]); 
 
-
+  console.log(tabsData)
   return (
     loading 
     ? (
@@ -54,15 +58,18 @@ const MyTabs = () => {
     ): (
       <Tabs>
         <TabList>
-          {tabsData.map((tab, index) => (
-            <Tab key={index}>{tab.title}</Tab>
+          {tabsData.map((tab) => (
+            <Tab key={tab.id_topic}>{tab.title}</Tab>
           ))}
         </TabList>
 
-        {tabsData.map((tab, index) => (
-          <TabPanel key={index}>
-            <h2>{tab.title}</h2>
-            <p>{tab.content}</p>
+        {tabsData.map((tab) => (
+          <TabPanel key={tab.id_topic}>
+            {
+              tab.post.map((post) => (
+                <BlogCardHorizontal post={post}/>
+              ))
+            }
           </TabPanel>
         ))}
       </Tabs>

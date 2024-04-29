@@ -1,10 +1,10 @@
 import React from 'react';
-import "../styles/commons.css";
-import "./ExploreTopic.css"
-
 import { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useLocation   } from 'react-router-dom';
+
+import "../styles/commons.css";
+import "./ExploreTopic.css"
 
 import Loading from '../components/loading/Loading';
 import Search from '../components/search/Search'
@@ -13,6 +13,7 @@ import TopicTag from '../components/topic/TopicTag'
 
 import {formatCapitalCase} from '../util/formatText';
 import { DOMAIN } from "../util/config";
+
 import { FollowTopicAction, getTopicByUserAction, UnfollowTopicAction } from '../redux/actions/UserAction';
 
 function ResultText({topic_name, related_posts, followerCount}){
