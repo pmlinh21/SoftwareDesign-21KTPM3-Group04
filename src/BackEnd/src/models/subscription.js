@@ -10,7 +10,6 @@ module.exports = function(sequelize, DataTypes) {
     id_user: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
       references: {
         model: 'user',
         key: 'id_user'
@@ -51,7 +50,6 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id_subscription" },
-          { name: "id_user" },
         ]
       },
     ]

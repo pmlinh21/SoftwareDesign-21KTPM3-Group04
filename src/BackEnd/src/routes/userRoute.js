@@ -108,27 +108,8 @@ userRoute.get("/getToken/:email", getUserToken)
 // GET: Get all author post
 userRoute.get("/post/:id_user", getAuthorPosts)
 
-userRoute.post("/create-paypal-order", async (req, res) => {
-    try {
-      // use the cart information passed from the front-end to calculate the order amount detals
-      const { product } = req.body;
-      const { jsonResponse, httpStatusCode } = await createOrder(product);
-      res.status(httpStatusCode).json(jsonResponse);
-    } catch (error) {
-      console.error("Failed to create order:", error);
-      res.status(500).json({ error: "Failed to create order." });
-    }
-});
+userRoute.post("/create-paypal-order", createOrder);
     
-userRoute.post("/capture-paypal-order", async (req, res) => {
-    try {
-      const { orderID } = req.body;
-      const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-      res.status(httpStatusCode).json(jsonResponse);
-    } catch (error) {
-      console.error("Failed to create order:", error);
-      res.status(500).json({ error: "Failed to capture order."   });
-    }
-});
+userRoute.post("/capture-paypal-order", captureOrder);
 
 module.exports = userRoute;

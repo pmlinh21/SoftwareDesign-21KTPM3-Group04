@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import "../styles/commons.css";
-import "./About.css";
-import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'
+import { useLocation   } from 'react-router-dom';
+import { useSelector   } from 'react-redux';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import "../styles/commons.css";
+
+import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'
+import {formartToSQLDatetime} from '../util/formatDate'
 
 const initialOptions = {
     clientId: PAYPAL_CLIENTID,
@@ -12,6 +15,16 @@ const initialOptions = {
 };
 
 function Checkout() {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const membership = searchParams.get('membership');
+    const type = searchParams.get('type');
+    const price = parseFloat(searchParams.get('price'));
+
+    const {user_login} = useSelector(state => state.UserReducer)
+
+    const [result, setResult] = useState({});
+
     const createOrder = (data) => {
         return fetch(`${DOMAIN}/user/create-paypal-order`,{
             method: "POST",
@@ -19,9 +32,7 @@ function Checkout() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                product:{
-                    cost: "10"
-                }
+                price: price
             })
         })
         .then((response) => response.json())
@@ -34,7 +45,15 @@ function Checkout() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                orderID: data.orderID
+                orderID: data.orderID,
+                subscription: {
+                    price: price,
+                    id_membership: membership,
+                    id_user: user_login.id_user,
+                    status: 1,
+                    start_time: formartToSQLDatetime(new Date()),
+                    end_time: formartToSQLDatetime(new Date())
+                }
             })
         })
         .then((response) => response.json())
@@ -42,20 +61,24 @@ function Checkout() {
 
     return (
         <div className="checkout-page container d-flex align-items-center flex-column">
-            <div className="checkout-info-section bg-blue my-5 h-50 w-75">
-                <p>
-                    Thong tin don hang
+            <div className="checkout-info-section bg-blue my-5 h-50 w-50">
+                <p className="title1">
+                    Payment information
                 </p>
-                <p>
-                    $10
+                <p className="title2">
+                    Membership information
                 </p>
-                <p>
-                    User info
+                <p className="">
+                    ${price}
                 </p>
-                <p>
-                    Type: montly subscription
+                <p className="">
+                    Type: {type} membership
                 </p>
-                <p>
+                <p className="title2">
+                    User information
+                </p>
+
+                <p className="">
                     Time: hh:mm:ss dd-mm-yyyy
                 </p>
             </div>

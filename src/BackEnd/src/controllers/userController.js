@@ -1034,76 +1034,82 @@ const generateAccessToken = async () => {
     }
   };
 
-const createOrder = async (product) => {
-// use the product information passed from the front-end to calculate the purchase unit details
-    console.log(
-        "shopping product information passed from the frontend createOrder() callback:",
-        product,
-    );
-
-    const accessToken = await generateAccessToken();
-    const url = `${base}/v2/checkout/orders`;
-    const payload = {
-        intent: "CAPTURE",
-        purchase_units: [
-        {
-            amount: {
-            currency_code: "USD",
-            value: product.cost,
-            },
-        },
-        ],
-    };
-
-    const response = await fetch(url, {
-        headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-        // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-        // "PayPal-Mock-Response": '{"mock_application_codes": "MISSING_REQUIRED_PARAMETER"}'
-        // "PayPal-Mock-Response": '{"mock_application_codes": "PERMISSION_DENIED"}'
-        // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
-        },
-        method: "POST",
-        body: JSON.stringify(payload),
-    });
-
-    return handleResponse(response);
-};
-
-const captureOrder = async (orderID) => {
-    const accessToken = await generateAccessToken();
-    const url = `${base}/v2/checkout/orders/${orderID}/capture`;
-
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        // Uncomment one of these to force an error for negative testing (in sandbox mode only). Documentation:
-        // https://developer.paypal.com/tools/sandbox/negative-testing/request-headers/
-        // "PayPal-Mock-Response": '{"mock_application_codes": "INSTRUMENT_DECLINED"}'
-        // "PayPal-Mock-Response": '{"mock_application_codes": "TRANSACTION_REFUSED"}'
-        // "PayPal-Mock-Response": '{"mock_application_codes": "INTERNAL_SERVER_ERROR"}'
-        },
-    });
-
-    return handleResponse(response);
-};
-  
-async function handleResponse(response) {
+const createOrder = async (req, res) => {
     try {
-      const jsonResponse = await response.json();
-      return {
-        jsonResponse,
-        httpStatusCode: response.status,
-      };
-    } catch (err) {
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
+        // use the cart information passed from the front-end to calculate the order amount detals
+        const { price } = req.body;
+
+        const accessToken = await generateAccessToken();
+        const url = `${base}/v2/checkout/orders`;
+        const payload = {
+            intent: "CAPTURE",
+            purchase_units: [
+            {
+                amount: {
+                currency_code: "USD",
+                value: price,
+                },
+            },
+            ],
+            application_context: {
+                shipping_preference: "NO_SHIPPING",
+            }
+        };
+
+        const response = await fetch(url, {
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+            },
+            method: "POST",
+            body: JSON.stringify(payload),
+        });
+
+        const jsonResponse = await response.json();
+        res.status(response.status).json(jsonResponse);
+    } catch (error) {
+        console.error("Failed to create order:", error);
+        res.status(500).json({ error: "Failed to create order." });
     }
-}
+};
+
+const captureOrder = async (req, res) => {
+    try {
+        const { subscription, orderID } = req.body;
+        
+        const accessToken = await generateAccessToken();
+        const url = `${base}/v2/checkout/orders/${orderID}/capture`;
+
+        console.log(orderID)
+        console.log(subscription)
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        const jsonResponse = await response.json();
+
+        if (response.status === 201){
+            const newSubscription = await model.subscription.create({
+                id_user: subscription.id_user,
+                id_membership: subscription.id_membership,
+                price: subscription.price,
+                status: subscription.status,
+                start_time: subscription.start_time,
+                end_time: subscription.end_time
+            })
+
+            successCode(res, newSubscription, "Payment completed")
+        }
+
+    } catch (error) {
+        console.error("Failed to create order:", error);
+        res.status(500).json({ error: "Failed to capture order."   });
+    }
+};
 
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
