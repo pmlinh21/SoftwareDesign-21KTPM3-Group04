@@ -71,7 +71,102 @@ function About() {
                     <button className='tert-btn btn-md'>Learn more</button>
                     <button className='prim-btn btn-md'>Contact us</button>
                 </div>
+                <div className='container' style={{marginTop: '64px'}}>
+                    <div className='row' style={{gap: '32px'}}>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-1.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Olivia Rhye</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Founder & CEO</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-2.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Phoenix Baker</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Engineering Manager</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-3.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Lana Steiner</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Product Manager</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-4.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Demi Wilkinson</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Frontend Developer</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='row' style={{gap: '32px', marginTop: '64px'}}>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-5.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Candice Wu</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Backend Developer</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-6.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Natali Craig</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Product Designer</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-7.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Drew Cano</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>UX Researcher</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                        <div className='col team-container'>
+                            <img src='/imgs/Avatar-8.svg'></img>
+                            <p className='button1' style={{margin: '20px 0 0 0'}}>Orlando Diggs</p>
+                            <p className='p2' style={{color: 'var(--scheme-primary)', margin: '0 0 8px 0'}}>Customer Success</p>
+                            <p className='p2' style={{color: 'var(--scheme-sub-text)'}}>Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+                            <div className='social-media-btns justify-content-center'>
+                                <img src="/imgs/x-logo.svg"/>
+                                <img src="/imgs/linkedin-logo.svg"/>
+                                <img src="/imgs/dribbble-logo.svg"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
         </div>
     )
 }

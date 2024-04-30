@@ -31,7 +31,7 @@ function Pricing() {
     console.log(memberships);
     return (
         <div className='container-fluid'>
-            <p className='subtitle1'>About us</p>
+            <p className='subtitle1'>PRICING</p>
         </div>
     )
 }
