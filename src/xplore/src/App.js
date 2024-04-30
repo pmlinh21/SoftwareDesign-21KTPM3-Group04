@@ -43,20 +43,27 @@ function App() {
         <Route path="" element={<Layout />}>
           
           <Route path="" element={<HomeGuest />} />
+          <Route path="home" element={<Home />} />
           <Route path="topic" element={<ExploreTopic />} />
           <Route path="search-result" element={<SearchResult />} />
+
           <Route path="write" element={<Writing />} />
+
           <Route path="my-profile" element={<MyProfile />} />
-          <Route path="home" element={<Home />} />
           <Route path='edit-profile' element={<EditProfile />}/>
+
           <Route path="reading" element={<Library link="reading" />} />
           <Route path="saved" element={<Library link="saved"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="history" element={<Library link="history"/>} />
+
           <Route path="pricing" element={<Pricing />}/>
           <Route path="checkout" element={<Checkout />}/>
+
           <Route path="support" element={<Support />}/>
+
           <Route path="about" element={<About />}/>
+          
           <Route path="author-profile" element={<AuthorProfile />}/>
           <Route path="ex" element={<MyTabs />}/>
         </Route>

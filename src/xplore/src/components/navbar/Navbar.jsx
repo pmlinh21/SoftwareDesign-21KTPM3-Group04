@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 
 import { RoleKey, USER_LOGIN } from "../../util/config";
+import { formatCapitalFirstLetter } from '../../util/formatText';
 
 import "./Navbar.css";
 
@@ -12,10 +13,6 @@ import SignupPopup from '../../pages/SignupPopup';
 
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
 import { getUserByEmailAction } from '../../redux/actions/UserAction';
-
-function capitalizeFirstLetter(str) {
-    return str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
-}
 
 function logout() {
     localStorage.removeItem(USER_LOGIN);
@@ -105,7 +102,7 @@ export default function Navbar() {
                                         {topics.map(topic => (
                                             <li key={topic.id_topic}>
                                                 <Link className="dropdown-item button2 text-start text-scheme-sub-text my-1" to={'/#'} >
-                                                    {capitalizeFirstLetter(topic.topic)}
+                                                    {formatCapitalFirstLetter(topic.topic)}
                                                 </Link>
                                             </li>
                                         ))}
@@ -144,16 +141,32 @@ export default function Navbar() {
                                 <Avatar avatar={user_login.avatar} size="small"/>
                             </div>
 
-                            <ul className="dropdown-menu">
+                            <ul className="dropdown-menu dropdown-menu-end button3 support text-start text-scheme-sub-text">
                                 <li>
-                                    <Link className="dropdown-item" to={'/my-profile'} >
-                                       Profile
+                                    <Link className="dropdown-item py-2" to={'/my-profile'} >
+                                       View profile
                                     </Link>
                                 </li>
-                                <li><hr className="dropdown-divider" ></hr></li>
+                                <li>
+                                    <Link className="dropdown-item py-2" to={'/reading'}>
+                                       Library
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item py-2" to={'/draft'} >
+                                       Posts
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item py-2" to={'/statistics'} >
+                                       Stats
+                                    </Link>
+                                </li>
+                                <li>
+                                    <hr className="dropdown-divider" ></hr></li>
                                 <li>
                                     <Link className="dropdown-item" to={'/'} onClick={logout}>
-                                       Log out
+                                        <i className="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out
                                     </Link>
                                 </li>
                             </ul>

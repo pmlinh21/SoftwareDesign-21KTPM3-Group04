@@ -14,7 +14,7 @@ export const getAllTopicsAction = () => {
             }
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     };
 };

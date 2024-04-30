@@ -47,7 +47,7 @@ export default function Home() {
             }
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     };
 
@@ -64,7 +64,7 @@ export default function Home() {
             setTopAuthors(users);
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     }
 
@@ -79,7 +79,7 @@ export default function Home() {
         }
         catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     }
 
@@ -95,7 +95,7 @@ export default function Home() {
         }
         catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     }
 

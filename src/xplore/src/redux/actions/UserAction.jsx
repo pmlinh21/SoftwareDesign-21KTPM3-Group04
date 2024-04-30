@@ -52,7 +52,7 @@ export const loginAction = (user_login) => {
             }
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     };
 };
@@ -118,7 +118,7 @@ export const getUserByEmailAction = (email) => {
             }
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     };
 };
@@ -144,7 +144,7 @@ export const getListByUserAction = (id_user) => {
             });
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
+            // alert(error.response.data.message)
         }
     };
 };
