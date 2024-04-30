@@ -105,11 +105,13 @@ userRoute.put("/update/:id_admin", updatePassword)
 // GET: Get user from token
 userRoute.get("/getToken/:email", getUserToken)
 
-// GET: Get all author post
-userRoute.get("/post/:id_user", getAuthorPosts)
+// GET: Get all author post -> POST route
+// userRoute.get("/post/:id_user", getAuthorPosts)
 
+// POST: Create paypal order
 userRoute.post("/create-paypal-order", createOrder);
-    
+
+// POST: Capture paypal order
 userRoute.post("/capture-paypal-order", captureOrder);
 
 module.exports = userRoute;

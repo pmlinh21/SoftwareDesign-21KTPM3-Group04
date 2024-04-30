@@ -1,16 +1,18 @@
 const db = require('../models/index');
 const sequelize = db.sequelize;
-const { Op, literal, where } = require("sequelize");
 const init_models = require('../models/init-models');
 const model = init_models(sequelize);
-require('dotenv').config()
+
+const { Op, literal, where } = require("sequelize");
 const nodeMailer = require('nodemailer');
 const bcrypt = require('bcryptjs'); 
 const fetch = require("node-fetch");
-
 const moment = require('moment')
+
 const { successCode, failCode, errorCode } = require('../config/response');
 const { parseToken, decodeToken } = require('../middlewares/baseToken');
+const { SUBSCRIBE_NOTI } = require('../config/noti_type');
+require('dotenv').config()
 
 // GET: Login
 const login = async(req, res) =>{
@@ -530,6 +532,13 @@ try {
         const [subscribe, metadata] = await sequelize.query
         (`INSERT INTO subscribe 
         VALUES (${user},${subscriber},'${subscriber_time}')`);
+
+        await model.notification.create({
+            creator:  subscriber,
+            receiver: user,
+            noti_type: SUBSCRIBE_NOTI,
+            noti_time: subscriber_time
+        });  
         
         successCode(res, "", "Subscribe successfully");
     }

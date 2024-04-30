@@ -1,10 +1,11 @@
 const db = require("../models/index");
 const sequelize = db.sequelize;
-const { Op, literal, fn, col } = require("sequelize");
 const init_models = require("../models/init-models");
 const model = init_models(sequelize);
-const { successCode, failCode, errorCode } = require("../config/response");
 
+const { Op, literal, fn, col } = require("sequelize");
+
+const { successCode, failCode, errorCode } = require("../config/response");
 const {LIKE_NOTI, RESPONSE_NOTI, REPLY_NOTI} = require("../config/noti_type")
 
 
@@ -13,7 +14,7 @@ const getTrendingPost = async (req,res) => {
         const readingHistories = await model.reading_history.findAll({
             where: {
                 reading_time: {
-                    [Op.gte]: literal(`NOW() - INTERVAL '500 hour'`), // Greater than or equal to 24 hours ago
+                    [Op.gte]: literal(`NOW() - INTERVAL '700 hour'`), // Greater than or equal to 24 hours ago
                 },
             },
             group: ['id_post'],
@@ -62,11 +63,15 @@ const getTrendingPost = async (req,res) => {
             ],
             attributes: [
                 "id_post", "title", "content", "publish_time", "thumbnail",
-                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
-                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+                "creation_time", "publish_time", "status","is_member_only",
+                [literal('COUNT(DISTINCT "like_posts"."id_user")'), 'likeCount'],
+                [literal('COUNT(DISTINCT "responses"."id_response")'), 'responseCount'],
             ],
-            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user"] ,
+            group: ['post.id_post', 
+            "author.fullname", "author.avatar", "author.id_user",
+            "list_topic.id_topic",
+            "like_posts.id_post", 
+            ] ,
             order: [[sequelize.literal(`ARRAY_POSITION(ARRAY[${postIds.join(',')}], "post"."id_post")`)]],
         });
 
@@ -103,7 +108,6 @@ const getPostByID = async (req,res) => {
                     model: model.response,
                     as: "responses",
                     attributes: [],
-                    
                 },
                 {
                     model: model.user,
@@ -113,11 +117,15 @@ const getPostByID = async (req,res) => {
             ],
             attributes: [
                 "title", "content", "publish_time", "thumbnail", "id_post",
-                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
-                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+                "creation_time", "publish_time", "status","is_member_only",
+                [literal('COUNT(DISTINCT "like_posts"."id_user")'), 'likeCount'],
+                [literal('COUNT(DISTINCT "responses"."id_response")'), 'responseCount'],
             ],
-            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user"] 
+            group: ['post.id_post', 
+            "author.fullname", "author.avatar", "author.id_user",
+            "list_topic.id_topic", 
+            "like_posts.id_post", 
+            ] 
         }); 
 
         successCode(res,post,"Post found")
@@ -166,11 +174,15 @@ const getPostByKeyword = async (req, res) => {
             ],
             attributes: [
                 "title", "content", "publish_time", "thumbnail", "id_post",
-                [fn('COUNT', col('like_posts.id_post')), 'likeCount'],
-                [fn('COUNT', col('responses.id_response')), 'responseCount'],
+                "creation_time", "publish_time", "status","is_member_only",
+                [literal('COUNT(DISTINCT "like_posts"."id_user")'), 'likeCount'],
+                [literal('COUNT(DISTINCT "responses"."id_response")'), 'responseCount'],
             ],
-            group: ['post.id_post', "list_topic.id_topic", "like_posts.id_user", "like_posts.id_post", 
-            "author.fullname", "author.avatar", "author.id_user"]        
+            group: ['post.id_post', 
+            "author.fullname", "author.avatar", "author.id_user",
+            "list_topic.id_topic", 
+            "like_posts.id_post", 
+            ]        
         });
 
         successCode(res, posts, "Get thành công")
@@ -194,15 +206,33 @@ const getPostByUser = async (req,res) => {
                 {
                     model: model.topic,
                     as: "list_topic",
-                    attributes: ["topic", "id_topic"],
+                    attributes: ["topic"],
                     through: { attributes: [] },
                     
                 },
+                {
+                    model: model.like_post,
+                    as: "like_posts",
+                    attributes: [],
+                    
+                },
+                {
+                    model: model.response,
+                    as: "responses",
+                    attributes: [],
+                    
+                }
             ],
             attributes: [
-                "id_post", "title", "content", "thumbnail", 
-                "creation_time", "status","publish_time", "is_member_only"
+                "title", "content", "publish_time", "thumbnail", "id_post",
+                "creation_time", "publish_time", "status","is_member_only",
+                [literal('COUNT(DISTINCT "like_posts"."id_user")'), 'likeCount'],
+                [literal('COUNT(DISTINCT "responses"."id_response")'), 'responseCount'],
             ],
+            group: ['post.id_post', 
+            "list_topic.id_topic", 
+            "like_posts.id_post", 
+            ]        
         }); 
 
         successCode(res,posts,"Post found")
@@ -214,28 +244,37 @@ const getPostByUser = async (req,res) => {
 }
 
 const getLikeOfPost = async (req,res) => {
-    const {id_post} = req.params;
+    const {id_post, id_user} = req.params;
 
     try{
-        const count = await model.post.findOne({
-            where: { id_post: id_post },
-            include: {
-              model: model.like_post,
-              as: "like_posts",
-              attributes: [],
+        // const count = await model.post.findOne({
+        //     where: { id_post: id_post },
+        //     include: {
+        //       model: model.like_post,
+        //       as: "like_posts",
+        //       attributes: [],
+        //     },
+        //     attributes: [
+        //         "id_post",
+        //         [sequelize.fn("COUNT", sequelize.col("like_posts.id_user")), "likeCount"]
+        //     ],
+        //     group: ["post.id_post"],
+        // });
+
+        // if (!count) {
+        //     failCode(res, null, "Invalid ID")
+        // }
+
+        // successCode(res,count,"Post found")
+
+        const count = await model.like_post.findAll({
+            where: {
+                id_post: id_post,
+                id_user: id_user,
             },
-            attributes: [
-                "id_post",
-                [sequelize.fn("COUNT", sequelize.col("like_posts.id_user")), "likeCount"]
-            ],
-            group: ["post.id_post"],
-        });
+        })
 
-        if (!count) {
-            failCode(res, null, "Invalid ID")
-        }
-
-        successCode(res,count,"Post found")
+        successCode(res,count.length > 0,"Post found")
     }
     catch(err){
         console.log(err)
@@ -254,7 +293,7 @@ const getResponseOfPost = async (req,res) => {
                 {
                     model: model.user,
                     as: "author",
-                    attributes: ["fullname"],
+                    attributes: ["id_user","fullname", "avatar"],
                 },
                 {
                     model: model.response,
@@ -265,7 +304,7 @@ const getResponseOfPost = async (req,res) => {
                         {
                             model: model.user,
                             as: "user",
-                            attributes: ["id_user","fullname"],
+                            attributes: ["id_user","fullname", "avatar"],
                         }
                     ]
                 }
@@ -285,31 +324,6 @@ const getResponseOfPost = async (req,res) => {
         errorCode(res,"Internal Server Error")
     }
 
-}
-
-const createPost = async (req,res) => {
-    const {id_user, title, content, thumbnail,creation_time,
-            publish_time, is_member_only, status, topic} = req.body;
-
-    try{
-        const post = await model.post.create({
-            id_user, title, content, thumbnail,creation_time,
-            status: status, publish_time, is_member_only
-        }); 
-
-        if (!post) {
-            failCode(res, null, "Invalid ID")
-        }
-
-        const list_topic = await updateTopicPost(topic, post.id_post);
-
-        const plainPost = post.get({ plain: true });
-        successCode(res,{...plainPost, list_topic: list_topic},"Post created")
-    }
-    catch(err){
-        console.log(err)
-        errorCode(res,"Internal Server Error")
-    }
 }
 
 const updateTopicPost = async(topic, id_post) => {
@@ -338,6 +352,31 @@ const updateTopicPost = async(topic, id_post) => {
         return {id_topic : item.id_topic,
             topic : item.id_topic_topic.topic}
     })
+}
+
+const createPost = async (req,res) => {
+    const {id_user, title, content, thumbnail,creation_time,
+            publish_time, is_member_only, status, topic} = req.body;
+
+    try{
+        const post = await model.post.create({
+            id_user, title, content, thumbnail,creation_time,
+            status: status, publish_time, is_member_only
+        }); 
+
+        if (!post) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        const list_topic = await updateTopicPost(topic, post.id_post);
+
+        const plainPost = post.get({ plain: true });
+        successCode(res,{...plainPost, list_topic: list_topic},"Post created")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
 }
 
 const updatePost = async (req,res) => {

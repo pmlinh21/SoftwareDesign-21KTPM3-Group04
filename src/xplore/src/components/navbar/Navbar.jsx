@@ -130,7 +130,7 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/list">
+                            <Link className="nav-link" to="/saved">
                                 <i className="fa-regular fa-bookmark"></i>
                             </Link>
                         </li>
