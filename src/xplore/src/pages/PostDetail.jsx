@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import { useDropzone } from 'react-dropzone';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
 
-import { formatToMDY, formatToTimeDMY } from '../util/formatDate'
+import { formatToMDY } from '../util/formatDate'
 
 import "../styles/commons.css";
 import "./PostDetail.css";
@@ -15,6 +13,7 @@ import {postService} from '../services/PostService';
 import Search from '../components/search/Search'
 import BookmarkIcon from '../components/icon/BookmarkIcon';
 import LikeIcon from '../components/icon/LikeIcon';
+import PostContent from './PostContent'
 
 function Post() {
     const location = useLocation();
@@ -58,7 +57,7 @@ function Post() {
                             <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
-                                {post?.list_topic.map(topic => (
+                                {post?.list_topic?.map(topic => (
                                     <button key={topic.id_topic} className='topic label2 capitalize'>{topic.topic}</button>
                                 ))}
                             </div>
@@ -77,7 +76,7 @@ function Post() {
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
                                         {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
-                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{formatToMDY(post.publish_time)}</p>
+                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post.publish_time && formatToMDY(post?.publish_time)}</p>
                                     </div>
                                     <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
                                 </div>
@@ -87,7 +86,7 @@ function Post() {
                                     >
                                     <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount}/>
                                     <button id='comment-btn' className="d-flex align-items-center">
-                                        <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> 24
+                                        <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> {post?.responseCount}
                                     </button>
                                     <BookmarkIcon id_post={id_post} regular_icon/>
                                     <button id='share-btn'>
@@ -97,7 +96,7 @@ function Post() {
                             </div>
                             <hr/>
                             {/* Post Content */}
-                            <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                            <PostContent content={post?.content}/>
                         </div>
                         <div className='col-2'></div>
                     </div>
