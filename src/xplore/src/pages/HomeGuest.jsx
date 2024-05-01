@@ -144,9 +144,9 @@ export default function Home() {
             </section>
 
             <section className="container my-5 py-5 gradient-bg">
-                <h4>
+                <h5>
                     <i className="fa-solid fa-chart-line"></i> Trending on Xplore
-                </h4>
+                </h5>
                 <div className="d-flex flex-column gap-3">
                 <div className="row d-flex flex-row justify-content-between">
                 {topHalfOfPosts.map((post, index) => (
@@ -169,7 +169,7 @@ export default function Home() {
                 <div className="row">
                     <div className="col-7 me-5">
                         <div className="d-flex align-items-center justify-content-between">
-                            <h4>Explore more</h4>
+                            <h5>Explore more</h5>
                             <Link to="#" className="link-nm button1">
                                 See all posts <i className="fa-solid fa-check"></i>
                             </Link>
@@ -183,7 +183,7 @@ export default function Home() {
                     </div>
                     <div className="col-4">
                         <div className="row mb-5">
-                            <h4>Hot topics</h4>
+                            <h5>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
                                     <button className="topic label2 capitalize">{topic.topic}</button>

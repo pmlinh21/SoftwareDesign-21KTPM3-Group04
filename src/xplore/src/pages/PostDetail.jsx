@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch} from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch} from 'react-redux'
+
+import { formatToMDY, formatToTimeDMY } from '../util/formatDate'
 
 import "../styles/commons.css";
 import "./PostDetail.css";
@@ -54,30 +56,28 @@ function Post() {
                         <div className='col-8'>
                             {/* Post Title */}
                             <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
-                            {/* Post Description */}
-                            <p className='description'>An illustrated guide to becoming a Software Architect in 2024 with links to relevant courses</p>
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
-                                {/* {Topics.map(topic => (
-                                    <button key={topic.id} className="topic label2 capitalize">{topic.topic}</button>
-                                ))} */}
-                                <button className='topic label 2'>Business</button>
+                                {post?.list_topic.map(topic => (
+                                    <button key={topic.id_topic} className='topic label2 capitalize'>{topic.topic}</button>
+                                ))}
                             </div>
                             {/* Post Authors */}
                             <hr/>
                             <div className='d-flex justify-content-between' style={{gap: '16px', padding: '24px 0'}}>
                                 <div className='d-flex gap-3'>
                                     {/* Avatar */}
-                                    <img src="/imgs/Avatar-6.svg" style={{height: '44px', width: '44px'}} />
+                                    <img src={post?.author?.avatar} style={{height: '44px', width: '44px', borderRadius: '50%'}} />
                                     {/* Name */}
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
-                                        <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>Oliver Knight</p>
+                                        <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{post?.author?.fullname}</p>
                                     </div>
                                     {/* Date */}
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
-                                        <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>July 14, 2023</p>
+                                        {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
+                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{formatToMDY(post.publish_time)}</p>
                                     </div>
                                     <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
                                 </div>
@@ -96,6 +96,8 @@ function Post() {
                                 </div>
                             </div>
                             <hr/>
+                            {/* Post Content */}
+                            <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
                         </div>
                         <div className='col-2'></div>
                     </div>
