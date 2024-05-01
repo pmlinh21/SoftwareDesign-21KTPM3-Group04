@@ -21,6 +21,7 @@ import Support from './pages/Support';
 import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
+import Post from './pages/PostDetail';
 
 export const history = createBrowserHistory();
 
@@ -61,7 +62,7 @@ function App() {
           <Route path="checkout" element={<Checkout />}/>
 
           <Route path="support" element={<Support />}/>
-
+          <Route path="post" element={<Post />}/>
           <Route path="about" element={<About />}/>
           
           <Route path="author-profile" element={<AuthorProfile />}/>
