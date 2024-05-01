@@ -4,7 +4,6 @@ import "../styles/commons.css";
 import { commonService } from "../services/CommonService";
 import {formatCapitalFirstLetter} from '../util/formatText';
 
-
 function Pricing() {
     useEffect( () => {
         async function fetchMembership(){
