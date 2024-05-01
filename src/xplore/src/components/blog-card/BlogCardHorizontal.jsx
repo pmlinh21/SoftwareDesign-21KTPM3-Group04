@@ -1,7 +1,11 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
+
 import "./BlogCardHorizontal.css";
+
 import Avatar from "../avatar/Avatar";
-import BookmarkIcon from "../icon/BookmarkIcon"
+import BookmarkIcon from "../icon/BookmarkIcon";
+
 import { formatToMD } from "../../util/formatDate";
 import { sanitizeContent } from "../../util/formatText";
 
@@ -13,8 +17,14 @@ export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
         publish_time, responseCount, likeCount} = props.post;
 
+    const navigate = useNavigate();
+    const handleBlogCardClicked = () =>{
+        navigate("/post?id_post=" + id_post)
+    }
+
     return (
-        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
+        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white"
+            onClick={handleBlogCardClicked}>
             <div className="col-12 d-flex py-3 px-2">
                 <div className="col-5 thumbnail-container bg-white h-100">
                     <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />

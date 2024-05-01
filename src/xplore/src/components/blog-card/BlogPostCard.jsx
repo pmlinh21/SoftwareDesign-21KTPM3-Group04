@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
+
 import "./BlogPostCard.css";
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon"
@@ -13,8 +15,13 @@ export default function BlogPostCard(props) {
     const {id_post, title, content, thumbnail, list_topic, author,
         publish_time} = props;
 
+    const navigate = useNavigate();
+    const handleBlogCardClicked = () =>{
+        navigate("/post?id_post=" + id_post)
+    }
     return (
-        <div className="blog-post-card d-flex flex-wrap p-0">
+        <div className="blog-post-card d-flex flex-wrap p-0"
+            onClick={handleBlogCardClicked}>
 
             <div className="col-12 thumbnail-container bg-white p-0 m-0 position-relative">
                 <BookmarkIcon id_post={id_post} set_absolute={true}/>

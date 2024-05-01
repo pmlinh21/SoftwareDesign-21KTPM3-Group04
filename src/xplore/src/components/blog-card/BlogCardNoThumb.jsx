@@ -1,13 +1,22 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
+
 import "./BlogCardNoThumb.css";
+
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon"
 
 export default function BlogCardNoThumb(props) {
     const { id_post, title, content, publish_time, thumbnail, likeCount, responseCount } = props.post;
 
+    const navigate = useNavigate();
+    const handleBlogCardClicked = () =>{
+        navigate("/post?id_post=" + id_post)
+    }
+
     return (
-            <div className="d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2">
+            <div className="d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2"
+                onClick={handleBlogCardClicked}>
                 <div>
                     <div className="d-flex flex-row justify-content-between align-items-center gap-2">
                         <span className="topic-plain subtitle2">Post Topic</span>

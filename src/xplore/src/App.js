@@ -50,6 +50,8 @@ function App() {
 
           <Route path="write" element={<Writing />} />
 
+          <Route path="post" element={<Post />}/>
+
           <Route path="my-profile" element={<MyProfile />} />
           <Route path='edit-profile' element={<EditProfile />}/>
 
@@ -62,9 +64,9 @@ function App() {
           <Route path="checkout" element={<Checkout />}/>
 
           <Route path="support" element={<Support />}/>
-          <Route path="post" element={<Post />}/>
-          <Route path="about" element={<About />}/>
           
+          <Route path="about" element={<About />}/>
+
           <Route path="author-profile" element={<AuthorProfile />}/>
           <Route path="ex" element={<MyTabs />}/>
         </Route>

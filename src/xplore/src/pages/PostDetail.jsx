@@ -14,32 +14,22 @@ import {postService} from '../services/PostService';
 import {topicService} from '../services/TopicService';
 
 function Post() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const id_post = parseInt(searchParams.get('id_post'));
+
     const [Topics, setTopics] = useState([]);
-    const [Post, setPost] = useState([]);
+    const [post, setPost] = useState([]);
 
     useEffect(() => {
-        fetchTopics();
         fetchPost();
     }, []);
 
-    const fetchTopics = async () => {
-        try {
-            const topics = [];
-            const result = await topicService.getAllTopics();
-            for (let i = 0; i < result.data.content.length; i++) {
-                topics.push(result.data.content[i]);
-            }
-            setTopics(topics);
-        } catch (error) {
-            console.log("error", error.response);
-        }
-    }
-
     const fetchPost = async () => {
         try {
-            const postId = [];
-            const post = await postService.getPostById(postId);
-            setPost(post);
+            const post = await postService.getPostById(id_post);
+            setPost(post.data.content);
         } catch (error) {
             console.error("Error fetching post:", error);
         }
@@ -59,7 +49,7 @@ function Post() {
                         <div className='col-2'></div>
                         <div className='col-8'>
                             {/* Post Title */}
-                            <h4 style={{marginBottom: '1rem'}}>The 2024 Software Architect or Solution Architect RoadMap</h4>
+                            <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
                             {/* Post Description */}
                             <p className='description'>An illustrated guide to becoming a Software Architect in 2024 with links to relevant courses</p>
                             {/* Post Topics */}
