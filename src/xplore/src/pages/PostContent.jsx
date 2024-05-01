@@ -1,196 +1,198 @@
-import React, { useState, useEffect } from 'react';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css'; // optional for styles
+import React, { useState, useRef, useEffect, memo } from 'react';
+import Quill from 'quill';
+import './PostContent.css'
 
-import "../styles/commons.css";
-import "./PostDetail.css";
-import "./SearchResult.css"
+const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIcon }) => {
+    const content = (!isHighlighted) ? (
+        <button className="btn text-white bg-black" onClick={handleHighlightIcon}>
+             <i className="fa-solid fa-highlighter"></i> Highlight the text
+        </button>
+    ) :(
+        <button className="btn text-white bg-black" onClick={handleRemoveIcon}>
+             <i className="fa-solid fa-trash"></i> Remove the highlight
+        </button>
+    )
+    return (
+      <div className="popover p-0" style={{ top: position.y, left: position.x }}>
+          {content}
+      </div>
+    );
+  };
 
-import {postService} from '../services/PostService';
+  const PostContent = memo(function PostContent({content}) {
+    const [showPopover, setShowPopover] = useState(false);
+    const [popoverPosition, setPopoverPosition] = useState({x: 0, y: 0});
+    const [isHighlighted, setIsHighlighted] = useState(false);
 
+    const [highlights, setHighlights] = useState([]);
+    const highlightsRef = useRef([]);
 
-const PostContent = ({content}) => {
-    const [visible, setVisible] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [tooltipType, setTooltipType] = useState('highlight'); // 'highlight' or 'remove'
-    const [selectedTexts, setSelectedTexts] = useState([]);
+    const [rangeSelected, setRangeSelected] = useState(null);
+    const quillRef = useRef(null);
+    const [quill, setQuill] = useState(null);
 
-    const handleSelection = () => {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0 && !selection.isCollapsed && selection.toString().trim() !== '') {
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
+    function applyHighlights(highlights, quill) {
+        const lengthOfDocument = quill.getLength();
+        quill.removeFormat(0, lengthOfDocument);
 
-            setPosition({
-                x: rect.left + rect.width / 2,
-                y: rect.top - 10
+        if ( quill != null){
+            // console.log(highlights)
+            highlights.forEach(highlight => {
+                const { start, end } = highlight;
+                const length = end - start;
+                quill.formatText(start, length, { background: '#B7CFFF' });
             });
-            setTooltipType('highlight'); 
-            setVisible(true);
-        } else {
-            setVisible(false);
         }
-    };
-
-    const handleClick = (event) => {
-        if (event.target.classList.contains('highlight')) {
-            const rect = event.target.getBoundingClientRect();
-            setPosition({
-                x: rect.left + rect.width / 2,
-                y: rect.top - 10
-            });
-            setTooltipType('remove');
-            setVisible(true);
-        }
-    };
+    }
 
     useEffect(() => {
-        document.addEventListener('mouseup', handleSelection);
-        document.addEventListener('click', handleClick);
-        return () => {
-            document.removeEventListener('mouseup', handleSelection);
-            document.removeEventListener('click', handleClick);
-        };
-    }, []);
-
-    const handleHighlightAction = (newSelection, content) => {
-        // let sortedSelections = [...selectedTexts, newSelection].sort((a, b) => a.start - b.start);
-        // let mergedSelections = [];
-        // let last = sortedSelections[0];
-
-        console.log(newSelection)
-        // for (let i = 1; i < sortedSelections.length; i++) {
-        //     const current = sortedSelections[i];
-        //     if (current.start <= last.end + 1) { 
-        //         const end = Math.max(last.end, current.end)
-        //         last = { ...last, 
-        //             end: end, 
-        //             text: content.substring(current.start, end)};
-        //     } else {
-        //         mergedSelections.push(last);
-        //         last = current;
-        //     }
-        // }
-        // mergedSelections.push(last);
-        // console.log(mergedSelections);
-        // setSelectedTexts(mergedSelections);
-    }
-
-    // const handleHighlightIconClick = () => {
-    //     const selection = window.getSelection();
-    //     if (tooltipType === 'highlight' && selection.rangeCount > 0 && selection.toString().trim() !== '') {
-    //         const range = selection.getRangeAt(0);
-    //         const selectedText = selection.toString();
-    //         const startOffset = calculateAbsoluteOffset(range.startContainer, range.startOffset);
-    //         const endOffset = calculateAbsoluteOffset(range.endContainer, range.endOffset);
-
-    //         handleHighlightAction({text: selectedText, start: startOffset, end: endOffset});
-
-    //         const span = document.createElement('span');
-    //         span.classList.add('highlight');
-    //         span.appendChild(range.extractContents());
-    //         range.insertNode(span);
-    //         selection.removeAllRanges();
-
-    //     } else if (tooltipType === 'remove') {
-    //         const element = selection.anchorNode.parentNode;
-    //         setSelectedTexts(selectedTexts.filter(t => t.start !== element.dataset.start)); // Assuming start is unique enough for identification
-    //         const parent = element.parentNode;
-    //         while (element.firstChild) {
-    //             parent.insertBefore(element.firstChild, element);
-    //         }
-    //         parent.removeChild(element);
-    //         selection.removeAllRanges();
-    //     }
-    //     setVisible(false);
-    // };
-
-    const handleHighlightIconClick = () => {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0 && selection.toString().trim() !== '') {
-            const range = selection.getRangeAt(0);
-            const startOffset = calculateAbsoluteOffset(range.startContainer, range.startOffset, '.content-container');
-            const endOffset = calculateAbsoluteOffset(range.endContainer, range.endOffset, '.content-container');
-            const highlightedText = selection.toString();
-    
-            // Call a function to save this data to your database
-            console.log({
-                // contentId: currentContentId, // You need to have this from your content management context
-                // userId: currentUser.id, // Assuming you have user context
-                startOffset,
-                endOffset,
-                text: highlightedText,
-                // createdAt: new Date().toISOString() // Handle date formatting as needed
-            });
-    
-            // Visual highlighting
-            const span = document.createElement('span');
-            span.classList.add('highlight');
-            span.appendChild(range.extractContents());
-            range.insertNode(span);
-            selection.removeAllRanges();
+        function fetchHighlights() {
+            return [{ start: 10, end: 50, text: `ing man I often wonder,\nAs a hopeful man`}];
         }
-        setVisible(false);
-    };
-    
-    function calculateAbsoluteOffset(node, offset, containerSelector) {
-        let totalOffset = 0;
-        let currentNode = node;
-    
-        // Traverse up from the current node to the container, adding up offsets
-        while (currentNode && currentNode !== document.querySelector(containerSelector)) {
-            if (currentNode.previousSibling) {
-                let sibling = currentNode.previousSibling;
-                // Add the entire length of all preceding siblings to the total offset
-                while (sibling) {
-                    if (sibling.nodeType === Node.TEXT_NODE) {
-                        totalOffset += sibling.textContent.length;
-                    } else {
-                        totalOffset += sibling.innerText.length;
-                    }
-                    sibling = sibling.previousSibling;
+
+        setHighlights(fetchHighlights())
+    }, [])
+
+    useEffect(() => {
+        if (quillRef.current) { // Ensure the ref is attached
+            const quill = new Quill(quillRef.current, {
+                theme: 'snow',
+                readOnly: true,
+                modules: {
+                    toolbar: false
                 }
-            }
-            currentNode = currentNode.parentNode;
-        }
-    
-        // Add the offset within the final text node
-        totalOffset += offset;
-    
-        return totalOffset;
-    }
-    
+            });
 
-    const tooltipContent = tooltipType === 'highlight' ? (
-        <button className="btn text-white" onClick={handleHighlightIconClick}>
-            <i className="fa-solid fa-highlighter"></i> Highlight the text
-        </button>
-    ) : (
-        <button className="btn text-white" onClick={handleHighlightIconClick}>
-            <i className="fa-solid fa-times"></i> Remove the highlight
-        </button>
-    );
+            quill.clipboard.dangerouslyPasteHTML(0, content);
+            
+            setQuill(quill)
+            applyHighlights(highlights, quill);
+
+            function getPositionPopOver(range){
+                const bounds = quill.getBounds(range.index, range.length);
+                        
+                const popoverWidth = 150;
+                const popoverHeight = 25; 
+
+                const editorContainer = quillRef.current;
+                const editorRect = editorContainer.getBoundingClientRect();
+                const editorScrollY = editorRect.top + window.scrollY;
+                const editorScrollX = editorRect.left + window.scrollX;
+
+                let popoverY = bounds.top + editorScrollY + bounds.height + 10 - popoverHeight * 3;
+                const availableSpaceBelow = window.innerHeight + window.scrollY - popoverY;
+                if (availableSpaceBelow < popoverHeight) {
+                    popoverY = Math.max(
+                        bounds.top + editorScrollY - popoverHeight - 10, 
+                        0 
+                    );
+                }
+
+                const popoverX = Math.min(
+                    bounds.left + editorScrollX + (bounds.width / 2) - (popoverWidth / 2),
+                    window.innerWidth + window.scrollX - popoverWidth - 10
+                );
+
+                setPopoverPosition({
+                    x: popoverX,
+                    y: popoverY
+                });
+            }
+
+            quill.on('selection-change', (range) => {
+                if (!range) {
+                    setShowPopover(false);
+                } else{
+                    setRangeSelected(range);
+
+                    if ( range.length === 0){
+                        const clickOnHighlight = highlightsRef.current.some((item) => {
+                            return item.start <= range.index && range.index < item.end
+                        })
+
+                        if (clickOnHighlight)
+                            getPositionPopOver(range)
+                        setIsHighlighted(clickOnHighlight);
+                        setShowPopover(clickOnHighlight);
+                    } else {
+                        getPositionPopOver(range)
+                        setIsHighlighted(false);
+                        setShowPopover(true);
+                    }
+                }
+            });
+        }
+        
+    }, [content]);
+
+    useEffect(() => {
+        if (quill) {
+            applyHighlights(highlights, quill);
+        }
+    }, [highlights, quill]);
+
+    const handleHighlightIcon = () =>{
+        const selectedText = quill.getText(rangeSelected.index, rangeSelected.length)
+        const start = rangeSelected.index
+        const end = rangeSelected.index + rangeSelected.length;
+
+        const newSelection = {
+            text: selectedText,
+            start: start,
+            end: end,
+        }
+        let sortedSelections = [...highlights, newSelection].sort((a, b) => a.start - b.start);
+        let mergedSelections = [];
+        let last = sortedSelections[0];
+
+        for (let i = 1; i < sortedSelections.length; i++) {
+            const current = sortedSelections[i];
+            if (current.start <= last.end) { 
+                const newStart = Math.min(current.start, last.start);
+                const newEnd = Math.max(current.end, last.end);
+
+                let mergedText = last.text;
+                if (last.end >= current.start) {
+                    mergedText += current.text.substring(last.end - current.start );
+                } else {
+                    mergedText += current.text;
+                }
+
+                last = { start: newStart, end: newEnd, text: mergedText };
+            } else {
+                mergedSelections.push(last);
+                last = current;
+            }
+        }
+        mergedSelections.push(last);
+        console.log(mergedSelections)
+        highlightsRef.current = mergedSelections;
+        quill.setSelection(null);
+        setShowPopover(false);
+        setHighlights([...mergedSelections]);
+    }
+
+    const handleRemoveIcon = () => {
+        const newSelections = highlights.filter((item) => {
+            return !(item.start <= rangeSelected.index && rangeSelected.index < item.end)
+        })
+        console.log(newSelections)
+        highlightsRef.current = newSelections;
+        quill.setSelection(null);
+        setShowPopover(false);
+        setHighlights([...newSelections]);
+    }
 
     return (
-        <Tippy
-            content={tooltipContent}
-            visible={visible}
-            interactive={true}
-            onClickOutside={() => setVisible(false)}
-            placement="top"
-            getReferenceClientRect={() => ({
-                width: 0,
-                height: 0,
-                top: position.y,
-                bottom: position.y,
-                left: position.x,
-                right: position.x
-            })}
-        >
-            <div style={{ padding: '20px' }} className="content-container"
-                dangerouslySetInnerHTML={{ __html: content }}></div>
-        </Tippy>
+        <div>
+            <div id="editor-container" ref={quillRef} />
+            {showPopover && <Popover 
+                isHighlighted={isHighlighted}
+                position={popoverPosition}
+                handleHighlightIcon={handleHighlightIcon}
+                handleRemoveIcon={handleRemoveIcon} />}
+        </div>
     );
-};
+})
 
 export default PostContent;

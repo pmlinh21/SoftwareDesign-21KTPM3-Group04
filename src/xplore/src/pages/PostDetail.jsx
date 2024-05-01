@@ -14,6 +14,7 @@ import Search from '../components/search/Search'
 import BookmarkIcon from '../components/icon/BookmarkIcon';
 import LikeIcon from '../components/icon/LikeIcon';
 import PostContent from './PostContent'
+import Avatar from '../components/avatar/Avatar';
 
 function Post() {
     const location = useLocation();
@@ -32,7 +33,7 @@ function Post() {
     const fetchPost = async () => {
         try {
             const post = await postService.getPostById(id_post);
-            setPost(post.data.content);
+            setPost({...post.data.content});
             setLikeCount(parseInt(post.data.content.likeCount));
 
         } catch (error) {
@@ -41,7 +42,7 @@ function Post() {
     };
 
     // console.log("isLike", isLike);
-    // console.log("Post", post);
+    // console.log("Post", post?.publish_time);
 
     return (
         <div>
@@ -66,7 +67,8 @@ function Post() {
                             <div className='d-flex justify-content-between' style={{gap: '16px', padding: '24px 0'}}>
                                 <div className='d-flex gap-3'>
                                     {/* Avatar */}
-                                    <img src={post?.author?.avatar} style={{height: '44px', width: '44px', borderRadius: '50%'}} />
+                                    <Avatar avatar={post?.author?.avatar} size="small"/>
+                                    {/* <img src={post?.author?.avatar} style={{height: '44px', width: '44px', borderRadius: '50%'}} /> */}
                                     {/* Name */}
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
@@ -76,7 +78,7 @@ function Post() {
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
                                         {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
-                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post.publish_time && formatToMDY(post?.publish_time)}</p>
+                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post?.publish_time && formatToMDY(post?.publish_time)}</p>
                                     </div>
                                     <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
                                 </div>

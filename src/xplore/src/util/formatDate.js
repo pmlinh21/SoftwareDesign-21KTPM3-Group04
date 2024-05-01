@@ -1,16 +1,22 @@
 export const formatToMDY = (dateString) => {
+    if (!dateString)
+        return
     const date = new Date(dateString);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 export const formatToMD = (dateString) => {
+    if (!dateString)
+        return
     const date = new Date(dateString);
     const options = { month: 'short', day: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 export const formatToTimeDMY = (dateString) => {
+    if (!dateString)
+        return
     const date = new Date(dateString);
 
     const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -24,6 +30,8 @@ export const formatToTimeDMY = (dateString) => {
 
 
 export const formartToSQLDatetime = (date) => {
+    if (!date)
+        return
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
     const day = String(date.getDate()).padStart(2, '0');
