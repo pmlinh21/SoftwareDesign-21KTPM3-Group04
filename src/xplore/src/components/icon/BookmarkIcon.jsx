@@ -22,19 +22,24 @@ function BookmarkModal({id_post, list,loading, handleBookmarkClick, handleListCl
                     </p>
 
                     {
-                        list?.map((item) => {
-                            console.log(id_post)
-                            console.log(item.saved_posts.includes(id_post))
-                            return(
-                                <div className="form-row" key={item.id_list}>
-                                    <div className="checkbox d-flex align-items-center">
-                                        <input type="checkbox" id="list" defaultChecked ={item.saved_posts.includes(id_post)} 
-                                            onChange={(e)=>{handleListClick(item.id_list,e.target.checked)}}/>
-                                        <p className="list p2 m-0 ms-3">{item.list_name}</p>
+                        (list?.length > 0) ? (
+                            list?.map((item) => {
+                                console.log(id_post)
+                                console.log(item.saved_posts.includes(id_post))
+                                return(
+                                    <div className="form-row" key={item.id_list}>
+                                        <div className="checkbox d-flex align-items-center">
+                                            <input type="checkbox" id="list" defaultChecked ={item.saved_posts.includes(id_post)} 
+                                                onChange={(e)=>{handleListClick(item.id_list,e.target.checked)}}/>
+                                            <p className="list p2 m-0 ms-3">{item.list_name}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            )
-                        })
+                                )
+                            })
+                        ): (
+                            <p className="p2 text-center text-scheme-sub-text">You haven't created any lists</p>
+                        )
+                        
                     }
                 </>
                 }
@@ -44,7 +49,7 @@ function BookmarkModal({id_post, list,loading, handleBookmarkClick, handleListCl
     );
 };
 
-export default function BookmarkIcon({id_post, set_absolute}){
+export default function BookmarkIcon({id_post, set_absolute, regular_icon}){
     const dispatch = useDispatch()
     const {user_login, list} = useSelector(state => state.UserReducer)
     const {loading} =  useSelector(state => state.LoadingReducer)
@@ -70,8 +75,8 @@ export default function BookmarkIcon({id_post, set_absolute}){
 
     const is_saved = list?.find(item => item.saved_posts.includes(id_post))
     const icon_color = is_saved ? 'text-scheme-primary' : 'text-scheme-sub-text'
+    const icon_type = (regular_icon && !is_saved) ? 'fa-regular': 'fa-solid' 
     const is_absolute = set_absolute ? 'position-absolute' : ''
-
     return(
         <>
             { displayPopup && 
@@ -83,7 +88,8 @@ export default function BookmarkIcon({id_post, set_absolute}){
                     handleListClick={handleListClick}/>
             }
             <button className={`${is_absolute} bookmard-icon btn`} onClick={handleBookmarkClick}>
-                <i className={`${icon_color} fa-solid fa-bookmark h-100`} ></i>
+                <i className={`${icon_color} ${icon_type} fa-bookmark h-100`} 
+                    style={{fontSize: '20px'}}></i>
             </button>
         </>
     )

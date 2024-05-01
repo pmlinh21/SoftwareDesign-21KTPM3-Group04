@@ -6,7 +6,7 @@
     font-size: 24px;
 }
 
-#like-btn, #comment-btn, #save-btn, #share-btn {
+#like-btn, #comment-btn, .bookmard-icon, #share-btn {
     background: none;
     border: none;
     color: var(--scheme-sub-text);

@@ -4,7 +4,7 @@
 }
 
 .search-container .search-section{
-    z-index: 1000;
+    z-index: 900;
     position: relative;
 }
 

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDropzone } from 'react-dropzone';
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch} from 'react-redux'
-import Search from '../components/search/Search'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch} from 'react-redux';
 
 import "../styles/commons.css";
 import "./PostDetail.css";
 import "./SearchResult.css"
 
-import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 import {postService} from '../services/PostService';
-import {topicService} from '../services/TopicService';
+
+import Search from '../components/search/Search'
+import BookmarkIcon from '../components/icon/BookmarkIcon';
+import LikeIcon from '../components/icon/LikeIcon';
 
 function Post() {
     const location = useLocation();
@@ -19,9 +20,10 @@ function Post() {
     const searchParams = new URLSearchParams(location.search);
     const id_post = parseInt(searchParams.get('id_post'));
 
-    const [Topics, setTopics] = useState([]);
-    const [post, setPost] = useState([]);
+    const {user_login} = useSelector(state => state.UserReducer)
 
+    const [post, setPost] = useState([]);
+    const [likeCount, setLikeCount] = useState(null);
     useEffect(() => {
         fetchPost();
     }, []);
@@ -30,13 +32,15 @@ function Post() {
         try {
             const post = await postService.getPostById(id_post);
             setPost(post.data.content);
+            setLikeCount(parseInt(post.data.content.likeCount));
+
         } catch (error) {
             console.error("Error fetching post:", error);
         }
     };
 
-    console.log("Topics", Topics);
-    console.log("Post", Post);
+    // console.log("isLike", isLike);
+    // console.log("Post", post);
 
     return (
         <div>
@@ -61,31 +65,31 @@ function Post() {
                             </div>
                             {/* Post Authors */}
                             <hr/>
-                            <div className='d-flex' style={{gap: '16px', padding: '24px 0'}}>
-                                {/* Avatar */}
-                                <img src="/imgs/Avatar-6.svg" style={{height: '44px', width: '44px'}} />
-                                {/* Name */}
-                                <div className='d-flex flex-column'>
-                                    <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
-                                    <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>Oliver Knight</p>
+                            <div className='d-flex justify-content-between' style={{gap: '16px', padding: '24px 0'}}>
+                                <div className='d-flex gap-3'>
+                                    {/* Avatar */}
+                                    <img src="/imgs/Avatar-6.svg" style={{height: '44px', width: '44px'}} />
+                                    {/* Name */}
+                                    <div className='d-flex flex-column'>
+                                        <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
+                                        <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>Oliver Knight</p>
+                                    </div>
+                                    {/* Date */}
+                                    <div className='d-flex flex-column'>
+                                        <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
+                                        <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>July 14, 2023</p>
+                                    </div>
+                                    <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
                                 </div>
-                                {/* Date */}
-                                <div className='d-flex flex-column'>
-                                    <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
-                                    <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>July 14, 2023</p>
-                                </div>
-                                <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
+                                
                                 {/* Post Actions */}
-                                <div className='d-flex gap-2' style={{margin: '0 0 0 14.8rem'}}>
-                                    <button id='like-btn'>
-                                        <i className="fa-regular fa-heart" style={{fontSize: '20px'}}></i> 115
+                                <div className='d-flex gap-2 align-items-center' 
+                                    >
+                                    <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount}/>
+                                    <button id='comment-btn' className="d-flex align-items-center">
+                                        <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> 24
                                     </button>
-                                    <button id='comment-btn'>
-                                        <i className="fa-regular fa-message" style={{fontSize: '20px'}}></i> 24
-                                    </button>
-                                    <button id='save-btn'>
-                                        <i className="fa-regular fa-bookmark" style={{fontSize: '20px'}}></i>
-                                    </button>
+                                    <BookmarkIcon id_post={id_post} regular_icon/>
                                     <button id='share-btn'>
                                         <i className="fa-regular fa-share-from-square" style={{fontSize: '20px'}}></i>
                                     </button>

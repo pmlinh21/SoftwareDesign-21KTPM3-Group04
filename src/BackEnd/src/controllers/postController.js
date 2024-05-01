@@ -560,7 +560,7 @@ const likePost = async (req,res) => {
 }
 
 const unlikePost = async (req,res) => {
-    const {id_post, id_user} = req.body;
+    const {id_post, id_user} = req.params;
 
     try{
         const like = await model.like_post.destroy({
@@ -569,6 +569,8 @@ const unlikePost = async (req,res) => {
                 id_user: id_user
             }
         }); 
+
+        console.log(like)
 
         if (!like) {
             failCode(res, null, "Invalid ID")
@@ -623,7 +625,7 @@ const responsePost = async (req,res) => {
 }
 
 const deleteResponse = async (req,res) => {
-    const {id_response} = req.body;
+    const {id_response} = req.params;
 
     try{
         await model.notification.destroy({
@@ -692,7 +694,7 @@ const replyResponse = async (req,res) => {
 }
 
 const deleteReply = async (req,res) => {
-    const {id_response} = req.body;
+    const {id_response} = req.params;
 
     try{
         const reply = await model.response.update({
@@ -806,6 +808,7 @@ module.exports = {
     updatePublishTimeOfPost,
     updateScheduleTimeOfPost,
     deletePost,
+    
     likePost,
     unlikePost,
     responsePost,

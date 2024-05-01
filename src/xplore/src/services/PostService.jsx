@@ -47,9 +47,9 @@ export class PostService extends BaseService {
     }
 
     // Api 9: Unlike post
-    unlikePost = (formData) => {
-      // console.log("updatePost: ", formData);
-      return this.delete(`post/like`, formData);
+    unlikePost = (id_post, id_user) => {
+      // console.log("updatePost: ", id_post);
+      return this.delete(`post/like/${id_post}/user/${id_user}`);
     }
 
     // Api 10: Get response of post
@@ -64,9 +64,9 @@ export class PostService extends BaseService {
     }
 
     // Api 12: Delete response post
-    deleteResponse = (formData) => {
+    deleteResponse = (id_response) => {
       // console.log("updatePost: ", formData);
-      return this.delete(`post/response`, formData);
+      return this.delete(`post/response/${id_response}`);
     }
 
     // Api 13: reply a response
@@ -76,9 +76,9 @@ export class PostService extends BaseService {
     }
 
     // Api 14: Delete reply a response
-    deleteReply = (formData) => {
+    deleteReply = (id_response) => {
       // console.log("updatePost: ", formData);
-      return this.delete(`post/reply`, formData);
+      return this.delete(`post/reply/${id_response}`);
     }
 
     // Api 15: 
@@ -88,9 +88,9 @@ export class PostService extends BaseService {
     }
 
     // Api 16: 
-    deleteHighlight = (formData) => {
-      // console.log("updatePost: ", formData);
-      return this.delete(`post/highlight`, formData);
+    deleteHighlight = (id_highlight) => {
+      // console.log("updatePost: ", id_highlight);
+      return this.delete(`post/highlight/${id_highlight}`, id_highlight);
     }
 
 }

@@ -58,24 +58,24 @@ postRoute.get("/like/:id_post/user/:id_user", getLikeOfPost)
 
 postRoute.post("/like", likePost)
 
-postRoute.delete("/like", unlikePost)
+postRoute.delete("/like/:id_post/user/:id_user", unlikePost)
 
 
 postRoute.get("/response/:id_post", getResponseOfPost)
 
 postRoute.post("/response", responsePost)
 
-postRoute.delete("/response", deleteResponse)
+postRoute.delete("/response/:id_response", deleteResponse)
 
 
 postRoute.post("/reply", replyResponse)
 
-postRoute.delete("/reply", deleteReply)
+postRoute.delete("/reply/:id_response", deleteReply)
 
 
 // postRoute.post("/highlight", createHighlight)
 
-// postRoute.delete("/highlight", deleteHighlight)
+// postRoute.delete("/highlight/:id_highlight", deleteHighlight)
 
 
 module.exports = postRoute;
