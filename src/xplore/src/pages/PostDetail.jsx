@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
 import Search from '../components/search/Search'
+import { formatToMDY, formatToTimeDMY } from '../util/formatDate'
 
 import "../styles/commons.css";
 import "./PostDetail.css";
@@ -53,32 +54,33 @@ function Post() {
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
                                 {post?.list_topic.map(topic => (
-                                    <button key={topic.id_topic} className='topic label 2'>{topic.topic}</button>
+                                    <button key={topic.id_topic} className='topic label2 capitalize'>{topic.topic}</button>
                                 ))}
                             </div>
                             {/* Post Authors */}
                             <hr/>
                             <div className='d-flex' style={{gap: '16px', padding: '24px 0'}}>
                                 {/* Avatar */}
-                                <img src="/imgs/Avatar-6.svg" style={{height: '44px', width: '44px'}} />
+                                <img src={post?.author?.avatar} style={{height: '44px', width: '44px', borderRadius: '50%'}} />
                                 {/* Name */}
                                 <div className='d-flex flex-column'>
                                     <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
-                                    <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>Oliver Knight</p>
+                                    <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{post?.author?.fullname}</p>
                                 </div>
                                 {/* Date */}
                                 <div className='d-flex flex-column'>
                                     <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
-                                    <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>July 14, 2023</p>
+                                    {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
+                                    <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{formatToMDY(post.publish_time)}</p>
                                 </div>
                                 <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
                                 {/* Post Actions */}
                                 <div className='d-flex gap-2' style={{margin: '0 0 0 14.8rem'}}>
                                     <button id='like-btn'>
-                                        <i className="fa-regular fa-heart" style={{fontSize: '20px'}}></i> 115
+                                        <i className="fa-regular fa-heart" style={{fontSize: '20px'}}></i> {post.likeCount}
                                     </button>
                                     <button id='comment-btn'>
-                                        <i className="fa-regular fa-message" style={{fontSize: '20px'}}></i> 24
+                                        <i className="fa-regular fa-message" style={{fontSize: '20px'}}></i> {post.responseCount}
                                     </button>
                                     <button id='save-btn'>
                                         <i className="fa-regular fa-bookmark" style={{fontSize: '20px'}}></i>
@@ -89,6 +91,8 @@ function Post() {
                                 </div>
                             </div>
                             <hr/>
+                            {/* Post Content */}
+                            <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
                         </div>
                         <div className='col-2'></div>
                     </div>
