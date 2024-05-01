@@ -66,7 +66,7 @@ function Post() {
                                 <img src="/imgs/Avatar-6.svg" style={{height: '44px', width: '44px'}} />
                                 {/* Name */}
                                 <div className='d-flex flex-column'>
-                                    <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
+                                    <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
                                     <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>Oliver Knight</p>
                                 </div>
                                 {/* Date */}
