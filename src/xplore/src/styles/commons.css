@@ -345,7 +345,7 @@ button {
     background-color: var(--neutral-50);
     color: var(--black);
     border: none;
-    border-radius: 50px;
+    border-radius: 50%;
     padding: 10px 16px;
 }
 

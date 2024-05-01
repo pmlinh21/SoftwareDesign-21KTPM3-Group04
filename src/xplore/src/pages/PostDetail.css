@@ -1,0 +1,15 @@
+@import url('../styles/commons.css');
+
+.description {
+    font-family: medium-font;
+    color: var(--scheme-sub-text);
+    font-size: 24px;
+}
+
+.post-topic {
+    border-radius: 0;
+    border: none;
+    height: 32px;
+    padding: 10px 16px;
+    background: var(--blue-50);
+}

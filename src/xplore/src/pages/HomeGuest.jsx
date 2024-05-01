@@ -185,7 +185,7 @@ export default function Home() {
                         <div className="row mb-5">
                             <h4>Hot topics</h4>
                             <div className="d-flex flex-wrap gap-2">
-                                {hotTopics.map(topic => (
+                                {Topics.map(topic => (
                                     <button className="topic label2 capitalize">{topic.topic}</button>
                                 ))}
                             </div>
