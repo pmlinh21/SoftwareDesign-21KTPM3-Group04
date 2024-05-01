@@ -6,10 +6,10 @@
     font-size: 24px;
 }
 
-.post-topic {
-    border-radius: 0;
+#like-btn, #comment-btn, #save-btn, #share-btn {
+    background: none;
     border: none;
-    height: 32px;
-    padding: 10px 16px;
-    background: var(--blue-50);
+    color: var(--scheme-sub-text);
+    line-height: 24px;
+    align-items: center;
 }
