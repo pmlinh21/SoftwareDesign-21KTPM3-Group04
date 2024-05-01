@@ -20,7 +20,7 @@ function Post() {
     const id_post = parseInt(searchParams.get('id_post'));
 
     const [Topics, setTopics] = useState([]);
-    const [post, setPost] = useState([]);
+    const [post, setPost] = useState({ list_topic: [] });
 
     useEffect(() => {
         fetchPost();
@@ -50,14 +50,11 @@ function Post() {
                         <div className='col-8'>
                             {/* Post Title */}
                             <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
-                            {/* Post Description */}
-                            <p className='description'>An illustrated guide to becoming a Software Architect in 2024 with links to relevant courses</p>
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
-                                {/* {Topics.map(topic => (
-                                    <button key={topic.id} className="topic label2 capitalize">{topic.topic}</button>
-                                ))} */}
-                                <button className='topic label 2'>Business</button>
+                                {post?.list_topic.map(topic => (
+                                    <button key={topic.id_topic} className='topic label 2'>{topic.topic}</button>
+                                ))}
                             </div>
                             {/* Post Authors */}
                             <hr/>
