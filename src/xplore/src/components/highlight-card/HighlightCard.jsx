@@ -29,8 +29,12 @@ export default function HighlightCard(props) {
 
     return (
         <div className='highlight-card p-4 shadow mb-3' onClick={handleHighlightClicked}>
-            <p className="p3 text-scheme-sub-text mb-2">From <b>{highlight?.id_post_post?.title || "---"}</b> by <b>{highlight?.id_post_post?.author?.fullname || "---"}</b></p>
-            <p className="p1 m-0 p-0 text-scheme-main-text content"><mark>{highlight?.content || "---"}</mark></p>
+            <p className="p3 text-scheme-sub-text mb-3">From <b>{highlight?.id_post_post?.title || "---"}</b> by <b>{highlight?.id_post_post?.author?.fullname || "---"}</b></p>
+            <p className="title1 m-0 p-0 text-scheme-main-text content"><mark>{highlight?.content || "---"}</mark></p>
+            <div className="d-flex justify-content-between align-items-center mt-4">
+                <p className="p3 text-scheme-sub-text p-0 m-0">{highlight?.highlight_time || "---"}</p>
+                <i class="fa-solid fa-ellipsis-vertical text-scheme-sub-text"></i>
+            </div>
         </div>
     )
 }
