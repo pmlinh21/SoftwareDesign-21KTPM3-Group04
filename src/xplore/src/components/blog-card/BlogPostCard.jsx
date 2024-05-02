@@ -45,7 +45,7 @@ export default function BlogPostCard(props) {
                 )
             }
             <div className="col-12 title-block">
-                <div className="row col-12 m-0 ">
+                <div className="row col-12 m-0">
                     <h6 className="col-auto text-black m-0 p-0 title-text long-text mb-2">
                         {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
                     </h6>
