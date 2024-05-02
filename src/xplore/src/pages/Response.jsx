@@ -4,7 +4,7 @@ import Avatar from '../components/avatar/Avatar'
 import { formatToMD } from "../util/formatDate"
 import {userService} from '../services/UserService'
 import "../styles/commons.css"
-import "./Response.css"
+import "./Library.css"
 
 export default function Response(props) {
     const {id_response, id_user, id_post, response, response_time, reply, reply_time} = props.response || {};

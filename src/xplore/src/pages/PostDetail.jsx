@@ -48,7 +48,7 @@ function Post() {
     return (
         <div>
             {/* Search bar */}
-            <Search search="" isResult={false} />
+            <Search />
             {/* Post Detail */}
             <div className='container-fluid' style={{marginTop: '72px'}}>
                 <div className='container'>
