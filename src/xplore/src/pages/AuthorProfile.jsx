@@ -3,7 +3,8 @@ import { useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import "../styles/commons.css";
 import "./AuthorProfile.css";
-import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction } from "../redux/actions/UserAction";
+import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction, isFollowAuthorAction,
+        unfollowAuthorAction, followAuthorAction } from "../redux/actions/UserAction";
 import ProfileCard from '../components/blog-card/ProfileCard';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 
@@ -17,9 +18,12 @@ export default function AuthorProfile() {
     const author_post = useSelector(state => state.UserReducer.author_post);
     const author_subscriber = useSelector(state => state.UserReducer.author_subscriber);
     const author_list = useSelector(state => state.UserReducer.author_list);
+    const is_follow = useSelector(state => state.UserReducer.is_follow);
 
     const { id_user, avatar, fullname, email, bio } = author;
 
+    const user_login = useSelector(state => state.UserReducer.user_login);
+     
     useEffect(() => {
         dispatch(getAuthorPostAction(id_user));
 
@@ -27,13 +31,26 @@ export default function AuthorProfile() {
 
         dispatch(getAuthorListAction(id_user));
 
+        dispatch(isFollowAuthorAction(id_user, user_login.id_user));
+
     }, [dispatch, id_user]);
 
     console.log("author_post: ", author_post)
     console.log("author_subscriber: ", author_subscriber)
     console.log("author_list: ", author_list)
+    console.log("is_follow: ", is_follow)
 
-    const postCount = author_post ? author_post.length : 0;
+    var filteredAuthorPost;
+
+    if(author_post && author_post.length > 0){
+        const currentTime = new Date().getTime();
+        filteredAuthorPost = author_post.filter(post => new Date(post.publish_time).getTime() <= currentTime);
+        console.log("filteredAuthorPost: ", filteredAuthorPost)
+    }
+    else{
+        filteredAuthorPost = author_post
+    }
+    const postCount = filteredAuthorPost ? filteredAuthorPost.length : 0;
     const subscriberCount = author_subscriber ? author_subscriber.length : 0;
 
     const formatCount = (count) => {
@@ -52,6 +69,14 @@ export default function AuthorProfile() {
 
     const [tab, setTab] = useState('posts');
 
+    const handleFollow = () => {
+        if (is_follow) {
+            dispatch(unfollowAuthorAction(id_user, user_login.id_user));
+        } else {
+            dispatch(followAuthorAction(id_user, user_login.id_user, fullname));
+        }
+    };
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -64,9 +89,9 @@ export default function AuthorProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <a href='/edit-profile'>
-                        <button className="btn-nm prim-btn button1">Follow</button>
-                    </a>
+                    <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
+                            {is_follow ? 'Unfollow' : 'Follow'}
+                    </button>
                     <button className="btn-nm tert-btn button1">
                         <i className="fa-solid fa-user-plus me-1"></i> Share profile
                     </button>
@@ -83,9 +108,9 @@ export default function AuthorProfile() {
 
                         <div className='tab-content' id='posts' style={{ display: tab === 'posts' ? 'block' : 'none' }}>
                             <div className='d-flex flex-column gap-2'>
-                                {author_post && author_post.length > 0 ? (
+                                {filteredAuthorPost && filteredAuthorPost.length > 0 ? (
                                     <div className='d-flex flex-column gap-2'>
-                                        {author_post.map((post, index) => (
+                                        {filteredAuthorPost.map((post, index) => (
                                             <ProfileCard key={index} {...props} />
                                         ))}
                                     </div>

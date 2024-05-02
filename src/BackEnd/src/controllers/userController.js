@@ -195,37 +195,37 @@ return transport.sendMail(options);
 
 // POST: Send email to subscriber
 const sendEmail = async(req, res) =>{
-try{
-    let { author, id_subscriber } = req.body
-    
-    let check = await model.user.findOne({
-        where: {
-            id_user: id_subscriber
+    try{
+        let { author, id_subscriber } = req.body
+        console.log(author, id_subscriber)
+        let check = await model.user.findOne({
+            where: {
+                id_user: id_subscriber
+            }
+        })
+        if(!check){
+            failCode(res, null, "Invalid Subscriber")
         }
-    })
-    if(!check){
-        failCode(res, null, "Invalid Subscriber")
+        else{
+            const htmlContent = `
+            <html>
+            <body>
+                <h2>Dear Subscriber,</h2>
+                <p>Thank you for subscribing to ${author}'s newsletter!</p>
+                <p>From now on, you will receive regular updates on ${author} latest posts.</p>
+                <p>We appreciate your interest in our content and hope you find it valuable.</p>
+                <p>Best regards,</p>
+                <p>Xplore</p>
+            </body>
+            </html>
+            `;
+            await sendMail(check.email, "Welcome Email", htmlContent)
+            successCode(res,"","Email sent")
+        }
+    }catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-    else{
-        const htmlContent = `
-        <html>
-        <body>
-            <h2>Dear Subscriber,</h2>
-            <p>Thank you for subscribing to ${author}'s newsletter!</p>
-            <p>From now on, you will receive regular updates on ${author} latest posts.</p>
-            <p>We appreciate your interest in our content and hope you find it valuable.</p>
-            <p>Best regards,</p>
-            <p>Xplore</p>
-        </body>
-        </html>
-        `;
-        await sendMail(check.email, "Welcome Email", htmlContent)
-        successCode(res,"","Email sent")
-    }
-}catch(err){
-    console.log(err)
-    errorCode(res,"Internal Server Error")
-}
 }
 
 // GET: Get user by ID
@@ -516,7 +516,7 @@ try {
 
 // POST: Subscribe another user
 const subscribeAnotherUser = async (req, res) => {
-let { user, subscriber, subscriber_time } = req.body
+let { user, subscriber } = req.params
 
 try {
     let check = await model.subscribe.findOne({
@@ -531,13 +531,13 @@ try {
     else{
         const [subscribe, metadata] = await sequelize.query
         (`INSERT INTO subscribe 
-        VALUES (${user},${subscriber},'${subscriber_time}')`);
+        VALUES (${user},${subscriber})`);
 
         await model.notification.create({
             creator:  subscriber,
             receiver: user,
             noti_type: SUBSCRIBE_NOTI,
-            noti_time: subscriber_time
+            noti_time: new Date().getTime() 
         });  
         
         successCode(res, "", "Subscribe successfully");
@@ -1126,6 +1126,29 @@ const captureOrder = async (req, res) => {
     }
 };
 
+// GET: Is follow author
+const isFollowAuthor = async (req, res) => {
+    let { user, subscriber } = req.params
+    
+    try {
+        let check = await model.subscribe.findOne({
+            where:{
+                user: user,
+                subscriber: subscriber 
+            }
+        })
+        if(check){
+            successCode(res, "", "Author is already subscribed")
+        }
+        else{
+            successCode(res, "", "Author is not subscribed");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+    } 
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
@@ -1136,4 +1159,5 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             getUserList, createList, editList, deleteList,
             addPostToList, deletePostFromList, getUserHighLight, updatePassword, 
             getUserToken, getAuthorPosts,
-            createOrder, captureOrder }
+            createOrder, captureOrder,
+            isFollowAuthor }

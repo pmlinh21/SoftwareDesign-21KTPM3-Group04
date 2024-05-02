@@ -71,6 +71,26 @@ export class UserService extends BaseService {
     getAuthorList = (id_user) =>{
       return this.get(`/user/list/${id_user}`);
     }
+
+    // Api 13: Is follow author 
+    isFollowAuthor = (user, subscriber) =>{
+      return this.get(`/user/follow/${user}/${subscriber}`);
+    }
+
+    // Api 14: Unfollow author 
+    unfollowAuthor = (user, subscriber) =>{
+      return this.delete(`/user/subscribe/${user}/${subscriber}`);
+    }
+
+    // Api 15: Follow author 
+    followAuthor = (user, subscriber) =>{
+      return this.post(`/user/subscribe/${user}/${subscriber}`);
+    }
+
+    // Api 16: Send email
+    sendEmail = (formData) =>{
+      return this.post(`/user/sendEmail`, formData);
+    }
   }
   
 export const userService = new UserService();
