@@ -755,7 +755,7 @@ try {
             {
                 model: model.post,
                 as: "saved_posts",
-                attributes: ["id_post"],
+                attributes: ["id_post", "thumbnail"],
                 through: { attributes: [] },
             }
         ],
@@ -764,7 +764,12 @@ try {
 
     list = list.map(item => {
         const plainItem = item.get({ plain: true });
-        plainItem.saved_posts = plainItem.saved_posts.map(post => post.id_post);
+        plainItem.saved_posts = plainItem.saved_posts.map(post => {
+            return {
+                id_post: post.id_post,
+                thumbnail: post.thumbnail
+            }       
+        });
         return plainItem;
     });
 

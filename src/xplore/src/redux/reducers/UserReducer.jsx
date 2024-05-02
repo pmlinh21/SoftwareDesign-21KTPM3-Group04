@@ -2,7 +2,7 @@ import { USER_LOGIN } from "../../util/config";
 import { LOGIN, SIGNUP, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
-    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER } from "../types";
+    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -16,6 +16,7 @@ export const stateDefault = {
     topic: null,
     author_post: null,
     author_subscriber: null,
+    author_list: null,
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -69,6 +70,9 @@ export const UserReducer = (state = stateDefault, action) => {
         }
         case GET_AUTHOR_SUBSCRIBER:{
             return { ...state, author_subscriber: action.author_subscriber}
+        }
+        case GET_AUTHOR_LIST:{
+            return { ...state, author_list: action.author_list}
         }
         default:
             return { ...state };

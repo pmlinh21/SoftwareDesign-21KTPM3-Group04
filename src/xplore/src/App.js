@@ -67,7 +67,7 @@ function App() {
           
           <Route path="about" element={<About />}/>
 
-          <Route path="author-profile" element={<AuthorProfile />}/>
+          <Route path="author-profile" element={<AuthorProfile/>}/>
           <Route path="ex" element={<MyTabs />}/>
         </Route>
       </Routes>
