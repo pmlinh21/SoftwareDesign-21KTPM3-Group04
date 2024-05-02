@@ -27,8 +27,7 @@ export default function BlogPostCard(props) {
         thumbnail: null
         title: "How to Be Beach Body Ready without Buying Anything"
     */
-    const {id_post, title, content, thumbnail, list_topic, publish_time} = props.post;
-    const author = props.author
+    const {id_post, title, content, thumbnail, list_topic, publish_time, author} = props.post;
 
     console.log("props.post: ", props.post)
 

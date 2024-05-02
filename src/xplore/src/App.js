@@ -55,7 +55,6 @@ function App() {
           <Route path="my-profile" element={<MyProfile />} />
           <Route path='edit-profile' element={<EditProfile />}/>
 
-          <Route path="reading" element={<Library link="reading" />} />
           <Route path="list" element={<Library link="list"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="history" element={<Library link="history"/>} />
