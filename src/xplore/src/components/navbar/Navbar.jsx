@@ -78,7 +78,20 @@ export default function Navbar() {
         const params = new URLSearchParams(search);
         if (params.has('email')) {
             const email = params.get('email');
-            dispatch(getUserByEmailAction(email));
+            dispatch(getUserByEmailAction(email)).then(() => {
+                roleId = localStorage.getItem(RoleKey);
+                console.log(roleId);
+                const userNav = document.getElementById("user-nav");
+                const guestNav = document.getElementById("guest-nav");
+                if (roleId === "4") {
+                    if (userNav) userNav.style.display = "none";
+                    if (guestNav) guestNav.style.display = "block";
+                }
+                else{
+                    if (userNav) userNav.style.display = "block";
+                    if (guestNav) guestNav.style.display = "none";
+                }
+            });
         }
     }, []);
 
@@ -148,29 +161,29 @@ export default function Navbar() {
 
                             <ul className="dropdown-menu dropdown-menu-end button3 support text-start text-scheme-sub-text">
                                 <li>
-                                    <Link className="dropdown-item py-2" to={'/my-profile'} >
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/my-profile'} >
                                        View profile
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item py-2" to={'/reading'}>
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/reading'}>
                                        Library
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item py-2" to={'/draft'} >
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/draft'} >
                                        Posts
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item py-2" to={'/statistics'} >
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/statistics'} >
                                        Stats
                                     </Link>
                                 </li>
                                 <li>
                                     <hr className="dropdown-divider" ></hr></li>
                                 <li>
-                                    <Link className="dropdown-item" to={'/'} onClick={logout}>
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/'} onClick={logout}>
                                         <i className="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out
                                     </Link>
                                 </li>

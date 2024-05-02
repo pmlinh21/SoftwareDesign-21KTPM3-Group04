@@ -3,6 +3,7 @@ import { useNavigate, redirect   } from 'react-router-dom';
 import React from 'react';
 import "../../styles/commons.css";
 import "./Search.css"
+import TopicTag from '../topic/TopicTag';
 
 
 export default function Search({search, isResult}){
@@ -113,22 +114,22 @@ export default function Search({search, isResult}){
                     </div>
                     <div className="row px-4 ms-2 mb-4 mt-2 d-flex gap-2">
                         <button 
-                            className="col-auto btn btn-sm rounded-pill bg-black title2 text-white "
+                            className="col-auto topic button2 focused"
                             onClick={() => {handleSearchButtonClick("all")}}>
                             All
                         </button>
                         <button 
-                            className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2  text-black"
+                            className="col-auto topic button2"
                             onClick={() => {handleSearchButtonClick("post")}}>
                             Post
                         </button>
                         <button 
-                            className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2 text-black"
+                            className="col-auto topic button2"
                             onClick={() => {handleSearchButtonClick("topic")}}>
                             Topic
                         </button>
                         <button 
-                            className="col-auto btn btn-sm rounded-pill bg-neutral-50 title2 text-black"
+                            className="col-auto topic button2"
                             onClick={() => {handleSearchButtonClick("user")}}>
                             Author
                         </button>

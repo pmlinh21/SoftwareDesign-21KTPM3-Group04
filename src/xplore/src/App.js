@@ -56,7 +56,7 @@ function App() {
           <Route path='edit-profile' element={<EditProfile />}/>
 
           <Route path="reading" element={<Library link="reading" />} />
-          <Route path="saved" element={<Library link="saved"/>} />
+          <Route path="list" element={<Library link="list"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="history" element={<Library link="history"/>} />
 

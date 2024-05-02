@@ -1,0 +1,11 @@
+@import url('../styles/commons.css');
+
+.response-avatar {
+    width: 44px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.response-time {
+    color: var(--scheme-subtext);
+}

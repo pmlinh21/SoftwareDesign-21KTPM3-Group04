@@ -4,12 +4,28 @@ import { Link } from 'react-router-dom';
 import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
+import {postService} from '../services/PostService';
+import Loading from '../components/loading/Loading';
 
 
 export default function Library(props) {
+    const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
+    
+    const author = {
+        fullname: user_info.fullname, 
+        avatar: user_info.avatar,
+        id_user: user_info.id_user
+    }
+    const [loading, setLoading] = useState(true);
+    const [myPosts, setMyPosts] = useState([]);
+    const [mySavedLists, setMySavedLists] = useState([]);
+    const [myHighlights, setMyHighlights] = useState([]);
+    const [myHistory, setMyHistory] = useState([]);
+
     const [tab, setTab] = React.useState(props.link);
 
     useEffect(() => {
+
         const tabItems = document.querySelectorAll('.tab-item');
         const tabContent = document.querySelectorAll('.tab-content');
 
@@ -30,53 +46,69 @@ export default function Library(props) {
                 content.style.display = 'none';
             }
         });
+
+        fetchMyPosts();
     });
 
     const tabs = [
         { id: 'for-reading', name: 'Reading' },
-        { id: 'for-saved', name: 'Saved' },
+        { id: 'for-list', name: 'List' },
         { id: 'for-highlight', name: 'Highlight' },
         { id: 'for-history', name: 'History' },
     ];
 
-    const postProps = {
-        id_post: 1, 
-        title: 'Title',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        thumbnail: 'https://picsum.photos/id/2/600/600',
-        list_topic: [{topic: 'topic'}, {topic:'topic2'}],
-        author: {author_avatar: 'https://picsum.photos/id/2/600/600', fullname: 'Author name'},
-        publish_time: '2021-09-09',
-        is_saved: true
-    }
+    const fetchMyPosts = async () => {
+        try {
+            if (!user_info) return;
+
+            const result = await postService.getPostByUser(user_info.id_user);
+            if (result.status === 200) {
+                setLoading(false);
+                setMyPosts(result.data.content);
+                console.log(myPosts[0])
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
+
 
     return (
         <div className='container-fluid'>
             <Search />
             <div className='container'>
                 <ul className='row tab-panel my-4'>
-                    {tab == "reading" ? <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-reading" >Reading</li></Link> : <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-reading" >Reading</li></Link>}
-                    {tab == "saved" ? <Link to="/saved" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-saved" >Saved</li></Link> : <Link to="/saved" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-saved" >Saved</li></Link>}
-                    {tab == "highlight" ? <Link to="/highlight" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-highlight" >Highlight</li></Link> : <Link className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-highlight" >Highlight</li></Link>}
-                    {tab == "history" ? <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-history" >History</li></Link> : <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-history" >History</li></Link>}
+                    {tab === "reading" ? <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-reading" >Reading</li></Link> : <Link to="/reading" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-reading" >Reading</li></Link>}
+                    {tab === "list" ? <Link to="/list" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-list" >List</li></Link> : <Link to="/list" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-list" >List</li></Link>}
+                    {tab === "highlight" ? <Link to="/highlight" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-highlight" >Highlight</li></Link> : <Link className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-highlight" >Highlight</li></Link>}
+                    {tab === "history" ? <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-history" >History</li></Link> : <Link to="/history" className="col-3 no-margin-padding"><li className='py-2 button2 tab-item' id="for-history" >History</li></Link>}
                 </ul>
 
                 <div className='tab-content' id='reading'>
+                
+                {loading && <Loading/>}
+
+                {!loading && myPosts.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between gap-4'>
+                        {myPosts.map((post, index) => {
+                            return <BlogPostCard post={post} author={author} />
+                        })}
+                    </div>
+                }               
+
+                {!loading && myPosts.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You are reading 0 posts</h6>
                     </div>
-
-                    <div className='row d-flex flex-row flex-wrap justify-content-between gy-5'>
-                        <BlogPostCard {...postProps} />
-                        <BlogPostCard {...postProps} />
-                        <BlogPostCard {...postProps} />
-                    </div>
+                }
+                    
                 </div>
-                <div className='tab-content' id='saved'>
+                <div className='tab-content' id='list'>
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
-                        <h6 className='text-scheme-sub-text mt-5'>You saved 0 posts</h6>
+                        <h6 className='text-scheme-sub-text mt-5'>You have 0 lists</h6>
                     </div>
 
                     <div className='row d-flex flex-row flex-wrap justify-content-between gap-3'>

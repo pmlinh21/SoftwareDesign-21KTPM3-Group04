@@ -14,8 +14,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function BlogCardHorizontal(props) {
-    const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, responseCount, likeCount} = props.post;
+    const {id_post, title, content, thumbnail, list_topic, author, publish_time, responseCount, likeCount} = props.post;
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
@@ -45,7 +44,7 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="pt-2 mb-0">
-                            <p className="title1 text-black title-text long-text">
+                            <p className="title2 text-black title-text long-text">
                                 {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
                             </p>
                         </div>
