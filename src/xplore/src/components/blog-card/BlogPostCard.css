@@ -18,6 +18,7 @@
 
 .blog-post-card {
     width: 32%;
+    cursor: default;
 }
 
 .blog-post-card .long-text{
@@ -27,20 +28,15 @@
     font-style: normal !important;
 }
 
-.blog-post-card .long-text *{
-    font-style: normal !important;
-    font-weight: normal !important;
-}
-
 .blog-post-card .content-text{
     text-align: justify;
     text-justify: inter-word;
-    height: 2.8rem;
+    height: 4.2rem;
 }
 
 .blog-post-card .title-text{
-    min-height: 4rem;
-    height: 4rem;
+    min-height: 2.2rem;
+    height: 2.2rem;
 }
 
 .blog-post-card a{
@@ -49,6 +45,7 @@
 
 .blog-post-card .title-block{
     min-height: 8rem;
+    height: 8rem;
 }
 
 .blog-post-card .topic-block{

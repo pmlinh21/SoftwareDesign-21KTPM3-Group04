@@ -13,8 +13,9 @@ import {postService} from '../services/PostService';
 import Search from '../components/search/Search'
 import BookmarkIcon from '../components/icon/BookmarkIcon';
 import LikeIcon from '../components/icon/LikeIcon';
-import PostContent from './PostContent'
+import PostContent from './PostContent';
 import Avatar from '../components/avatar/Avatar';
+import Response from './Response';
 
 function Post() {
     const location = useLocation();
@@ -47,7 +48,7 @@ function Post() {
     return (
         <div>
             {/* Search bar */}
-            <Search search="" isResult={false} />
+            <Search />
             {/* Post Detail */}
             <div className='container-fluid' style={{marginTop: '72px'}}>
                 <div className='container'>
@@ -55,7 +56,7 @@ function Post() {
                         <div className='col-2'></div>
                         <div className='col-8'>
                             {/* Post Title */}
-                            <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
+                            <h5 style={{marginBottom: '1rem'}}>{post?.title}</h5>
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
                                 {post?.list_topic?.map(topic => (
@@ -98,7 +99,13 @@ function Post() {
                             </div>
                             <hr/>
                             {/* Post Content */}
-                            <PostContent content={post?.content} id_post={id_post}/>
+                            <PostContent content={post?.content}/>
+                            {/* Responses */}
+                            <div className='d-flex'>
+                                <h6 style={{color: 'var(--blue-500)'}}>Responses (16)</h6>
+                                {/* pagination */}
+                            </div>
+                            <Response></Response>
                         </div>
                         <div className='col-2'></div>
                     </div>

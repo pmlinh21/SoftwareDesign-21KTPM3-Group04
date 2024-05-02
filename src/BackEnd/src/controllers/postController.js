@@ -142,6 +142,9 @@ const getPostByKeyword = async (req, res) => {
     try {
         const posts = await model.post.findAll({
             where: {
+                publish_time: {
+                    [Op.lt]: new Date() 
+                },
                 title: {
                     [Op.iLike]: `%${keyword}%`,
                 },
@@ -822,12 +825,15 @@ const createHighlight = async (req,res) => {
 }
 
 const deleteHighlight = async (req,res) => {
-    const {id_highlight} = req.params;
+    const {start_index, end_index, id_user, id_post} = req.body;
 
     try{
+        console.log({
+            start_index, end_index, id_user, id_post
+        })
         const data = await model.highlight.destroy({
             where:{
-                id_highlight: id_highlight
+                start_index, end_index, id_user, id_post
             }
         }); 
 

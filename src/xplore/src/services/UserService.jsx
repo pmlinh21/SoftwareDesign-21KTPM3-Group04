@@ -62,7 +62,12 @@ export class UserService extends BaseService {
       return this.get(`user/subscriber/${id_user}`);
     }
 
-    // Api 11: Get author list 
+    // Api 11: Get user reading history
+    getReadingHistory = (id_user) =>{
+      return this.get(`user/reading_history/${id_user}`);
+    }
+
+    // Api 12: Get author list 
     getAuthorList = (id_user) =>{
       return this.get(`/user/list/${id_user}`);
     }

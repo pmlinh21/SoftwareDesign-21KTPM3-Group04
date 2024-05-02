@@ -19,3 +19,8 @@
 .search-container .search-icon {
     font-size: 50px;
 }
+
+.search-container .focused {
+    background-color: var(--black);
+    color: var(--white);
+}

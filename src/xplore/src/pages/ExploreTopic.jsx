@@ -17,6 +17,7 @@ import { DOMAIN } from "../util/config";
 import { FollowTopicAction, getTopicByUserAction, UnfollowTopicAction } from '../redux/actions/UserAction';
 
 function ResultText({topic_name, related_posts, followerCount}){
+
     return(
         <>
             <div className="row col-12 m-0 mb-4 d-flex justify-content-center">
@@ -37,7 +38,7 @@ const fetchPost = async (id_topic, setResult, setLoading) => {
       setLoading((val) => true);
       const response = await fetch(`${DOMAIN}/topic/${id_topic}/post`);
       const jsonData = await response.json();
-      setResult([...jsonData.content]);
+      setResult([...jsonData.content[0]]);
 
       setLoading( (val) => false);
 
@@ -94,15 +95,15 @@ export default function ExploreTopic() {
         setIsFollow(true)
     }
 
-    
+    // console.log(post)
     return (
     <div className="explore-topic-page">
 
     <Search/>
 
-    <div className="explore-topic container my-5 px-3 pt-3">
-        <div className="row px-2 pt-3 d-flex justify-content-between">
-            <div className="px-0 mt-5 row d-flex flex-column align-items-center">
+    <div className="explore-topic container my-5 px-3">
+        <div className="row px-2 d-flex justify-content-between">
+            <div className="px-0 mt-4 row d-flex flex-column align-items-center">
             {
                 loading && <Loading/>
             }
@@ -134,7 +135,7 @@ export default function ExploreTopic() {
                                 return (
                                     <BlogPostCard
                                         key={item.id_post}
-                                        {...item}
+                                        post={item}
                                     />
                                 )
                             })
@@ -143,22 +144,6 @@ export default function ExploreTopic() {
                     </div>
                 </>
             }
-
-            {/* {
-                type === "topic" && !loading &&
-                    <div className="container col-6 px-0 d-flex gap-2 flex-wrap justify-content-center">
-                        {
-                            result?.topic?.map((item) => {
-                                return (
-                                    <TopicTag
-                                        key={item.id_topic}
-                                        {...item}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
-            } */}
                 
             </div>
             </div>

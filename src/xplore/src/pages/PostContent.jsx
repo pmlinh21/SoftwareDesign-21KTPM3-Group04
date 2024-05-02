@@ -80,6 +80,8 @@ const PostContent = memo(function PostContent({content, id_post}) {
             setQuill(quill)
             applyHighlights(highlights, quill);
 
+            window.scrollTo(0, 100);
+
             function getPositionPopOver(range){
                 const bounds = quill.getBounds(range.index, range.length);
                         
@@ -198,10 +200,10 @@ const PostContent = memo(function PostContent({content, id_post}) {
     }
 
     const handleRemoveIcon = async () => {
-        let id_highlight;
+        let removeHighlight;
         const newSelections = highlights.filter((item) => {
             if (item.start_index <= rangeSelected.index && rangeSelected.index < item.end_index)
-                id_highlight = item.id_highlight
+                removeHighlight = item
             else
                 return true
             return false
@@ -213,7 +215,11 @@ const PostContent = memo(function PostContent({content, id_post}) {
         setHighlights([...newSelections]);
 
         try {
-            const result = await postService.deleteHighlight(id_highlight)
+            const result = await postService.deleteHighlight({
+                ...removeHighlight,
+                id_user: user_login.id_user,
+                id_post: id_post,
+            })
         } catch (e){
             console.log(e)
         }

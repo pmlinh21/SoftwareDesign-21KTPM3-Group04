@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import "./BlogCardHorizontal.css";
 
@@ -14,12 +14,11 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function BlogCardHorizontal(props) {
-    const {id_post, title, content, thumbnail, list_topic, author,
-        publish_time, responseCount, likeCount} = props.post;
+    const {id_post, title, content, thumbnail, list_topic, author, publish_time, responseCount, likeCount} = props.post;
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        navigate("/post?id_post=" + id_post)
+        // navigate("/post?id_post=" + id_post)
     }
 
     return (
@@ -45,7 +44,7 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="pt-2 mb-0">
-                            <p className="title1 text-black title-text long-text">
+                            <p className="title2 text-black title-text long-text">
                                 {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
                             </p>
                         </div>
@@ -89,7 +88,7 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="col-4 link-sm">
-                            <a href={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></a>
+                            <Link to={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></Link>
                         </div>
                     </div>
                 </div>

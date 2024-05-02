@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import {useSelector} from 'react-redux'
 import { useLocation   } from 'react-router-dom';
 
-import "../styles/commons.css";
 import "./SearchResult.css"
 
 import Search from '../components/search/Search'
@@ -44,7 +43,10 @@ const fetchData = async (type, search, setResult, setLoading) => {
       const jsonData = await response.json();
       
 
-      setResult((result) => { return {...result, [`${type}`]: jsonData.content}} );
+      setResult((result) => {
+        console.log(jsonData.content)
+        return {...result, [`${type}`]: jsonData.content}
+    });
       setLoading((val) => false);
 
     } catch (error) {
@@ -68,11 +70,10 @@ export default function SearchResult() {
             fetchData("post",searchText, setResult, setLoading,  user_login.id_user);
             fetchData("topic",searchText, setResult, setLoading, user_login.id_user);
             fetchData("user",searchText, setResult, setLoading, user_login.id_user);
-        } else
+        } else {
             fetchData(type,searchText, setResult, setLoading, user_login.id_user);
-        
-    
-    },[searchText,type])
+        }
+    }, [searchText,type])
 
     return (
     <div className="search-result-page">
@@ -105,7 +106,7 @@ export default function SearchResult() {
                             </div>
                         ): (
                             <div className="row">
-                                <p className="text-scheme-sub-text subtitle1 text-center">
+                                <p className="text-scheme-sub-text p1 text-center">
                                     No matching posts
                                 </p>
                             </div>
@@ -145,7 +146,7 @@ export default function SearchResult() {
                                 </>
                             ): (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text mb-4 subtitle1">
+                                    <p className="text-scheme-sub-text mb-4 p1">
                                         No matching authors
                                     </p>
                                 </div>
@@ -168,7 +169,7 @@ export default function SearchResult() {
                                         return (
                                             <TopicTag
                                                 key={item.id_topic}
-                                                {...item}
+                                                topic={item}
                                             />
                                         )
                                     })
@@ -184,7 +185,7 @@ export default function SearchResult() {
                                 </>
                             ) : (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text mb-4 subtitle1">
+                                    <p className="text-scheme-sub-text mb-4 p1">
                                         No matching authors
                                     </p>
                                 </div>
@@ -211,7 +212,7 @@ export default function SearchResult() {
                                         return (
                                             <BlogPostCard
                                                 key={item.id_post}
-                                                {...item}
+                                                post={item}
                                             />
                                         )
                                     })
@@ -219,7 +220,7 @@ export default function SearchResult() {
                                 </div>
                             ): (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                    <p className="text-scheme-sub-text p1 text-center">
                                         No matching posts
                                     </p>
                                 </div>
@@ -239,7 +240,7 @@ export default function SearchResult() {
                                         return (
                                             <TopicTag
                                                 key={item.id_topic}
-                                                {...item}
+                                                topic={item}
                                             />
                                         )
                                     })
@@ -247,7 +248,7 @@ export default function SearchResult() {
                                 </>
                             ) : (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                    <p className="text-scheme-sub-text p1 text-center">
                                         No matching topics
                                     </p>
                                 </div>
@@ -275,7 +276,7 @@ export default function SearchResult() {
                                 </div>
                             ) : (
                                 <div className="row">
-                                    <p className="text-scheme-sub-text subtitle1 text-center">
+                                    <p className="text-scheme-sub-text p1 text-center">
                                         No matching authors
                                     </p>
                                 </div>

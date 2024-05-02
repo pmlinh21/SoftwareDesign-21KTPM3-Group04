@@ -30,7 +30,7 @@ function BookmarkModal({id_post, list,loading, handleBookmarkClick, handleListCl
                                     <div className="form-row" key={item.id_list}>
                                         <div className="checkbox d-flex align-items-center">
                                             <input type="checkbox" id="list" defaultChecked ={item.saved_posts.includes(id_post)} 
-                                                onChange={(e)=>{handleListClick(item.id_list,e.target.checked)}}/>
+                                                onChange={(e)=>{handleListClick(e,item.id_list,e.target.checked)}}/>
                                             <p className="list p2 m-0 ms-3">{item.list_name}</p>
                                         </div>
                                     </div>
@@ -55,7 +55,8 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon}){
     const {loading} =  useSelector(state => state.LoadingReducer)
 
     const [displayPopup, setDisplayPopup] = useState(false)
-    function handleBookmarkClick(){
+    function handleBookmarkClick(e){
+        e.stopPropagation();
         setDisplayPopup((val) => !val)
     }
 
@@ -65,7 +66,8 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon}){
         }
     }, [])
 
-    function handleListClick(id_list, is_saved){
+    function handleListClick(e,id_list, is_saved){
+        e.stopPropagation();
         if (is_saved){
             dispatch(addPostToListAction(id_list, id_post))
         } else{
