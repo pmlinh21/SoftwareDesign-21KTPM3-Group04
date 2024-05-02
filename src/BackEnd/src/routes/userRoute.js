@@ -11,7 +11,8 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserList, createList, editList, deleteList,
     addPostToList, deletePostFromList, getUserHighLight, updatePassword,
     getUserToken, getAuthorPosts,
-    createOrder,captureOrder } = require("../controllers/userController")
+    createOrder,captureOrder,
+    isFollowAuthor } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -28,7 +29,7 @@ userRoute.get("/search/:fullname", searchAccountByName)
 userRoute.get("/subscriber/:id_user", getUserSubscriber)
 
 // POST: Send email to subscriber
-userRoute.get("/sendEmail", sendEmail)
+userRoute.post("/sendEmail", sendEmail)
 
 // GET: Get user by ID
 userRoute.get("/:id_user", getUserByID)
@@ -55,7 +56,7 @@ userRoute.post("/subscription", makeASubscription)
 userRoute.put("/subscription/:id_subscription", updateSubscriptionByID)
 
 // POST: Subscribe another user
-userRoute.post("/subscribe", subscribeAnotherUser)
+userRoute.post("/subscribe/:user/:subscriber", subscribeAnotherUser)
 
 // DELETE: Unsubscribe another user
 userRoute.delete("/subscribe/:user/:subscriber", unsubscribeAnotherUser)
@@ -113,5 +114,8 @@ userRoute.post("/create-paypal-order", createOrder);
 
 // POST: Capture paypal order
 userRoute.post("/capture-paypal-order", captureOrder);
+
+// GET: Is follow author
+userRoute.get("/follow/:user/:subscriber", isFollowAuthor)
 
 module.exports = userRoute;

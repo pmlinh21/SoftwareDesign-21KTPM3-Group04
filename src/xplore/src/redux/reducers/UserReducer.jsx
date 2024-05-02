@@ -2,7 +2,8 @@ import { USER_LOGIN } from "../../util/config";
 import { LOGIN, SIGNUP, 
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
-    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST } from "../types";
+    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
+    BLOCK_AUTHOR } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -17,6 +18,8 @@ export const stateDefault = {
     author_post: null,
     author_subscriber: null,
     author_list: null,
+    is_follow: false,
+    block: null,
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -73,6 +76,18 @@ export const UserReducer = (state = stateDefault, action) => {
         }
         case GET_AUTHOR_LIST:{
             return { ...state, author_list: action.author_list}
+        }
+        case IS_FOLLOW_AUTHOR:{
+            return { ...state, is_follow: action.is_follow}
+        }
+        case BLOCK_AUTHOR:{
+            if(state.block){
+                return { ...state, block: [...state.block, action.block]}
+            }
+            else{
+                return { ...state, block: [action.block]}
+            }
+            
         }
         default:
             return { ...state };

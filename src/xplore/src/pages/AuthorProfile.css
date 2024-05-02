@@ -26,6 +26,7 @@
     background-color: var(--blue-0);
     border-radius: 10px;
     padding: 24px;
+    position: relative;
 }
 
 .tip-button {
@@ -138,4 +139,32 @@
 
 .list-card-content .delete-dropdown {
     color: var(--feedback-error)
+}
+
+.tip-box {
+    position: absolute;
+    background-color: var(--blue-0);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    margin-top: 350px;
+}
+
+.tip-box .close-btn {
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+}
+
+.tip-box .tip-image {
+    width: 100%; 
+    border-radius: 5px;
+}
+
+.tip-box .tip-message {
+    font-size: 16px; 
+    margin-bottom: 0rem;
 }

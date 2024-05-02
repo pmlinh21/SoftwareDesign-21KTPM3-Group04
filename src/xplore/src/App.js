@@ -21,8 +21,9 @@ import Support from './pages/Support';
 import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
-import Post from './pages/PostDetail';
+import PostDetail from './pages/PostDetail';
 import Response from './pages/Response';
+import Post from './pages/Post';
 
 export const history = createBrowserHistory();
 
@@ -51,7 +52,7 @@ function App() {
 
           <Route path="write" element={<Writing />} />
 
-          <Route path="post" element={<Post />}/>
+          <Route path="post" element={<PostDetail />}/>
 
           <Route path="my-profile" element={<MyProfile />} />
           <Route path='edit-profile' element={<EditProfile />}/>
@@ -70,7 +71,13 @@ function App() {
 
           <Route path="author-profile" element={<AuthorProfile/>}/>
           <Route path="ex" element={<MyTabs />}/>
+<<<<<<< HEAD
           {/* <Route path="response" element={<Response />}/> */}
+=======
+          <Route path="response" element={<Response />}/>
+          <Route path="drafts" element={<Post />}/>
+
+>>>>>>> d838e0aea9e0f2d6cfe66b8fb29496b0c28df451
         </Route>
       </Routes>
     </Router>

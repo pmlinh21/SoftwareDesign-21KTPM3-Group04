@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import "./AuthorProfile.css";
-import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction } from "../redux/actions/UserAction";
+import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction, isFollowAuthorAction,
+        unfollowAuthorAction, followAuthorAction, blockAuthorAction } from "../redux/actions/UserAction";
 import ProfileCard from '../components/blog-card/ProfileCard';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 
@@ -11,14 +12,20 @@ let props = {}
 export default function AuthorProfile() {
     const location = useLocation();
     const author = location.state.author;
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
     const author_post = useSelector(state => state.UserReducer.author_post);
     const author_subscriber = useSelector(state => state.UserReducer.author_subscriber);
     const author_list = useSelector(state => state.UserReducer.author_list);
+    const is_follow = useSelector(state => state.UserReducer.is_follow);
+    const block = useSelector(state => state.UserReducer.block);
 
-    const { id_user, avatar, fullname, email, bio } = author;
+    const { id_user, avatar, fullname, email, bio, tipping_link } = author;
 
+    const user_login = useSelector(state => state.UserReducer.user_login);
+     
     useEffect(() => {
         dispatch(getAuthorPostAction(id_user));
 
@@ -26,13 +33,27 @@ export default function AuthorProfile() {
 
         dispatch(getAuthorListAction(id_user));
 
+        dispatch(isFollowAuthorAction(id_user, user_login.id_user));
+
     }, [dispatch, id_user]);
 
     console.log("author_post: ", author_post)
     console.log("author_subscriber: ", author_subscriber)
     console.log("author_list: ", author_list)
+    console.log("is_follow: ", is_follow)
+    console.log("block: ", block)
 
-    const postCount = author_post ? author_post.length : 0;
+    var filteredAuthorPost;
+
+    if(author_post && author_post.length > 0){
+        const currentTime = new Date().getTime();
+        filteredAuthorPost = author_post.filter(post => new Date(post.publish_time).getTime() <= currentTime);
+        console.log("filteredAuthorPost: ", filteredAuthorPost)
+    }
+    else{
+        filteredAuthorPost = author_post
+    }
+    const postCount = filteredAuthorPost ? filteredAuthorPost.length : 0;
     const subscriberCount = author_subscriber ? author_subscriber.length : 0;
 
     const formatCount = (count) => {
@@ -51,6 +72,39 @@ export default function AuthorProfile() {
 
     const [tab, setTab] = useState('posts');
 
+    const handleFollow = () => {
+        if (is_follow) {
+            dispatch(unfollowAuthorAction(id_user, user_login.id_user));
+        } else {
+            dispatch(followAuthorAction(id_user, user_login.id_user, fullname));
+        }
+    };
+
+    const handleBlock = async () => {
+        try {
+            const result = await dispatch(blockAuthorAction(user_login.id_user, id_user));
+            if (result.status === 200 && result.data.message === "Block successfully") {
+                alert("Block successfully");
+                navigate("/");
+            } else {
+                alert("Failed to block author");
+            }
+        } catch (error) {
+            console.log("error", error);
+            alert("An error occurred while blocking the author");
+        }
+    }
+
+    const [showTipBox, setShowTipBox] = useState(false);
+
+    const handleTipButtonClick = () => {
+        setShowTipBox(true);
+    };
+
+    const handleTipBoxClose = () => {
+        setShowTipBox(false);
+    };
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -63,11 +117,11 @@ export default function AuthorProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <a href='/edit-profile'>
-                        <button className="btn-nm prim-btn button1">Follow</button>
-                    </a>
-                    <button className="btn-nm tert-btn button1">
-                        <i className="fa-solid fa-user-plus me-1"></i> Share profile
+                    <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
+                            {is_follow ? 'Unfollow' : 'Follow'}
+                    </button>
+                    <button className="btn-nm tert-btn button1" onClick={handleBlock}>
+                        <i className="fa-solid fa-ban me-1"></i> Block
                     </button>
                 </div>
             </div>
@@ -82,9 +136,9 @@ export default function AuthorProfile() {
 
                         <div className='tab-content' id='posts' style={{ display: tab === 'posts' ? 'block' : 'none' }}>
                             <div className='d-flex flex-column gap-2'>
-                                {author_post && author_post.length > 0 ? (
+                                {filteredAuthorPost && filteredAuthorPost.length > 0 ? (
                                     <div className='d-flex flex-column gap-2'>
-                                        {author_post.map((post, index) => (
+                                        {filteredAuthorPost.map((post, index) => (
                                             <ProfileCard key={index} {...props} />
                                         ))}
                                     </div>
@@ -150,10 +204,23 @@ export default function AuthorProfile() {
                         <div className="tip-section">
                             <p className="p1" style={{fontWeight: "600"}}>Enjoy the read? Reward the writer!</p>
                             <p className="p2">Your tip will go to {fullname.split(" ")[0]} through a third-party platform of their choice.</p>
-                            <button className="tip-button">
+                            <button className="tip-button" onClick={handleTipButtonClick}>
                                 <i className="fa-solid fa-hand-holding-heart" style={{marginRight: "8px"}}></i>Give a tip
                             </button>
                         </div>
+
+                        {showTipBox && (
+                            <div className="tip-box">
+                                <button className="close-btn" onClick={handleTipBoxClose}>
+                                    <i className="fa-solid fa-times"></i>
+                                </button>
+                                {tipping_link ? (
+                                    <img src={tipping_link} alt="Tip Image" className="tip-image" />
+                                ) : (
+                                    <p className="tip-message">Author has not tipping link yet</p>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
