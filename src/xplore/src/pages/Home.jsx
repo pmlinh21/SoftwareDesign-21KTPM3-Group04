@@ -1,43 +1,38 @@
-import React from 'react';
+import React from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+
 import "./Home.css"
 import "../styles/commons.css";
 import "./SearchResult.css"
+
 import Search from '../components/search/Search'
-import BlogPostCard from '../components/blog-card/BlogPostCard'
-import TopicTag from '../components/topic/TopicTag'
 import MyTabs from './MyTabs';
+import { topicService } from "../services/TopicService"
+import { postService } from '../services/PostService'
+import { getAllTopicsAction } from '../redux/actions/TopicAction';
 
-import { useState, useEffect, useRef } from 'react';
-import {useSelector} from 'react-redux'
-import { useNavigate, useLocation   } from 'react-router-dom';
-import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
-import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
+import AuthorHorizontal from '../components/author-card/AuthorHorizontal'
+import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal'
+import BlogPostCard from '../components/blog-card/BlogPostCard'
 
-function Home() {
+export default function Home() {
 
     return (
         <div>
             {/* Search bar */}
-            <Search search="" isResult={false} />
+            <Search />
             <div className='container-fluid'>
                 <div className='container'>
-                    <div className='row gap-1'>
-                        {/* Tab bar */}
+                    <div className='row gap-2'>
                         <div className='col-6'>
-                            
+                            <MyTabs />
                         </div>
                         <div className='col'></div>
-                        {/* Trending */}
-                        <div className='col-5'>
-
-                        </div>
-                        {/* Following */}
-                        {/* Topics */}
                     </div>
                 </div>
             </div>
         </div>
-        
-    );
-}
-export default Home;
+    )
+};

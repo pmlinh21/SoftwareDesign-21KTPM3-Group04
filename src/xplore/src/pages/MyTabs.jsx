@@ -57,7 +57,7 @@ const MyTabs = () => {
       <Loading/>
     ): (
       <Tabs>
-        <TabList>
+        <TabList className='tab-items'>
           {tabsData.map((tab) => (
             <Tab key={tab.id_topic}>{tab.title}</Tab>
           ))}
