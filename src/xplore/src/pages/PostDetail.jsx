@@ -98,7 +98,7 @@ function Post() {
                             </div>
                             <hr/>
                             {/* Post Content */}
-                            <PostContent content={post?.content} id_post={id_post}/>
+                            <PostContent content={post?.content}/>
                         </div>
                         <div className='col-2'></div>
                     </div>
