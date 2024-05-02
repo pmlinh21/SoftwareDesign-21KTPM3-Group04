@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate  } from 'react-router-dom'
 import { useSelector, useDispatch} from 'react-redux'
+import ReactPaginate from 'react-paginate';
 
-import { formatToMDY } from '../util/formatDate'
+import { formartToSQLDatetime, formatToMDY } from '../util/formatDate'
 
 import "../styles/commons.css";
 import "./PostDetail.css";
@@ -15,7 +16,11 @@ import BookmarkIcon from '../components/icon/BookmarkIcon';
 import LikeIcon from '../components/icon/LikeIcon';
 import PostContent from './PostContent';
 import Avatar from '../components/avatar/Avatar';
-import Response from './Response';
+import ResponsePagination from '../components/response/ResponsePagination';
+import Loading from '../components/loading/Loading';
+// import Response from '../components/response/Response';
+
+const ITEMS_PER_PAGE = 10;
 
 function Post() {
     const location = useLocation();
@@ -25,33 +30,89 @@ function Post() {
 
     const {user_login} = useSelector(state => state.UserReducer)
 
-    const [post, setPost] = useState([]);
+    const [responses, setResponses] = useState(null);
+    const [author, setAuthor] = useState(null);
+    const [post, setPost] = useState(null);
     const [likeCount, setLikeCount] = useState(null);
-    useEffect(() => {
-        fetchPost();
-    }, []);
+
+    const [loading, setLoading] = useState(null);
 
     const fetchPost = async () => {
         try {
+            setLoading(true)
             const post = await postService.getPostById(id_post);
             setPost({...post.data.content});
             setLikeCount(parseInt(post.data.content.likeCount));
+            setLoading(false)
 
         } catch (error) {
             console.error("Error fetching post:", error);
+            
         }
     };
 
-    // console.log("isLike", isLike);
-    // console.log("Post", post?.publish_time);
+    const fetchResponse = async() =>{
+        try {
+            setLoading(true)
+            const result = await postService.getResponseOfPost(id_post);
+            setResponses([...result.data.content.responses]);
+            setAuthor({...result.data.content.author});
+            setLoading(false)
+        } catch (error) {
+            console.error("Error fetching post:", error);
+        }
+    }
 
+    useEffect(() => {
+        if (!post)
+            fetchPost();
+        if (!responses){
+            fetchResponse();
+        }
+    },[id_post])
+
+    useEffect(() => {          
+        const timeoutId = setTimeout(() => {
+            // createReadingHistory(); 
+        }, 10000); 
+
+        setTimerId(timeoutId);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
+
+    const createReadingHistory = async () => {
+        try {
+            await postService.readPost({
+                id_user: user_login.id_user, id_post: id_post, 
+                reading_time: formartToSQLDatetime(new Date())})
+        } catch (e) {
+            console.log(e)
+        } 
+    }
+
+    const [timerId, setTimerId] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return () => {
+            clearTimeout(timerId);
+        };
+    }, [location, timerId]); 
+
+    // console.log(responses)
+    //     console.log(author)
     return (
         <div>
             {/* Search bar */}
             <Search />
             {/* Post Detail */}
-            <div className='container-fluid' style={{marginTop: '72px'}}>
-                <div className='container'>
+            {
+                loading ? (
+                    <Loading/>
+                ):(
+                    <div className='container-fluid' style={{marginTop: '72px'}}>
+                    <div className='container'>
                     <div className='row'>
                         <div className='col-2'></div>
                         <div className='col-8'>
@@ -99,18 +160,19 @@ function Post() {
                             </div>
                             <hr/>
                             {/* Post Content */}
-                            <PostContent content={post?.content}/>
+                            <PostContent content={post?.content} id_post={id_post}/>
                             {/* Responses */}
-                            <div className='d-flex'>
-                                <h6 style={{color: 'var(--blue-500)'}}>Responses (16)</h6>
-                                {/* pagination */}
+                            <div className='d-flex flex-column mt-5 pt-3'>
+                                <h6 style={{color: 'var(--blue-500)'}}>Responses ({responses?.length})</h6>
+                                <ResponsePagination author={author} responses={responses}/>
                             </div>
-                            <Response></Response>
                         </div>
                         <div className='col-2'></div>
                     </div>
-                </div>
-            </div>
+                    </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

@@ -1,6 +1,6 @@
 @import url('../styles/commons.css');
 
-#editor-container {
+.ql-container.ql-snow {
     border: none !important; /* Removes borders from toolbar and container */
     box-shadow: none !important; /* Remove shadows */
 }

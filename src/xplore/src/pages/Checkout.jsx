@@ -49,7 +49,7 @@ function Checkout() {
         }
 
         fetchMembership()
-    }, [])
+    }, [id_membership])
 
     const createOrder = (data) => {
         console.log(membership)
@@ -107,7 +107,7 @@ function Checkout() {
             !loading && !isSuccess && (
                 <div className="d-flex justify-content-evenly row col-12">
                     <div className="checkout-info-section d-flex col-4 flex-column"> 
-                        <h6 className="text-scheme-primary mb-3">Subscription information</h6>
+                        <p className="title2 text-scheme-primary mb-3">Subscription information</p>
                         <p className="p1 d-flex justify-content-between mb-2">
                             <span className="button1 text-scheme-main-text mt-1">Payment</span>
                             <span className='text-capitalize'>{membership?.type} membership</span>
@@ -120,7 +120,7 @@ function Checkout() {
                         <span className="button1 text-scheme-main-text mt-1"> Expired date </span> 
                             <span>{formatToTimeDMY(date?.end_date)}</span>
                         </p>
-                        <h6 className="text-scheme-primary mt-4 mb-3">User information</h6>
+                        <p className="title2 text-scheme-primary mt-4 mb-3">User information</p>
                         <div className="form-group">
                             <label className="label2">Full name</label>
                             <input type="text" name="fullname" value={user_login?.fullname} disabled/>
@@ -142,9 +142,7 @@ function Checkout() {
                             <i className="text-neutral-700 fa-solid fa-arrow-left me-2"></i>Back to Pricing
                         </Link>
                     </div>
-                    <div className="membership-section bg-black col-4">
-                        <Membership membership={membership}/>
-                    </div>
+                    <Membership membership={membership}/>
                 </div>
             )
         }

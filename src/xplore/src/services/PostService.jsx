@@ -99,6 +99,12 @@ export class PostService extends BaseService {
       return this.put(`post/highlight`, removeHighlight);
     }
 
+    // Api 18
+    readPost = (formData) => {
+      // console.log("updatePost: ", formData);
+      return this.post(`post/reading_history`, formData);
+    }
+
 }
 
 export const postService = new PostService();
