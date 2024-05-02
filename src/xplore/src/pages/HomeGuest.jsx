@@ -171,7 +171,7 @@ export default function Home() {
                         <div className="d-flex align-items-center justify-content-between">
                             <h5>Explore more</h5>
                             <Link to="#" className="link-nm button1">
-                                See all posts <i className="fa-solid fa-check"></i>
+                                See all posts
                             </Link>
                         </div>
 
@@ -190,7 +190,7 @@ export default function Home() {
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all topics <i className="fa-solid fa-arrow-right"></i>
+                                See all<i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                         <div className="row">
@@ -201,7 +201,7 @@ export default function Home() {
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all popular writers <i className="fa-solid fa-arrow-right"></i>
+                                See all<i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ export default function BlogCardNoThumb(props) {
                         <BookmarkIcon id_post={id_post}/>
                     </div>
 
-                    <div className="center title1 mt-2">{title}</div>
+                    <div className="center title2 mt-2">{title}</div>
                 </div>
 
                 <div className="d-flex flex-row justify-content-between align-items-center gap-2">
