@@ -1,0 +1,31 @@
+.tab-panel {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    background-color: var(--scheme-background);
+    border-bottom: 1px solid var(--neutral-50);
+}
+
+.tab-item {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    color: var(--scheme-sub-text);
+}
+
+.tab-item.focused {
+    background-color: var(--blue-0);
+    color: var(--scheme-primary);
+    border-bottom: 2px solid var(--scheme-primary);
+}
+
+.tab-item:hover {
+    background-color: var(--blue-0);
+    color: var(--scheme-primary);
+}
+
+.no-margin-padding {
+    margin: 0;
+    padding: 0;
+}
