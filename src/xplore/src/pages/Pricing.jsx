@@ -1,9 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import "../styles/commons.css";
+import React from 'react'
+import { useState, useEffect } from 'react'
+import "../styles/commons.css"
 import "./Pricing.css"
-import { commonService } from "../services/CommonService";
-import {formatCapitalFirstLetter} from '../util/formatText';
+import { commonService } from "../services/CommonService"
+import {formatCapitalFirstLetter} from '../util/formatText'
 
 function Pricing() {
     const [membership, setMembership] = useState([]);
@@ -79,7 +79,7 @@ function Pricing() {
                 </div>
             </div>
 
-            {/*Need help*/}
+            {/*Need help */}
             <div className='container-fluid' style={{ marginTop: '64px' }}>
                 <div className='container'>
                     <p className='subtitle1' style={{color: 'var(--blue-500)'}}>NEED HELP?</p>

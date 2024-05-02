@@ -5,6 +5,7 @@ import "./SearchResult.css"
 import Search from '../components/search/Search'
 import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
+import MyTabs from './MyTabs';
 
 import { useState, useEffect, useRef } from 'react';
 import {useSelector} from 'react-redux'
@@ -13,18 +14,23 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 
 function Home() {
+
     return (
         <div>
             {/* Search bar */}
             <Search search="" isResult={false} />
             <div className='container-fluid'>
                 <div className='container'>
-                    <div className='row g-4'>
+                    <div className='row gap-1'>
                         {/* Tab bar */}
                         <div className='col-6'>
-                                    
+                            
                         </div>
+                        <div className='col'></div>
                         {/* Trending */}
+                        <div className='col-5'>
+
+                        </div>
                         {/* Following */}
                         {/* Topics */}
                     </div>
