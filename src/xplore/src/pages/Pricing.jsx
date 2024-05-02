@@ -39,6 +39,10 @@ function Pricing() {
                     <p className='p1 subtext'>Simple, transparent pricing that grows with you. Try any plan free for 30 days.</p>
                 </div>
             </div>
+            {/*Membership plans*/}
+            <div className='container-fluid hero-banner'>
+                
+            </div>
         </div>
     )
 }
