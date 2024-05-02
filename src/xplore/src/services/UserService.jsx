@@ -96,6 +96,11 @@ export class UserService extends BaseService {
     blockAuthor = (user, block) =>{
       return this.post(`/user/block/${user}/${block}`);
     }
+
+    // Api 18: Get highlight by user
+    getHighlightByUser = (id_user) =>{
+      return this.get(`/user/highlight/${id_user}`);
+    }
   }
   
 export const userService = new UserService();

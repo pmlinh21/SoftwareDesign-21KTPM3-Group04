@@ -5,36 +5,23 @@ import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
 import Loading from '../components/loading/Loading';
+import HighlightCard from '../components/highlight-card/HighlightCard';
 import { userService } from '../services/UserService';
 
 export default function Library(props) {
     const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
     
-    const [loadingHistory, setLoadingHistory] = useState(true);
     const [loadingSavedLists, setLoadingSavedLists] = useState(true);
-    const [loadingResponse, setLoadingResponse] = useState(true);
     const [loadingHighlights, setLoadingHighlights] = useState(true);
+    const [loadingResponses, setLoadingResponses] = useState(true);
+    const [loadingHistory, setLoadingHistory] = useState(true);
     
-    const [myHistory, setMyHistory] = useState([]);
     const [mySavedLists, setMySavedLists] = useState([]);
-    const [myResponses, setMyResponses] = useState([]);
     const [myHighlights, setMyHighlights] = useState([]);
+    const [myResponses, setMyResponses] = useState([]);
+    const [myHistory, setMyHistory] = useState([]);
 
     const [tab, setTab] = useState(props.link);
-
-    const fetchMyHistory = async () => {
-        try {
-            if (!user_info) return;
-
-            const result = await userService.getReadingHistory(user_info.id_user);
-            if (result.status === 200) {
-                setLoadingHistory(false);
-                setMyHistory(result.data.content);
-            }
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
 
     const fetchMySavedLists = async () => {
         try {
@@ -50,9 +37,44 @@ export default function Library(props) {
         }
     }
 
+    const fetchMyHighlights = async () => {
+        try {
+            if (!user_info) return;
+
+            const result = await userService.getHighlightByUser(user_info.id_user);
+            if (result.status === 200) {
+                setLoadingHighlights(false);
+                setMyHighlights(result.data.content);
+
+                console.log("myHighlights: ", myHighlights);
+            } else if (result.status === 400) {
+                setLoadingHighlights(false);
+                setMyHighlights([]);
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    const fetchMyHistory = async () => {
+        try {
+            if (!user_info) return;
+
+            const result = await userService.getReadingHistory(user_info.id_user);
+            if (result.status === 200) {
+                setLoadingHistory(false);
+                setMyHistory(result.data.content);
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
     useEffect(() => {
-        fetchMyHistory();
         fetchMySavedLists();
+        fetchMyHighlights();
+        // fetchMyResponses();
+        fetchMyHistory();
     }, []);
 
     return (
@@ -97,10 +119,24 @@ export default function Library(props) {
                 </div>
 
                 <div className='tab-content' id='highlight' style={{ display: `${tab === 'highlight' ? 'block' : 'none'}` }}>
+
+                {loadingHighlights && <Loading />}
+
+                {!loadingHighlights && myHighlights.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between'>
+                        {myHighlights.map((myHighlight) => {
+                            return <HighlightCard highlight={myHighlight} />
+                        })}      
+                    </div>
+                }   
+
+                {!loadingHighlights && myHighlights.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5'/>
                         <h6 className='text-scheme-sub-text mt-5'>You have 0 highlights</h6>
                     </div>
+                }
+
                 </div>
 
                 <div className='tab-content' id='response' style={{ display: `${tab === 'response' ? 'block' : 'none'}` }}>
@@ -132,3 +168,4 @@ export default function Library(props) {
             </div>
         </div>
 )};
+
