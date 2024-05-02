@@ -3,7 +3,7 @@ const sequelize = db.sequelize;
 const init_models = require('../models/init-models');
 const model = init_models(sequelize);
 
-const { Op, literal, where } = require("sequelize");
+const { Op, literal, where, or } = require("sequelize");
 const nodeMailer = require('nodemailer');
 const bcrypt = require('bcryptjs'); 
 const fetch = require("node-fetch");
@@ -704,7 +704,29 @@ try {
         let history = await model.reading_history.findAll({
             where: {
                 id_user: id_user
-            }
+            },
+
+            include: [
+                {
+                    model: model.post,
+                    as: "id_post_post",
+                    attributes: ["id_post","title","thumbnail", "publish_time", "content"],
+                    include: [
+                        {
+                            model: model.user,
+                            as: "author",
+                            attributes: ["id_user","fullname","avatar"]
+                        },
+                        {
+                            model: model.topic,
+                            as: "list_topic",
+                            attributes: ["id_topic","topic"],
+                        }
+                    ]
+                }
+            ],
+            attributes: ["id_reading_history","reading_time"],
+            order: [['reading_time', 'DESC']]
         });
         successCode(res, history, "History found");
     }
