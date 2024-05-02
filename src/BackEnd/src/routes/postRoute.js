@@ -19,6 +19,7 @@ const {
     deleteResponse,
     replyResponse,
     deleteReply,
+    getHighlight,
     createHighlight,
     deleteHighlight,
     getPostMonthlyData
@@ -73,9 +74,11 @@ postRoute.post("/reply", replyResponse)
 postRoute.delete("/reply/:id_response", deleteReply)
 
 
-// postRoute.post("/highlight", createHighlight)
+postRoute.get("/highlight/:id_post/user/:id_user", getHighlight)
 
-// postRoute.delete("/highlight/:id_highlight", deleteHighlight)
+postRoute.post("/highlight", createHighlight)
+
+postRoute.delete("/highlight/:id_highlight", deleteHighlight)
 
 
 module.exports = postRoute;

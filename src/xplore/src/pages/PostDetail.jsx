@@ -55,7 +55,7 @@ function Post() {
                         <div className='col-2'></div>
                         <div className='col-8'>
                             {/* Post Title */}
-                            <h4 style={{marginBottom: '1rem'}}>{post?.title}</h4>
+                            <h5 style={{marginBottom: '1rem'}}>{post?.title}</h5>
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
                                 {post?.list_topic?.map(topic => (
@@ -98,7 +98,7 @@ function Post() {
                             </div>
                             <hr/>
                             {/* Post Content */}
-                            <PostContent content={post?.content}/>
+                            <PostContent content={post?.content} id_post={id_post}/>
                         </div>
                         <div className='col-2'></div>
                     </div>

@@ -11,9 +11,35 @@ export default function LoginPopup(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     function handleLogin(e) {
         e.preventDefault()
+
+        let isValid = true;
+
+        setEmailError('');
+        setPasswordError('');
+
+        if (!email) {
+            setEmailError("Please enter your email!");
+            isValid = false;
+        }
+
+        if (!password) {
+            setPasswordError("Please enter your password!");
+            isValid = false;
+        }
+
+        if(password.length < 8){
+            setPasswordError("Passwords is too short. Please try again!");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
 
         const user_login = {
             email: email,
@@ -57,10 +83,12 @@ export default function LoginPopup(props) {
                             <div className="form-group">
                                 <label>Email</label>
                                 <input type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)}/>
+                                {emailError && <div className="error-message" style={{ textAlign: "left", color: "red", fontStyle: "italic", fontSize: "14px" }}>{emailError}</div>}
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
                                 <input type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)}/>
+                                {passwordError && <div className="error-message" style={{ textAlign: "left", color: "red", fontStyle: "italic", fontSize: "14px" }}>{passwordError}</div>}
                             </div>
 
                             <div className="form-row">

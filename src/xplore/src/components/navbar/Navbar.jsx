@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 
-import { RoleKey, USER_LOGIN } from "../../util/config";
+import { RoleKey, USER_LOGIN, TokenKey } from "../../util/config";
 import { formatCapitalFirstLetter } from '../../util/formatText';
 
 import "./Navbar.css";
@@ -16,7 +16,11 @@ import { getUserByEmailAction } from '../../redux/actions/UserAction';
 
 function logout() {
     localStorage.removeItem(USER_LOGIN);
+    localStorage.removeItem(TokenKey);
+    
     localStorage.setItem(RoleKey, JSON.stringify(4));
+
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
 }
 
@@ -74,7 +78,20 @@ export default function Navbar() {
         const params = new URLSearchParams(search);
         if (params.has('email')) {
             const email = params.get('email');
-            dispatch(getUserByEmailAction(email));
+            dispatch(getUserByEmailAction(email)).then(() => {
+                roleId = localStorage.getItem(RoleKey);
+                console.log(roleId);
+                const userNav = document.getElementById("user-nav");
+                const guestNav = document.getElementById("guest-nav");
+                if (roleId === "4") {
+                    if (userNav) userNav.style.display = "none";
+                    if (guestNav) guestNav.style.display = "block";
+                }
+                else{
+                    if (userNav) userNav.style.display = "block";
+                    if (guestNav) guestNav.style.display = "none";
+                }
+            });
         }
     }, []);
 

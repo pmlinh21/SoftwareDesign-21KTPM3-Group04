@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
+import {useSelector} from 'react-redux';
 import Quill from 'quill';
 import './PostContent.css'
+import { postService } from '../services/PostService';
+import {formartToSQLDatetime} from '../util/formatDate';
 
 const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIcon }) => {
     const content = (!isHighlighted) ? (
@@ -19,7 +22,8 @@ const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIco
     );
   };
 
-  const PostContent = memo(function PostContent({content}) {
+const PostContent = memo(function PostContent({content, id_post}) {
+    const {user_login} = useSelector(state => state.UserReducer)
     const [showPopover, setShowPopover] = useState(false);
     const [popoverPosition, setPopoverPosition] = useState({x: 0, y: 0});
     const [isHighlighted, setIsHighlighted] = useState(false);
@@ -37,20 +41,28 @@ const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIco
 
         if ( quill != null){
             // console.log(highlights)
-            highlights.forEach(highlight => {
-                const { start, end } = highlight;
-                const length = end - start;
-                quill.formatText(start, length, { background: '#B7CFFF' });
+            highlights?.forEach(highlight => {
+                const { start_index, end_index } = highlight;
+                const length = end_index - start_index;
+                quill.formatText(start_index, length, { background: '#B7CFFF' });
             });
         }
     }
 
     useEffect(() => {
-        function fetchHighlights() {
-            return [{ start: 10, end: 50, text: `ing man I often wonder,\nAs a hopeful man`}];
+        async function fetchHighlights() {
+            try{
+                const result = await postService.getHighlight(id_post, user_login.id_user);
+                // console.log(result.data.content)
+                highlightsRef.current = result.data.content
+                setHighlights(result.data.content) ;
+            } catch(e){
+                console.log(e);
+            }
+            // return [{ start: 10, end: 50, text: `ing man I often wonder,\nAs a hopeful man`}];
         }
 
-        setHighlights(fetchHighlights())
+        fetchHighlights()
     }, [])
 
     useEffect(() => {
@@ -106,8 +118,9 @@ const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIco
                     setRangeSelected(range);
 
                     if ( range.length === 0){
+                        console.log(highlightsRef.current)
                         const clickOnHighlight = highlightsRef.current.some((item) => {
-                            return item.start <= range.index && range.index < item.end
+                            return item.start_index <= range.index && range.index < item.end_index
                         })
 
                         if (clickOnHighlight)
@@ -131,56 +144,79 @@ const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIco
         }
     }, [highlights, quill]);
 
-    const handleHighlightIcon = () =>{
+    const handleHighlightIcon = async () =>{
         const selectedText = quill.getText(rangeSelected.index, rangeSelected.length)
-        const start = rangeSelected.index
-        const end = rangeSelected.index + rangeSelected.length;
+        const start_index = rangeSelected.index
+        const end_index = rangeSelected.index + rangeSelected.length;
 
         const newSelection = {
-            text: selectedText,
-            start: start,
-            end: end,
+            content: selectedText,
+            start_index: start_index,
+            end_index: end_index,
+            highlight_time: formartToSQLDatetime(new Date())
         }
-        let sortedSelections = [...highlights, newSelection].sort((a, b) => a.start - b.start);
+        let sortedSelections = [...highlights, newSelection].sort((a, b) => a.start_index - b.start_index);
         let mergedSelections = [];
         let last = sortedSelections[0];
 
         for (let i = 1; i < sortedSelections.length; i++) {
             const current = sortedSelections[i];
-            if (current.start <= last.end) { 
-                const newStart = Math.min(current.start, last.start);
-                const newEnd = Math.max(current.end, last.end);
+            if (current.start_index <= last.end_index) { 
+                const newStart = Math.min(current.start_index, last.start_index);
+                const newEnd = Math.max(current.end_index, last.end_index);
 
-                let mergedText = last.text;
-                if (last.end >= current.start) {
-                    mergedText += current.text.substring(last.end - current.start );
+                let mergedText = last.content;
+                if (last.end_index >= current.start_index) {
+                    mergedText += current.content.substring(last.end_index - current.start_index );
                 } else {
-                    mergedText += current.text;
+                    mergedText += current.content;
                 }
 
-                last = { start: newStart, end: newEnd, text: mergedText };
+                last = { start_index: newStart, end_index: newEnd, content: mergedText, highlight_time: formartToSQLDatetime(new Date()) };
             } else {
                 mergedSelections.push(last);
                 last = current;
             }
         }
         mergedSelections.push(last);
-        console.log(mergedSelections)
+        console.log(mergedSelections);
+
         highlightsRef.current = mergedSelections;
         quill.setSelection(null);
         setShowPopover(false);
         setHighlights([...mergedSelections]);
+
+        try {
+            const result = await postService.createHighlight({
+                updatedHighlights: mergedSelections,
+                id_post: id_post,
+                id_user: user_login.id_user,
+            })
+        } catch (e){
+            console.log(e)
+        }
     }
 
-    const handleRemoveIcon = () => {
+    const handleRemoveIcon = async () => {
+        let id_highlight;
         const newSelections = highlights.filter((item) => {
-            return !(item.start <= rangeSelected.index && rangeSelected.index < item.end)
+            if (item.start_index <= rangeSelected.index && rangeSelected.index < item.end_index)
+                id_highlight = item.id_highlight
+            else
+                return true
+            return false
         })
         console.log(newSelections)
         highlightsRef.current = newSelections;
         quill.setSelection(null);
         setShowPopover(false);
         setHighlights([...newSelections]);
+
+        try {
+            const result = await postService.deleteHighlight(id_highlight)
+        } catch (e){
+            console.log(e)
+        }
     }
 
     return (

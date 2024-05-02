@@ -322,27 +322,27 @@ try {
 
 // PUT: Harshing user password
 const updatePassword = async(req,res) => {
-let { id_admin } = req.params
+let { id_user } = req.params
 let { new_password } = req.body;
-console.log(id_admin,new_password)
+
 try{
-    let admin = await model.admin.findOne({
+    let user = await model.user.findOne({
         where: {
-            id_admin: id_admin
+            id_user: id_user
         }
     });
-    if(admin){
+    if(user){
         let passWordHash = bcrypt.hashSync(new_password, 10);
-        await model.admin.update({
+        await model.user.update({
             password:passWordHash
         }, {
             where: {
-                id_admin: id_admin
+                id_user: id_user
             }
         })
-        let data = await model.admin.findOne({
+        let data = await model.user.findOne({
             where: {
-                id_admin:id_admin
+                id_user:id_user
             }
         });
         successCode(res, data, "Update thành công");
