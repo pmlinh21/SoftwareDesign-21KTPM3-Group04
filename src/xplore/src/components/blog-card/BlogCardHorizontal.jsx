@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import "./BlogCardHorizontal.css";
 
@@ -18,7 +18,7 @@ export default function BlogCardHorizontal(props) {
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        navigate("/post?id_post=" + id_post)
+        // navigate("/post?id_post=" + id_post)
     }
 
     return (
@@ -88,7 +88,7 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="col-4 link-sm">
-                            <a href={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></a>
+                            <Link to={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></Link>
                         </div>
                     </div>
                 </div>

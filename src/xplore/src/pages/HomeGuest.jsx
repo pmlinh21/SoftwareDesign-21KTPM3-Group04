@@ -92,7 +92,7 @@ export default function Home() {
                 const result = await postService.getPostById(ids[i]);
                 posts.push(result.data.content);
             }
-            setMorePosts(posts);
+            setMorePosts([...posts]);
         }
         catch (error) {
             console.log("error", error.response);
@@ -139,7 +139,7 @@ export default function Home() {
             <section className="container my-5">
                 <Slider {...settings}>
                     {slidingAuthors.map(author => (
-                        <AuthorVertical author={author} />
+                        <AuthorVertical author={author} key={author.id_user} />
                     ))}
                 </Slider>
             </section>
@@ -178,7 +178,7 @@ export default function Home() {
 
                         <div className="d-flex flex-column gap-2"  style={{marginTop: '48px'}}>
                             {morePosts.map(post => (
-                                <BlogCardHorizontal post={post} />
+                                <BlogCardHorizontal post={post} key={post.id_post} />
                             ))}
                         </div>
                     </div>
@@ -187,7 +187,7 @@ export default function Home() {
                             <h5 style={{marginBottom: '48px'}}>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
-                                    <TopicTag topic={topic} />
+                                    <TopicTag key={topic.topic} topic={topic} />
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
@@ -198,7 +198,7 @@ export default function Home() {
                             <h4>Who to follow</h4>
                             <div className="d-flex flex-column gap-2">
                                 {authorsToFollow.map(author => (
-                                    <AuthorHorizontal author={author} />
+                                    <AuthorHorizontal author={author} key={author.id_user}/>
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">

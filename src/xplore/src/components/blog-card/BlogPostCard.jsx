@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import "./BlogPostCard.css";
 import Avatar from "../avatar/Avatar";
@@ -29,11 +29,11 @@ export default function BlogPostCard(props) {
     */
     const {id_post, title, content, thumbnail, list_topic, publish_time, author} = props.post;
 
-    console.log("props.post: ", props.post)
+    console.log("props.author: ", props.author)
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        navigate("/post?id_post=" + id_post)
+        // navigate("/post?id_post=" + id_post)
     }
     return (
         <div className="blog-post-card d-flex flex-column p-0 m-0"
@@ -87,13 +87,13 @@ export default function BlogPostCard(props) {
                             {author?.fullname || "Author name"}
                         </p>
                         <p className="col-auto support text-scheme-sub-text m-0 p-0">
-                            {(publish_time && formatToMDY(publish_time)) || "Aug 6, 2024"}
+                            {(publish_time && formatToMDY(publish_time)) || "MMM DD, YYYY"}
                         </p>
                     </div>
                 </div>
 
                 <div className="col-4 link-sm m-0 p-0 d-flex justify-content-end">
-                    <a href={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></a>
+                    <Link to={`/post?id_post=${id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></Link>
                 </div>
             </div>
         </div>
