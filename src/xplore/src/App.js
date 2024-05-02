@@ -71,13 +71,9 @@ function App() {
 
           <Route path="author-profile" element={<AuthorProfile/>}/>
           <Route path="ex" element={<MyTabs />}/>
-<<<<<<< HEAD
           {/* <Route path="response" element={<Response />}/> */}
-=======
-          <Route path="response" element={<Response />}/>
           <Route path="drafts" element={<Post />}/>
 
->>>>>>> d838e0aea9e0f2d6cfe66b8fb29496b0c28df451
         </Route>
       </Routes>
     </Router>
