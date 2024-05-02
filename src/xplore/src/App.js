@@ -21,7 +21,7 @@ import Support from './pages/Support';
 import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
-import Post from './pages/PostDetail';
+// import Post from './pages/PostDetail';
 // import Response from './components/response/Response';
 import PostDetail from './pages/PostDetail';
 // import Response from './pages/Response';

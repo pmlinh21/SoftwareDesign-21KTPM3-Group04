@@ -35,6 +35,8 @@ function Post() {
     const [post, setPost] = useState(null);
     const [likeCount, setLikeCount] = useState(null);
 
+    const [newReponse, setNewReponse] = useState("");
+
     const [loading, setLoading] = useState(null);
 
     const fetchPost = async () => {
@@ -94,14 +96,37 @@ function Post() {
     const [timerId, setTimerId] = useState(null);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         return () => {
             clearTimeout(timerId);
         };
     }, [location, timerId]); 
 
-    // console.log(responses)
-    //     console.log(author)
+    const responsePost = async () => {
+        try {
+            const result = await postService.responsePost({
+                id_user: user_login.id_user, id_post: id_post, response: newReponse,
+                response_time: formartToSQLDatetime(new Date())
+            });
+            const addedReponse = {...result.data.content,
+                user:{
+                    id_user: user_login.id_user,
+                    fullname: user_login.fullname,
+                    avatar: user_login.avatar
+                }
+            }
+            setResponses([addedReponse, ...responses]);
+            setNewReponse("");
+        } catch (error) {
+            console.log("error", error.response);
+        }
+    }
+
+    const deleteResponse = (id_response) => {
+        const newResponses = responses.filter(response => response.id_response != id_response);
+        setResponses([...newResponses]);
+    }
+
     return (
         <div>
             {/* Search bar */}
@@ -162,9 +187,24 @@ function Post() {
                             {/* Post Content */}
                             <PostContent content={post?.content} id_post={id_post}/>
                             {/* Responses */}
-                            <div className='d-flex flex-column mt-5 pt-3'>
-                                <h6 style={{color: 'var(--blue-500)'}}>Responses ({responses?.length})</h6>
-                                <ResponsePagination author={author} responses={responses}/>
+                            <div className='row col-12 d-flex flex-column mt-5 pt-3 align-items-start'>
+                                <h6 className="px-0" style={{color: 'var(--blue-500)'}}>Responses ({responses?.length})</h6>
+                                {/* Send response */}
+                                <div className='col-12 d-flex flex-row gap-3 m-0 mt-3 px-0'>
+                                    <Avatar avatar={user_login?.avatar} size="small"/>
+                                    <textarea
+                                        className="response-textarea"
+                                        value={newReponse}
+                                        onChange={(e) => {setNewReponse(e.target.value)}}
+                                        placeholder="Enter your response here..."
+                                        rows={6}
+                                        cols={78}
+                                    />
+                                    <button className='prim-btn btn-md' style={{width: '104px'}}
+                                        disabled={newReponse.length === 0}
+                                        onClick={responsePost}>Send</button>
+                                </div>
+                                <ResponsePagination author={author} responses={responses} deleteResponse={deleteResponse}/>
                             </div>
                         </div>
                         <div className='col-2'></div>

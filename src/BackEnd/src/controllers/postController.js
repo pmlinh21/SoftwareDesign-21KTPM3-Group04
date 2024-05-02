@@ -309,9 +309,10 @@ const getResponseOfPost = async (req,res) => {
                             as: "user",
                             attributes: ["id_user","fullname", "avatar"],
                         }
-                    ]
+                    ],
                 }
             ],
+            order: [[{ model: model.response, as: 'responses' }, 'id_response', 'DESC']],
             attributes:[]
         
         })
@@ -320,7 +321,7 @@ const getResponseOfPost = async (req,res) => {
             failCode(res, null, "Invalid ID")
         }
 
-        successCode(res,response,"Post found")
+        successCode(res,response,"Response found")
     }
     catch(err){
         console.log(err)
@@ -562,14 +563,16 @@ const likePost = async (req,res) => {
             }
         }); 
 
-        await model.notification.create({
-            creator: id_user,
-            receiver: post.id_user,
-            id_post: id_post,
-            id_response: null,
-            noti_type: LIKE_NOTI,
-            noti_time: new Date(),
-        }); 
+        if (post.id_user != id_user){
+            await model.notification.create({
+                creator: id_user,
+                receiver: post.id_user,
+                id_post: id_post,
+                id_response: null,
+                noti_type: LIKE_NOTI,
+                noti_time: new Date(),
+            }); 
+        }
 
         if (!like) {
             failCode(res, null, "Invalid ID")
@@ -627,14 +630,16 @@ const responsePost = async (req,res) => {
             }
         }); 
 
-        await model.notification.create({
-            creator: id_user,
-            receiver: post.id_user,
-            id_post: id_post,
-            id_response: data.id_response,
-            noti_type: RESPONSE_NOTI,
-            noti_time: response_time,
-        });  
+        if (post.id_user != id_user){
+            await model.notification.create({
+                creator: id_user,
+                receiver: post.id_user,
+                id_post: id_post,
+                id_response: data.id_response,
+                noti_type: RESPONSE_NOTI,
+                noti_time: response_time,
+            }); 
+        }
 
         if (!data) {
             failCode(res, null, "Invalid ID")

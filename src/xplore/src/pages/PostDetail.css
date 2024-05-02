@@ -17,3 +17,14 @@
 .highlight {
     background-color: var(--scheme-secondary); 
 }
+
+.response-textarea{
+    resize: none;
+    padding: 10px 14px;
+    width: 100%; 
+    border: 1px solid var(--scheme-sub-text);
+    outline: none;
+    border-radius: 8px;
+    resize: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1)
+}

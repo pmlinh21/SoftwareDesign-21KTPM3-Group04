@@ -5,3 +5,8 @@
     height: auto;
     border-radius: 50%;
 }
+
+.response.dropdown li i{
+    font-size: 0.8rem;
+    margin-top: 0.15rem;
+}
