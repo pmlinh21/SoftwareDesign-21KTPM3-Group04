@@ -1,7 +1,10 @@
 @import url('../styles/commons.css');
 
 .hero-banner {
-    background: url("../imgs/pricing_bg.jpg");
+    background: url("/public/imgs/pricing_bg.jpg");
     object-fit: contain;
-    
+}
+
+.membership-ctn {
+
 }

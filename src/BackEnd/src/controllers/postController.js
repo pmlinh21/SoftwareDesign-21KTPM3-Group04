@@ -749,21 +749,71 @@ const getPostMonthlyData = async (req,res) => {
     }
 }
 
-const createHighlight = async (req,res) => {
-    const {id_post, time} = req.params;
+const getHighlight = async (req,res) => {
+    const {id_post, id_user} = req.params;
 
     try{
-        const data = await model.post_monthly_data.findOne({
+        const data = await model.highlight.findAll({
             where:{
-                id_post: id_post
+                id_post: id_post,
+                id_user: id_user
             }
         }); 
 
-        if (!data) {
-            failCode(res, null, "Invalid ID")
+        successCode(res,data,"Highlight found")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const createHighlight = async (req,res) => {
+    const { updatedHighlights, id_post, id_user } = req.body;
+
+    try{
+        const existingHighlights = await model.highlight.findAll({
+            where: { id_post: id_post, id_user: id_user }
+        });
+
+        const existingHighlightsMap = existingHighlights.reduce((acc, highlight) => {
+            acc[`${highlight.start_index}-${highlight.end_index}`] = highlight;
+            return acc;
+        }, {});
+
+        const updatedHighlightsMap = updatedHighlights.reduce((acc, highlight) => {
+            acc[`${highlight.start_index}-${highlight.end_index}`] = highlight;
+            return acc;
+        }, {});
+
+        const toDelete = existingHighlights.filter(highlight => 
+            !updatedHighlightsMap[`${highlight.start_index}-${highlight.end_index}`]
+        );
+
+        const toInsert = updatedHighlights.filter(highlight => 
+            !existingHighlightsMap[`${highlight.start_index}-${highlight.end_index}`]
+        );
+
+        for (const highlight of toDelete) {
+            
+            await model.highlight.destroy({
+                where: { id_highlight: highlight.id_highlight }
+            });
         }
 
-        successCode(res,data,"Post found")
+        for (const highlight of toInsert) {
+
+            await model.highlight.create({
+                id_post: id_post,
+                id_user: id_user,
+                start_index: highlight.start_index,
+                end_index: highlight.end_index,
+                content: highlight.content,
+                highlight_time: highlight.highlight_time
+            });
+        }
+
+        successCode(res,null,"Highlight created")
     }
     catch(err){
         console.log(err)
@@ -772,12 +822,12 @@ const createHighlight = async (req,res) => {
 }
 
 const deleteHighlight = async (req,res) => {
-    const {id_post, time} = req.params;
+    const {id_highlight} = req.params;
 
     try{
-        const data = await model.post_monthly_data.findOne({
+        const data = await model.highlight.destroy({
             where:{
-                id_post: id_post
+                id_highlight: id_highlight
             }
         }); 
 
@@ -785,7 +835,7 @@ const deleteHighlight = async (req,res) => {
             failCode(res, null, "Invalid ID")
         }
 
-        successCode(res,data,"Post found")
+        successCode(res,data,"Highlight deleted")
     }
     catch(err){
         console.log(err)
@@ -815,6 +865,8 @@ module.exports = {
     deleteResponse,
     replyResponse,
     deleteReply,
+
+    getHighlight,
     createHighlight,
     deleteHighlight,
     getPostMonthlyData
