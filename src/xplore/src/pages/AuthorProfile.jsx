@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import "../styles/commons.css";
 import "./AuthorProfile.css";
 import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction } from "../redux/actions/UserAction";
 import ProfileCard from '../components/blog-card/ProfileCard';

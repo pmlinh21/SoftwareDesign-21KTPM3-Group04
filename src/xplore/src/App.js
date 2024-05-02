@@ -58,6 +58,7 @@ function App() {
 
           <Route path="list" element={<Library link="list"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
+          <Route path="response" element={<Library link="response"/>} />
           <Route path="history" element={<Library link="history"/>} />
 
           <Route path="pricing" element={<Pricing />}/>
@@ -69,7 +70,7 @@ function App() {
 
           <Route path="author-profile" element={<AuthorProfile/>}/>
           <Route path="ex" element={<MyTabs />}/>
-          <Route path="response" element={<Response />}/>
+          {/* <Route path="response" element={<Response />}/> */}
         </Route>
       </Routes>
     </Router>

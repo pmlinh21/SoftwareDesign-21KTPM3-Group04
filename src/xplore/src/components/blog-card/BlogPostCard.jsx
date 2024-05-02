@@ -29,8 +29,6 @@ export default function BlogPostCard(props) {
     */
     const {id_post, title, content, thumbnail, list_topic, publish_time, author} = props.post;
 
-    console.log("props.author: ", props.author)
-
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
         // navigate("/post?id_post=" + id_post)
@@ -41,7 +39,7 @@ export default function BlogPostCard(props) {
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
                 <BookmarkIcon id_post={id_post} set_absolute={true}/>
-                <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
+                <img src={thumbnail || "https://picsum.photos/id/2/1200/1200"} alt=""  />
             </div>
             
             {
