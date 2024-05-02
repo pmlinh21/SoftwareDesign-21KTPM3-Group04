@@ -78,7 +78,20 @@ export default function Navbar() {
         const params = new URLSearchParams(search);
         if (params.has('email')) {
             const email = params.get('email');
-            dispatch(getUserByEmailAction(email));
+            dispatch(getUserByEmailAction(email)).then(() => {
+                roleId = localStorage.getItem(RoleKey);
+                console.log(roleId);
+                const userNav = document.getElementById("user-nav");
+                const guestNav = document.getElementById("guest-nav");
+                if (roleId === "4") {
+                    if (userNav) userNav.style.display = "none";
+                    if (guestNav) guestNav.style.display = "block";
+                }
+                else{
+                    if (userNav) userNav.style.display = "block";
+                    if (guestNav) guestNav.style.display = "none";
+                }
+            });
         }
     }, []);
 
