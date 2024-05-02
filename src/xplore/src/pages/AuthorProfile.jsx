@@ -23,7 +23,7 @@ export default function AuthorProfile() {
     const is_follow = useSelector(state => state.UserReducer.is_follow);
     const block = useSelector(state => state.UserReducer.block);
 
-    const { id_user, avatar, fullname, email, bio } = author;
+    const { id_user, avatar, fullname, email, bio, tipping_link } = author;
 
     const user_login = useSelector(state => state.UserReducer.user_login);
      
@@ -95,6 +95,16 @@ export default function AuthorProfile() {
             alert("An error occurred while blocking the author");
         }
     }
+
+    const [showTipBox, setShowTipBox] = useState(false);
+
+    const handleTipButtonClick = () => {
+        setShowTipBox(true);
+    };
+
+    const handleTipBoxClose = () => {
+        setShowTipBox(false);
+    };
 
     return (
         <div className='container-fluid profile'>
@@ -195,10 +205,23 @@ export default function AuthorProfile() {
                         <div className="tip-section">
                             <p className="p1" style={{fontWeight: "600"}}>Enjoy the read? Reward the writer!</p>
                             <p className="p2">Your tip will go to {fullname.split(" ")[0]} through a third-party platform of their choice.</p>
-                            <button className="tip-button">
+                            <button className="tip-button" onClick={handleTipButtonClick}>
                                 <i className="fa-solid fa-hand-holding-heart" style={{marginRight: "8px"}}></i>Give a tip
                             </button>
                         </div>
+
+                        {showTipBox && (
+                            <div className="tip-box">
+                                <button className="close-btn" onClick={handleTipBoxClose}>
+                                    <i className="fa-solid fa-times"></i>
+                                </button>
+                                {tipping_link ? (
+                                    <img src={tipping_link} alt="Tip Image" className="tip-image" />
+                                ) : (
+                                    <p className="tip-message">Author has not tipping link yet</p>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
