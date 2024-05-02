@@ -82,15 +82,21 @@ export class PostService extends BaseService {
     }
 
     // Api 15: 
+    getHighlight = (id_post, id_user) => {
+      // console.log("updatePost: ", formData);
+      return this.get(`post/highlight/${id_post}/user/${id_user}`);
+    }
+
+    // Api 16: 
     createHighlight = (formData) => {
       // console.log("updatePost: ", formData);
       return this.post(`post/highlight`, formData);
     }
 
-    // Api 16: 
+    // Api 17: 
     deleteHighlight = (id_highlight) => {
       // console.log("updatePost: ", id_highlight);
-      return this.delete(`post/highlight/${id_highlight}`, id_highlight);
+      return this.delete(`post/highlight/${id_highlight}`);
     }
 
 }
