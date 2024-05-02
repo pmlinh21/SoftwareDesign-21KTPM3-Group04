@@ -55,7 +55,8 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon}){
     const {loading} =  useSelector(state => state.LoadingReducer)
 
     const [displayPopup, setDisplayPopup] = useState(false)
-    function handleBookmarkClick(){
+    function handleBookmarkClick(e){
+        e.stopPropagation();
         setDisplayPopup((val) => !val)
     }
 

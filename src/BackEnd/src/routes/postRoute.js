@@ -78,7 +78,7 @@ postRoute.get("/highlight/:id_post/user/:id_user", getHighlight)
 
 postRoute.post("/highlight", createHighlight)
 
-postRoute.delete("/highlight/:id_highlight", deleteHighlight)
+postRoute.put("/highlight", deleteHighlight)
 
 
 module.exports = postRoute;

@@ -105,7 +105,8 @@ export default function Navbar() {
                                     <ul className="dropdown-menu">
                                         {topics.map(topic => (
                                             <li key={topic.id_topic}>
-                                                <Link className="dropdown-item button2 text-start text-scheme-sub-text my-1" to={'/#'} >
+                                                <Link className="dropdown-item button2 text-start text-scheme-sub-text my-1" 
+                                                    to={`/topic/?id_topic=${topic.id_topic}&topic_name=${topic.topic}`} >
                                                     {formatCapitalFirstLetter(topic.topic)}
                                                 </Link>
                                             </li>

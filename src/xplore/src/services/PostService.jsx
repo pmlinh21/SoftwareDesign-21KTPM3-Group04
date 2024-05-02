@@ -94,9 +94,9 @@ export class PostService extends BaseService {
     }
 
     // Api 17: 
-    deleteHighlight = (id_highlight) => {
+    deleteHighlight = (removeHighlight) => {
       // console.log("updatePost: ", id_highlight);
-      return this.delete(`post/highlight/${id_highlight}`);
+      return this.put(`post/highlight`, removeHighlight);
     }
 
 }
