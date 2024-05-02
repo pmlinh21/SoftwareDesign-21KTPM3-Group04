@@ -44,7 +44,7 @@ export default function BlogCardHorizontal(props) {
                         </div>
 
                         <div className="pt-2 mb-0">
-                            <p className="title1 text-black title-text long-text">
+                            <p className="title2 text-black title-text long-text">
                                 {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
                             </p>
                         </div>
