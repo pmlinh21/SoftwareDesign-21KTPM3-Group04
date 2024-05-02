@@ -8,9 +8,12 @@ import {getListByUserAction, addPostToListAction, deletePostFromListAction} from
 import Loading from '../loading/Loading'
 
 function BookmarkModal({id_post, list,loading, handleBookmarkClick, handleListClick}) {
+    const handleOverlayClick = (e) => {
+        e.stopPropagation(); 
+    };
 
     return (
-        <div className="bookmark-modal-overlay">
+        <div className="bookmark-modal-overlay" onClick={handleOverlayClick}>
             <div className="bookmark-modal">
                 {loading ?
                     <Loading/>

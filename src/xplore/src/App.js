@@ -22,7 +22,7 @@ import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
 import Post from './pages/PostDetail';
-import Response from './pages/Response';
+import Response from './components/response/Response';
 
 export const history = createBrowserHistory();
 

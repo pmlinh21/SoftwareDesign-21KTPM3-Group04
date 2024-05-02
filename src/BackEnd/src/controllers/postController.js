@@ -527,6 +527,27 @@ const deletePost = async (req,res) => {
     }
 }
 
+const readPost = async (req,res) => {
+    const {id_post, id_user, reading_time} = req.body;
+    try{
+        const record = await model.reading_history.create({
+            id_post: id_post,
+            id_user: id_user,
+            reading_time: reading_time
+        });  
+
+        if (!record) {
+            failCode(res, null, "Invalid ID")
+        }
+
+        successCode(res,record,"Read post")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 const likePost = async (req,res) => {
     const {id_post, id_user} = req.body;
     try{
@@ -865,6 +886,8 @@ module.exports = {
     updateScheduleTimeOfPost,
     deletePost,
     
+    readPost,
+
     likePost,
     unlikePost,
     responsePost,

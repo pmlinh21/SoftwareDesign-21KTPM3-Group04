@@ -18,7 +18,7 @@ export default function BlogCardHorizontal(props) {
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        // navigate("/post?id_post=" + id_post)
+        navigate("/post?id_post=" + id_post)
     }
 
     return (

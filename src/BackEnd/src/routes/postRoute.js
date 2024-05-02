@@ -13,6 +13,7 @@ const {
     updatePublishTimeOfPost,
     updateScheduleTimeOfPost,
     deletePost,
+    readPost,
     likePost,
     unlikePost,
     responsePost,
@@ -53,6 +54,8 @@ postRoute.delete("", deletePost)
 // postRoute.put("/schedule_time/:id_post", updateScheduleTimeOfPost)
 
 // postRoute.put("/topic/:id_post", updateTopicOfPost)
+
+postRoute.post("/reading_history", readPost)
 
 
 postRoute.get("/like/:id_post/user/:id_user", getLikeOfPost)
