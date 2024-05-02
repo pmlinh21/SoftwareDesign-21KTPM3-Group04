@@ -171,11 +171,11 @@ export default function Home() {
                         <div className="d-flex align-items-center justify-content-between">
                             <h5>Explore more</h5>
                             <Link to="#" className="link-nm button1">
-                                See all posts <i className="fa-solid fa-check"></i>
+                                See all posts
                             </Link>
                         </div>
 
-                        <div className="d-flex flex-column gap-2">
+                        <div className="d-flex flex-column gap-2"  style={{marginTop: '48px'}}>
                             {morePosts.map(post => (
                                 <BlogCardHorizontal post={post} />
                             ))}
@@ -183,14 +183,14 @@ export default function Home() {
                     </div>
                     <div className="col-4">
                         <div className="row mb-5">
-                            <h5>Hot topics</h5>
+                            <h5 style={{marginBottom: '48px'}}>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
                                     <button className="topic label2 capitalize">{topic.topic}</button>
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all topics <i className="fa-solid fa-arrow-right"></i>
+                                See all<i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                         <div className="row">
@@ -201,7 +201,7 @@ export default function Home() {
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
-                                See all popular writers <i className="fa-solid fa-arrow-right"></i>
+                                See all<i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>

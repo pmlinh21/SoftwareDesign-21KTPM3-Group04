@@ -100,13 +100,13 @@ userRoute.delete("/list/post/:id_list/:id_post", deletePostFromList)
 userRoute.get("/highlight/:id_user", getUserHighLight)
 
 // PUT: Harshing user password
-userRoute.put("/update/:id_admin", updatePassword)
+userRoute.put("/update/:id_user", updatePassword)
 
 // GET: Get user from token
 userRoute.get("/getToken/:email", getUserToken)
 
 // GET: Get all author post -> POST route
-// userRoute.get("/post/:id_user", getAuthorPosts)
+userRoute.get("/post/:id_user", getAuthorPosts)
 
 // POST: Create paypal order
 userRoute.post("/create-paypal-order", createOrder);

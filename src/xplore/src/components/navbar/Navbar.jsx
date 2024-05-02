@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 
-import { RoleKey, USER_LOGIN } from "../../util/config";
+import { RoleKey, USER_LOGIN, TokenKey } from "../../util/config";
 import { formatCapitalFirstLetter } from '../../util/formatText';
 
 import "./Navbar.css";
@@ -16,7 +16,11 @@ import { getUserByEmailAction } from '../../redux/actions/UserAction';
 
 function logout() {
     localStorage.removeItem(USER_LOGIN);
+    localStorage.removeItem(TokenKey);
+    
     localStorage.setItem(RoleKey, JSON.stringify(4));
+
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     window.location.reload();
 }
 
