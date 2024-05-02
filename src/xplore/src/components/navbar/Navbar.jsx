@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link} from "react-router-dom"
+import {Link , useNavigate} from "react-router-dom"
 
 import { RoleKey, USER_LOGIN, TokenKey } from "../../util/config";
 import { formatCapitalFirstLetter } from '../../util/formatText';
@@ -14,16 +14,6 @@ import SignupPopup from '../../pages/SignupPopup';
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
 import { getUserByEmailAction } from '../../redux/actions/UserAction';
 
-function logout() {
-    localStorage.removeItem(USER_LOGIN);
-    localStorage.removeItem(TokenKey);
-    
-    localStorage.setItem(RoleKey, JSON.stringify(4));
-
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    window.location.reload();
-}
-
 export default function Navbar() {
     // Get user information from localStorage (user's avatar)
     let user_login = {};
@@ -32,7 +22,7 @@ export default function Navbar() {
     }
 
     const dispatch = useDispatch();
-    
+    const navigate = useNavigate();
     // Get all topics
     useEffect(() => {
         dispatch(getAllTopicsAction()); // Dispatch the getAllTopics action when the component mounts
@@ -95,6 +85,16 @@ export default function Navbar() {
         }
     }, []);
 
+    function logout() {
+        localStorage.removeItem(USER_LOGIN);
+        localStorage.removeItem(TokenKey);
+        
+        localStorage.setItem(RoleKey, JSON.stringify(4));
+    
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        navigate("/");
+    }
+    
     return (
         <nav className="navbar navbar-expand-sm">
             <div className="container justify-content-between align-items-center">
@@ -166,12 +166,12 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/reading'}>
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/list'}>
                                        Library
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/draft'} >
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/drafts'} >
                                        Posts
                                     </Link>
                                 </li>

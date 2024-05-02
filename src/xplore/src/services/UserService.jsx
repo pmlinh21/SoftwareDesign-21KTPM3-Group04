@@ -54,12 +54,47 @@ export class UserService extends BaseService {
 
     // Api 9: Get author post 
     getAuthorPost = (id_user) =>{
-      return this.get(`user/post/${id_user}`);
+      return this.get(`/post/user/${id_user}`);
     }
 
     // Api 10: Get author subscriber 
     getAuthorSubscriber = (id_user) =>{
       return this.get(`user/subscriber/${id_user}`);
+    }
+
+    // Api 11: Get user reading history
+    getReadingHistory = (id_user) =>{
+      return this.get(`user/reading_history/${id_user}`);
+    }
+
+    // Api 12: Get author list 
+    getAuthorList = (id_user) =>{
+      return this.get(`/user/list/${id_user}`);
+    }
+
+    // Api 13: Is follow author 
+    isFollowAuthor = (user, subscriber) =>{
+      return this.get(`/user/follow/${user}/${subscriber}`);
+    }
+
+    // Api 14: Unfollow author 
+    unfollowAuthor = (user, subscriber) =>{
+      return this.delete(`/user/subscribe/${user}/${subscriber}`);
+    }
+
+    // Api 15: Follow author 
+    followAuthor = (user, subscriber) =>{
+      return this.post(`/user/subscribe/${user}/${subscriber}`);
+    }
+
+    // Api 16: Send email
+    sendEmail = (formData) =>{
+      return this.post(`/user/sendEmail`, formData);
+    }
+
+    // Api 17: Block author
+    blockAuthor = (user, block) =>{
+      return this.post(`/user/block/${user}/${block}`);
     }
   }
   

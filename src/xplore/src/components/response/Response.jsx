@@ -6,6 +6,8 @@ import {userService} from '../../services/UserService'
 import "../../styles/commons.css"
 import "./Response.css"
 
+import "./Library.css"
+
 export default function Response(props) {
     const {user_login} = useSelector(state => state.UserReducer);
     const {user, response, response_time, reply, reply_time} = props.response;

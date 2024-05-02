@@ -105,7 +105,7 @@ function Post() {
     return (
         <div>
             {/* Search bar */}
-            <Search search="" isResult={false} />
+            <Search />
             {/* Post Detail */}
             {
                 loading ? (
