@@ -28,3 +28,8 @@
     border-radius: 16px;
     padding: 64px 64px;
 }
+
+.faq-img {
+    width: 100%;
+    object-fit: contain;
+}

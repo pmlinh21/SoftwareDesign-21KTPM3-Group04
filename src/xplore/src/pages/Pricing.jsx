@@ -83,7 +83,43 @@ function Pricing() {
             <div className='container-fluid' style={{ marginTop: '64px' }}>
                 <div className='container'>
                     <p className='subtitle1' style={{color: 'var(--blue-500)'}}>NEED HELP?</p>
-                    <h5>Frequently asked questions</h5>
+                    <h5 style={{ marginBottom: '64px' }}>Frequently asked questions</h5>
+                    <div className='row' style={{ gap: '96px'}}>
+                        <div className='col'>
+                            <div className='d-flex flex-row gap-4' style={{marginTop: '64px'}}>
+                                <img src="/imgs/pricing_1.png" style={{ width: '48px', height: '48px'}} />
+                                <div className='d-flex' style={{ flexDirection: 'column'}}>
+                                    <p className='title2'>Is there a free trial available?</p>
+                                    <p style={{ color: 'var(--neutral-600)'}}>Yes, you can try us for free for 30 days. Our friendly team will work with you to get you up and running as soon as possible.</p>
+                                </div>
+                            </div>
+                            <div className='d-flex flex-row gap-4 my-2'>
+                                <img src="/imgs/pricing_2.png" style={{ width: '48px', height: '48px'}} />
+                                <div className='d-flex' style={{ flexDirection: 'column'}}>
+                                    <p className='title2'>Is there a free trial available?</p>
+                                    <p style={{ color: 'var(--neutral-600)'}}>Yes, you can try us for free for 30 days. Our friendly team will work with you to get you up and running as soon as possible.</p>
+                                </div>
+                            </div>
+                            <div className='d-flex flex-row gap-4 my-2'>
+                                <img src="/imgs/pricing_3.png" style={{ width: '48px', height: '48px'}} />
+                                <div className='d-flex' style={{ flexDirection: 'column'}}>
+                                    <p className='title2'>Is there a free trial available?</p>
+                                    <p style={{ color: 'var(--neutral-600)'}}>Yes, you can try us for free for 30 days. Our friendly team will work with you to get you up and running as soon as possible.</p>
+                                </div>
+                            </div>
+                            <div className='d-flex flex-row gap-4 my-2'>
+                                <img src="/imgs/pricing_4.png" style={{ width: '48px', height: '48px'}} />
+                                <div className='d-flex' style={{ flexDirection: 'column'}}>
+                                    <p className='title2'>Is there a free trial available?</p>
+                                    <p style={{ color: 'var(--neutral-600)'}}>Yes, you can try us for free for 30 days. Our friendly team will work with you to get you up and running as soon as possible.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col' >
+                            <img src="/imgs/faq_img.jpg" />
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
