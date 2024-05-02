@@ -102,6 +102,7 @@ function Post() {
         };
     }, [location, timerId]); 
 
+
     const responsePost = async () => {
         try {
             const result = await postService.responsePost({
@@ -175,7 +176,10 @@ function Post() {
                                     >
                                     <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount}/>
                                     <button id='comment-btn' className="d-flex align-items-center">
-                                        <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> {post?.responseCount}
+                                        <a href="#response-section" className="text-scheme-sub-text">
+                                            <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> 
+                                        </a>
+                                        {post?.responseCount}
                                     </button>
                                     <BookmarkIcon id_post={id_post} regular_icon/>
                                     <button id='share-btn'>
@@ -187,7 +191,7 @@ function Post() {
                             {/* Post Content */}
                             <PostContent content={post?.content} id_post={id_post}/>
                             {/* Responses */}
-                            <div className='row col-12 d-flex flex-column mt-5 pt-3 align-items-start'>
+                            <div id="response-section" className='col-12 d-flex flex-column mt-5 pt-3 align-items-start'>
                                 <h6 className="px-0" style={{color: 'var(--blue-500)'}}>Responses ({responses?.length})</h6>
                                 {/* Send response */}
                                 <div className='col-12 d-flex flex-row gap-3 m-0 mt-3 px-0'>
