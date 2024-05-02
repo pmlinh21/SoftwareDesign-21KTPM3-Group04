@@ -11,12 +11,12 @@ import Search from '../components/search/Search'
 import MyTabs from './MyTabs'
 import { topicService } from "../services/TopicService"
 import { postService } from '../services/PostService'
-import { getAllTopicsAction } from '../redux/actions/TopicAction';
+import { getAllTopicsAction } from '../redux/actions/TopicAction'
 
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal'
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal'
 import BlogPostCard from '../components/blog-card/BlogPostCard'
-import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb';
+import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb'
 
 export default function Home() {
     const [trendingPosts, setTrendingPosts] = useState([]);
