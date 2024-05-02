@@ -142,6 +142,9 @@ const getPostByKeyword = async (req, res) => {
     try {
         const posts = await model.post.findAll({
             where: {
+                publish_time: {
+                    [Op.lt]: new Date() 
+                },
                 title: {
                     [Op.iLike]: `%${keyword}%`,
                 },

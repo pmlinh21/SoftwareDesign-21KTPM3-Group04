@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 
 import "./BlogCardNoThumb.css";
 
@@ -11,7 +11,7 @@ export default function BlogCardNoThumb(props) {
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        navigate("/post?id_post=" + id_post)
+        // navigate("/post?id_post=" + id_post)
     }
 
     return (
@@ -42,7 +42,8 @@ export default function BlogCardNoThumb(props) {
                     </div>
 
                     <div className="bottom-right link-sm">
-                        Read post<i className="fa-solid fa-arrow-right"></i>
+                        <Link to={`/post?id_post=${id_post}`} className="text-black">
+                            Read post<i className="fa-solid fa-arrow-right ms-2"></i></Link>
                     </div>
                 </div>
             </div>

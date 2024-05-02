@@ -4,6 +4,7 @@ import "../styles/commons.css"
 import "./Pricing.css"
 import { commonService } from "../services/CommonService"
 import {formatCapitalFirstLetter} from '../util/formatText'
+import Membership from '../components/membership/Membership'
 
 function Pricing() {
     const [membership, setMembership] = useState([]);
@@ -40,29 +41,16 @@ function Pricing() {
                     <h4 style={{ textAlign: 'center' }}>Membership Plans</h4>
                     <p className='p1 subtext'>Simple, transparent pricing that grows with you. Try any plan free for 30 days.</p>
                     {/* Membership */}
-                    <div className='row' style={{ marginTop: '72px', marginBottom: '0px'}}>
-                        <div className='col-2'></div>
-                        {membership.map((membership, index) => (
-                            <div key={index} className='col-4 membership-ctn' style={{ display: 'flex', flexDirection: 'column', marginRight: '24px' }}>
-                                {/* Membership type */}
-                                <div style={{ alignSelf: 'center' }}>
-                                    <img src="/imgs/Featured icon.png" style={{ width: '40px' }}/>
-                                </div>
-                                <p className='title2 capitalize' id='membership-type'>{membership.type} Membership</p>
-                                {/* Membership price */}
-                                <h4 id='membership-price'>$ {membership.price}</h4>
-                                {/* Membership description */}
-                                {membership?.description?.map((desc, i) => (
-                                    <div key={i} className='flex-row' style={{ display: 'flex', alignItems: 'flex-start' }}>
-                                        <img src="/imgs/Check icon.png" style={{ width: '24px', height: 'auto' }} />
-                                        <p style={{ marginLeft: '8px', color: 'var(--neutral-700' }}>{formatCapitalFirstLetter(desc)}</p>
-                                    </div>
-                                ))}
-                                <button className='prim-btn btn-md'>Get Started</button>
+                    <div className="row col-2"></div>
+                    <div className='row d-flex justify-content-around' style={{ marginTop: '72px', marginBottom: '0px'}}>
+                        {membership.map((membership) => (
+                            <div key={membership.id_membership} className="col-4 membership-ctn ">
+                                <Membership  membership={membership}/>
                             </div>
+                            
                         ))}
-                        <div className='col-2'></div>
                     </div>
+                    <div className="row col-2"></div>
                 </div>
             </div>
             {/*Free trial*/}

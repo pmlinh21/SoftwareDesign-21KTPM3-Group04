@@ -135,7 +135,7 @@ export default function ExploreTopic() {
                                 return (
                                     <BlogPostCard
                                         key={item.id_post}
-                                        {...item}
+                                        post={item}
                                     />
                                 )
                             })

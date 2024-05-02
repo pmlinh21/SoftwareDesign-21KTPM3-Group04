@@ -212,7 +212,7 @@ export default function SearchResult() {
                                         return (
                                             <BlogPostCard
                                                 key={item.id_post}
-                                                {...item}
+                                                post={item}
                                             />
                                         )
                                     })

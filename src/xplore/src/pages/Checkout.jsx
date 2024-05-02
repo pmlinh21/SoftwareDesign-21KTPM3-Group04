@@ -6,6 +6,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import "../styles/commons.css";
 
 import Loading from '../components/loading/Loading'
+import Membership from '../components/membership/Membership';
 
 import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'
 import {formartToSQLDatetime, formatToTimeDMY} from '../util/formatDate'
@@ -142,7 +143,7 @@ function Checkout() {
                         </Link>
                     </div>
                     <div className="membership-section bg-black col-4">
-                        abc
+                        <Membership membership={membership}/>
                     </div>
                 </div>
             )
