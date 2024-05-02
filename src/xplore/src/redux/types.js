@@ -33,6 +33,8 @@ export const GET_AUTHOR_LIST = "GET_AUTHOR_LIST";
 
 export const IS_FOLLOW_AUTHOR = "IS_FOLLOW_AUTHOR";
 
+export const BLOCK_AUTHOR = "BLOCK_AUTHOR";
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 

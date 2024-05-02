@@ -4,7 +4,8 @@ import { LOGIN, SIGNUP,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
-    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR } from "../types";
+    GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
+    BLOCK_AUTHOR } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -448,6 +449,38 @@ export const followAuthorAction = (user, subscriber, fullname) => {
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
+        }
+    };
+};
+
+export const blockAuthorAction = (user, block) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.blockAuthor(user, block);
+
+            if (result.status === 200) {
+                //console.log("result.data.message: ", result.data.message)
+
+                if(result.data.message === "Block successfully"){
+                    //console.log(block)
+                    dispatch({
+                        type: BLOCK_AUTHOR,
+                        block: block
+                    });
+                }
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+            return result;
+        } catch (error) {
+            console.log("error", error);
+            throw error;
         }
     };
 };

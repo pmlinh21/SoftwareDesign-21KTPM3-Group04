@@ -91,6 +91,11 @@ export class UserService extends BaseService {
     sendEmail = (formData) =>{
       return this.post(`/user/sendEmail`, formData);
     }
+
+    // Api 17: Block author
+    blockAuthor = (user, block) =>{
+      return this.post(`/user/block/${user}/${block}`);
+    }
   }
   
 export const userService = new UserService();

@@ -589,7 +589,7 @@ try {
         }
     })
     if(check){
-        failCode(res, null, "User is already blocked")
+        successCode(res, "", "User is already blocked")
     }
     else{
         await model.block.create({

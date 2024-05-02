@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import "../styles/commons.css";
 import "./AuthorProfile.css";
 import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction, isFollowAuthorAction,
-        unfollowAuthorAction, followAuthorAction } from "../redux/actions/UserAction";
+        unfollowAuthorAction, followAuthorAction, blockAuthorAction } from "../redux/actions/UserAction";
 import ProfileCard from '../components/blog-card/ProfileCard';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 
@@ -13,12 +13,15 @@ let props = {}
 export default function AuthorProfile() {
     const location = useLocation();
     const author = location.state.author;
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
     const author_post = useSelector(state => state.UserReducer.author_post);
     const author_subscriber = useSelector(state => state.UserReducer.author_subscriber);
     const author_list = useSelector(state => state.UserReducer.author_list);
     const is_follow = useSelector(state => state.UserReducer.is_follow);
+    const block = useSelector(state => state.UserReducer.block);
 
     const { id_user, avatar, fullname, email, bio } = author;
 
@@ -39,6 +42,7 @@ export default function AuthorProfile() {
     console.log("author_subscriber: ", author_subscriber)
     console.log("author_list: ", author_list)
     console.log("is_follow: ", is_follow)
+    console.log("block: ", block)
 
     var filteredAuthorPost;
 
@@ -77,6 +81,21 @@ export default function AuthorProfile() {
         }
     };
 
+    const handleBlock = async () => {
+        try {
+            const result = await dispatch(blockAuthorAction(user_login.id_user, id_user));
+            if (result.status === 200 && result.data.message === "Block successfully") {
+                alert("Block successfully");
+                navigate("/");
+            } else {
+                alert("Failed to block author");
+            }
+        } catch (error) {
+            console.log("error", error);
+            alert("An error occurred while blocking the author");
+        }
+    }
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -92,8 +111,8 @@ export default function AuthorProfile() {
                     <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
                             {is_follow ? 'Unfollow' : 'Follow'}
                     </button>
-                    <button className="btn-nm tert-btn button1">
-                        <i className="fa-solid fa-user-plus me-1"></i> Share profile
+                    <button className="btn-nm tert-btn button1" onClick={handleBlock}>
+                        <i className="fa-solid fa-ban me-1"></i> Block
                     </button>
                 </div>
             </div>
