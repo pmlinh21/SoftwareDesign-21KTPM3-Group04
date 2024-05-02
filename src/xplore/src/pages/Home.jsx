@@ -1,14 +1,14 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
 
 import "./Home.css"
-import "../styles/commons.css";
+import "../styles/commons.css"
 import "./SearchResult.css"
 
 import Search from '../components/search/Search'
-import MyTabs from './MyTabs';
+import MyTabs from './MyTabs'
 import { topicService } from "../services/TopicService"
 import { postService } from '../services/PostService'
 import { getAllTopicsAction } from '../redux/actions/TopicAction';
