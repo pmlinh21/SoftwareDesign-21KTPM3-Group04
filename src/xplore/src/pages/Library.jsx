@@ -5,6 +5,7 @@ import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
 import {postService} from '../services/PostService';
+import Loading from '../components/loading/Loading';
 
 
 export default function Library(props) {
@@ -15,6 +16,7 @@ export default function Library(props) {
         avatar: user_info.avatar,
         id_user: user_info.id_user
     }
+    const [loading, setLoading] = useState(true);
     const [myPosts, setMyPosts] = useState([]);
     const [mySavedLists, setMySavedLists] = useState([]);
     const [myHighlights, setMyHighlights] = useState([]);
@@ -61,6 +63,7 @@ export default function Library(props) {
 
             const result = await postService.getPostByUser(user_info.id_user);
             if (result.status === 200) {
+                setLoading(false);
                 setMyPosts(result.data.content);
                 console.log(myPosts[0])
             }
@@ -83,14 +86,18 @@ export default function Library(props) {
                 </ul>
 
                 <div className='tab-content' id='reading'>
+                
+                {loading && <Loading/>}
 
-                {myPosts.length > 0 ? 
+                {!loading && myPosts.length > 0 &&
                     <div className='d-flex flex-wrap justify-content-between gap-4'>
                         {myPosts.map((post, index) => {
                             return <BlogPostCard post={post} author={author} />
                         })}
                     </div>
-                    :
+                }               
+
+                {!loading && myPosts.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You are reading 0 posts</h6>

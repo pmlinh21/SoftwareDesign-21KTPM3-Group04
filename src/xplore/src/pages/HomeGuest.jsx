@@ -21,6 +21,7 @@ import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import MicrosoftLogo from '../assets/logos/Microsoft_logo.svg';
 import GoogleMeetLogo from '../assets/logos/Google_Meet_logo.svg';
 import ZoomLogo from '../assets/logos/Zoom_logo.svg'
+import TopicTag from '../components/topic/TopicTag';
 
 export default function Home() {
 
@@ -186,7 +187,7 @@ export default function Home() {
                             <h5 style={{marginBottom: '48px'}}>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
-                                    <button className="topic label2 capitalize">{topic.topic}</button>
+                                    <TopicTag topic={topic} />
                                 ))}
                             </div>
                             <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
