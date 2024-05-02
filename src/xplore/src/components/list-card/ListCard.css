@@ -96,7 +96,7 @@ img {
     color: var(--scheme-sub-text);
 }
 
-.thumbnail-container {
+.list-card .thumbnail-container {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;

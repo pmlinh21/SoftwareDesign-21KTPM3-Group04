@@ -115,7 +115,7 @@ export default function Library(props) {
                 {loadingHistory &&  <Loading/>}
 
                 {!loadingHistory && myHistory.length > 0 &&
-                    <div className='d-flex flex-wrap gap-4'>
+                    <div className='d-flex flex-wrap justify-content-between'>
                         {myHistory.map((post) => {
                             return <BlogPostCard post={post.id_post_post} />
                         })}

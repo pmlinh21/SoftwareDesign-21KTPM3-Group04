@@ -34,7 +34,7 @@ export default function BlogPostCard(props) {
         // navigate("/post?id_post=" + id_post)
     }
     return (
-        <div className="blog-post-card d-flex flex-column p-0 m-0"
+        <div className="blog-post-card d-flex flex-column p-0 m-0 mb-4"
             onClick={handleBlogCardClicked}>
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
