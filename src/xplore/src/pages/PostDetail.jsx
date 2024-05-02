@@ -13,8 +13,9 @@ import {postService} from '../services/PostService';
 import Search from '../components/search/Search'
 import BookmarkIcon from '../components/icon/BookmarkIcon';
 import LikeIcon from '../components/icon/LikeIcon';
-import PostContent from './PostContent'
+import PostContent from './PostContent';
 import Avatar from '../components/avatar/Avatar';
+import Response from './Response';
 
 function Post() {
     const location = useLocation();
@@ -99,6 +100,12 @@ function Post() {
                             <hr/>
                             {/* Post Content */}
                             <PostContent content={post?.content}/>
+                            {/* Responses */}
+                            <div className='d-flex'>
+                                <h6 style={{color: 'var(--blue-500)'}}>Responses (16)</h6>
+                                {/* pagination */}
+                            </div>
+                            <Response></Response>
                         </div>
                         <div className='col-2'></div>
                     </div>
