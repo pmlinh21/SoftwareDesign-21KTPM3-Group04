@@ -70,12 +70,20 @@ function Pricing() {
                 <div className='container free-trial d-flex justify-content-between'>
                     <div className='d-flex flex-column'>
                         <h6>Start your 30-day free trial</h6>
-                        <p className='p1' style={{color: 'var(--blue-700)'}}>Join over 4,000+ startups already growing with Untitled.</p>
+                        <p className='p1' style={{color: 'var(--blue-700)'}}>Join over 4,000+ startups already growing with Xplore.</p>
                     </div>
                     <div className='d-flex' style={{ justifyContent: 'flex-end', gap: '16px'}}>
                         <button className='tert-btn btn-md' style={{ width: '140px'}}>Learn more</button>
                         <button className='prim-btn btn-md' style={{ width: '140px'}}>Get started</button>
                     </div>
+                </div>
+            </div>
+
+            {/*Need help*/}
+            <div className='container-fluid' style={{ marginTop: '64px' }}>
+                <div className='container'>
+                    <p className='subtitle1' style={{color: 'var(--blue-500)'}}>NEED HELP?</p>
+                    <h5>Frequently asked questions</h5>
                 </div>
             </div>
         </div>
