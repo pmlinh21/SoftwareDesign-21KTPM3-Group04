@@ -175,7 +175,7 @@ export default function Home() {
                             </Link>
                         </div>
 
-                        <div className="d-flex flex-column gap-2">
+                        <div className="d-flex flex-column gap-2"  style={{marginTop: '48px'}}>
                             {morePosts.map(post => (
                                 <BlogCardHorizontal post={post} />
                             ))}
@@ -183,7 +183,7 @@ export default function Home() {
                     </div>
                     <div className="col-4">
                         <div className="row mb-5">
-                            <h5>Hot topics</h5>
+                            <h5 style={{marginBottom: '48px'}}>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
                                     <button className="topic label2 capitalize">{topic.topic}</button>
