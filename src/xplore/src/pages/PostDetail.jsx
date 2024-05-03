@@ -260,7 +260,6 @@ function Post() {
                         </div>
                         <div className='col-2'></div>
                     </div>  
-                    )
                 </div>
                 </div>
             )}
