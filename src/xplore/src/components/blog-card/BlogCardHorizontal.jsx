@@ -6,7 +6,7 @@ import "./BlogCardHorizontal.css";
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon";
 
-import { formatToMD } from "../../util/formatDate";
+import { formatToMDY } from "../../util/formatDate";
 import { sanitizeContent } from "../../util/formatText";
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
@@ -69,7 +69,7 @@ export default function BlogCardHorizontal(props) {
                                 </p>
                                 <div className="d-flex gap-2 text-scheme-sub-text align-items-center">
                                     <p className="support mb-0">
-                                        {(publish_time && formatToMD(publish_time)) || "Aug 6"}
+                                        {(publish_time && formatToMDY(publish_time)) || "Aug 6"}
                                     </p>
                                     <p className="support mb-0">
                                         <i className="fa-solid fa-message"></i>
