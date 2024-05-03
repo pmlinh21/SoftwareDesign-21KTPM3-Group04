@@ -1,6 +1,6 @@
 import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
-import { LOGIN, SIGNUP, 
+import { LOGIN, SIGNUP, LOGOUT,
     GET_LIST_BY_USER, CREATE_LIST, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
@@ -264,6 +264,19 @@ export const UnfollowTopicAction = (id_user, id_topic) => {
                     id_topic: id_topic
                 });
             }
+
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
+export const logOut = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: LOGOUT
+            });
 
         } catch (error) {
             console.log("error", error);

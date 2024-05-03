@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 
 import {postService} from '../services/PostService';
@@ -24,7 +24,9 @@ import ZoomLogo from '../assets/logos/Zoom_logo.svg'
 import TopicTag from '../components/topic/TopicTag';
 
 export default function Home() {
-
+    const navigate = useNavigate();
+    const {user_login} = useSelector(state => state.UserReducer);
+    
     const settings = {
         infinite: true,
         speed: 500,
@@ -102,11 +104,13 @@ export default function Home() {
     }
 
     useEffect(() => {
+        if (user_login.id_user)
+            navigate("/home")
         fetchTopAuthors();
         fetchTrendingPosts();
         fetchHotTopics();
         fetchMorePosts();
-    }, []);
+    }, [user_login.id_user]);
 
     const slidingAuthors = topAuthors.slice(0, 7);
     const authorsToFollow = topAuthors.slice(7, 10);

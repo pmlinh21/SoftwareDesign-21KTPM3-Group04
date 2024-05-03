@@ -61,7 +61,7 @@ export default function BlogCardNoThumb(props) {
 
                 <div className="d-flex flex-row justify-content-between align-items-center gap-2 mt-1">
                     <div className="d-flex flex-row justify-content-start align-items-center">
-                        <Avatar size="small"/>
+                        <Avatar avatar={post.author.avatar} size="small"/>
                         <div className="d-flex flex-column justify-content-between align-items-start ms-2">
                             <div className="author-name button3 mb-1">{post.author.fullname}</div>
                             <div className="post-info support d-flex flex-row gap-2">
