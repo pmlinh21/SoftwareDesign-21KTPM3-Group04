@@ -146,7 +146,7 @@ export default function Navbar() {
                 <div className="nav" id="user-nav">
                     <ul className="navbar-nav">
                         <li className="nav-item subtitle1 me-4">
-                            <Link className="nav-link blue-500" to="/write">
+                            <Link className="nav-link blue-500 button2" to="/write">
                                 <i className="fa-regular fa-pen-to-square me-2"></i>Write
                             </Link>
                         </li>
