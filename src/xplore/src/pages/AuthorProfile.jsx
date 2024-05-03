@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import "../styles/commons.css";
 import "./AuthorProfile.css";
 import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction, isFollowAuthorAction,
         unfollowAuthorAction, followAuthorAction, blockAuthorAction } from "../redux/actions/UserAction";

@@ -1,0 +1,24 @@
+@import url("../../styles/commons.css");
+
+.response-avatar {
+    width: 44px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.response.dropdown li i{
+    font-size: 0.8rem;
+    margin-top: 0.15rem;
+}
+
+.response.dropdown ul{
+    position: absolute;
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    z-index: 100; 
+}

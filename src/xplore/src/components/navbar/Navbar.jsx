@@ -166,7 +166,7 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/reading'}>
+                                    <Link className="dropdown-item button2 link-md text-start py-2" to={'/list'}>
                                        Library
                                     </Link>
                                 </li>

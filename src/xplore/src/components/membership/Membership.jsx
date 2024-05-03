@@ -7,15 +7,15 @@ export default function Membership({membership}){
         navigate(`/checkout?id_membership=${membership.id_membership}`)
     }
     return (
-        <div className='justify-content-between col-12 d-flex flex-column' style={{ marginRight: '24px' }}>
+        <div className='col-4 membership-ctn justify-content-between' style={{ display: 'flex', flexDirection: 'column', marginRight: '24px' }}>
             <div className="d-flex flex-column">
                 {/* Membership type */}
                 <div style={{ alignSelf: 'center' }}>
                     <img src="/imgs/Featured icon.png" style={{ width: '40px' }}/>
                 </div>
-                <p className='title2 capitalize' id='membership-type'>{membership.type} Membership</p>
+                <p className='title2 capitalize' id='membership-type'>{membership?.type} Membership</p>
                 {/* Membership price */}
-                <h4 id='membership-price'>$ {membership.price}</h4>
+                <h4 id='membership-price'>$ {membership?.price}</h4>
                 {/* Membership description */}
                 {membership?.description?.map((desc, i) => (
                     <div key={i} className='flex-row' style={{ display: 'flex', alignItems: 'flex-start' }}>

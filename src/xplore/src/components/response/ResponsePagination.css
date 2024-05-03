@@ -1,0 +1,8 @@
+@import url("../../styles/commons.css");
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+}

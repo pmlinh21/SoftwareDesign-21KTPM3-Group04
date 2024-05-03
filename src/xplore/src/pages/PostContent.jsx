@@ -5,6 +5,26 @@ import './PostContent.css'
 import { postService } from '../services/PostService';
 import {formartToSQLDatetime} from '../util/formatDate';
 
+const Inline = Quill.import('blots/inline');
+
+class PlainLink extends Inline {
+  static create(value) {
+    let node = super.create();
+    // Set href to a default if not provided, or use the provided value
+    node.setAttribute('href', value || '#');
+    return node;
+  }
+
+  static formats(node) {
+    // We're still interested in capturing the href if it's there
+    return node.getAttribute('href');
+  }
+}
+
+PlainLink.blotName = 'link';  // Override the default 'link' blot
+PlainLink.tagName = 'A';
+Quill.register(PlainLink, true);
+
 const Popover = ({ position, isHighlighted, handleHighlightIcon, handleRemoveIcon }) => {
     const content = (!isHighlighted) ? (
         <button className="btn text-white bg-black" onClick={handleHighlightIcon}>
@@ -37,7 +57,8 @@ const PostContent = memo(function PostContent({content, id_post}) {
 
     function applyHighlights(highlights, quill) {
         const lengthOfDocument = quill.getLength();
-        quill.removeFormat(0, lengthOfDocument);
+        // quill.removeFormat(0, lengthOfDocument);
+        quill.formatText(0, lengthOfDocument, { background: '#FFFFFF' });
 
         if ( quill != null){
             // console.log(highlights)
@@ -59,7 +80,6 @@ const PostContent = memo(function PostContent({content, id_post}) {
             } catch(e){
                 console.log(e);
             }
-            // return [{ start: 10, end: 50, text: `ing man I often wonder,\nAs a hopeful man`}];
         }
 
         fetchHighlights()
@@ -71,11 +91,15 @@ const PostContent = memo(function PostContent({content, id_post}) {
                 theme: 'snow',
                 readOnly: true,
                 modules: {
-                    toolbar: false
+                    toolbar: false,
+                    clipboard: {
+                        matchVisual: false
+                    }
                 }
             });
 
             quill.clipboard.dangerouslyPasteHTML(0, content);
+
             
             setQuill(quill)
             applyHighlights(highlights, quill);
@@ -120,7 +144,7 @@ const PostContent = memo(function PostContent({content, id_post}) {
                     setRangeSelected(range);
 
                     if ( range.length === 0){
-                        console.log(highlightsRef.current)
+                        // console.log(highlightsRef.current)
                         const clickOnHighlight = highlightsRef.current.some((item) => {
                             return item.start_index <= range.index && range.index < item.end_index
                         })
@@ -181,7 +205,7 @@ const PostContent = memo(function PostContent({content, id_post}) {
             }
         }
         mergedSelections.push(last);
-        console.log(mergedSelections);
+        // console.log(mergedSelections);
 
         highlightsRef.current = mergedSelections;
         quill.setSelection(null);
@@ -195,7 +219,7 @@ const PostContent = memo(function PostContent({content, id_post}) {
                 id_user: user_login.id_user,
             })
         } catch (e){
-            console.log(e)
+            // console.log(e)
         }
     }
 
@@ -208,7 +232,7 @@ const PostContent = memo(function PostContent({content, id_post}) {
                 return true
             return false
         })
-        console.log(newSelections)
+        // console.log(newSelections)
         highlightsRef.current = newSelections;
         quill.setSelection(null);
         setShowPopover(false);

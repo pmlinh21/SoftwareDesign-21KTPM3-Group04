@@ -5,54 +5,56 @@ import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
 import Loading from '../components/loading/Loading';
+import HighlightCard from '../components/highlight-card/HighlightCard';
 import { userService } from '../services/UserService';
 
 export default function Library(props) {
     const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
     
-    const author = {
-        fullname: user_info.fullname, 
-        avatar: user_info.avatar,
-        id_user: user_info.id_user
-    }
-    const [loading, setLoading] = useState(true);
-    const [myHistory, setMyHistory] = useState([]);
+    const [loadingSavedLists, setLoadingSavedLists] = useState(true);
+    const [loadingHighlights, setLoadingHighlights] = useState(true);
+    const [loadingResponses, setLoadingResponses] = useState(true);
+    const [loadingHistory, setLoadingHistory] = useState(true);
+    
     const [mySavedLists, setMySavedLists] = useState([]);
     const [myHighlights, setMyHighlights] = useState([]);
+    const [myResponses, setMyResponses] = useState([]);
+    const [myHistory, setMyHistory] = useState([]);
 
-    const [tab, setTab] = React.useState(props.link);
+    const [tab, setTab] = useState(props.link);
 
-    useEffect(() => {
+    const fetchMySavedLists = async () => {
+        try {
+            if (!user_info) return;
 
-        const tabItems = document.querySelectorAll('.tab-item');
-        const tabContent = document.querySelectorAll('.tab-content');
-
-        tabItems.forEach((item) => {
-            item.addEventListener('click', () => {
-                tabItems.forEach((item) => {
-                    item.classList.remove('focused');
-                });
-                item.classList.add('focused');
-                setTab(item.id.replace('for-', ''));
-            });
-        });
-
-        tabContent.forEach((content) => {
-            if (content.id === tab) {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
+            const result = await userService.getAuthorList(user_info.id_user)
+            if (result.status === 200) {
+                setLoadingSavedLists(false);
+                setMySavedLists(result.data.content);
             }
-        });
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
 
-        fetchMyHistory();
-    });
+    const fetchMyHighlights = async () => {
+        try {
+            if (!user_info) return;
 
-    const tabs = [
-        { id: 'for-list', name: 'List' },
-        { id: 'for-highlight', name: 'Highlight' },
-        { id: 'for-history', name: 'History' },
-    ];
+            const result = await userService.getHighlightByUser(user_info.id_user);
+            if (result.status === 200) {
+                setLoadingHighlights(false);
+                setMyHighlights(result.data.content);
+
+                console.log("myHighlights: ", myHighlights);
+            } else if (result.status === 400) {
+                setLoadingHighlights(false);
+                setMyHighlights([]);
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
 
     const fetchMyHistory = async () => {
         try {
@@ -60,59 +62,103 @@ export default function Library(props) {
 
             const result = await userService.getReadingHistory(user_info.id_user);
             if (result.status === 200) {
-                console.log(result.data.content);
-                setLoading(false);
+                setLoadingHistory(false);
                 setMyHistory(result.data.content);
-                console.log(myHistory[0])
             }
         } catch (error) {
             console.log("error", error);
         }
     };
 
-
+    useEffect(() => {
+        fetchMySavedLists();
+        fetchMyHighlights();
+        // fetchMyResponses();
+        fetchMyHistory();
+    }, []);
 
     return (
         <div className='container-fluid'>
             <Search />
             <div className='container'>
                 <ul className='row tab-panel my-4'>
-                    {tab === "list" ? <Link to="/list" className="col-4 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-list" >List</li></Link> : <Link to="/list" className="col-4 no-margin-padding"><li className='py-2 button2 tab-item' id="for-list" >List</li></Link>}
-                    {tab === "highlight" ? <Link to="/highlight" className="col-4 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-highlight" >Highlight</li></Link> : <Link className="col-4 no-margin-padding"><li className='py-2 button2 tab-item' id="for-highlight" >Highlight</li></Link>}
-                    {tab === "history" ? <Link to="/history" className="col-4 no-margin-padding"><li className='py-2 button2 tab-item focused' id="for-history" >History</li></Link> : <Link to="/history" className="col-4 no-margin-padding"><li className='py-2 button2 tab-item' id="for-history" >History</li></Link>}
+                    <Link to="/list" className="col-3 no-margin-padding">
+                        <li className={`py-2 button2 tab-item ${tab === "list" ? "focused" : ""}`} id="for-list" onClick={() => setTab('list')}>List</li>
+                    </Link>
+
+                    <Link to="/highlight" className="col-3 no-margin-padding">
+                        <li className={`py-2 button2 tab-item ${tab === "highlight" ? "focused" : ""}`} id="for-highlight" onClick={() => setTab('highlight')}>Highlight</li>
+                    </Link>
+
+                    <Link to="/response" className="col-3 no-margin-padding">
+                        <li className={`py-2 button2 tab-item ${tab === "response" ? "focused" : ""}`} id="for-response" onClick={() => setTab('response')}>Response</li>
+                    </Link>
+
+                    <Link to="/history" className="col-3 no-margin-padding">
+                        <li className={`py-2 button2 tab-item ${tab === "history" ? "focused" : ""}`} id="for-history" onClick={() => setTab('history')}>History</li>
+                    </Link>
                 </ul>
-                <div className='tab-content' id='list'>
+                <div className='tab-content' id='list' style={{ display: `${tab === 'list' ? 'block' : 'none'}` }}>
+
+                {loadingSavedLists && <Loading />}
+
+                {!loadingSavedLists && mySavedLists.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between gap-4'>
+                        {mySavedLists.map((list) => {
+                            return <ListCard list={list} author={user_info} width={"half"}/>
+                        })}
+                    </div>
+                }
+
+                {!loadingSavedLists && mySavedLists.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You have 0 lists</h6>
                     </div>
-
-                    <div className='row d-flex flex-row flex-wrap justify-content-between gap-3'>
-                        <ListCard />
-                        <ListCard />
-                        <ListCard />
-                        <ListCard />
-                    </div>
+                }
                 </div>
-                <div className='tab-content' id='highlight'>
+
+                <div className='tab-content' id='highlight' style={{ display: `${tab === 'highlight' ? 'block' : 'none'}` }}>
+
+                {loadingHighlights && <Loading />}
+
+                {!loadingHighlights && myHighlights.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between'>
+                        {myHighlights.map((myHighlight) => {
+                            return <HighlightCard highlight={myHighlight} />
+                        })}      
+                    </div>
+                }   
+
+                {!loadingHighlights && myHighlights.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5'/>
                         <h6 className='text-scheme-sub-text mt-5'>You have 0 highlights</h6>
                     </div>
+                }
+
                 </div>
-                <div className='tab-content' id='history'>
 
-                {loading && <Loading/>}
+                <div className='tab-content' id='response' style={{ display: `${tab === 'response' ? 'block' : 'none'}` }}>
+                    <div className='empty-box text-center my-5 py-5'>
+                        <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5'/>
+                        <h6 className='text-scheme-sub-text mt-5'>You have 0 responses</h6>
+                    </div>
+                </div>
 
-                {!loading && myHistory.length > 0 &&
-                    <div className='d-flex flex-wrap justify-content-between gap-4'>
-                        {myHistory.map((post, index) => {
+                <div className='tab-content' id='history' style={{ display: `${tab === 'history' ? 'block' : 'none'}` }}>
+
+                {loadingHistory &&  <Loading/>}
+
+                {!loadingHistory && myHistory.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between'>
+                        {myHistory.map((post) => {
                             return <BlogPostCard post={post.id_post_post} />
                         })}
                     </div>
                 }               
 
-                {!loading && myHistory.length === 0 &&
+                {!loadingHistory && myHistory.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
                         <h6 className='text-scheme-sub-text mt-5'>You read 0 posts</h6>
@@ -122,3 +168,4 @@ export default function Library(props) {
             </div>
         </div>
 )};
+

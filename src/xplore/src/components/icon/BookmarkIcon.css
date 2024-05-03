@@ -23,6 +23,12 @@
     position: relative;
     text-align: center;
   }
+
+  .bookmark-modal .form-group div input{
+    font-size: 16px;
+    line-height: 24px;
+    font-family: regular-font;
+  }
   
   .bookmark-modal .form-row {
     display: flex;

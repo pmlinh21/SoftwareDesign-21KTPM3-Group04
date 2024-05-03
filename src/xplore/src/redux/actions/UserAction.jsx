@@ -1,7 +1,7 @@
 import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
 import { LOGIN, SIGNUP, 
-    GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
+    GET_LIST_BY_USER, CREATE_LIST, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
@@ -150,7 +150,26 @@ export const getListByUserAction = (id_user) => {
     };
 };
 
-export const addPostToListAction = (id_list, id_post) => {
+export const createListAction = (formData) => {
+    return async (dispatch) => {
+        try {
+            const listResult = await userService.createList(formData);
+
+            if (listResult.status === 200) {
+                const {id_user, ...newList} = listResult.data.content
+                dispatch({
+                    type: CREATE_LIST,
+                    list: {...newList, saved_posts: []}
+                });
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            // alert(error.response.data.message)
+        }
+    };
+};
+
+export const addPostToListAction = (id_list, id_post, thumbnail) => {
     return async (dispatch) => {
         try {
             const listResult = await userService.addPostToList({id_list, id_post});
@@ -159,7 +178,8 @@ export const addPostToListAction = (id_list, id_post) => {
                 dispatch({
                     type: ADD_POST_TO_LIST,
                     id_list: id_list,
-                    id_post: id_post
+                    id_post: id_post,
+                    thumbnail: thumbnail
                 });
             }
 

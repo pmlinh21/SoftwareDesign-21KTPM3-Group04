@@ -41,16 +41,13 @@ function Pricing() {
                     <h4 style={{ textAlign: 'center' }}>Membership Plans</h4>
                     <p className='p1 subtext'>Simple, transparent pricing that grows with you. Try any plan free for 30 days.</p>
                     {/* Membership */}
-                    <div className="row col-2"></div>
-                    <div className='row d-flex justify-content-around' style={{ marginTop: '72px', marginBottom: '0px'}}>
+                    <div className='row' style={{ marginTop: '72px', marginBottom: '0px'}}>
+                        <div className='col-2'></div>
                         {membership.map((membership) => (
-                            <div key={membership.id_membership} className="col-4 membership-ctn ">
-                                <Membership  membership={membership}/>
-                            </div>
-                            
+                            <Membership key={membership.id_membership} membership={membership}/>
                         ))}
+                        <div className='col-2'></div>
                     </div>
-                    <div className="row col-2"></div>
                 </div>
             </div>
             {/*Free trial*/}

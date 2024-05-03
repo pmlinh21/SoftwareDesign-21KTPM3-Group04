@@ -3,7 +3,7 @@ import { LOGIN, SIGNUP,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR } from "../types";
+    BLOCK_AUTHOR, CREATE_LIST } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -33,10 +33,18 @@ export const UserReducer = (state = stateDefault, action) => {
         case GET_LIST_BY_USER:{
             return { ...state, list: action.list}
         }
+        case CREATE_LIST:{
+            const newList = (state.list == null) ? [action.list] : [...state.list,action.list];
+
+            return { ...state, list: newList}
+        }
         case ADD_POST_TO_LIST:{
             const newList = state.list.map(item => {
                 if (item.id_list === action.id_list) {
-                    const newSavePost = [...item.saved_posts, action.id_post]
+                    const newSavePost = [...item.saved_posts, { 
+                        id_post: action.id_post,
+                        thumbnail: action.thumbnail
+                    }]
                     return {...item, saved_posts: [...newSavePost]}
                 }
                 return item
@@ -48,7 +56,7 @@ export const UserReducer = (state = stateDefault, action) => {
             const newList = state.list.map(item => {
                 if (item.id_list === action.id_list) {
                     const newSavePost = item.saved_posts.filter(
-                        id_post => id_post !== action.id_post
+                        post => post.id_post !== action.id_post
                     )
                     return {...item, saved_posts: [...newSavePost]}
                 }

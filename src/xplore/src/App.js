@@ -22,7 +22,6 @@ import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
 import PostDetail from './pages/PostDetail';
-import Response from './pages/Response';
 import Post from './pages/Post';
 
 export const history = createBrowserHistory();
@@ -59,6 +58,7 @@ function App() {
 
           <Route path="list" element={<Library link="list"/>} />
           <Route path="highlight" element={<Library link="highlight"/>} />
+          <Route path="response" element={<Library link="response"/>} />
           <Route path="history" element={<Library link="history"/>} />
 
           <Route path="pricing" element={<Pricing />}/>
@@ -70,7 +70,7 @@ function App() {
 
           <Route path="author-profile" element={<AuthorProfile/>}/>
           <Route path="ex" element={<MyTabs />}/>
-          <Route path="response" element={<Response />}/>
+          {/* <Route path="response" element={<Response />}/> */}
           <Route path="drafts" element={<Post />}/>
 
         </Route>

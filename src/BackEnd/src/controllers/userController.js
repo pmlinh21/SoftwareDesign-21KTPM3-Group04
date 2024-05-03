@@ -822,9 +822,13 @@ try {
         failCode(res, null, "List already exists")
     }
     else{
-        const [list, metadata] = await sequelize.query
-        (`INSERT INTO list (id_user, list_name)
-        VALUES (${id_user}, '${list_name}')`);
+        const list = await model.list.create({
+            id_user: id_user,
+            list_name: list_name
+        })
+        // const [list, metadata] = await sequelize.query
+        // (`INSERT INTO list (id_user, list_name)
+        // VALUES (${id_user}, '${list_name}')`);
         successCode(res, list, "Create successfully");
     }
 } catch (err) {

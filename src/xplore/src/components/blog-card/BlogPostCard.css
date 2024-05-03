@@ -1,24 +1,37 @@
 @charset "utf-8";
 @import url("../../styles/commons.css");
 
-.thumbnail-container img{
+.blog-post-card .thumbnail-container img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.thumbnail-container button{
+.blog-post-card .thumbnail-container button{
     top: 0.5rem;
     right:1.1rem;
 }
 
-.thumbnail-container button:focus-within{
+.blog-post-card .thumbnail-container button:focus-within{
     border: none
 }
 
 .blog-post-card {
+    min-width: 300px;
     width: 32%;
     cursor: default;
+}
+
+@media screen and (max-width: 768px){
+    .blog-post-card{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+    .blog-post-card{
+        width: 48%;
+    }
 }
 
 .blog-post-card .long-text{
@@ -31,7 +44,7 @@
 .blog-post-card .content-text{
     text-align: justify;
     text-justify: inter-word;
-    height: 4.2rem;
+    height: 4.3rem;
 }
 
 .blog-post-card .title-text{

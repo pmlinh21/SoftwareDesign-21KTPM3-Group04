@@ -18,7 +18,7 @@ export default function BlogCardHorizontal(props) {
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
-        // navigate("/post?id_post=" + id_post)
+        navigate("/post?id_post=" + id_post)
     }
 
     return (
@@ -40,7 +40,7 @@ export default function BlogCardHorizontal(props) {
                                     </p>
                                 )
                             }
-                            <BookmarkIcon id_post={id_post}/>
+                            <BookmarkIcon id_post={id_post} thumbnail={thumbnail}/>
                         </div>
 
                         <div className="pt-2 mb-0">
