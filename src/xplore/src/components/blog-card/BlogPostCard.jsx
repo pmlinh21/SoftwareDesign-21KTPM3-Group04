@@ -32,7 +32,7 @@ export default function BlogPostCard(props) {
                 list_topic?.length > 0 ?
                 (
                     <div className="row col-12 m-0 mt-4 mb-2">
-                        <p className="col-auto title3 text-black m-0 p-2 rounded-1 bg-blue-100 post-topic">
+                        <p className="col-auto button3 text-black m-0 p-2 rounded-1 bg-blue-100 post-topic">
                             {list_topic[0]?.topic || "None"}
                         </p>
                     </div>
@@ -47,9 +47,9 @@ export default function BlogPostCard(props) {
             }
             <div className="col-12 title-block">
                 <div className="row col-12 m-0">
-                    <h6 className="col-auto text-black m-0 p-0 title-text long-text mb-2">
+                    <p className="col-auto text-black m-0 p-0 title-text title1 long-text mb-2">
                         {title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
-                    </h6>
+                    </p>
                 </div>
 
                 <div className="row col-12 m-0 mb-3 p-0">
@@ -61,13 +61,13 @@ export default function BlogPostCard(props) {
             
  
             <div className="row col-12 d-flex align-items-center justify-content-between p-0 m-0 mt-2">
-                <div className="col-8 d-flex align-items-center p-0">
+                <div className="col-8 d-flex gap-2 align-items-center p-0">
                     <div className="col-3">
                         <Avatar avatar={author?.avatar} size="small"/>
                     </div>
 
                     <div className="col-9 row d-flex flex-column align-items-start gap-1 ">
-                        <p className="col-auto title2 text-black m-0 p-0">
+                        <p className="col-auto button2 text-black m-0 p-0">
                             {author?.fullname || "Author name"}
                         </p>
                         <p className="col-auto support text-scheme-sub-text m-0 p-0">
