@@ -4,10 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import "./AuthorProfile.css";
 import { getAuthorPostAction, getAuthorSubscriberAction, getAuthorListAction, isFollowAuthorAction,
         unfollowAuthorAction, followAuthorAction, blockAuthorAction } from "../redux/actions/UserAction";
-import ProfileCard from '../components/blog-card/ProfileCard';
+//import ProfileCard from '../components/blog-card/ProfileCard';
+import postPlaceholder from "../assets/images/post-placeholder.jpg"
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
+import Avatar from "../components/avatar/Avatar";
+import { formatToMD } from "../util/formatDate";
+import { sanitizeContent } from "../util/formatText";
 
-let props = {}
+const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function AuthorProfile() {
     const location = useLocation();
@@ -140,8 +146,76 @@ export default function AuthorProfile() {
                             <div className='d-flex flex-column gap-2'>
                                 {filteredAuthorPost && filteredAuthorPost.length > 0 ? (
                                     <div className='d-flex flex-column gap-2'>
-                                        {filteredAuthorPost.map((post, index) => (
-                                            <ProfileCard key={index} {...props} />
+                                        {filteredAuthorPost.map((post) => (
+                                            <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
+                                                <div className="col-12 d-flex py-3 px-2">
+                                                    <div className="col-5 thumbnail-container bg-white h-100">
+                                                        <img src={post.thumbnail || postPlaceholder} alt=""  />
+                                                    </div>
+                                    
+                                                    <div className="col-7 ps-4 d-flex flex-column justify-content-between">
+                                                        <div className="post-info-block">
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                {
+                                                                    post.list_topic && post.list_topic?.length > 0 &&
+                                                                    (
+                                                                        <p className="subtitle2 text-scheme-primary p-0 m-0">
+                                                                            {`${post.list_topic[0]?.topic?.toUpperCase()}` || "FIRST TOPIC"}
+                                                                        </p>
+                                                                    )
+                                                                }
+                                                            </div>
+                                                            
+                                                            <div className="pt-2 mb-0">
+                                                                <p className="title1 text-black title-text long-text">
+                                                                    {post.title || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                                                                </p>
+                                                            </div>
+                                    
+                                                            <div className="pt-0 mt-0">
+                                                                <p className="p3 text-scheme-sub-text long-text content-text"
+                                                                dangerouslySetInnerHTML={{ __html: sanitizeContent(post.content) || LONG_PASSAGE }}>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div className=" d-flex align-items-center pe-0 pt-2">
+                                                            <div className="col-9 d-flex align-items-center gap-2">
+                                                                <div className="col-2">
+                                                                    <Avatar avatar={author?.avatar} size="small"/>
+                                                                </div>
+                                    
+                                                                <div className="col-10 row d-flex align-items-center ">
+                                                                    <p className="title3 text-black mb-2">
+                                                                        {author?.fullname || "Author name"}
+                                                                    </p>
+                                                                    <div className="d-flex gap-2 text-scheme-sub-text align-items-center">
+                                                                        <p className="support mb-0">
+                                                                            {(post.publish_time && formatToMD(post.publish_time)) || "Aug 6"}
+                                                                        </p>
+                                                                        <p className="support mb-0">
+                                                                            <i className="fa-solid fa-message"></i>
+                                                                        </p>
+                                                                        <p className="support mb-0">
+                                                                            {post.responseCount || "000"}
+                                                                        </p>
+                                                                        <p className="support mb-0">
+                                                                            <i className="fa-solid fa-heart"></i>
+                                                                        </p>
+                                                                        <p className="support mb-0">
+                                                                            {post.likeCount || "000"}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                    
+                                                            <div className="col-4 link-sm">
+                                                                <a href={`/post?id_post=${post.id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
                                 ) : (
@@ -157,7 +231,7 @@ export default function AuthorProfile() {
                             <div className='d-flex flex-column gap-2'>
                                 {author_list && author_list.length > 0 ? (
                                     <div className='d-flex flex-column gap-2'>
-                                        {author_list.map((list, index) => (
+                                        {author_list.map((list) => (
                                             <div className='list-card-content p-4 shadow row mb-3'>
                                                 <div className='d-flex flex-column justify-content-between info-list'>
                                                     <div className="d-flex flex-column justify-content-start">
@@ -169,15 +243,15 @@ export default function AuthorProfile() {
                                                     </div>
 
                                                     <div className="d-flex flex-row align-items-center">
-                                                        <p className="p1 post-count my-auto">{list?.saved_posts.length || "000"} posts</p>
+                                                        <p className="p1 post-count my-auto">{list?.saved_posts.length || "0"} posts</p>
                                                         <i className="fa-regular fa-share-from-square ms-3 ic mt-1"></i>
                                                     </div>
                                                 </div>
 
                                                 <div className="thumbnail-container-list">
-                                                    <img src={list.saved_posts[0]?.thumbnail || avatarPlaceholder} alt="post thumbnail" className="first" />
-                                                    <img src={list.saved_posts[1]?.thumbnail || avatarPlaceholder} alt="post thumbnail" className="second" />
-                                                    <img src={list.saved_posts[2]?.thumbnail || avatarPlaceholder} alt="post thumbnail" className="third" />
+                                                    <img src={list.saved_posts[0]?.thumbnail || postPlaceholder} alt="post thumbnail" className="first" />
+                                                    <img src={list.saved_posts[1]?.thumbnail || postPlaceholder} alt="post thumbnail" className="second" />
+                                                    <img src={list.saved_posts[2]?.thumbnail || postPlaceholder} alt="post thumbnail" className="third" />
                                                 </div>
                                             </div>
                                         ))}
