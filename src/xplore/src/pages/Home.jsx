@@ -15,7 +15,7 @@ import "./SearchResult.css"
 import {postService} from '../services/PostService';
 import {userService} from '../services/UserService';
 import {topicService} from '../services/TopicService';
-import { getAllTopicsAction } from '../redux/actions/TopicAction'
+import { getUserBlockAction } from '../redux/actions/UserAction';
 
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal'
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal'
@@ -23,19 +23,22 @@ import BlogPostCard from '../components/blog-card/BlogPostCard'
 import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb'
 
 export default function Home() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user_login} = useSelector(state => state.UserReducer);
-    const {loading} = useSelector(state => state.LoadingReducer);
+    const {user_login, user_block} = useSelector(state => state.UserReducer);
+    const [loading, setLoading] = useState(false);
     const [trendingPosts, setTrendingPosts] = useState(null);
     const [Authors, setAuthors] = useState(null);
     const [hotTopics, setHotTopics] = useState(null);
 
     const fetchTrendingPosts = async () => {
         try {
+            setLoading(false)
             const result = await postService.getTrendingPosts();
             if (result.status === 200) {
                 setTrendingPosts(result.data.content);
             }
+            setLoading(true)
         } catch (error) {
             console.log("error", error.response);
             // alert(error.response.data.message)
@@ -44,6 +47,7 @@ export default function Home() {
 
     const fetchAuthors = async () => {
         try {
+            setLoading(false)
             const ids = [1, 2, 3, 4, 5]
             const users = [];
             for (let i = 0; i < ids.length; i++) {
@@ -52,7 +56,9 @@ export default function Home() {
                     users.push(result.data.content);
                 }
             }
+
             setAuthors(users);
+            setLoading(true)
         } catch (error) {
             console.log("error", error.response);
         }
@@ -60,12 +66,14 @@ export default function Home() {
 
     const fetchHotTopics = async () => {
         try {
+            setLoading(false)
             const topics = [];
             const result = await topicService.getAllTopics();
             for (let i = 0; i < result.data.content.length; i++) {
                 topics.push(result.data.content[i]);
             }
             setHotTopics(topics);
+            setLoading(true)
         }
         catch (error) {
             console.log("error", error.response);
@@ -74,7 +82,6 @@ export default function Home() {
     }
 
     useEffect(() => {
-        // console.log("*")
         if (!user_login.id_user){
             console.log("home ")
             navigate("/")
@@ -86,10 +93,12 @@ export default function Home() {
             fetchAuthors();
         if (hotTopics == null)
             fetchHotTopics();
+        if (user_block == null)
+            dispatch(getUserBlockAction(user_login.id_user))
     }, [user_login.id_user]);
 
-    // console.log("trendingPosts", trendingPosts?.length);
-
+    
+    const authors = Authors?.filter(author => !user_block?.includes(author.id_user))
     const topHalfOfPosts = trendingPosts?.slice(0, trendingPosts?.length / 2);
     const bottomHalfOfPosts = trendingPosts?.slice(trendingPosts?.length / 2, trendingPosts?.length);
 
@@ -98,7 +107,7 @@ export default function Home() {
             {/* Search bar */}
             <Search />
             {
-                loading ? <Loading/> : (
+                !loading ? <Loading/> : (
                 <div className='container-fluid'>
                     <div className='container my-5'>
                         <div className='row gap-5 justify-content-between'>
@@ -121,7 +130,7 @@ export default function Home() {
                                 ))}
                                 {/* Following */}
                                 <h6 className='my-4'>Who to follow</h6>
-                                {Authors?.map(author => (
+                                {authors?.map(author => (
                                     <AuthorHorizontal author={author} key={author.id_user}/>
                                 ))}
                                 {/* Topics */}

@@ -359,6 +359,27 @@ const updateTopicPost = async(topic, id_post) => {
     })
 }
 
+const nodeMailer = require('nodemailer');
+const sendMail = (to, subject, htmlContent) => {
+    const transport = nodeMailer.createTransport({
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
+        secure: false,
+        auth: {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+        }
+    })
+    
+    const options = {
+        from: process.env.MAIL_FROM_ADDRESS,
+        to: to,
+        subject: subject,
+        html: htmlContent
+    }
+    return transport.sendMail(options);
+}
+
 const createPost = async (req,res) => {
     const {id_user, title, content, thumbnail,creation_time,
             publish_time, is_member_only, status, topic} = req.body;
@@ -374,8 +395,50 @@ const createPost = async (req,res) => {
         }
 
         const list_topic = await updateTopicPost(topic, post.id_post);
-
         const plainPost = post.get({ plain: true });
+        
+        if (status == 1) {
+            try {
+                const author = await model.user.findOne({ where: { id_user: id_user } });
+                const subscribers = await model.subscribe.findAll({ 
+                    where: { user: id_user }, 
+                    include: [
+                        {
+                            model: model.user,
+                            as: "subscriber_user",
+                            attributes: ["email"]
+                        }
+                    ],
+                    attributes: []
+                });
+        
+                const htmlContent = `
+                <html>
+                <body>
+                    <h2>Hello Subscriber,</h2>
+                    <p>We are excited to inform you that ${author.fullname} has published a new post!</p>
+                    <p>Click <a href="http://localhost:3000/post?id_post=${post.id_post}">here</a> to read the latest content and stay updated with more insightful posts.</p>
+                    <p>We appreciate your interest in our content and hope you find it valuable.</p>
+                    <p>Thank you for your continued support.</p>
+                    <p>Best regards,</p>
+                    <p>Xplore</p>
+                </body>
+                </html>
+                `;
+        
+                const emailPromises = subscribers.map(item =>
+                    sendMail(item.subscriber_user.email, "Welcome Email", htmlContent)
+                );
+                
+                await Promise.all(emailPromises);
+
+                // successCode(res,subscribers,"Post created")
+            } catch (error) {
+                console.error("Failed to send subscription emails:", error);
+            }
+        }
+        
+
         successCode(res,{...plainPost, list_topic: list_topic},"Post created")
     }
     catch(err){
