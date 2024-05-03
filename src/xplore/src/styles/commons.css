@@ -458,13 +458,13 @@ a{
 }
 
 /* form */
-.form-control {
+.form-control, textarea {
     border-radius: 8px;
     padding: 10px 14px;
     border: 1.5px solid #D0D5DD;
 }
 
-input::placeholder, input[type="text"] {
+input::placeholder, input[type="text"], textarea::placeholder{
     font-family: regular-font;
     font-size: 16px;
 }
