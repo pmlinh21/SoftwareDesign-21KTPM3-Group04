@@ -127,6 +127,11 @@ export class UserService extends BaseService {
     unblockUser = (user, block) =>{
       return this.delete(`/user/block/${user}/${block}`);
     }
+
+    // Api 22: Get all posts in list
+    getPostByListId = (id_list) =>{
+      return this.get(`/user/list/post/${id_list}`);
+    }
   }
   
 export const userService = new UserService();
