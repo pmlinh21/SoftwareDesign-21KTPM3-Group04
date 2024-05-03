@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import "./HighlightCard.css";
 import { formatToMDY } from "../../util/formatDate";
+import { postService } from "../../services/PostService";
 
 export default function HighlightCard(props) {
     /*
@@ -22,10 +23,25 @@ export default function HighlightCard(props) {
      */
     const { highlight, style } = props;
     
+    const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
+    
     const navigate = useNavigate();
 
     const handleHighlightClicked = () => {
         navigate("/post?id_post=" + highlight?.id_post)
+    }
+
+    const deleteHighlight = async () => {
+        try {
+            const result = await postService.deleteHighlight({ start_index: highlight.start_index, end_index: highlight.end_index, id_user: user_info.id_user, id_post: highlight.id_post});
+            if (result.status === 200) {
+                //refresh page
+                alert("Highlight deleted successfully");
+            }
+        } 
+        catch (error) {
+            console.log("error", error);
+        }
     }
 
     return (
@@ -39,7 +55,7 @@ export default function HighlightCard(props) {
                     <ul class="dropdown-menu">
                         <li class="dropdown-item" onClick={handleHighlightClicked}>Edit</li>
                         <li><hr className="dropdown-divider" ></hr></li>
-                        <li class="dropdown-item delete-dropdown">
+                        <li class="dropdown-item delete-dropdown" onClick={deleteHighlight}>
                             <i class="fa-regular fa-trash-can"></i> Delete
                         </li>
                     </ul>
