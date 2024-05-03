@@ -105,7 +105,7 @@ export default function Library(props) {
                 {!loadingSavedLists && mySavedLists.length > 0 &&
                     <div className='d-flex flex-wrap justify-content-between gap-4'>
                         {mySavedLists.map((list) => {
-                            return <ListCard list={list} author={user_info} width={"half"}/>
+                            return <ListCard list={list} author={user_info} style={"library"}/>
                         })}
                     </div>
                 }
@@ -125,7 +125,7 @@ export default function Library(props) {
                 {!loadingHighlights && myHighlights.length > 0 &&
                     <div className='d-flex flex-wrap justify-content-between'>
                         {myHighlights.map((myHighlight) => {
-                            return <HighlightCard highlight={myHighlight} />
+                            return <HighlightCard highlight={myHighlight} style={"library"} />
                         })}      
                     </div>
                 }   
@@ -153,7 +153,7 @@ export default function Library(props) {
                 {!loadingHistory && myHistory.length > 0 &&
                     <div className='d-flex flex-wrap justify-content-between'>
                         {myHistory.map((post) => {
-                            return <BlogPostCard post={post.id_post_post} />
+                            return <BlogPostCard post={post.id_post_post} style={"library"}/>
                         })}
                     </div>
                 }               

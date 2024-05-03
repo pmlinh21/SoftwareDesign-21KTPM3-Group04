@@ -141,6 +141,13 @@ img {
     color: var(--feedback-error)
 }
 
-.list-card.half {
+.list-card.library {
     width: 49%;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .list-card.library {
+        width: 100%;
+    }
 }
