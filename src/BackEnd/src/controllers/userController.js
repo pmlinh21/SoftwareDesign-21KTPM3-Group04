@@ -921,6 +921,51 @@ try {
 }
 }
 
+// GET: Get all post in a list
+const getPostByListId = async (req, res) => {
+    let { id_list } = req.params
+
+    try {
+        let list = await model.list.findOne({
+            where: {
+                id_list: id_list
+            },
+            include:[
+                {
+                    model: model.post,
+                    as: "saved_posts",
+                    attributes: ["id_post", "thumbnail", "publish_time", "content", "title", "id_user"],
+                    
+                    include: [
+                        {
+                            model: model.user,
+                            as: "author",
+                            attributes: ["id_user", "fullname"]
+                        },
+                        {
+                            model: model.topic,
+                            as: "list_topic",
+                            attributes: ["id_topic", "topic"],
+                        }
+                    ]
+                }
+            ],
+            attributes: ["id_list","list_name"],
+        });
+
+        if(!list){
+            failCode(res, [], "List has no posts")
+        }
+        else{
+            successCode(res, list, "List found")
+        }
+    } 
+    catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }   
+}
+
 // POST: Add a post to a list
 const addPostToList = async (req, res) => {
 let { id_list, id_post } = req.body
@@ -1353,7 +1398,7 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             blockAnotherUser, unblockAnotherUser,
             getUserReceivedNotifications, getUserSentNotifications,
             getUserReadingHistory, deleteReadingHistory,
-            getUserList, createList, editList, deleteList,
+            getUserList, createList, editList, deleteList, getPostByListId,
             addPostToList, deletePostFromList, getUserHighLight, updatePassword, 
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
