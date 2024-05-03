@@ -164,7 +164,6 @@ function Post() {
                                     <div className='d-flex gap-3'>
                                         {/* Avatar */}
                                         <Avatar avatar={post?.author?.avatar} size="small"/>
-                                        {/* <img src={post?.author?.avatar} style={{height: '44px', width: '44px', borderRadius: '50%'}} /> */}
                                         {/* Name */}
                                         <div className='d-flex flex-column'>
                                             <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>
@@ -176,12 +175,15 @@ function Post() {
                                             {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
                                             <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post?.publish_time && formatToMDY(post?.publish_time)}</p>
                                         </div>
-                                        <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
+                                        {
+                                            (user_login?.id_user != post?.author?.id_user) &&
+                                            <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
+                                        }
+                                        
                                     </div>
                                     
                                     {/* Post Actions */}
-                                    <div className='d-flex gap-2 align-items-center' 
-                                        >
+                                    <div className='d-flex gap-2 align-items-center' >
                                         <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount}/>
                                         <button id='comment-btn' className="d-flex align-items-center">
                                             <a href="#response-section" className="text-scheme-sub-text">
@@ -190,9 +192,14 @@ function Post() {
                                             {post?.responseCount}
                                         </button>
                                         <BookmarkIcon id_post={id_post} regular_icon/>
-                                        <button id='share-btn'>
-                                            <i className="fa-regular fa-share-from-square" style={{fontSize: '20px'}}></i>
-                                        </button>
+                                        {
+                                            (user_login?.id_user != post?.author?.id_user) && (
+                                                <button id='report-btn' onClick={() => setReportContent({id_post: id_post})}>
+                                                    <i className="fa-solid fa-flag" style={{fontSize: '20px'}}></i>
+                                                </button>
+                                            )
+                                        }
+                                        
                                     </div>
                                 </div>
                                 <hr/>

@@ -67,20 +67,20 @@ export default function ReportResponsePopup(props) {
 
         {!loading && !result && (
         <>
-            <p className="text-start p1">
-                <span>Do you want to report </span>
-                <b>
-                    <span>
-                        {
-                            id_response? "this response?" : "this post?"
-                        }
-                    </span>
-                </b>
+            <p className="text-start">
+                <span className="title1">Report inappropriate </span>
+                <span className="title1">
+                    {
+                        id_response? " response?" : " post?"
+                    }
+                </span>
+                <p className="my-2 p1">We rely on Xplore community members to report or flag content that they find inappropriate. </p>
+                <p className="p1">Reporting content is anonymous, so other users can't tell who made the report. </p>
             </p>
             <div className="mb-5 text-start">
-                <label className="p1 me-3" htmlFor="reportReason">Report Reason:</label>
+                <label className="p1 me-3" htmlFor="reportReason">Select the reason that you want to report</label>
                 <select id="reportReason" value={id_report_type} onChange={handleChange}>
-                    <option className="p1" value="">Select a reason</option>  // Default option className="p1" prompt
+                    <option className="p1" value="">(Empty)</option>  // Default option className="p1" prompt
                     <option className="p1" value="1">Harassment</option>
                     <option className="p1" value="2">Rules Violation</option>
                     <option className="p1" value="3">Spam</option>
