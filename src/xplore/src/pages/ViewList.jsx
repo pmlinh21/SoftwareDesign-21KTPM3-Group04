@@ -24,7 +24,7 @@ export default function ViewList(props) {
             if (result.status === 200) {
                 console.log("list: ", result.data.content);
                 setList(result.data.content);
-                                setLoading(false);
+                setLoading(false);
             }
         } catch (error) {
             console.log("error", error);

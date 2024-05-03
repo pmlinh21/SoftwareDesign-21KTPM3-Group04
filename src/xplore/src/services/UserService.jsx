@@ -132,6 +132,6 @@ export class UserService extends BaseService {
     getPostByListId = (id_list) =>{
       return this.get(`/user/list/post/${id_list}`);
     }
-  }
+}
   
 export const userService = new UserService();
