@@ -7,7 +7,7 @@
 
 @media (min-width: 768px) {
     .search-result-page .search-result .list-post .blog-post-card {
-      width: calc(33.33% - 15px); /* Adjust the gap between columns */
+      width: calc(33.33% - 25px); /* Adjust the gap between columns */
     }
 
     .search-result-page .search-result .list-author .author-horizontal {

@@ -29,3 +29,9 @@
     margin: 0;
     padding: 0;
 }
+
+@media (min-width: 768px) {
+    .list-post .blog-post-card {
+      width: calc(33.33% - 20px); /* Adjust the gap between columns */
+    }
+}

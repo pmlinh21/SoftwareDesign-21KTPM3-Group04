@@ -149,7 +149,7 @@ export default function Writing() {
                 creation_time: formartToSQLDatetime(new Date())
             }, uploadedThumbnail
         ))
-        navigate('/', { replace: true });
+        //navigate('/drafts', { state: { tab: "drafts" } });
         }
         else {
             console.log(postInfo.topic)
@@ -158,10 +158,13 @@ export default function Writing() {
                 id_post: id_post 
             },uploadedThumbnail
         ))
-        navigate(`/post?id_post=${id_post}`, { replace: true });
+        //navigate(`/drafts`, { state: { tab: "published" } });
         }
 
-
+        if(postInfo.status !== 1)
+            navigate('/drafts', { state: { tab: "drafts" } });
+        else
+            navigate(`/drafts`, { state: { tab: "published" } });
 
     }
 

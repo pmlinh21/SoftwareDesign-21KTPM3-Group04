@@ -1,14 +1,14 @@
 import React, { useEffect,useState } from 'react';
 import './Post.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Search from '../components/search/Search';
 import { getPostByUser } from "../redux/actions/PostAction";
-//import BlogPostCard from '../components/blog-card/BlogPostCard';
 import Avatar from "../components/avatar/Avatar"; 
 import BookmarkIcon from "../components/icon/BookmarkIcon"
 import { formatToMDY } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
+
 let props = {}
 export default function Post(props) {
     const dispatch = useDispatch();
@@ -20,8 +20,12 @@ export default function Post(props) {
         avatar: user_info.avatar,
         id_user: user_info.id_user
     }
-    
-    const [tab, setTab] = useState('drafts');
+
+    const location = useLocation();
+    const tab = location.state && location.state.tab;
+    console.log("tab: ", tab)
+
+    const [tab_select, setTab] = useState(tab ||'drafts');
 
     const user_post = useSelector(state => state.PostReducer.posts);
 
@@ -70,15 +74,16 @@ export default function Post(props) {
         draft_post = user_post
         published_post = user_post
     }
+
     return (
         <div className='container-fluid'>
             <Search />
             <div className='container'>
                 <ul className='row tab-panel my-4'>
-                    <li className={`col-3 no-margin-padding py-2 button2 tab-item ${tab === 'drafts' ? 'focused' : ''}`} id="for-drafts" onClick={() => setTab('drafts')}>Drafts</li>
-                    <li className={`col-3 no-margin-padding py-2 button2 tab-item ${tab === 'published' ? 'focused' : ''}`} id="for-published" onClick={() => setTab('published')}>Published</li>
+                    <li className={`col-3 no-margin-padding py-2 button2 tab-item ${tab_select === 'drafts' ? 'focused' : ''}`} id="for-drafts" onClick={() => setTab('drafts')}>Drafts</li>
+                    <li className={`col-3 no-margin-padding py-2 button2 tab-item ${tab_select === 'published' ? 'focused' : ''}`} id="for-published" onClick={() => setTab('published')}>Published</li>
                 </ul>
-                <div className='tab-content' id='drafts' style={{ display: tab === 'drafts' ? 'block' : 'none' }}>
+                <div className='tab-content' id='drafts' style={{ display: tab_select === 'drafts' ? 'block' : 'none' }}>
                     <div className='d-flex flex-column gap-2'>
                         {draft_post && draft_post.length > 0 ? (
                             <div className="list-post row row-cols-3 gap-4">
@@ -154,10 +159,10 @@ export default function Post(props) {
                     </div>
                 </div>
 
-                <div className='tab-content' id='published' style={{ display: tab === 'published' ? 'block' : 'none' }}>
+                <div className='tab-content' id='published' style={{ display: tab_select === 'published' ? 'block' : 'none' }}>
                     <div className='d-flex flex-column gap-2'>
                         {published_post && published_post.length > 0 ? (
-                            <div className="list-post row row-cols-3 gap-4">
+                            <div className="list-post row row-cols-3 gap-4 ms-0">
                                 {published_post.map((post) => (
                                     // <BlogPostCard key={post.id_post} post={post} />
                                     <div className="blog-post-card d-flex flex-column p-0 m-0">
