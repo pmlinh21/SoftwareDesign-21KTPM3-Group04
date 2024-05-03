@@ -956,7 +956,22 @@ try {
     let highlight = await model.highlight.findAll({
         where: {
             id_user: id_user
-        }
+        },
+        include:[
+            {
+                model: model.post,
+                as: "id_post_post",
+                attributes: ["title"],
+                include: [
+                    {
+                        model: model.user,
+                        as: "author",
+                        attributes: ["fullname"]
+                    }
+                ]
+            }
+        ],
+        attributes: ["id_highlight", "id_post", "start_index", "end_index", "content", "highlight_time"],
     });
     if(!highlight){
         failCode(res, null, "User has no highlights")
