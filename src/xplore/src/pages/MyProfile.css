@@ -25,3 +25,103 @@
 .delete-dropdown {
     color: var(--feedback-error);
 }
+
+.membership-card {
+    background: white;
+    width: 400px;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.membership-header .logo {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 10px;
+}
+
+.membership-header h2 {
+    font-size: 14px;
+    color: var(--blue-700);
+}
+
+.price {
+    font-size: 36px;
+    color: var(--neutral-900);
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.membership-details{
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.membership-details p{
+    display: flex;
+    width: 100%;
+}
+
+.membership-details p strong {
+    text-align: left;
+    flex: 1;
+}
+
+.membership-details p span {
+    text-align: right;
+    flex: 1;
+}
+.space-hr{
+    color: var(--neutral-300);
+}
+
+.change-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--scheme-sub-text);
+}
+.change-plan-link {
+    font-weight: 500;
+    color: var(--scheme-primary);
+    text-decoration: none;
+}
+
+.btn-cus{
+    height: 40px;
+    padding: 10px;
+}
+
+.status-box-inuse{
+    border-radius: 15px;
+    background-color: #ECFDF3;
+    padding: 5px 15px 5px 15px;
+}
+
+.status-box-inuse span{
+    color: #027A48;
+    font-weight: 600;
+}
+
+.status-box-expired{
+    border-radius: 15px;
+    background-color: #FEF3F2;
+    padding: 5px 15px 5px 15px;
+}
+
+.status-box-expired span{
+    color: #B42318;
+    font-weight: 600;
+}
+
+.status-box-cancelled{
+    border-radius: 15px;
+    background-color: #F2F4F7;
+    padding: 5px 15px 5px 15px;
+}
+
+.status-box-cancelled span{
+    color: #344054;
+    font-weight: 600;
+}

@@ -148,7 +148,7 @@ export default function MyProfile() {
                     <div className="col-7 d-flex flex-column gap-2">
                         <h6>My posts</h6>
                         {sortedPosts && sortedPosts.length > 0 ? (
-                            <div className='d-flex flex-column gap-2'>
+                            <div className='d-flex flex-column gap-4'>
                                 {sortedPosts.map((post) => (
                                 <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
                                     <div className="col-12 d-flex py-3 px-2">
@@ -256,7 +256,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedFollowCount} users</p>
                         </div>
                         {user_follow && user_follow.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
@@ -283,7 +283,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedFollowerCount} users</p>
                         </div>
                         {user_follower && user_follower.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follower.map((follower) => (
                                     <AuthorHorizontal key={follower.id} author={follower} />
                                 ))}
@@ -297,7 +297,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedBlockCount} users</p>
                         </div>
                         {user_block && user_block.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }} >
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }} >
                                 {user_block.map((block) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
@@ -318,6 +318,42 @@ export default function MyProfile() {
                         ) : (
                             <p></p>
                         )}
+
+                        <h6>Membership</h6>
+                        <div class="membership-card">
+                            <div class="membership-header">
+                                <img src="logo.png" alt="Logo" class="logo"/>
+                                <h2>Monthly Membership</h2>
+                                <p class="price">$15/month</p>
+                            </div>
+                            <div class="membership-details">
+                                <p>
+                                    <strong>Status</strong>
+                                    <div className='status-box-inuse'>
+                                        <span>In Use</span>
+                                    </div> 
+                                    {/* <div className='status-box-expired'>
+                                        <span>Expired</span>
+                                    </div> */}
+                                    {/* <div className='status-box-cancelled'>
+                                        <span>Cancelled</span>
+                                    </div> */}
+                                </p>
+                                <p><strong>Start day</strong> <span>July 24, 2024</span></p>
+                                <p><strong>End day</strong> <span>August 24, 2024</span></p>
+                            </div>
+                            <hr className='space-hr'></hr>
+                            <div class="membership-actions">
+                                <span className='change-text'>
+                                    Change your mind?
+                                </span>
+                                <span><a href="#" className="change-plan-link"> Change plan</a></span>
+                                <div className="d-flex flex-column justify-content-end align-items-center gap-2">
+                                    <button class="btn-nm prim-btn button1 btn-cus mt-4 w-100">Pay now</button>
+                                    <button class="btn-nm tert-btn button1 btn-cus w-100">Cancel plan</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
