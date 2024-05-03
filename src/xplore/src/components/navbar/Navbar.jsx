@@ -12,14 +12,11 @@ import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
 
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
-import { getUserByEmailAction } from '../../redux/actions/UserAction';
+import { getUserByEmailAction, logOut } from '../../redux/actions/UserAction';
 
 export default function Navbar() {
     // Get user information from localStorage (user's avatar)
-    let user_login = {};
-    if(localStorage.getItem(USER_LOGIN)){
-        user_login = JSON.parse(localStorage.getItem(USER_LOGIN));
-    }
+    const {user_login} = useSelector(state => state.UserReducer);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -52,9 +49,6 @@ export default function Navbar() {
             if (userNav) userNav.style.display = "block";
             if (guestNav) guestNav.style.display = "none";
             
-            if (user_login?.id_user){
-                // dispatch()
-            }
         }
 
     }, [roleId]);
@@ -72,7 +66,7 @@ export default function Navbar() {
         const params = new URLSearchParams(search);
         if (params.has('email')) {
             const email = params.get('email');
-            dispatch(getUserByEmailAction(email)).then((res) => {
+            dispatch(getUserByEmailAction(email)).then(() => {
                 roleId = localStorage.getItem(RoleKey);
                 console.log(roleId);
                 const userNav = document.getElementById("user-nav");
@@ -85,13 +79,13 @@ export default function Navbar() {
                     if (userNav) userNav.style.display = "block";
                     if (guestNav) guestNav.style.display = "none";
                 }
-                console.log(res)
             });
             // dispatch(get)
         }
     }, []);
 
     function logout() {
+        dispatch(logOut);
         localStorage.removeItem(USER_LOGIN);
         localStorage.removeItem(TokenKey);
         

@@ -1,4 +1,4 @@
-import { GET_ALL_TOPICS } from "../types";
+import { LOGOUT, GET_ALL_TOPICS } from "../types";
 
 let stateDefault = {
     topics: null,
@@ -9,9 +9,11 @@ export const TopicReducer = (state = stateDefault, action) => {
         case GET_ALL_TOPICS: {
             return { ...state, topics: action.topics };
         }
-        // case GET_TOPIC_BY_ID: {
-        //     return { ...state, topicDetail: action.topicDetail };
-        // }
+        case LOGOUT:{
+            return { ...state,
+                topics: null,
+            };
+        }
         default:
             return { ...state };
     }

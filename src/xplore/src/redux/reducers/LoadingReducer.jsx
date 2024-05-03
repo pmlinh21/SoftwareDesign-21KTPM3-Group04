@@ -1,4 +1,4 @@
-import { HIDE_LOADING, DISPLAY_LOADING } from "../types";
+import { LOGOUT, HIDE_LOADING, DISPLAY_LOADING } from "../types";
 
 export const stateDefault = {
     loading: true
@@ -13,6 +13,12 @@ export const LoadingReducer = (state = stateDefault, action) => {
             };
         }
         case DISPLAY_LOADING:{
+            return { 
+                ...state, 
+                loading: true
+            };
+        }
+        case LOGOUT:{
             return { 
                 ...state, 
                 loading: true

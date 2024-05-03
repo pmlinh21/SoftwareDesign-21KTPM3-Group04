@@ -83,8 +83,10 @@ export default function Writing() {
     useEffect(()=>{
             const selectedPost = posts?.find(post => post.id_post == id_post)
             const topic = selectedPost?.list_topic.map(topic => {
+                // console.log(topic)
                 return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
             })
+        
             if(selectedPost){
                 setPostInfo(
                     {...postInfo,
@@ -96,8 +98,6 @@ export default function Writing() {
                     status: selectedPost?.status ,
                     publish_time: selectedPost?.publish_time
                 })
-
-                setUploadedThumbnail(selectedPost?.thumbnail)
 
                 if (selectedPost.status === 2){
                     setScheduleTime(new Date(selectedPost.publish_time))
@@ -151,6 +151,7 @@ export default function Writing() {
         ))
         }
         else {
+            console.log(postInfo.topic)
             dispatch(updatePostAction({
                 ...postInfo, 
                 id_post: id_post 
@@ -186,7 +187,7 @@ export default function Writing() {
                         <form onSubmit={(e) => {e.preventDefault()}}>
                             <div className="form-group">
                                 <label className="button1">Upload thumbnail</label>
-                                <ThumbnailDrop uploadedThumbnail={uploadedThumbnail} setUploadedThumbnail={setUploadedThumbnail}/>
+                                <ThumbnailDrop thumbnail={postInfo.thumbnail} uploadedThumbnail={uploadedThumbnail} setUploadedThumbnail={setUploadedThumbnail}/>
                             </div>
                             <div className="form-group">
                                 <label>Title</label>
@@ -266,7 +267,7 @@ export default function Writing() {
     );
 }
 
-function ThumbnailDrop ({uploadedThumbnail, setUploadedThumbnail}) {
+function ThumbnailDrop ({thumbnail, uploadedThumbnail, setUploadedThumbnail}) {
   
     const onDrop = (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -297,10 +298,10 @@ function ThumbnailDrop ({uploadedThumbnail, setUploadedThumbnail}) {
             <p className="p2 m-0 text-drag-and-drop">Drop the image here...</p> :
             <p className="p2 m-0 text-drag-and-drop text-center">Drag and drop an image here, or click to select an image</p>
         }
-        {uploadedThumbnail && (
+        {(thumbnail || uploadedThumbnail) && (
           <div className="image-preview position-relative">
             <i className="fa-solid fa-xmark close-button" onClick={deleteUploadedThumbnail}></i>
-            <img src={uploadedThumbnail} alt="Selected" className="preview-image" />
+            <img src={uploadedThumbnail || thumbnail} alt="Selected" className="preview-image" />
           </div>
         )}
       </div>
@@ -329,13 +330,14 @@ function TopicDropdown ({topicOption, topic, setTopic, maxOptions = 5}){
   };
 
   const handleChange = (newTopic) => {
+    // console.log(topic);
+    // console.log(newTopic);
     if (newTopic && newTopic.length <= maxOptions) {
         setTopic(newTopic || []);
         setError("")
     } else{
         setError("The number of topics exceeds 5")
-    }
-    
+    } 
   };
 
   return (

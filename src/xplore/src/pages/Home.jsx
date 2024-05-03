@@ -22,6 +22,8 @@ import BlogPostCard from '../components/blog-card/BlogPostCard'
 import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb'
 
 export default function Home() {
+    const navigate = useNavigate();
+    const {user_login} = useSelector(state => state.UserReducer);
     const [trendingPosts, setTrendingPosts] = useState([]);
     const [Authors, setAuthors] = useState([]);
     const authorsToFollow = Authors.slice(5, 10);
@@ -71,10 +73,12 @@ export default function Home() {
     }
 
     useEffect(() => {
+        if (!user_login.id_user)
+            navigate("/")
         fetchTrendingPosts();
         fetchAuthors();
         fetchHotTopics();
-    }, []);
+    }, [user_login.id_user]);
 
     console.log("trendingPosts", trendingPosts.length);
 
