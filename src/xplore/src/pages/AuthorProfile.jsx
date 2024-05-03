@@ -48,7 +48,9 @@ export default function AuthorProfile() {
 
     if(author_post && author_post.length > 0){
         const currentTime = new Date().getTime();
-        filteredAuthorPost = author_post.filter(post => new Date(post.publish_time).getTime() <= currentTime);
+        filteredAuthorPost = author_post.filter(post => 
+            post.publish_time ? new Date(post.publish_time).getTime() <= currentTime : false
+        );
         console.log("filteredAuthorPost: ", filteredAuthorPost)
     }
     else{
