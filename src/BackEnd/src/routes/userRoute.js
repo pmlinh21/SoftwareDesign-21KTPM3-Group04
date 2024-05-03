@@ -8,7 +8,7 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     blockAnotherUser, unblockAnotherUser,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
-    getUserList, createList, editList, deleteList,
+    getUserList, createList, editList, deleteList, getPostByListId,
     addPostToList, deletePostFromList, getUserHighLight, updatePassword,
     getUserToken, getAuthorPosts,
     createOrder,captureOrder,
@@ -81,6 +81,9 @@ userRoute.delete("/reading_history/:id_reading_history", deleteReadingHistory)
 
 // GET: Get all user list
 userRoute.get("/list/:id_user", getUserList)
+
+// GET: Get all post in a list
+userRoute.get("/list/post/:id_list", getPostByListId)
 
 // POST: Create a list
 userRoute.post("/list", createList)
