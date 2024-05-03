@@ -14,22 +14,23 @@ export default function AuthorHorizontal(props) {
     const {id_user, fullname, bio, avatar} = props.author;
 
     const dispatch = useDispatch();
-
     const user_follow = useSelector(state => state.UserReducer.user_follow);
-    useEffect(() => {
-        dispatch(getUserFollowAction(user_info?.id_user))
-
-    }, []);
-
-    const [is_subscribe, setIsSubscribe] = useState(user_follow?.some(item => item.id_user === id_user));
+    const [is_subscribe, setIsSubscribe] = useState(false);
 
     useEffect(() => {
-        if (user_follow) {
-            setIsSubscribe(user_follow.some(item => item.id_user === id_user))
+        // console.log("1")
+        if (user_follow === null && user_info !== null) {
+            dispatch(getUserFollowAction(user_info?.id_user));
         }
-    }, [user_follow?.length]);
+    }, [user_follow]);
 
-    console.log("user_follow: ", user_follow)
+    
+    useEffect(() => {
+        // console.log("2")
+        if (user_follow !== null) {
+            setIsSubscribe(user_follow.some(item => item.id_user === id_user));
+        }
+    }, [user_follow]);
 
     const navigate = useNavigate();
     const handleAuthorClick = () => {

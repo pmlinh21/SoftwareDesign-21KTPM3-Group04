@@ -8,8 +8,6 @@ import { getTopicByUserAction } from '../redux/actions/UserAction';
 import { topicService } from "../services/TopicService";
 
 import {formatCapitalCase} from '../util/formatText'
-
-import Loading from '../components/system-feedback/Loading';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 
 const MyTabs = () => {
@@ -17,14 +15,18 @@ const MyTabs = () => {
   const [tabsData, setTabsData] = useState([]);
   const {topic, user_login} = useSelector(state => state.UserReducer);
   const {topics} = useSelector(state => state.TopicReducer);
-  const {loading} = useSelector(state => state.LoadingReducer);
+  
+
+  useEffect(()=>{
+    if (topic == null){
+      dispatch(getTopicByUserAction(user_login?.id_user))
+    }
+  },[])
 
   useEffect(() => {
 
     // if followed topic === null, then get followed topic from database
-    if (topic === null){
-      dispatch(getTopicByUserAction(user_login?.id_user))
-    } else {
+    if (topic != null){
 
       // if followed topic !== null, then get relevant posts
       const fetchPost = async () => {
@@ -49,15 +51,12 @@ const MyTabs = () => {
 
       fetchPost(topic);
     }
+    // console.log(topic?.length)
+  }, [topic?.length]); 
 
-  }, [topic]); 
-
-  console.log(tabsData)
+  // console.log(tabsData)
   return (
-    loading 
-    ? (
-      <Loading/>
-    ): (
+    
       <Tabs>
         <TabList >
           {tabsData.map((tab) => (
@@ -69,13 +68,12 @@ const MyTabs = () => {
           <TabPanel key={tab.id_topic}>
             {
               tab.post.map((post) => (
-                <BlogCardHorizontal post={post}/>
+                <BlogCardHorizontal key={post.id_post} post={post}/>
               ))
             }
           </TabPanel>
         ))}
       </Tabs>
-    )
   );
 };
 

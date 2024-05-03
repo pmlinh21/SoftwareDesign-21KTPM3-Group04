@@ -22,8 +22,9 @@ export default function Navbar() {
     const navigate = useNavigate();
     // Get all topics
     useEffect(() => {
-        dispatch(getAllTopicsAction()); // Dispatch the getAllTopics action when the component mounts
-    }, [dispatch]);
+        if (topics == null)
+            dispatch(getAllTopicsAction()); // Dispatch the getAllTopics action when the component mounts
+    }, []);
    
     const topics = useSelector(state => state.TopicReducer.topics);
     // console.log("topics: ", topics);
@@ -37,7 +38,7 @@ export default function Navbar() {
         localStorage.setItem(RoleKey, JSON.stringify(4));
     }
     
-    console.log(roleId);
+    // console.log(roleId);
     useEffect(() => {
         const userNav = document.getElementById("user-nav");
         const guestNav = document.getElementById("guest-nav");
@@ -85,13 +86,13 @@ export default function Navbar() {
     }, []);
 
     function logout() {
-        dispatch(logOut);
         localStorage.removeItem(USER_LOGIN);
         localStorage.removeItem(TokenKey);
         
         localStorage.setItem(RoleKey, JSON.stringify(4));
     
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        dispatch(logOut());
         navigate("/");
     }
     

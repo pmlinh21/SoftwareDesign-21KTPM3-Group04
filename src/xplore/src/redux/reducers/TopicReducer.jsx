@@ -10,9 +10,7 @@ export const TopicReducer = (state = stateDefault, action) => {
             return { ...state, topics: action.topics };
         }
         case LOGOUT:{
-            return { ...state,
-                topics: null,
-            };
+            return stateDefault
         }
         default:
             return { ...state };
