@@ -37,6 +37,7 @@ export default function HighlightCard(props) {
             if (result.status === 200) {
                 //refresh page
                 alert("Highlight deleted successfully");
+                
             }
         } 
         catch (error) {
