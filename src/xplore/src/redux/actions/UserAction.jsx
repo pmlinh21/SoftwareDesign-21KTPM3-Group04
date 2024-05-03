@@ -5,7 +5,7 @@ import { LOGIN, SIGNUP,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK } from "../types";
+    BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -595,6 +595,41 @@ export const getUserBlockAction = (id_user) => {
             });
         } catch (error) {
             console.log("error", error);
+        }
+    };
+};
+
+export const unblockUserAction = (user, block) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.unblockUser(user, block);
+
+            if (result.status === 200) {
+                const blockResult = await userService.getUserBlock(user);
+
+                if (blockResult.status === 200) {
+                    dispatch({
+                        type: GET_USER_BLOCK,
+                        user_block: blockResult.data.content
+                    });
+                }
+
+                dispatch({
+                    type: UNBLOCK_USER,
+                    block: block
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
         }
     };
 };

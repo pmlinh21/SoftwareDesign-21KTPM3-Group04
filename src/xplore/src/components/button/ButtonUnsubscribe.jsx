@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux';
 export default function Button3({user, subscriber}) {
     const dispatch = useDispatch();
     
-    const handleUnfollow = () => {
+    const handleUnfollow = (e) => {
+        e.stopPropagation()
         dispatch(unfollowAuthorAction(user, subscriber));
     };
 

@@ -5,6 +5,8 @@ import ButtonUnsubscribe from "../button/ButtonUnsubscribe";
 import ButtonSubscribe from "../button/ButtonSubscribe";
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFollowAction } from "../../redux/actions/UserAction";
+import { useNavigate } from "react-router-dom";
+
 
 export default function AuthorHorizontal(props) {
     const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
@@ -29,8 +31,13 @@ export default function AuthorHorizontal(props) {
 
     console.log("user_follow: ", user_follow)
 
+    const navigate = useNavigate();
+    const handleAuthorClick = () => {
+        navigate("/author-profile", { state: { author: props.author } });
+    };
+
     return (
-        <div className="author-horizontal py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100 shadow">
+        <div className="author-horizontal py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100 shadow" style={{ cursor: 'pointer' }} onClick={handleAuthorClick}>
             <div className=" col-2 d-flex align-items-start justify-content-center ">
                 <Avatar avatar={avatar} size="small"/>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 import "../styles/commons.css";
 import "./MyProfile.css";
@@ -14,6 +15,7 @@ import { getPostByUser } from "../redux/actions/PostAction";
 import { getUserFollowerAction, getUserFollowAction, getUserBlockAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
+import ButtonUnblock from "../components/button/ButtonUnblock";
 
 const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."+
@@ -60,6 +62,15 @@ export default function MyProfile() {
     const formattedFollowerCount = formatCount(followerCount);
     const formattedFollowCount = formatCount(followCount);
     const formattedBlockCount = formatCount(blockCount);
+
+    const navigate = useNavigate();
+    const handleAuthorClickWrapper = (follow) => {
+        navigateToAuthorProfile(follow);
+    };
+
+    const navigateToAuthorProfile = (follow) => {
+        navigate("/author-profile", { state: { author: follow } });
+    };
 
     return (
         <div className='container-fluid profile'>
@@ -190,7 +201,7 @@ export default function MyProfile() {
                         {user_follow && user_follow.length > 0 ? (
                             <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
-                                    <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
+                                    <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
                                             <Avatar avatar={follow.avatar} size="small"/>
                                         </div>
@@ -215,7 +226,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedFollowerCount} users</p>
                         </div>
                         {user_follower && user_follower.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
                                 {user_follower.map((follower) => (
                                     <AuthorHorizontal key={follower.id} author={follower} />
                                 ))}
@@ -229,7 +240,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedBlockCount} users</p>
                         </div>
                         {user_block && user_block.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }} >
                                 {user_block.map((block) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
@@ -242,7 +253,7 @@ export default function MyProfile() {
                                         </div>
                             
                                         <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                                            <ButtonUnsubscribe user={block.id_user} subscriber={user_info.id_user}/>
+                                            <ButtonUnblock user={user_info.id_user} block={block.id_user}/>
                                         </div>
                                     </div>
                                 ))}
