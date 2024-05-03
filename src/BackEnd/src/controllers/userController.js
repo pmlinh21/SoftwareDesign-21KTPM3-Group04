@@ -678,8 +678,28 @@ try {
         let notifications = await model.notification.findAll({
             where: {
                 receiver: id_user
-            }
+            },
+            include:[
+                {
+                    model: model.user,
+                    as: "creator_user",
+                    attributes: ["fullname", "avatar"],
+                },
+                {
+                    model: model.post,
+                    as: "post_ìnfo",
+                    attributes: ["title"],
+                },
+                {
+                    model: model.response,
+                    as: "response_info",
+                    attributes: ["response", "reply"],
+                },
+            ],
+            attributes:["noti_time", "noti_type", "id_noti"],
+            order: [[ 'id_noti', 'DESC']],
         });
+
         successCode(res, notifications, "Notifications found");
     }
 } catch (err) {

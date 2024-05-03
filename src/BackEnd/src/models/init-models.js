@@ -68,7 +68,7 @@ function initModels(sequelize) {
   post.hasMany(like_post, { as: "like_posts", foreignKey: "id_post"});
   list_post.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
   post.hasMany(list_post, { as: "list_posts", foreignKey: "id_post"});
-  notification.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
+  notification.belongsTo(post, { as: "post_ìnfo", foreignKey: "id_post"});
   post.hasMany(notification, { as: "notifications", foreignKey: "id_post"});
   post_monthly_data.belongsTo(post, { as: "id_post_post", foreignKey: "id_post"});
   post.hasMany(post_monthly_data, { as: "post_monthly_datas", foreignKey: "id_post"});
@@ -86,7 +86,7 @@ function initModels(sequelize) {
   report_type.hasMany(report_post, { as: "report_posts", foreignKey: "id_report_type"});
   report_response.belongsTo(report_type, { as: "id_report_type_report_type", foreignKey: "id_report_type"});
   report_type.hasMany(report_response, { as: "report_responses", foreignKey: "id_report_type"});
-  notification.belongsTo(response, { as: "id_response_response", foreignKey: "id_response"});
+  notification.belongsTo(response, { as: "response_info", foreignKey: "id_response"});
   response.hasMany(notification, { as: "notifications", foreignKey: "id_response"});
   report_response.belongsTo(response, { as: "id_response_response", foreignKey: "id_response"});
   response.hasMany(report_response, { as: "report_responses", foreignKey: "id_response"});
