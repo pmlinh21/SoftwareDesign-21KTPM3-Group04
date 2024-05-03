@@ -2,10 +2,10 @@ import React from "react";
 import "./ListCard.css";
 
 export default function ListCard(props) {
-    const {list, author} = props;
+    const {list, author, style} = props;
 
     return (
-        <div className='list-card p-4 shadow half'>
+        <div className={`list-card p-4 shadow half ${style}`}>
             <div className='d-flex flex-column justify-content-between info-list'>
                 <div className="d-flex flex-column justify-content-start">
                     <div className="d-flex flex-row justify-content-start">

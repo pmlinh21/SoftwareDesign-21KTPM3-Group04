@@ -17,19 +17,22 @@
 }
 
 .blog-post-card {
-    min-width: 300px;
-    width: 32%;
     cursor: default;
 }
 
+.blog-post-card.library {
+    min-width: 300px;
+    width: 32%;
+}
+
 @media screen and (max-width: 768px){
-    .blog-post-card{
+    .blog-post-card.library {
         width: 100%;
     }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px){
-    .blog-post-card{
+    .blog-post-card.library {
         width: 48%;
     }
 }

@@ -7,8 +7,7 @@ import ButtonSubscribe from "../button/ButtonSubscribe";
 export default function AuthorHorizontal(props) {
     const {fullname, bio, avatar, is_subscribe} = props.author;
     return (
-        <div className="author-horizontal row py-3 pe-3 d-flex
-            bg-white rounded-3 shadow-sm overflow-hidden w-100">
+        <div className="author-horizontal py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100 shadow">
             <div className=" col-2 d-flex align-items-start justify-content-center ">
                 <Avatar avatar={avatar} size="small"/>
             </div>

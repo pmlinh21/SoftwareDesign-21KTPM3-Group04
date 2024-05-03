@@ -8,6 +8,7 @@ import BookmarkIcon from "../icon/BookmarkIcon"
 
 export default function BlogCardNoThumb(props) {
     const { id_post, title, content, publish_time, thumbnail, likeCount, responseCount } = props.post;
+    const style = props?.style || "";
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
@@ -15,7 +16,7 @@ export default function BlogCardNoThumb(props) {
     }
 
     return (
-            <div className="d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2"
+            <div className={`d-flex flex-column justify-content-between blog-card p-4 shadow-sm gap-2 ${style}`}
                 onClick={handleBlogCardClicked}>
                 <div>
                     <div className="d-flex flex-row justify-content-between align-items-center gap-2">
@@ -23,14 +24,14 @@ export default function BlogCardNoThumb(props) {
                         <BookmarkIcon id_post={id_post} thumbnail={thumbnail}/>
                     </div>
 
-                    <div className="center title2 mt-2">{title}</div>
+                    <div className="center title2 mt-2 post-title">{title}</div>
                 </div>
 
-                <div className="d-flex flex-row justify-content-between align-items-center gap-2">
+                <div className="d-flex flex-row justify-content-between align-items-center gap-2 mt-1">
                     <div className="d-flex flex-row justify-content-start align-items-center">
                         <Avatar size="small"/>
-                        <div className="d-flex flex-column justify-content-between align-items-start gap-1 ms-2">
-                            <div className="author-name button3">Post's Author</div>
+                        <div className="d-flex flex-column justify-content-between align-items-start ms-2">
+                            <div className="author-name button3 mb-1">Post's Author</div>
                             <div className="post-info support d-flex flex-row gap-1">
                                 <span className="date">Aug 6</span>
                                 <i className="fa-solid fa-message"></i>
@@ -42,8 +43,9 @@ export default function BlogCardNoThumb(props) {
                     </div>
 
                     <div className="bottom-right link-sm">
-                        <Link to={`/post?id_post=${id_post}`} className="text-black">
-                            Read post<i className="fa-solid fa-arrow-right ms-2"></i></Link>
+                        <Link to={`/post?id_post=${id_post}`}>
+                            Read post<i className="fa-solid fa-arrow-right ms-2"></i>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -112,9 +112,6 @@ export default function Home() {
     console.log("hotTopics", hotTopics);
     console.log("morePosts", morePosts);
 
-    const topHalfOfPosts = trendingPosts.slice(0, trendingPosts.length / 2);
-    const bottomHalfOfPosts = trendingPosts.slice(trendingPosts.length / 2, trendingPosts.length);
-
     const slidingAuthors = topAuthors.slice(0, 7);
     const authorsToFollow = topAuthors.slice(7, 10);
 
@@ -148,35 +145,26 @@ export default function Home() {
                 <h5>
                     <i className="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h5>
-                <div className="d-flex flex-column gap-3">
-                <div className="row d-flex flex-row justify-content-between">
-                {topHalfOfPosts.map((post, index) => (
-                    <div className="col-4" key={post.id_post}>
-                        <BlogCardNoThumb post={post}/>
-                    </div>
+                <div className="d-flex flex-wrap justify-content-between gap-3">
+
+                {trendingPosts.map(post => (
+                    <BlogCardNoThumb post={post} style={"home-guest"}/>
                 ))}
-                </div>
-                <div className="row d-flex flex-row justify-content-between">
-                {bottomHalfOfPosts.map((post, index) => (
-                    <div className="col-4" key={post.id_post}>
-                        <BlogCardNoThumb  post={post}/>
-                    </div>
-                ))}
-                </div>
+
                 </div>
             </section>
 
             <section className="container my-5">
                 <div className="row">
                     <div className="col-7 me-5">
-                        <div className="d-flex align-items-center justify-content-between">
-                            <h5>Explore more</h5>
+                        <div className="d-flex align-items-center justify-content-between mb-5">
+                            <h5 className='m-0 p-0'>Explore more</h5>
                             <Link to="#" className="link-nm button1">
                                 See all posts
                             </Link>
                         </div>
 
-                        <div className="d-flex flex-column gap-2"  style={{marginTop: '48px'}}>
+                        <div className="d-flex flex-column gap-3">
                             {morePosts.map(post => (
                                 <BlogCardHorizontal post={post} key={post.id_post} />
                             ))}
@@ -184,7 +172,7 @@ export default function Home() {
                     </div>
                     <div className="col-4">
                         <div className="row mb-5">
-                            <h5 style={{marginBottom: '48px'}}>Hot topics</h5>
+                            <h5 className='mb-5'>Hot topics</h5>
                             <div className="d-flex flex-wrap gap-2">
                                 {hotTopics.map(topic => (
                                     <TopicTag key={topic.topic} topic={topic} />
@@ -194,8 +182,8 @@ export default function Home() {
                                 See all<i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
-                        <div className="row">
-                            <h4>Who to follow</h4>
+                        <div className="d-flex flex-column">
+                            <h4 className='m-0 p-0 mb-5'>Who to follow</h4>
                             <div className="d-flex flex-column gap-2">
                                 {authorsToFollow.map(author => (
                                     <AuthorHorizontal author={author} key={author.id_user}/>
