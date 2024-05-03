@@ -13,7 +13,7 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserToken, getAuthorPosts,
     createOrder,captureOrder,
     isFollowAuthor, getUserFollow, getUserBlock,
-    pinPost } = require("../controllers/userController")
+    pinPost, unpinPost } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -132,6 +132,9 @@ userRoute.get("/follow/:id_user", getUserFollow)
 userRoute.get("/block/:id_user", getUserBlock)
 
 // PUT: Pin a post
-userRoute.put("/:id_user/:id_pinned_post", pinPost)
+userRoute.put("/unpin/:id_user/:id_pinned_post", pinPost)
+
+// PUT: Unpin a post
+userRoute.put("/unpin/:id_user", unpinPost)
 
 module.exports = userRoute;

@@ -12,7 +12,7 @@ import { formatToMD } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -22,7 +22,6 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function MyProfile() {
-    //const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
     const user_info = useSelector(state => state.UserReducer.user_login);
 
     console.log("user_info: ", user_info)
@@ -81,6 +80,12 @@ export default function MyProfile() {
     const pinPost = (id_post) => {
         dispatch(pinPostAction(user_info.id_user, id_post)).then(() => {
             alert("Pin successfully"); 
+        })
+    };
+
+    const handleUnpinPost = () => {
+        dispatch(unpinPostAction(user_info.id_user)).then(() => {
+            alert("Unpin successfully"); 
         })
     };
 
@@ -150,7 +155,11 @@ export default function MyProfile() {
                                                                 <Link to={`/write?id_post=${post.id_post}`} className='dropdown-item'>Edit post</Link>
                                                             </li>
                                                             <li>
+                                                            {post.id_post === user_info.id_pinned_post ? (
+                                                                <a className="dropdown-item" onClick={() => handleUnpinPost()}>Unpin post</a>
+                                                            ) : (
                                                                 <a className="dropdown-item" onClick={() => handlePinPost(post.id_post)}>Pin post</a>
+                                                            )}
                                                             </li>
 
                                                             <li><hr className="dropdown-divider"></hr></li>

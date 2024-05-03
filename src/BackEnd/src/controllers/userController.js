@@ -1446,6 +1446,40 @@ const pinPost = async (req, res) => {
     }
 }
 
+// PUT: Pin a post
+const unpinPost = async (req, res) => {
+    let { id_user } = req.params
+    console.log("unpin post: ", id_user)
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                id_pinned_post: null
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
@@ -1458,4 +1492,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
             isFollowAuthor, getUserFollow, getUserBlock,
-            pinPost }
+            pinPost, unpinPost }
