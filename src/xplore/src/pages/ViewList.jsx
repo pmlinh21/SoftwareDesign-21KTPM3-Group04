@@ -7,6 +7,8 @@ import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import Loading from '../components/system-feedback/Loading';
 import { userService } from '../services/UserService';
 
+
+
 export default function ViewList(props) {
     const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
 
@@ -17,6 +19,8 @@ export default function ViewList(props) {
 
     const [loading, setLoading] = useState(true);
     const [list, setList] = useState({});
+    const [displayPopup, setDisplayPopup] = useState(false)
+    const [listName, setListName] = useState('')
 
     const fetchList = async () => {
         try {
@@ -24,6 +28,7 @@ export default function ViewList(props) {
             if (result.status === 200) {
                 console.log("list: ", result.data.content);
                 setList(result.data.content);
+                setListName(result.data.content.list_name);
                 setLoading(false);
             }
         } catch (error) {
@@ -47,6 +52,23 @@ export default function ViewList(props) {
         }
     }
 
+    
+    const handleEditClicked = () => { 
+        setDisplayPopup(true);
+    }
+
+    const handleSaveClicked = async () => {
+        try {
+            const result = await userService.updateList({id_list: id_list, list_name: listName});
+            if (result.status === 200) {
+                setDisplayPopup(false);
+                fetchList();
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
     return (
         <div className='view-list container-fluid'>
             <Search />
@@ -62,7 +84,7 @@ export default function ViewList(props) {
                         <div className="dropdown">
                             <i class="fa-solid fa-ellipsis ic" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li class="dropdown-item">Edit list</li>
+                                <li class="dropdown-item" onClick={handleEditClicked}>Edit list</li>
                                 <li><hr className="dropdown-divider" ></hr></li>
                                 <li class="dropdown-item delete-dropdown" onClick={handleDeleteClicked}>
                                     <i class="fa-regular fa-trash-can"></i> Delete
@@ -91,6 +113,27 @@ export default function ViewList(props) {
             }
                 
             </div>
+
+            { displayPopup && 
+            <div className="edit-popup-overlay">
+                <div className="edit-popup">
+                    <i className="fa-solid fa-xmark close-button" onClick={()=>setDisplayPopup(false)}></i>
+                
+                    <p className="title1">
+                        Edit List
+                    </p>
+                    <div className="form-group">
+                        <label className="label2">List name</label>
+                        <div className="d-flex">
+                            <input type="text" name="list_name" value={listName} onChange={(e)=>setListName(e.target.value)}/>
+                            <button className="prim-btn rounded-1 button2 px-3 ms-3" onClick={handleSaveClicked}>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
     )
 }
