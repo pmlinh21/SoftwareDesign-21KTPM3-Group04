@@ -3,7 +3,7 @@
 
 .blog-post-card .thumbnail-container img{
     width: 100%;
-    height: 100%;
+    height: 15rem;
     object-fit: cover;
 }
 

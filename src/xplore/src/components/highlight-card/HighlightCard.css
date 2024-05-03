@@ -20,5 +20,6 @@
 
 .highlight-card .content mark {
     background-color: var(--blue-100);
+    cursor: pointer;
 }
 
