@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Notification.css'
+import Avatar from '../avatar/Avatar';
 
 export default function Notification(props) {
     const [tab, setTab] = useState(props.link);
@@ -12,9 +13,15 @@ export default function Notification(props) {
         <div className='notification-overlay'>
             <div className='notification'>
                 <p className='title2'>Notifications</p>
-                <ul className='d-flex flex-row'>
-                    <li className={`button2 tab-item ${tab === "all" ? "focused" : ""}`} id="for-all" onClick={() => setTab('all')}>All</li>
+                {/* Tabs */}
+                <ul className='tab-panel d-flex flex-row gap-2'>
+                    <li className='tab-item button2 focused'>All</li>
+                    <li className='tab-item button2'>Like</li>
+                    <li className='tab-item button2'>Respond</li>
+                    <li className='tab-item button2'>Subscribe</li>
                 </ul>
+                {/* Notification badge */}
+                
             </div>
         </div>
     )
