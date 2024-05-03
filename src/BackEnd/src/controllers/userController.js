@@ -313,39 +313,74 @@ try {
 }
 }
 
-// PUT: Update user by ID
-const updateUserByID = async (req, res) => {
-let { id_user } = req.params
-let { fullname, gender, birthdate, avatar, tipping_link, bio } = req.body;
+// PUT: Update user detail
+const updateUserDetail = async (req, res) => {
+    let { id_user } = req.params
+    let { fullname, gender, birthdate, avatar } = req.body;
 
-try {
-    let user = await model.user.findOne({
-        where:{
-            id_user: id_user
-        } 
-    })
-    if (!user) {
-        failCode(res, null, "Invalid ID")
-    }
-    else{
-        await model.user.update({ 
-            fullname, gender, birthdate, avatar, tipping_link, bio
-        }, {
+    try {
+        let user = await model.user.findOne({
             where:{
                 id_user: id_user
-            }
-        }); 
-        let data = await model.user.findOne({
-            where:{
-                id_user: id_user
-            }
-        });
-        successCode(res, data, "Update successfully")
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                fullname, gender, birthdate, avatar
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
 }
+
+// PUT: Update user profile
+const updateUserProfile = async (req, res) => {
+    let { id_user } = req.params
+    let { tipping_link, bio } = req.body;
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                tipping_link, bio
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
 }
 
 // PUT: Harshing user password
@@ -1392,7 +1427,7 @@ const pinPost = async (req, res) => {
 }
 
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
-            sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
+            sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
             updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
             blockAnotherUser, unblockAnotherUser,

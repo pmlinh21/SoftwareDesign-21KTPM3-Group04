@@ -142,6 +142,16 @@ export class UserService extends BaseService {
     deleteList = (id_list) =>{
         return this.delete(`/user/list/${id_list}`);
     }
+
+    // Api 25: Update user detail
+    updateUserDetail = (id_user, formData) =>{
+      return this.put(`/user/detail/${id_user}`, formData);
+    }
+
+    // Api 26: Update user profile
+    updateUserProfile = (id_user, formData) =>{
+      return this.put(`/user/profile/${id_user}`, formData);
+    }
 }
   
 export const userService = new UserService();

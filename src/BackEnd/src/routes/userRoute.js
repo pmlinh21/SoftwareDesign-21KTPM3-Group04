@@ -2,7 +2,7 @@ const express = require('express');
 const userRoute = express.Router();
 const cookieParser = require("cookie-parser");
 const { login, signup, searchAccountByName, getUserSubscriber,
-    sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic,
+    sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
     updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
     blockAnotherUser, unblockAnotherUser,
@@ -38,8 +38,11 @@ userRoute.get("/:id_user", getUserByID)
 // GET: Get user by Email
 userRoute.get("/getUser/:email", getUserByEmail)
 
-// PUT: Update user by ID
-userRoute.put("/:id_user", updateUserByID)
+// PUT: Update user detail
+userRoute.put("/detail/:id_user", updateUserDetail)
+
+// PUT: Update user profile
+userRoute.put("/profile/:id_user", updateUserProfile)
 
 // GET: Get all user following topics
 userRoute.get("/topic/:id_user", getUserTopic)
