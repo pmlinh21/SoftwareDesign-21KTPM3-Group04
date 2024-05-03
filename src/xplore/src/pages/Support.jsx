@@ -5,6 +5,11 @@ export default function Support() {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [userName, setUserName] = useState('');
+    const [text, setText] = useState('');
+
+    const handleChange = (event) => {
+        setText(event.target.value);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -83,8 +88,8 @@ export default function Support() {
                     <h4>Contact us</h4>
                     <p className="p1">Our friendly team would love to hear from you.</p>
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label className='label2 my-2' htmlFor="name">Full Name</label>
+                        <div className='my-3'>
+                            <label className='label2 my-2' htmlFor="name">Full name</label>
                             <input 
                                 type="text" 
                                 className="form-control" id="fullName" 
@@ -93,7 +98,7 @@ export default function Support() {
                                 onChange={(e) => setFullName(e.target.value)}
                                 />
                         </div>
-                        <div>
+                        <div className='my-3'>
                             <label className='label2 my-2' htmlFor="name">Email</label>
                             <input 
                                 type="text" 
@@ -103,6 +108,19 @@ export default function Support() {
                                 onChange={(e) => setFullName(e.target.value)}
                                 />
                         </div>
+                        <div className='my-3'>
+                            <label htmlFor="textarea" className='label2'>Message</label><br></br>
+                            <textarea
+                                id="textarea"
+                                value={text}
+                                onChange={handleChange}
+                                rows={4}
+                                cols={85}
+                                placeholder="How can we help you?"
+                                style={{ resize: 'vertical' }}
+                            />
+                        </div>
+                        <button className='prim-btn btn-md' style={{width: '100%'}}>Send message</button>
                     </form>
                 </div>
                 <div className="col"><img src="/imgs/contact.jpg" style={{width: '100%'}} /></div>
