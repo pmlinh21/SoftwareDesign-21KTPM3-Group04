@@ -5,7 +5,8 @@ import { LOGIN, SIGNUP,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER } from "../types";
+    BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, 
+    PIN_POST} from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -621,6 +622,34 @@ export const unblockUserAction = (user, block) => {
                 dispatch({
                     type: UNBLOCK_USER,
                     block: block
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const pinPostAction = (user, id_post) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.pinPost(user, id_post);
+
+            if (result.status === 200) {
+                localStorage.setItem(USER_LOGIN, JSON.stringify(result.data.content));
+
+                dispatch({
+                    type: PIN_POST,
+                    user_login: result.data.content
                 });
             }
             

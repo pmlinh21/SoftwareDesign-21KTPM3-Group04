@@ -127,6 +127,11 @@ export class UserService extends BaseService {
     unblockUser = (user, block) =>{
       return this.delete(`/user/block/${user}/${block}`);
     }
+
+    // Api 22: Pin post
+    pinPost = (user, id_post) =>{
+      return this.put(`/user/${user}/${id_post}`);
+    }
   }
   
 export const userService = new UserService();

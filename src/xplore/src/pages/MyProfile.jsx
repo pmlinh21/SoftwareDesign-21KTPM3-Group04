@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import "../styles/commons.css";
 import "./MyProfile.css";
@@ -12,7 +12,7 @@ import { formatToMD } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -72,6 +72,10 @@ export default function MyProfile() {
         navigate("/author-profile", { state: { author: follow } });
     };
 
+    const handlePinPost = (id_post) => {
+        dispatch(pinPostAction(user_info.id_user, id_post))
+    };
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -122,14 +126,19 @@ export default function MyProfile() {
                                                         </i>
 
                                                         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                                                            <li><a className="dropdown-item" href="#">Edit post</a></li>
-                                                            <li><a className="dropdown-item" href="#">Pin post</a></li>
-                                                            <li><a className="dropdown-item" href="#">Settings</a></li>
-                                                            <li><a className="dropdown-item" href="#">Stats</a></li>
+                                                            <li>
+                                                                <Link to={`/write?id_post=${post.id_post}`} className='dropdown-item'>Edit post</Link>
+                                                            </li>
+                                                            <li>
+                                                                <a className="dropdown-item" onClick={handlePinPost(post.id_post)}>Pin post</a>
+                                                            </li>
+
                                                             <li><hr className="dropdown-divider"></hr></li>
-                                                            <li><a className="dropdown-item delete-dropdown" href="#">
-                                                                <i className="fa-regular fa-trash-can"></i> Delete Post
-                                                            </a></li>
+                                                            <li>
+                                                                <a className="dropdown-item delete-dropdown">
+                                                                    <i className="fa-regular fa-trash-can"></i> Delete Post
+                                                                </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>

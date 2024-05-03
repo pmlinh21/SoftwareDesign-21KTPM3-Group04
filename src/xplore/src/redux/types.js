@@ -45,6 +45,8 @@ export const GET_USER_BLOCK = "GET_USER_BLOCK";
 
 export const UNBLOCK_USER = "UNBLOCK_USER";
 
+export const PIN_POST = "PIN_POST";
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 
