@@ -24,6 +24,7 @@ import MyTabs from './pages/MyTabs';
 import PostDetail from './pages/PostDetail';
 import Post from './pages/Post';
 import ViewList from './pages/ViewList';
+import Notification from './components/notification/Notification'
 
 export const history = createBrowserHistory();
 
@@ -74,7 +75,7 @@ function App() {
           <Route path="ex" element={<MyTabs />}/>
           {/* <Route path="response" element={<Response />}/> */}
           <Route path="drafts" element={<Post />}/>
-
+          <Route path="noti" element={<Notification />}/>
         </Route>
       </Routes>
     </Router>
