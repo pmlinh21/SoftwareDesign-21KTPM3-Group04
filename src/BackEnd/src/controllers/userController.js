@@ -503,29 +503,29 @@ try {
 
 // GET: Get all user subscriptions
 const getUserSubscription = async (req, res) => {
-let { id_user } = req.params
+    let { id_user } = req.params
 
-try {
-    let user = await model.user.findOne({
-        where:{
-            id_user: id_user
-        }
-    })
-    if(!user){
-        failCode(res, null, "Invalid ID")
-    }
-    else{
-        let subscriptions = await model.subscription.findAll({
-            where: {
+    try {
+        let user = await model.user.findOne({
+            where:{
                 id_user: id_user
             }
-        });
-        successCode(res, subscriptions, "Subscriptions found");
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let subscriptions = await model.subscription.findAll({
+                where: {
+                    id_user: id_user
+                }
+            });
+            successCode(res, subscriptions, "Subscriptions found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
-}
 }
 
 // POST: Make a subscription
@@ -1480,6 +1480,48 @@ const unpinPost = async (req, res) => {
     }
 }
 
+// GET: Get current user subscription
+const getUserCurrentSubscription = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            const currentDate = new Date().toISOString();
+
+            let subscription = await model.subscription.findOne({
+                where: {
+                    id_user: id_user,
+                    status: {
+                        [Op.ne]: 1 // status not equal to 1
+                    },
+                    end_time: {
+                        [Op.gt]: currentDate // end_time greater than the current time
+                    }
+                },
+                include: [
+                    {
+                        model: model.membership,
+                        as: 'membership'
+                    }
+                ]
+            });
+            
+            successCode(res, subscription, "Subscription found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
@@ -1492,4 +1534,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
             isFollowAuthor, getUserFollow, getUserBlock,
-            pinPost, unpinPost }
+            pinPost, unpinPost, getUserCurrentSubscription }

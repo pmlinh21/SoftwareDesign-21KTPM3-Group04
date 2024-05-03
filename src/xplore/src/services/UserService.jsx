@@ -172,6 +172,11 @@ export class UserService extends BaseService {
     unpinPost = (user) =>{
       return this.put(`/user/unpin/${user}`);
     }
+
+    // Api 31: Get user current subscription
+    getUserCurrentSubscription = (user) =>{
+      return this.get(`/user/current/${user}`);
+    }
 }
   
 export const userService = new UserService();
