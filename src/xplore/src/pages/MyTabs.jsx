@@ -45,6 +45,7 @@ const MyTabs = () => {
           console.error('Error fetching data:', error);
         }
       };
+      
 
       fetchPost(topic);
     }

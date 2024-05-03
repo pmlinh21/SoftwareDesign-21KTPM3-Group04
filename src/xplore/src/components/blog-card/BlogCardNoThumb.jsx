@@ -42,7 +42,7 @@ export default function BlogCardNoThumb(props) {
                     </div>
 
                     <div className="bottom-right link-sm">
-                        <Link to={`/post?id_post=${id_post}`} className="text-black">
+                        <Link to={`/post?id_post=${id_post}`}>
                             Read post<i className="fa-solid fa-arrow-right ms-2"></i></Link>
                     </div>
                 </div>
