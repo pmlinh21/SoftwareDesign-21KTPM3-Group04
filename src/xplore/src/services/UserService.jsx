@@ -162,6 +162,11 @@ export class UserService extends BaseService {
     updateUserProfile = (id_user, formData) =>{
       return this.put(`/user/profile/${id_user}`, formData);
     }
+
+    // Api 29: Get all noti
+    getNotification = (id_user) =>{
+      return this.get(`/user/notification/received/${id_user}`);
+    }
 }
   
 export const userService = new UserService();
