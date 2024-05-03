@@ -2,4 +2,5 @@
     background: var(--blue-0);
     height: 30vh;
     padding: 48px;
+    border-radius: 10px;
 }
