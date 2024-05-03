@@ -104,8 +104,12 @@ export default function Home() {
     }
 
     useEffect(() => {
-        if (user_login.id_user)
+        if (user_login.id_user){
+            console.log("home guest")
             navigate("/home")
+            return
+        }
+            
         fetchTopAuthors();
         fetchTrendingPosts();
         fetchHotTopics();
@@ -148,7 +152,7 @@ export default function Home() {
                 <div className="d-flex flex-wrap justify-content-between gap-3">
 
                 {trendingPosts.map(post => (
-                    <BlogCardNoThumb post={post} style={"home-guest"}/>
+                    <BlogCardNoThumb key={post.id_post} post={post} style={"home-guest"}/>
                 ))}
 
                 </div>

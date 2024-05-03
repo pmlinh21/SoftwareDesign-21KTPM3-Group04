@@ -36,17 +36,7 @@ export const UserReducer = (state = stateDefault, action) => {
             return { ...state, user_signup: action.formData };
         }
         case LOGOUT:{
-            return { ...state,
-                user_login: {},
-                user_signup: {},
-                list: null, 
-                topic: null,
-                author_post: null,
-                author_subscriber: null,
-                author_list: null,
-                is_follow: false,
-                block: null,
-            };
+            return stateDefault
         }
         case GET_LIST_BY_USER:{
             return { ...state, list: action.list}

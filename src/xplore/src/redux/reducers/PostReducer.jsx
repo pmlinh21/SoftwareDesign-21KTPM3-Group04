@@ -8,10 +8,7 @@ export const stateDefault = {
 export const PostReducer = (state = stateDefault, action) => {
     switch (action.type) {
         case LOGOUT:{
-            return { ...state,
-                posts: null, 
-                topPosts: null,
-            };
+            return stateDefault
         }
         case GET_POST_BY_USER:{
             return { 

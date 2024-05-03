@@ -275,14 +275,19 @@ export const UnfollowTopicAction = (id_user, id_topic) => {
 
 export const logOut = () => {
     return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_LOADING
+        });
         try {
             dispatch({
                 type: LOGOUT
             });
-
         } catch (error) {
             console.log("error", error);
         }
+        dispatch({
+            type: HIDE_LOADING
+        });
     };
 };
 
@@ -394,9 +399,9 @@ export const getAuthorListAction = (id_user) => {
 export const isFollowAuthorAction = (user, subscriber) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             
             const isFollowResult = await userService.isFollowAuthor(user, subscriber);
 
@@ -409,9 +414,9 @@ export const isFollowAuthorAction = (user, subscriber) => {
                 });
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -422,9 +427,9 @@ export const isFollowAuthorAction = (user, subscriber) => {
 export const unfollowAuthorAction = (user, subscriber) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             
             const result = await userService.unfollowAuthor(user, subscriber);
 
@@ -450,9 +455,9 @@ export const unfollowAuthorAction = (user, subscriber) => {
                 }
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -463,9 +468,9 @@ export const unfollowAuthorAction = (user, subscriber) => {
 export const followAuthorAction = (user, subscriber, fullname) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             const result = await userService.followAuthor(user, subscriber);
 
             if (result.status === 200) {
@@ -497,9 +502,9 @@ export const followAuthorAction = (user, subscriber, fullname) => {
                 await userService.sendEmail(formData);
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
