@@ -32,6 +32,8 @@ export default function MyProfile() {
     const user_follow = useSelector(state => state.UserReducer.user_follow);
     const user_block = useSelector(state => state.UserReducer.user_block);
     
+    const [sortedPosts, setSortedPosts] = useState([]);
+
     useEffect(() => {
         dispatch(getPostByUser(user_info?.id_user))
         dispatch(getUserFollowerAction(user_info?.id_user))
@@ -44,6 +46,23 @@ export default function MyProfile() {
     console.log("user_follower: ", user_follower)
     console.log("user_follow: ", user_follow)
     console.log("user_block: ", user_block)
+
+    useEffect(() => {
+        if (user_post) {
+            const sorted = sortPosts(user_post, user_info?.id_pinned_post);
+            setSortedPosts(sorted);
+        }
+    }, [user_post, user_info?.id_pinned_post]);
+
+    const sortPosts = (posts, pinnedId) => {
+        if (!pinnedId) return posts;
+        return [
+            ...posts.filter(post => post.id_post === pinnedId),
+            ...posts.filter(post => post.id_post !== pinnedId)
+        ];
+    };
+
+    console.log("Sorted Posts: ", sortedPosts);
 
     const followerCount = user_follower ? user_follower.length : 0;
     const followCount = user_follow ? user_follow.length : 0;
@@ -128,12 +147,12 @@ export default function MyProfile() {
                 <div className=" row mt-5 d-flex flex-row justify-content-between">
                     <div className="col-7 d-flex flex-column gap-2">
                         <h6>My posts</h6>
-                        {user_post && user_post.length > 0 ? (
+                        {sortedPosts && sortedPosts.length > 0 ? (
                             <div className='d-flex flex-column gap-2'>
-                                {user_post.map((post) => (
+                                {sortedPosts.map((post) => (
                                 <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
                                     <div className="col-12 d-flex py-3 px-2">
-                                        <div className="col-5 thumbnail-container bg-white h-100">
+                                        <div className="col-5 thumbnail-container bg-white">
                                             <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
                                     
