@@ -653,6 +653,50 @@ const responsePost = async (req,res) => {
     }
 }
 
+const updateResponse = async (req,res) => {
+    const {id_response, response, response_time} = req.body;
+
+    try{
+        console.log({id_response, response, response_time})
+        await model.response.update({
+            response: response, 
+            response_time: response_time,
+        }, {
+            where:{
+                id_response: id_response
+            },
+        }); 
+
+        const post = await model.response.findOne({
+            where:{
+                id_response: id_response
+            }
+        })
+
+        const data = await model.response.findAll({
+            where:{
+                id_post: post.id_post
+            },
+            include:[
+                {
+                    model: model.user,
+                    as: "user",
+                    attributes: ["id_user","fullname", "avatar"],
+                }
+            ],
+            order: [['id_response', 'DESC']],
+            attributes: ["id_response","response", "response_time", "reply","reply_time"],
+        
+        })
+
+        successCode(res,data,"Response created")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
 const deleteResponse = async (req,res) => {
     const {id_response} = req.params;
 
@@ -715,6 +759,49 @@ const replyResponse = async (req,res) => {
         }
 
         successCode(res,count,"reply created")
+    }
+    catch(err){
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+const updateReply = async (req,res) => {
+    const {id_response, reply, reply_time} = req.body;
+
+    try{
+        await model.response.update({
+            reply: reply, 
+            reply_time: reply_time,
+        }, {
+            where:{
+                id_response: id_response
+            }
+        }); 
+
+        const data = await model.response.findOne({
+            where:{
+                id_response: id_response
+            }
+        })
+
+        const response = await model.response.findAll({
+            where:{
+                id_post: data.id_post
+            },
+            include:[
+                {
+                    model: model.user,
+                    as: "user",
+                    attributes: ["id_user","fullname", "avatar"],
+                }
+            ],
+            order: [['id_response', 'DESC']],
+            attributes: ["id_response","response", "response_time", "reply","reply_time"],
+        
+        })
+
+        successCode(res,response,"Response created")
     }
     catch(err){
         console.log(err)
@@ -896,8 +983,10 @@ module.exports = {
     likePost,
     unlikePost,
     responsePost,
+    updateResponse,
     deleteResponse,
     replyResponse,
+    updateReply,
     deleteReply,
 
     getHighlight,

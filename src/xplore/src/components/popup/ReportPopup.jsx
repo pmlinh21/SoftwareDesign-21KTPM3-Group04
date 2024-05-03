@@ -74,9 +74,10 @@ export default function ReportResponsePopup(props) {
                         id_response? " response?" : " post?"
                     }
                 </span>
-                <p className="my-2 p1">We rely on Xplore community members to report or flag content that they find inappropriate. </p>
-                <p className="p1">Reporting content is anonymous, so other users can't tell who made the report. </p>
             </p>
+            <p className="text-start my-2 p1">We rely on Xplore community members to report or flag content that they find inappropriate. </p>
+            <p className="text-start p1">Reporting content is anonymous, so other users can't tell who made the report. </p>
+
             <div className="mb-5 text-start">
                 <label className="p1 me-3" htmlFor="reportReason">Select the reason that you want to report</label>
                 <select id="reportReason" value={id_report_type} onChange={handleChange}>
@@ -86,7 +87,7 @@ export default function ReportResponsePopup(props) {
                     <option className="p1" value="3">Spam</option>
                 </select>
             </div>
-            <button type="button" className="btn button2 bg-white text-scheme-sub-text"
+            <button type="button" className="btn button2 bg-white text-scheme-sub-text me-4"
                 onClick={handleCancelButton}>
                 Cancel
             </button>
