@@ -144,9 +144,23 @@ function Post() {
         }
     }
 
-    const deleteResponse = (id_response) => {
-        const newResponses = responses.filter(response => response.id_response != id_response);
-        setResponses([...newResponses]);
+    const deleteResponse = (isReplyDropdown, id_response) => {
+        if (isReplyDropdown){
+            const newResponses = responses.map(response => {
+                if (response.id_response == id_response)
+                    return {
+                        ...response,
+                        reply: null,
+                        reply_time: null,
+                    };
+                return response;
+            });
+            setResponses([...newResponses]);
+        } else{
+            const newResponses = responses.filter(response => response.id_response != id_response);
+            setResponses([...newResponses]);
+        }
+        
     }
 
     return (
