@@ -53,6 +53,9 @@ export const UPDATE_USER_DETAIL = "UPDATE_USER_DETAIL";
 
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 
+export const UNPIN_POST = "UNPIN_POST";
+
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 
