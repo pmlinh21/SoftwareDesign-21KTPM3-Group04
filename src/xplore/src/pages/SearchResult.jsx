@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { useLocation   } from 'react-router-dom';
 
 import "./SearchResult.css"
@@ -13,6 +13,7 @@ import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 import Loading from '../components/system-feedback/Loading';
 
 import { DOMAIN } from "../util/config";
+import { getUserBlockAction } from '../redux/actions/UserAction';
 
 function ResultText({type, searchText}){
     return(
@@ -36,18 +37,25 @@ function ResultText({type, searchText}){
 
 }
 
-const fetchData = async (type, search, setResult, setLoading) => {
+const fetchData = async (type, search, setResult, setLoading, user_block) => {
     try {
-      setLoading((val) => true);
-      const response = await fetch(`${DOMAIN}/${type}/search/${search}`);
-      const jsonData = await response.json();
+        setLoading(true);
+        const response = await fetch(`${DOMAIN}/${type}/search/${search}`);
+        const jsonData = await response.json();
       
+        let newResult = jsonData.content
+        // console.log(user_block)
+        const formatBlock = user_block?.map(user => user.id_user)
+        if (type == "user"){
+            newResult = newResult.filter(user => !formatBlock?.includes(user.id_user))
+        } else if (type == "post"){
+            newResult = newResult.filter(post => !formatBlock?.includes(post.author.id_user))
+        }
 
-      setResult((result) => {
-        console.log(jsonData.content)
-        return {...result, [`${type}`]: jsonData.content}
-    });
-      setLoading((val) => false);
+        setResult((result) => {
+            return {...result, [`${type}`]: newResult}
+        });
+        setLoading(false);
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -56,24 +64,33 @@ const fetchData = async (type, search, setResult, setLoading) => {
 
 export default function SearchResult() {
     const location = useLocation();
+    const dispatch = useDispatch();
     const searchParams = new URLSearchParams(location.search);
     const searchText = searchParams.get('searchText');
     const type = searchParams.get('type');
 
-    const {user_login} = useSelector(state => state.UserReducer)
+    const {user_login, user_block} = useSelector(state => state.UserReducer)
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState({});
 
     useEffect(()=>{
+        if (user_block == null)
+            return
         if (type === "all"){
-            fetchData("post",searchText, setResult, setLoading,  user_login.id_user);
-            fetchData("topic",searchText, setResult, setLoading, user_login.id_user);
-            fetchData("user",searchText, setResult, setLoading, user_login.id_user);
+            fetchData("post",searchText, setResult, setLoading,  user_block);
+            fetchData("topic",searchText, setResult, setLoading, user_block);
+            fetchData("user",searchText, setResult, setLoading, user_block);
         } else {
-            fetchData(type,searchText, setResult, setLoading, user_login.id_user);
+            fetchData(type,searchText, setResult, setLoading, user_block);
         }
-    }, [searchText,type])
+    }, [searchText,type, user_block?.length])
+
+    useEffect(() => {
+        if (user_block == null){
+            dispatch(getUserBlockAction(user_login?.id_user))
+        }
+    },[])
 
     return (
     <div className="search-result-page">

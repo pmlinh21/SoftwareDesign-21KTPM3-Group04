@@ -154,7 +154,7 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="#">
                                 <i className="fa-regular fa-bell"></i>
-                                <Notification></Notification>
+                                {/* <Notification></Notification> */}
                             </Link>
                         </li>
                         <li className="nav-item dropdown" >

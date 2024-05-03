@@ -74,6 +74,7 @@ export const createPostAction = (postInfo, uploadedThumbnail) => {
             
                 if (postResult.status === 200) {
                     const {id_user,...newPost} = postResult.data.content
+                    // console.log(postResult.data.content)
                     dispatch({
                         type: CREATE_POST,
                         newPost: newPost
