@@ -12,7 +12,7 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     addPostToList, deletePostFromList, getUserHighLight, updatePassword,
     getUserToken, getAuthorPosts,
     createOrder,captureOrder,
-    isFollowAuthor } = require("../controllers/userController")
+    isFollowAuthor, getUserFollow, getUserBlock } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -117,5 +117,11 @@ userRoute.post("/capture-paypal-order", captureOrder);
 
 // GET: Is follow author
 userRoute.get("/follow/:user/:subscriber", isFollowAuthor)
+
+// GET: Get user follow
+userRoute.get("/follow/:id_user", getUserFollow)
+
+// GET: Get user block
+userRoute.get("/block/:id_user", getUserBlock)
 
 module.exports = userRoute;

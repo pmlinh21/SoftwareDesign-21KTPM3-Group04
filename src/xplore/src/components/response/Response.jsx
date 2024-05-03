@@ -12,7 +12,7 @@ import "./Response.css"
 const DropdownMenu = (props) => {
     const {id_user_login, id_author_post, id_author_response, reply, 
         id_response, isReplyDropdown, setLoading,
-        setIsEdit, deleteResponse, setReportContent} = props
+        setIsEdit, deleteResponse, setIsNewReply, setReportContent} = props
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -39,10 +39,18 @@ const DropdownMenu = (props) => {
             setLoading({
                 type: 'full'
             })
-            const result = await postService.deleteResponse(id_response);
+
+            let result;
+
+            if (isReplyDropdown){
+                result = await postService.deleteReply(id_response);
+            } else{
+                result = await postService.deleteResponse(id_response);
+            }
+            
             toggleDropdown()
             if (result.status === 200){
-                deleteResponse(id_response);
+                deleteResponse(isReplyDropdown, id_response);
             }
             setLoading(null)
         } catch (error) {
@@ -50,14 +58,15 @@ const DropdownMenu = (props) => {
         }
     }
 
-    const handleReportIcon = async () => {
+    const handleReportIcon = () => {
         setReportContent({
             id_response: id_response,
             isReplyReport: isReplyDropdown
         })
     }
 
-    const handleReplyIcon = async () => {
+    const handleReplyIcon = () => {
+        setIsNewReply((val) => !val)
     }
 
     return (
@@ -67,7 +76,9 @@ const DropdownMenu = (props) => {
             <ul>
                 {
                     (id_user_login == id_author_post) && (id_author_response != id_author_post) && (reply == null) && (
-                        <li className="button2 text-start d-flex align-items-center py-1" style={{ margin: '10px 0', cursor: 'pointer' }}>
+                        <li className="button2 text-start d-flex align-items-center py-1" 
+                            style={{ margin: '10px 0', cursor: 'pointer' }}
+                            onClick={handleReplyIcon}>
                             <i className="me-2 fa-solid fa-reply"></i>Reply</li>
                     )
                 } 
@@ -107,6 +118,9 @@ export default function Response(props) {
     const [isEditReply, setIsEditReply] = useState(false)
     const [editReply, setEditReply] = useState(reply);
 
+    const [isNewReply, setIsNewReply] = useState(false);
+    const [newReply, setNewReply] = useState("");
+
     function handleCancelEditResponse(){
         setEditResponse(response)
         setIsEditResponse(false)
@@ -115,6 +129,11 @@ export default function Response(props) {
     function handleCancelEditReply(){
         setEditReply(reply)
         setIsEditReply(false)
+    }
+
+    function handleCancelNewReply(){
+        setNewReply("")
+        setIsNewReply(false)
     }
 
     async function handleSaveEditResponse(){
@@ -155,6 +174,25 @@ export default function Response(props) {
         }
     }
 
+    async function handleSaveNewReply(){
+        try{
+            setLoading({
+                type: "full"
+            })
+            const result = await postService.replyResponse({
+                id_response: id_response,
+                reply: newReply,
+                reply_time: formartToSQLDatetime(new Date())
+            });
+
+            setResponses([...result.data.content]);
+            setIsNewReply(false);
+            setLoading(null)
+        }catch(e){
+            console.log(e)
+        }
+    }
+
     return (
         <div>
             {/* Reader's response */}
@@ -173,10 +211,13 @@ export default function Response(props) {
                         reply={reply}
                         id_response={id_response}
 
-                        setIsEdit={setIsEditResponse}
                         setLoading={setLoading}
 
+                        setIsEdit={setIsEditResponse}
+                        
                         deleteResponse={deleteResponse}
+
+                        setIsNewReply={setIsNewReply}
 
                         setReportContent={setReportContent}
                         isReplyDropdown={false}/>
@@ -254,6 +295,27 @@ export default function Response(props) {
                         </div>
                     )
                 )
+            }
+            {
+                isNewReply && (
+                    <div className='col-12 d-flex flex-row gap-3 m-0 mt-3 px-0'>
+                        <Avatar avatar={user_login?.avatar} size="small"/>
+                        <textarea
+                            className="response-textarea"
+                            value={newReply}
+                            onChange={(e) => {setNewReply(e.target.value)}}
+                            rows={5}
+                            cols={78}
+                        />
+                        <div style={{width: '104px'}} className="d-flex flex-column justify-content-start gap-1">
+                            <button className='sec-btn btn-md py-1' 
+                                    onClick={handleCancelNewReply}>Cancel</button>
+                            <button className='prim-btn btn-md' 
+                                disabled={newReply == ""} onClick={handleSaveNewReply}>Save</button>
+                        </div>
+                    </div>
+                )
+                
             }
         </div> 
     )

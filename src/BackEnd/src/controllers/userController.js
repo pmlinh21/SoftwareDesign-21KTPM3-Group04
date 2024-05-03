@@ -12,6 +12,7 @@ const moment = require('moment')
 const { successCode, failCode, errorCode } = require('../config/response');
 const { parseToken, decodeToken } = require('../middlewares/baseToken');
 const { SUBSCRIBE_NOTI } = require('../config/noti_type');
+const subscribe = require('../models/subscribe');
 require('dotenv').config()
 
 // GET: Login
@@ -141,35 +142,62 @@ try {
 
 // GET: Get subscriber of an account
 const getUserSubscriber = async (req, res) => {
-let { id_user } = req.params
+    let { id_user } = req.params
 
-try {
-    let user = await model.user.findOne({
-        where:{
-            id_user: id_user
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
         }
-    })
-    if(!user){
-        failCode(res, null, "Invalid ID")
+        else{
+            let subscribers = await model.subscribe.findAll({
+                where: {
+                    user: id_user
+                },
+                include: [
+                    {
+                        model: model.user,
+                        as: 'subscriber_user'
+                    }
+                ]
+            });
+
+            let simplifiedSubscribers = subscribers.map(async subscriber => {
+                let isSubscribed = await model.subscribe.findOne({
+                    where: {
+                        user: subscriber.subscriber_user.id_user,
+                        subscriber: id_user
+                    }
+                });
+                
+                return {
+                    id_user: subscriber.subscriber_user.id_user,
+                    email: subscriber.subscriber_user.email,
+                    fullname: subscriber.subscriber_user.fullname,
+                    gender: subscriber.subscriber_user.gender,
+                    birthdate: subscriber.subscriber_user.birthdate,
+                    avatar: subscriber.subscriber_user.avatar,
+                    tipping_link: subscriber.subscriber_user.tipping_link,
+                    id_pinned_post: subscriber.subscriber_user.id_pinned_post,
+                    is_member: subscriber.subscriber_user.is_member,
+                    bio: subscriber.subscriber_user.bio,
+                    is_subscribe: isSubscribed ? true : false
+                };
+            });
+            
+            // Wait for all promises to resolve
+            simplifiedSubscribers = await Promise.all(simplifiedSubscribers);
+
+            successCode(res, simplifiedSubscribers, "Subscribers found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-    else{
-        let subscribers = await model.subscribe.findAll({
-            where: {
-                user: id_user
-            },
-            include: [
-                {
-                    model: model.user,
-                    as: 'subscriber_user'
-                }
-            ]
-        });
-        successCode(res, subscribers, "Subscribers found");
-    }
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
-}
 }
 
 // Send email config
@@ -1188,7 +1216,101 @@ const isFollowAuthor = async (req, res) => {
         console.log(err)
         errorCode(res,"Internal Server Error")
     }
-    } 
+} 
+
+// GET: Get user follow
+const getUserFollow = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let follows = await model.subscribe.findAll({
+                where: {
+                    subscriber: id_user
+                },
+                include: [
+                    {
+                        model: model.user,
+                        as: 'user_user'
+                    }
+                ]
+            });
+
+            let simplifiedFollows = follows.map(follow => ({
+                id_user: follow.user_user.id_user,
+                email: follow.user_user.email,
+                fullname: follow.user_user.fullname,
+                gender: follow.user_user.gender,
+                birthdate: follow.user_user.birthdate,
+                avatar: follow.user_user.avatar,
+                tipping_link: follow.user_user.tipping_link,
+                id_pinned_post: follow.user_user.id_pinned_post,
+                is_member: follow.user_user.is_member,
+                bio: follow.user_user.bio
+            }));
+
+            successCode(res, simplifiedFollows, "Follows found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get user block
+const getUserBlock = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let blocks = await model.block.findAll({
+                where: {
+                    user: id_user
+                },
+                include: [
+                    {
+                        model: model.user,
+                        as: 'block_user'
+                    }
+                ]
+            });
+
+            let simplifiedBlocks = blocks.map(block => ({
+                id_user: block.block_user.id_user,
+                email: block.block_user.email,
+                fullname: block.block_user.fullname,
+                gender: block.block_user.gender,
+                birthdate: block.block_user.birthdate,
+                avatar: block.block_user.avatar,
+                tipping_link: block.block_user.tipping_link,
+                id_pinned_post: block.block_user.id_pinned_post,
+                is_member: block.block_user.is_member,
+                bio: block.block_user.bio
+            }));
+
+            successCode(res, simplifiedBlocks, "Blocks found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
 
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
@@ -1201,4 +1323,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             addPostToList, deletePostFromList, getUserHighLight, updatePassword, 
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
-            isFollowAuthor }
+            isFollowAuthor, getUserFollow, getUserBlock }

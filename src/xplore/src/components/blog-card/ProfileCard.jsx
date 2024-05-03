@@ -17,7 +17,7 @@ export default function ProfileCard(props) {
     return (
         <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
             <div className="col-12 d-flex py-3 px-2">
-                <div className="col-5 thumbnail-container bg-white">
+                <div className="col-5 thumbnail-container bg-white h-100">
                     <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
                 </div>
  

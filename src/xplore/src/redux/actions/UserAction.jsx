@@ -5,7 +5,7 @@ import { LOGIN, SIGNUP,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR } from "../types";
+    BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK } from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -422,6 +422,16 @@ export const unfollowAuthorAction = (user, subscriber) => {
                         type: IS_FOLLOW_AUTHOR,
                         is_follow: isFollow
                     });
+
+                    const followResult = await userService.getUserFollow(subscriber);
+
+                    if (followResult.status === 200) {
+                        dispatch({
+                            type: GET_USER_FOLLOW,
+                            user_follow: followResult.data.content
+                        });
+                    }
+                    
                 }
             }
             
@@ -453,6 +463,15 @@ export const followAuthorAction = (user, subscriber, fullname) => {
                         type: IS_FOLLOW_AUTHOR,
                         is_follow: isFollow
                     });
+
+                    const followResult = await userService.getUserFollow(subscriber);
+
+                    if (followResult.status === 200) {
+                        dispatch({
+                            type: GET_USER_FOLLOW,
+                            user_follow: followResult.data.content
+                        });
+                    }
                 }
 
                 const formData = {
@@ -501,6 +520,81 @@ export const blockAuthorAction = (user, block) => {
         } catch (error) {
             console.log("error", error);
             throw error;
+        }
+    };
+};
+
+export const getUserFollowerAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const followerResult = await userService.getUserFollower(id_user);
+
+            if (followerResult.status === 200) {
+                dispatch({
+                    type: GET_USER_FOLLOWER,
+                    user_follower: followerResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
+export const getUserFollowAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const followResult = await userService.getUserFollow(id_user);
+
+            if (followResult.status === 200) {
+                dispatch({
+                    type: GET_USER_FOLLOW,
+                    user_follow: followResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+};
+
+export const getUserBlockAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const blockResult = await userService.getUserBlock(id_user);
+
+            if (blockResult.status === 200) {
+                dispatch({
+                    type: GET_USER_BLOCK,
+                    user_block: blockResult.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error);
         }
     };
 };

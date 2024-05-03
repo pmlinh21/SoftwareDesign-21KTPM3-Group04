@@ -752,13 +752,25 @@ const replyResponse = async (req,res) => {
             id_response: id_response,
             noti_type: REPLY_NOTI,
             noti_time: reply_time
-        });  
+        }); 
+        
+        const data = await model.response.findAll({
+            where:{
+                id_post: response[0].id_post
+            },
+            include:[
+                {
+                    model: model.user,
+                    as: "user",
+                    attributes: ["id_user","fullname", "avatar"],
+                }
+            ],
+            order: [['id_response', 'DESC']],
+            attributes: ["id_response","response", "response_time", "reply","reply_time"],
+        
+        })
 
-        if (!count) {
-            failCode(res, null, "Invalid ID")
-        }
-
-        successCode(res,count,"reply created")
+        successCode(res,data,"reply created")
     }
     catch(err){
         console.log(err)
