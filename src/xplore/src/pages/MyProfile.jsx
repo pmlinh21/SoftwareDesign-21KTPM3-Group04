@@ -32,7 +32,7 @@ export default function MyProfile() {
     const user_follower = useSelector(state => state.UserReducer.user_follower);
     const user_follow = useSelector(state => state.UserReducer.user_follow);
     const user_block = useSelector(state => state.UserReducer.user_block);
-
+    
     useEffect(() => {
         dispatch(getPostByUser(user_info?.id_user))
         dispatch(getUserFollowerAction(user_info?.id_user))

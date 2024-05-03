@@ -10,6 +10,7 @@ import "./Navbar.css";
 import Avatar from "../avatar/Avatar";
 import LoginPopup from '../../pages/LoginPopup';
 import SignupPopup from '../../pages/SignupPopup';
+import Notification from '../notification/Notification';
 
 import { getAllTopicsAction } from '../../redux/actions/TopicAction';
 import { getUserByEmailAction, logOut } from '../../redux/actions/UserAction';
@@ -153,6 +154,7 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="#">
                                 <i className="fa-regular fa-bell"></i>
+                                <Notification></Notification>
                             </Link>
                         </li>
                         <li className="nav-item dropdown" >

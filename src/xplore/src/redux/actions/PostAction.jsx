@@ -91,15 +91,16 @@ export const createPostAction = (postInfo, uploadedThumbnail) => {
 export const updatePostAction = (postInfo, uploadedThumbnail) => {
     return async (dispatch) => {
         try {
-            let imgResult;
+            let imgResult = null;
             if (uploadedThumbnail) {
                 imgResult = await commonService.uploadImgToCloudinary( uploadedThumbnail)
             }
 
             if (!uploadedThumbnail || imgResult){
+                const newThumbnail = imgResult ? imgResult : postInfo.thumbnail; 
                 const result = await postService.updatePost({
                     ...postInfo,
-                    thumbnail: imgResult || null
+                    thumbnail: newThumbnail 
                 });
                 
                 if (result.status === 200) {
