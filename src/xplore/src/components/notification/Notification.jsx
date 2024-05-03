@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './Notification.css'
 import Avatar from '../avatar/Avatar';
+import { UserService } from '../../services/UserService';
 
 export default function Notification(props) {
     const [tab, setTab] = useState(props.link);
@@ -9,12 +10,13 @@ export default function Notification(props) {
     const [subscribe, setSubscribe ] = useState([]);
     const [like, setLike ] = useState([]);
     const [response, setResponse ] = useState([]);
+    const [focusedTab, setFocusedTab] = useState('All');
 
     const {user_login} = useSelector(state => state.UserReducer)
 
     const fetchNotifications = async () => {
         try{
-            const result = await userService.getNotification(user_login?.id_user)
+            const result = await UserService.getNotification(user_login?.id_user)
             if (result.status === 200) {
                 setAll(result.data.content)
             }
@@ -37,16 +39,20 @@ export default function Notification(props) {
     console.log(like)
     console.log(response)
 
+    const handleTabFocus = (tabName) => {
+        setFocusedTab(tabName);
+    };
+
     return (
         <div className='notification-overlay'>
             <div className='notification'>
-                <p className='title2'>Notifications</p>
+                <p className='title2 text-black'>Notifications</p>
                 {/* Tabs */}
                 <ul className='tab-panel d-flex flex-row gap-2'>
-                    <li className='tab-item button2 focused'>All</li>
-                    <li className='tab-item button2'>Like</li>
-                    <li className='tab-item button2'>Respond</li>
-                    <li className='tab-item button2'>Subscribe</li>
+                    <li className={focusedTab === 'All' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('All')}>All</li>
+                    <li className={focusedTab === 'Like' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Like')}>Like</li>
+                    <li className={focusedTab === 'Respond' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Respond')}>Respond</li>
+                    <li className={focusedTab === 'Subscribe' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Subscribe')}>Subscribe</li>
                 </ul>
                 {/* Notification badge */}
                 
