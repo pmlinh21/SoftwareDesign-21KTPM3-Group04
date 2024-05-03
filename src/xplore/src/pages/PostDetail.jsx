@@ -191,7 +191,7 @@ function Post() {
                                             </a>
                                             {post?.responseCount}
                                         </button>
-                                        <BookmarkIcon id_post={id_post} regular_icon/>
+                                        <BookmarkIcon id_post={id_post} regular_icon  thumbnail={post?.thumbnail}/>
                                         {
                                             (user_login?.id_user != post?.author?.id_user) && (
                                                 <button id='report-btn' onClick={() => setReportContent({id_post: id_post})}>
