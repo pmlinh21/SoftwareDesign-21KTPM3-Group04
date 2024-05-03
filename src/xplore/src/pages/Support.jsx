@@ -84,12 +84,22 @@ export default function Support() {
                     <p className="p1">Our friendly team would love to hear from you.</p>
                     <form onSubmit={handleSubmit}>
                         <div>
-                            <label className='label2' htmlFor="name">Full Name</label>
+                            <label className='label2 my-2' htmlFor="name">Full Name</label>
                             <input 
                                 type="text" 
-                                className="form-control p2" id="fullName" 
+                                className="form-control" id="fullName" 
                                 value={fullName}
                                 placeholder='Enter your full name'
+                                onChange={(e) => setFullName(e.target.value)}
+                                />
+                        </div>
+                        <div>
+                            <label className='label2 my-2' htmlFor="name">Email</label>
+                            <input 
+                                type="text" 
+                                className="form-control" id="email" 
+                                value={email}
+                                placeholder='Enter your email address'
                                 onChange={(e) => setFullName(e.target.value)}
                                 />
                         </div>

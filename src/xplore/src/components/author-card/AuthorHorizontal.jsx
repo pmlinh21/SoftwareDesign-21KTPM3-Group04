@@ -17,7 +17,7 @@ export default function AuthorHorizontal(props) {
 
     const user_follow = useSelector(state => state.UserReducer.user_follow);
     useEffect(() => {
-        dispatch(getUserFollowAction(user_info.id_user))
+        dispatch(getUserFollowAction(user_info?.id_user))
 
     }, []);
 
@@ -50,9 +50,9 @@ export default function AuthorHorizontal(props) {
             <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
                 {
                     is_subscribe?
-                        <ButtonUnsubscribe user={props.author.id_user} subscriber={user_info.id_user}/>
+                        <ButtonUnsubscribe user={props.author.id_user} subscriber={user_info?.id_user}/>
                     :
-                        <ButtonSubscribe user={props.author.id_user} subscriber={user_info.id_user} fullname={fullname}/>
+                        <ButtonSubscribe user={props.author.id_user} subscriber={user_info?.id_user} fullname={fullname}/>
                 }
             </div>
         </div>

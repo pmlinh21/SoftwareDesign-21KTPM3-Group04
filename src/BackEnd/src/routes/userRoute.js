@@ -8,11 +8,12 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     blockAnotherUser, unblockAnotherUser,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
-    getUserList, createList, editList, deleteList,
+    getUserList, createList, editList, deleteList, getPostByListId,
     addPostToList, deletePostFromList, getUserHighLight, updatePassword,
     getUserToken, getAuthorPosts,
     createOrder,captureOrder,
-    isFollowAuthor, getUserFollow, getUserBlock } = require("../controllers/userController")
+    isFollowAuthor, getUserFollow, getUserBlock,
+    pinPost } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -82,6 +83,9 @@ userRoute.delete("/reading_history/:id_reading_history", deleteReadingHistory)
 // GET: Get all user list
 userRoute.get("/list/:id_user", getUserList)
 
+// GET: Get all post in a list
+userRoute.get("/list/post/:id_list", getPostByListId)
+
 // POST: Create a list
 userRoute.post("/list", createList)
 
@@ -123,5 +127,8 @@ userRoute.get("/follow/:id_user", getUserFollow)
 
 // GET: Get user block
 userRoute.get("/block/:id_user", getUserBlock)
+
+// PUT: Pin a post
+userRoute.put("/:id_user/:id_pinned_post", pinPost)
 
 module.exports = userRoute;

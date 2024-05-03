@@ -464,6 +464,7 @@ a{
     border: 1.5px solid #D0D5DD;
 }
 
-input::placeholder {
+input::placeholder, input[type="text"] {
     font-family: regular-font;
+    font-size: 18px;
 }

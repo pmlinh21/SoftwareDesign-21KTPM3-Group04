@@ -3,7 +3,7 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER } from "../types";
+    BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, PIN_POST } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -127,6 +127,9 @@ export const UserReducer = (state = stateDefault, action) => {
                 const updatedBlock = state.block.filter(item => item !== action.block);
                 return { ...state, block: updatedBlock };
             }
+        }
+        case PIN_POST:{
+            return { ...state, user_login: action.user_login };
         }
         default:
             return { ...state };
