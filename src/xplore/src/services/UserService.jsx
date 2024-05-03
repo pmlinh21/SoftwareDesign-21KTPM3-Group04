@@ -132,6 +132,11 @@ export class UserService extends BaseService {
     getPostByListId = (id_list) =>{
       return this.get(`/user/list/post/${id_list}`);
     }
+    
+    // Api 23: Pin post
+    pinPost = (user, id_post) =>{
+      return this.put(`/user/${user}/${id_post}`);
+    }
 }
   
 export const userService = new UserService();
