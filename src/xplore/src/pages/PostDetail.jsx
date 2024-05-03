@@ -47,7 +47,9 @@ function Post() {
 
     const fetchPost = async () => {
         try {
-            setLoading(true)
+            setLoading({
+                type: ''
+            })
             const postResult = await postService.getPostById(id_post);
             const post = postResult.data.content
             if ((post.id_user != user_login.id_user) && (
@@ -59,7 +61,7 @@ function Post() {
                 setPost({...post});
                 setLikeCount(parseInt(post.likeCount));
             }
-            setLoading(false)
+            setLoading(null)
 
         } catch (error) {
             console.error("Error fetching post:", error);
@@ -69,17 +71,20 @@ function Post() {
 
     const fetchResponse = async() =>{
         try {
-            setLoading(true)
+            setLoading({
+                type: ''
+            })
             const result = await postService.getResponseOfPost(id_post);
             setResponses([...result.data.content.responses]);
             setAuthor({...result.data.content.author});
-            setLoading(false)
+            setLoading(null)
         } catch (error) {
             console.error("Error fetching post:", error);
         }
     }
 
     useEffect(() => {
+        
         if (!post)
             fetchPost();
         if (!responses && !notFound && accessed) {
@@ -119,6 +124,7 @@ function Post() {
 
     const responsePost = async () => {
         try {
+            setLoading({type: "full"})
             const result = await postService.responsePost({
                 id_user: user_login.id_user, id_post: id_post, response: newReponse,
                 response_time: formartToSQLDatetime(new Date())
@@ -132,6 +138,7 @@ function Post() {
             }
             setResponses([addedReponse, ...responses]);
             setNewReponse("");
+            setLoading(null)
         } catch (error) {
             console.log("error", error.response);
         }
@@ -147,10 +154,11 @@ function Post() {
             {/* Search bar */}
             <Search />
             {/* Post Detail */}
-            {loading && <Loading/>}
+            {loading?.type == '' && <Loading/>}
             {!loading && notFound && <NotFound/>}
-            {!loading && !notFound && (
+            {loading?.type != '' && !notFound && (
                 <div className='container-fluid' style={{marginTop: '72px'}}>
+                {loading?.type == 'full' && <Loading type={loading.type}/>}
                 <div className='container'>
                 {
                     (reportContent != null) && (
@@ -231,7 +239,7 @@ function Post() {
                                                 value={newReponse}
                                                 onChange={(e) => {setNewReponse(e.target.value)}}
                                                 placeholder="Enter your response here..."
-                                                rows={6}
+                                                rows={5}
                                                 cols={78}
                                             />
                                             <button className='prim-btn btn-md' style={{width: '104px'}}
@@ -240,7 +248,9 @@ function Post() {
                                         </div>
                                         <ResponsePagination author={author} responses={responses} 
                                             deleteResponse={deleteResponse} 
-                                            setReportContent={setReportContent}/>
+                                            setReportContent={setReportContent}
+                                            setResponses={setResponses}
+                                            setLoading={setLoading}/>
                                     </div>
                                     </>
                                 ):(
