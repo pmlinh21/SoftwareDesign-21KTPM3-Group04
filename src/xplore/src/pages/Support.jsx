@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "../styles/commons.css"
 
-const Support = () => {
+export default function Support() {
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    };
     return (
         <div>
         <div className="container-fluid">
@@ -71,10 +78,22 @@ const Support = () => {
         </div>
 
         <div className="container-fluid">
-            <div className="container d-flex flex-row align-items-center">
+            <div className="container d-flex flex-row align-items-center gap-5">
                 <div className="col d-flex flex-column" style={{ padding: '96px 0'}}>
                     <h4>Contact us</h4>
                     <p className="p1">Our friendly team would love to hear from you.</p>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label className='label2' htmlFor="name">Full Name</label>
+                            <input 
+                                type="text" 
+                                className="form-control p2" id="fullName" 
+                                value={fullName}
+                                placeholder='Enter your full name'
+                                onChange={(e) => setFullName(e.target.value)}
+                                />
+                        </div>
+                    </form>
                 </div>
                 <div className="col"><img src="/imgs/contact.jpg" style={{width: '100%'}} /></div>
             </div>
@@ -83,5 +102,3 @@ const Support = () => {
         </div>
     )
 }
-
-export default Support;

@@ -456,3 +456,14 @@ a{
     background-image: radial-gradient(circle, var(--neutral-0) 70%, var(--scheme-background) 70%);
     z-index: -1;
 }
+
+/* form */
+.form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1.5px solid #D0D5DD;
+}
+
+input::placeholder {
+    font-family: regular-font;
+}
