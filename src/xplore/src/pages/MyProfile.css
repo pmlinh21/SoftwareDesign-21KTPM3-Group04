@@ -21,3 +21,7 @@
 .profile .fullname {
     color: var(--black);
 }
+
+.delete-dropdown {
+    color: var(--feedback-error);
+}
