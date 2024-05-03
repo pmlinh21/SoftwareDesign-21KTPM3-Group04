@@ -155,7 +155,7 @@ h6 {
 
 .title2 {
     font-size: 20px;
-    line-height: 24px;
+    line-height: 26px;
 }
 
 .title3 {
@@ -455,4 +455,16 @@ a{
 .circle-bg {
     background-image: radial-gradient(circle, var(--neutral-0) 70%, var(--scheme-background) 70%);
     z-index: -1;
+}
+
+/* form */
+.form-control, textarea {
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1.5px solid #D0D5DD;
+}
+
+input::placeholder, input[type="text"], textarea::placeholder{
+    font-family: regular-font;
+    font-size: 16px;
 }

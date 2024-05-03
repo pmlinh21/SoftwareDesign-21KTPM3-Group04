@@ -8,7 +8,6 @@ export default function TopicTag(props) {
     const navigate = useNavigate()
 
     function handleButtonClick(id_topic){
-    
         navigate(`/topic/?id_topic=${id_topic}&topic_name=${topic}`)
     }
     

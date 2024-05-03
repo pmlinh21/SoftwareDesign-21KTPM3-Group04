@@ -985,7 +985,7 @@ const getPostByListId = async (req, res) => {
                     ]
                 }
             ],
-            attributes: ["id_list","list_name"],
+            attributes: ["id_list","list_name"]
         });
 
         if(!list){

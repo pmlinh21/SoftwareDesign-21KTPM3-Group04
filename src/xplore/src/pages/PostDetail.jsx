@@ -21,6 +21,7 @@ import Loading from '../components/system-feedback/Loading';
 import NotFound from '../components/system-feedback/NotFound';
 import Paywall from '../components/system-feedback/Paywall';
 import ReportPopup from '../components/popup/ReportPopup';
+import TopicTag from '../components/topic/TopicTag';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -189,7 +190,7 @@ function Post() {
                             {/* Post Topics */}
                             <div className="d-flex flex-wrap gap-2">
                                 {post?.list_topic?.map(topic => (
-                                    <button key={topic.id_topic} className='topic label2 capitalize'>{topic.topic}</button>
+                                    <TopicTag key={topic.id_topic} topic={topic} />
                                 ))}
                             </div>
                             {/* Post Authors */}

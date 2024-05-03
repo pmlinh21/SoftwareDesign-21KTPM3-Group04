@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "../styles/commons.css"
 
-const Support = () => {
+export default function Support() {
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
+    const [text, setText] = useState('');
+
+    const handleChange = (event) => {
+        setText(event.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    };
     return (
         <div>
         <div className="container-fluid">
@@ -71,10 +83,45 @@ const Support = () => {
         </div>
 
         <div className="container-fluid">
-            <div className="container d-flex flex-row align-items-center">
+            <div className="container d-flex flex-row align-items-center gap-5">
                 <div className="col d-flex flex-column" style={{ padding: '96px 0'}}>
                     <h4>Contact us</h4>
                     <p className="p1">Our friendly team would love to hear from you.</p>
+                    <form onSubmit={handleSubmit}>
+                        <div className='my-3'>
+                            <label className='label2 my-2' htmlFor="name">Full name</label>
+                            <input 
+                                type="text" 
+                                className="form-control" id="fullName" 
+                                value={fullName}
+                                placeholder='Enter your full name'
+                                onChange={(e) => setFullName(e.target.value)}
+                                />
+                        </div>
+                        <div className='my-3'>
+                            <label className='label2 my-2' htmlFor="name">Email</label>
+                            <input 
+                                type="text" 
+                                className="form-control" id="email" 
+                                value={email}
+                                placeholder='Enter your email address'
+                                onChange={(e) => setFullName(e.target.value)}
+                                />
+                        </div>
+                        <div className='my-3'>
+                            <label htmlFor="textarea" className='label2'>Message</label><br></br>
+                            <textarea
+                                id="textarea"
+                                value={text}
+                                onChange={handleChange}
+                                rows={4}
+                                cols={85}
+                                placeholder="How can we help you?"
+                                style={{ resize: 'vertical' }}
+                            />
+                        </div>
+                        <button className='prim-btn btn-md' style={{width: '100%'}}>Send message</button>
+                    </form>
                 </div>
                 <div className="col"><img src="/imgs/contact.jpg" style={{width: '100%'}} /></div>
             </div>
@@ -83,5 +130,3 @@ const Support = () => {
         </div>
     )
 }
-
-export default Support;
