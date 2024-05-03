@@ -4,7 +4,7 @@ import Response from '../response/Response';
 import './ResponsePagination.css'
 const ITEMS_PER_PAGE = 3;
 
-const ResponsePagination = ({responses, author, deleteResponse}) => {
+const ResponsePagination = ({responses, author, deleteResponse, setReportContent}) => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -25,7 +25,9 @@ const ResponsePagination = ({responses, author, deleteResponse}) => {
         <div className="px-0 col-12">
             <ul className="ps-0 row col-12">
                 {currentItems?.map(item => (
-                    <Response key={item.id_response} response={item} author={author} deleteResponse={deleteResponse}></Response>
+                    <Response key={item.id_response} response={item} author={author} 
+                    deleteResponse={deleteResponse}
+                    setReportContent={setReportContent}></Response>
                 ))}
             </ul>
             <ReactPaginate

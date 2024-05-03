@@ -18,12 +18,12 @@ const getReportType = async (req,res) => {
 }
 
 const createReportPost = async (req,res) => {
-    const {id_post, id_user, id_report_time, report_time} = req.body
+    const {id_post, id_user, id_report_type, report_time} = req.body
     try{
         let report = await model.report_post.create({
             id_post: id_post, 
             id_user: id_user, 
-            id_report_time: id_report_time, 
+            id_report_time: id_report_type, 
             report_time: report_time,
             status: false
         })
@@ -37,12 +37,12 @@ const createReportPost = async (req,res) => {
 }
 
 const createReportResponse = async (req,res) => {
-    const {id_response, id_user, id_report_time, report_time} = req.body
+    const {id_response, id_user, id_report_type, report_time} = req.body
     try{
         let report = await model.report_post.create({
             id_response: id_response, 
             id_user: id_user, 
-            id_report_time: id_report_time, 
+            id_report_time: id_report_type, 
             report_time: report_time,
             status: false
         })

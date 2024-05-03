@@ -403,7 +403,7 @@ button {
 
 /*background with color*/
 
-.bg-black{
+.bg-white{
     background-color: var(--white)
 }
 
@@ -421,6 +421,10 @@ button {
 
 .bg-blue-100{
     background-color: var(--blue-100)
+}
+
+.bg-error{
+    background-color: var(--feedback-error)
 }
 
 /*border with color*/
