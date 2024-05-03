@@ -45,6 +45,7 @@ export default function Home() {
             const result = await postService.getTrendingPosts();
             if (result.status === 200) {
                 setTrendingPosts(result.data.content);
+                console.log("trendingPosts", result);
             }
         } catch (error) {
             console.log("error", error.response);
@@ -106,11 +107,6 @@ export default function Home() {
         fetchHotTopics();
         fetchMorePosts();
     }, []);
-
-    console.log("trendingPosts", trendingPosts.length);
-    console.log("topAuthors", topAuthors);
-    console.log("hotTopics", hotTopics);
-    console.log("morePosts", morePosts);
 
     const slidingAuthors = topAuthors.slice(0, 7);
     const authorsToFollow = topAuthors.slice(7, 10);

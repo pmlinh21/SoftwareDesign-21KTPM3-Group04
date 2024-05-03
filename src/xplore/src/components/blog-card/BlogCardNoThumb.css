@@ -51,7 +51,7 @@
 
 .blog-card.home-guest {
     min-width: 100px;
-    width: 32.4%;
+    width: 32%;
     max-width: 100%;
 }
 
@@ -62,8 +62,8 @@
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px){
-    .blog-card {
-        width: 100%;
+    .blog-card.home-guest {
+        width: 48%;
     }
 }
 
