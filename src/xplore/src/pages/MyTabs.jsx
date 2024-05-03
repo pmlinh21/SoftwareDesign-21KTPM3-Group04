@@ -8,7 +8,7 @@ import { topicService } from "../services/TopicService";
 
 import {formatCapitalCase} from '../util/formatText'
 
-import Loading from '../components/loading/Loading';
+import Loading from '../components/system-feedback/Loading';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 
 const MyTabs = () => {

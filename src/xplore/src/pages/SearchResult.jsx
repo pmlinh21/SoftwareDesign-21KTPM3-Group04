@@ -10,7 +10,7 @@ import BlogPostCard from '../components/blog-card/BlogPostCard'
 import TopicTag from '../components/topic/TopicTag'
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal';
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
-import Loading from '../components/loading/Loading';
+import Loading from '../components/system-feedback/Loading';
 
 import { DOMAIN } from "../util/config";
 

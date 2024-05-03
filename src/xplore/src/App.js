@@ -21,9 +21,7 @@ import Support from './pages/Support';
 import About from './pages/About';
 import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
-// import Response from './components/response/Response';
 import PostDetail from './pages/PostDetail';
-// import Response from './pages/Response';
 import Post from './pages/Post';
 
 export const history = createBrowserHistory();

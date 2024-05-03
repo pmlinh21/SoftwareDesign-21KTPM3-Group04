@@ -23,7 +23,7 @@ export default function BlogPostCard(props) {
             onClick={handleBlogCardClicked}>
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
-                <BookmarkIcon id_post={id_post} set_absolute={true}/>
+                <BookmarkIcon id_post={id_post} set_absolute={true}  thumbnail={thumbnail}s/>
                 <img src={thumbnail || "https://picsum.photos/id/2/1200/1200"} alt=""  />
             </div>
             

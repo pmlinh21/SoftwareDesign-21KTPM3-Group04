@@ -20,7 +20,7 @@ export default function BlogCardNoThumb(props) {
                 <div>
                     <div className="d-flex flex-row justify-content-between align-items-center gap-2">
                         <span className="topic-plain subtitle2">Post Topic</span>
-                        <BookmarkIcon id_post={id_post}/>
+                        <BookmarkIcon id_post={id_post} thumbnail={thumbnail}/>
                     </div>
 
                     <div className="center title2 mt-2">{title}</div>

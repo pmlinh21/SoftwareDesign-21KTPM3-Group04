@@ -40,7 +40,7 @@ export default function BlogCardHorizontal(props) {
                                     </p>
                                 )
                             }
-                            <BookmarkIcon id_post={id_post}/>
+                            <BookmarkIcon id_post={id_post} thumbnail={thumbnail}/>
                         </div>
 
                         <div className="pt-2 mb-0">

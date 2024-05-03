@@ -27,10 +27,16 @@ export class UserService extends BaseService {
       return this.get(`user/getToken/${email}`);
     }
 
-    // Api 6: Get list by user 
+    // Api 6.1: Get list by user 
     getListByUser = (id_user) =>{
       return this.get(`user/list/${id_user}`);
     }
+
+    // Api 6.2: Create a list 
+    createList = (formData) =>{
+      return this.post(`user/list`, formData);
+    }
+    
 
     // Api 7: Add post to list
     addPostToList = (formData) =>{
