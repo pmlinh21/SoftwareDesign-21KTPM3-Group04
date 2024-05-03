@@ -291,9 +291,12 @@ export default function AuthorProfile() {
                                     <i className="fa-solid fa-times"></i>
                                 </button>
                                 {tipping_link ? (
-                                    <img src={tipping_link} alt="Tip Image" className="tip-image" />
+                                    <div>
+                                        <p className="p1" style={{fontWeight: "600", fontStyle: "italic", color: "#4793AF"}}>Support the author with a small tip!</p>
+                                        <p className="tip-message">{tipping_link}</p>
+                                    </div>
                                 ) : (
-                                    <p className="tip-message">Author has not tipping link yet</p>
+                                    <p className="tip-message link-empty">Author has not tipping link yet</p>
                                 )}
                             </div>
                         )}

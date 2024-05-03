@@ -17,8 +17,10 @@ const {
     likePost,
     unlikePost,
     responsePost,
+    updateResponse,
     deleteResponse,
     replyResponse,
+    updateReply,
     deleteReply,
     getHighlight,
     createHighlight,
@@ -69,10 +71,14 @@ postRoute.get("/response/:id_post", getResponseOfPost)
 
 postRoute.post("/response", responsePost)
 
+postRoute.put("/response", updateResponse)
+
 postRoute.delete("/response/:id_response", deleteResponse)
 
 
 postRoute.post("/reply", replyResponse)
+
+postRoute.put("/reply", updateReply)
 
 postRoute.delete("/reply/:id_response", deleteReply)
 
