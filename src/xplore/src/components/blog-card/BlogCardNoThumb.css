@@ -4,7 +4,6 @@
 .blog-card {
     border-radius: 10px;
     background-color: var(--white);
-    height: 100%;
 }
 
 .blog-card .topic-plain {
@@ -37,10 +36,35 @@
     color: var(--scheme-sub-text);
 }
 
+.blog-card .post-title {
+    height: 3.8rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .avatar {
     width: 32px !important;
     height: 32px  !important;
     border-radius: 50%;
+}
+
+.blog-card.home-guest {
+    min-width: 100px;
+    width: 32%;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .blog-card.home-guest {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){
+    .blog-card.home-guest {
+        width: 48%;
+    }
 }
 
 /*

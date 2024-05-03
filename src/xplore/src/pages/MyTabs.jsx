@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+// import 'react-tabs/style/react-tabs.css';
+import './MyTabs.css'
 
 import { getTopicByUserAction } from '../redux/actions/UserAction';
 import { topicService } from "../services/TopicService";
@@ -44,6 +45,7 @@ const MyTabs = () => {
           console.error('Error fetching data:', error);
         }
       };
+      
 
       fetchPost(topic);
     }
