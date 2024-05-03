@@ -51,6 +51,10 @@ export default function Navbar() {
         else{
             if (userNav) userNav.style.display = "block";
             if (guestNav) guestNav.style.display = "none";
+            
+            if (user_login?.id_user){
+                // dispatch()
+            }
         }
 
     }, [roleId]);
@@ -68,7 +72,7 @@ export default function Navbar() {
         const params = new URLSearchParams(search);
         if (params.has('email')) {
             const email = params.get('email');
-            dispatch(getUserByEmailAction(email)).then(() => {
+            dispatch(getUserByEmailAction(email)).then((res) => {
                 roleId = localStorage.getItem(RoleKey);
                 console.log(roleId);
                 const userNav = document.getElementById("user-nav");
@@ -81,7 +85,9 @@ export default function Navbar() {
                     if (userNav) userNav.style.display = "block";
                     if (guestNav) guestNav.style.display = "none";
                 }
+                console.log(res)
             });
+            // dispatch(get)
         }
     }, []);
 

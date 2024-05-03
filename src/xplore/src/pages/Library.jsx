@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Search from '../components/search/Search';
 import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
-import Loading from '../components/loading/Loading';
+import Loading from '../components/system-feedback/Loading';
 import HighlightCard from '../components/highlight-card/HighlightCard';
 import { userService } from '../services/UserService';
 

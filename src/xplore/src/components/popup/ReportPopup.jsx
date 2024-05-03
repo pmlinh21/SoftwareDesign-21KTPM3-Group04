@@ -4,7 +4,7 @@ import "../../styles/commons.css";
 import "./ReportPopup.css"
 import {formartToSQLDatetime} from '../../util/formatDate'
 import {reportService} from '../../services/ReportService'
-import Loading from '../loading/Loading';
+import Loading from '../system-feedback/Loading';
 
 export default function ReportResponsePopup(props) {
     const {user_login} = useSelector(state => state.UserReducer);

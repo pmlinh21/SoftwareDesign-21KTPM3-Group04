@@ -5,7 +5,7 @@ import './BookmarkIcon.css';
 
 import {getListByUserAction, createListAction, addPostToListAction, deletePostFromListAction} from '../../redux/actions/UserAction'
 
-import Loading from '../loading/Loading'
+import Loading from '../system-feedback/Loading'
 
 function BookmarkModal(props) {
     const {id_post, list,loading, 

@@ -4,7 +4,7 @@ import "../styles/commons.css";
 import "./LoginPopup.css"
 import { loginAction } from "../redux/actions/UserAction";
 import { DOMAIN } from "../util/config";
-import Loading from '../components/loading/Loading';
+import Loading from '../components/system-feedback/Loading';
 
 export default function LoginPopup(props) {
     const dispatch = useDispatch();

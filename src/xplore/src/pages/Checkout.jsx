@@ -5,7 +5,7 @@ import { useSelector   } from 'react-redux';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import "../styles/commons.css";
 
-import Loading from '../components/loading/Loading'
+import Loading from '../components/system-feedback/Loading'
 import Membership from '../components/membership/Membership';
 
 import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'

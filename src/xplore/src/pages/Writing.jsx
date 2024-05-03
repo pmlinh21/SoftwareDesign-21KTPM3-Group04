@@ -12,7 +12,7 @@ import "./Writing.css";
 import { getPostByUser, createPostAction, updatePostAction } from "../redux/actions/PostAction";
 
 import TextEditor from './TextEditor';
-import Loading from '../components/loading/Loading'
+import Loading from '../components/system-feedback/Loading'
 
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'

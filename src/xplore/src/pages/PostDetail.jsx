@@ -17,7 +17,8 @@ import LikeIcon from '../components/icon/LikeIcon';
 import PostContent from './PostContent';
 import Avatar from '../components/avatar/Avatar';
 import ResponsePagination from '../components/response/ResponsePagination';
-import Loading from '../components/loading/Loading';
+import Loading from '../components/system-feedback/Loading';
+import NotFound from '../components/system-feedback/NotFound';
 import ReportPopup from '../components/popup/ReportPopup';
 
 const ITEMS_PER_PAGE = 10;
@@ -38,15 +39,25 @@ function Post() {
     const [newReponse, setNewReponse] = useState("");
 
     const [loading, setLoading] = useState(null);
+    const [accessed, setAccessed] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
     const [reportContent, setReportContent] = useState(null);
 
     const fetchPost = async () => {
         try {
             setLoading(true)
-            const post = await postService.getPostById(id_post);
-            setPost({...post.data.content});
-            setLikeCount(parseInt(post.data.content.likeCount));
+            const postResult = await postService.getPostById(id_post);
+            const post = post.data.content
+            if ((post.id_user != user_login.id_user) && (
+                !post?.publish_time || new Date(post.publish_time).getTime() < new Date().getTime()) ){
+                setNotFound(true)
+            } else if (post.is_member_only && !user_login.is_member){
+                setAccessed(false)
+            } else{
+                setPost({...post.data.content});
+                setLikeCount(parseInt(post.data.content.likeCount));
+            }
             setLoading(false)
 
         } catch (error) {
@@ -70,7 +81,7 @@ function Post() {
     useEffect(() => {
         if (!post)
             fetchPost();
-        if (!responses){
+        if (!responses && !notFound && accessed) {
             fetchResponse();
         }
     },[id_post])
