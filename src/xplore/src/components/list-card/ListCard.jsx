@@ -1,11 +1,18 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
 import "./ListCard.css";
 
 export default function ListCard(props) {
     const {list, author, style} = props;
 
+    const navigate = useNavigate();
+
+    const handleListCardClicked = () =>{
+        navigate("/list/detail?id_list=" + list.id_list)
+    }
+
     return (
-        <div className={`list-card p-4 shadow half ${style}`}>
+        <div className={`list-card p-4 shadow half ${style}`} onClick={handleListCardClicked}>
             <div className='d-flex flex-column justify-content-between info-list'>
                 <div className="d-flex flex-column justify-content-start">
                     <div className="d-flex flex-row justify-content-start">

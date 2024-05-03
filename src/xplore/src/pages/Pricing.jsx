@@ -36,8 +36,7 @@ function Pricing() {
             {/*Headline*/}
             <div className='container-fluid hero-banner'>
                 <div className='container' style={{ padding: '72px 0' }}>
-                    <p className='subtitle1' style={{ color: 'var(--scheme-primary)',
-    textAlign: 'center' }}>PRICING</p>
+                    <p className='subtitle1' style={{ color: 'var(--scheme-primary)', textAlign: 'center' }}>PRICING</p>
                     <h4 style={{ textAlign: 'center' }}>Membership Plans</h4>
                     <p className='p1 subtext'>Simple, transparent pricing that grows with you. Try any plan free for 30 days.</p>
                     {/* Membership */}

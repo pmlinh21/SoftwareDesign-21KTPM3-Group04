@@ -1,5 +1,5 @@
 import { USER_LOGIN } from "../../util/config";
-import { LOGIN, SIGNUP, 
+import { LOGIN, SIGNUP, LOGOUT,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
@@ -32,6 +32,19 @@ export const UserReducer = (state = stateDefault, action) => {
         }
         case SIGNUP:{
             return { ...state, user_signup: action.formData };
+        }
+        case LOGOUT:{
+            return { ...state,
+                user_login: {},
+                user_signup: {},
+                list: null, 
+                topic: null,
+                author_post: null,
+                author_subscriber: null,
+                author_list: null,
+                is_follow: false,
+                block: null,
+            };
         }
         case GET_LIST_BY_USER:{
             return { ...state, list: action.list}

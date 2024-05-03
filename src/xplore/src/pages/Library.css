@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import url("../styles/commons.css");
 
-.tab-panel {
+.library .tab-panel {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -9,24 +9,24 @@
     border-bottom: 1px solid var(--neutral-50);
 }
 
-.tab-item {
+.library .tab-item {
     height: 100%;
     width: 100%;
     color: var(--scheme-sub-text);
 }
 
-.tab-item.focused {
+.library .tab-item.focused {
     background-color: var(--blue-0);
     color: var(--scheme-primary);
     border-bottom: 2px solid var(--scheme-primary);
 }
 
-.tab-item:hover {
+.library .tab-item:hover {
     background-color: var(--blue-0);
     color: var(--scheme-primary);
 }
 
-.no-margin-padding {
+.library .no-margin-padding {
     margin: 0;
     padding: 0;
 }

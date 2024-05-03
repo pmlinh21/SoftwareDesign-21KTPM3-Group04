@@ -209,7 +209,7 @@ const getPostByUser = async (req,res) => {
                 {
                     model: model.topic,
                     as: "list_topic",
-                    attributes: ["topic"],
+                    attributes: ["topic", "id_topic"],
                     through: { attributes: [] },
                     
                 },
@@ -331,6 +331,7 @@ const getResponseOfPost = async (req,res) => {
 }
 
 const updateTopicPost = async(topic, id_post) => {
+    // console.log(topic)
     const topicPostPromises = topic.map(async (item) => {
         await model.topic_post.create({
             id_post: id_post,
