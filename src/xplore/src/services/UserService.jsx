@@ -137,6 +137,11 @@ export class UserService extends BaseService {
     pinPost = (user, id_post) =>{
       return this.put(`/user/${user}/${id_post}`);
     }
+
+    // Api 24: 
+    deleteList = (id_list) =>{
+        return this.delete(`/user/list/${id_list}`);
+    }
 }
   
 export const userService = new UserService();

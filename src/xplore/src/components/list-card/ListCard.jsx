@@ -24,7 +24,6 @@ export default function ListCard(props) {
 
                 <div className="d-flex flex-row align-items-center">
                     <p className="p1 post-count my-auto">{list?.saved_posts?.length || "000"} posts</p>
-                    <i className="fa-regular fa-share-from-square ms-3 ic mt-1"></i>
                 </div>
             </div>
 

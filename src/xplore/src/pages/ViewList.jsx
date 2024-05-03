@@ -35,6 +35,18 @@ export default function ViewList(props) {
         fetchList();
     }, []);
 
+    const handleDeleteClicked = async () => {
+        try {
+            const result = await userService.deleteList(id_list);
+            if (result.status === 200) {
+                navigate("/list");
+                alert("List deleted successfully");
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
     return (
         <div className='view-list container-fluid'>
             <Search />
@@ -44,13 +56,15 @@ export default function ViewList(props) {
                         <button className='link-nm' onClick = {() => navigate("/list")} >
                             <i class="fa-solid fa-arrow-left"></i> Back
                         </button>
-                        <p className='title1 p-0 m-0'>{`${list?.list_name || ''} (${list.saved_posts?.length})`}</p>
+                        <p className='title1 p-0 m-0'>
+                            {list?.list_name ? list.list_name : ""} {list?.saved_posts?.length >= 0 ? ` (${list.saved_posts.length})` : ""}
+                        </p>
                         <div className="dropdown">
                             <i class="fa-solid fa-ellipsis ic" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li class="dropdown-item">Edit list</li>
                                 <li><hr className="dropdown-divider" ></hr></li>
-                                <li class="dropdown-item delete-dropdown">
+                                <li class="dropdown-item delete-dropdown" onClick={handleDeleteClicked}>
                                     <i class="fa-regular fa-trash-can"></i> Delete
                                 </li>
                             </ul>
