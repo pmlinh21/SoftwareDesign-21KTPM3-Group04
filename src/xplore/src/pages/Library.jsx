@@ -6,6 +6,7 @@ import BlogPostCard from '../components/blog-card/BlogPostCard';
 import ListCard from '../components/list-card/ListCard';
 import Loading from '../components/system-feedback/Loading';
 import HighlightCard from '../components/highlight-card/HighlightCard';
+import ResponseCard from '../components/response/ResponseCard';
 import { userService } from '../services/UserService';
 
 export default function Library(props) {
@@ -56,6 +57,21 @@ export default function Library(props) {
         }
     }
 
+    const fetchMyResponses = async () => {
+        try {
+            if (!user_info) return;
+
+            const result = await userService.getUserResponse(user_info.id_user);
+            if (result.status === 200) {
+                setLoadingResponses(false);
+                setMyResponses(result.data.content);
+                console.log("myResponses: ", myResponses);
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
     const fetchMyHistory = async () => {
         try {
             if (!user_info) return;
@@ -73,7 +89,7 @@ export default function Library(props) {
     useEffect(() => {
         fetchMySavedLists();
         fetchMyHighlights();
-        // fetchMyResponses();
+        fetchMyResponses();
         fetchMyHistory();
     }, []);
 
@@ -123,7 +139,7 @@ export default function Library(props) {
                 {loadingHighlights && <Loading />}
 
                 {!loadingHighlights && myHighlights.length > 0 &&
-                    <div className='d-flex flex-wrap justify-content-between'>
+                    <div className='d-flex flex-wrap justify-content-between gap-2'>
                         {myHighlights.map((myHighlight) => {
                             return <HighlightCard highlight={myHighlight} style={"library"} />
                         })}      
@@ -140,10 +156,24 @@ export default function Library(props) {
                 </div>
 
                 <div className='tab-content' id='response' style={{ display: `${tab === 'response' ? 'block' : 'none'}` }}>
+
+                {loadingResponses &&  <Loading/>}
+
+                {!loadingResponses && myResponses.length > 0 &&
+                    <div className='d-flex flex-wrap justify-content-between'>
+                        {myResponses.map((response) => {
+                            return <ResponseCard response={response} style={"library"}/>
+                        })}
+                    </div>
+                }
+
+                {!loadingResponses && myResponses.length === 0 &&
                     <div className='empty-box text-center my-5 py-5'>
                         <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5'/>
                         <h6 className='text-scheme-sub-text mt-5'>You have 0 responses</h6>
                     </div>
+                }
+
                 </div>
 
                 <div className='tab-content' id='history' style={{ display: `${tab === 'history' ? 'block' : 'none'}` }}>
