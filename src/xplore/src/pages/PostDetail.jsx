@@ -165,7 +165,6 @@ function Post() {
                         <ReportPopup reportContent={reportContent} setReportContent={setReportContent}/>
                     )
                 }
-                    (
                     <div className='row'>
                         <div className='col-2'></div>
                         <div className='col-8'>
