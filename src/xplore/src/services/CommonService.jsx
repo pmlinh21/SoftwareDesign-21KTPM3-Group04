@@ -49,6 +49,7 @@ export class CommonService extends BaseService {
     getMembershipById = (id_membership) => {
       return this.get(`membership/${id_membership}`);
     }
+    
 }
 
 export const commonService = new CommonService();

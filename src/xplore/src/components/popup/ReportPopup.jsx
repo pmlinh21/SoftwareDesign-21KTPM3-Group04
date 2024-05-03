@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import "../../styles/commons.css";
 import "./ReportPopup.css"
 import {formartToSQLDatetime} from '../../util/formatDate'
+import {reportService} from '../../services/ReportService'
 import Loading from '../loading/Loading';
 
 export default function ReportResponsePopup(props) {
@@ -18,28 +19,41 @@ export default function ReportResponsePopup(props) {
         setReason(event.target.value);
     };
 
-    const handleSendReport = () => {
+    const handleSendReport = async () => {
         if (id_report_type == ''){
             alert("Please select a reason");
             return;
         }
         if (id_response){
-            console.log({
-                id_user: user_login.id_user,
-                id_report_type: id_report_type,
-                id_response: id_response,
-                is_reply: isReplyReport,
-                report_time: formartToSQLDatetime(new Date())
-            })
+            try{
+                setLoading(true)
+                await reportService.createReportResponse({
+                    id_user: user_login.id_user,
+                    id_report_type: id_report_type,
+                    id_response: id_response,
+                    is_reply: isReplyReport,
+                    report_time: formartToSQLDatetime(new Date())
+                })
+                setResult(true)
+                setLoading(false)
+            } catch (e){
+                console.log(e)
+            }
         } else if (id_post){
-            console.log({
-                id_user: user_login.id_user,
-                id_report_type: id_report_type,
-                id_post: id_post,
-                report_time: formartToSQLDatetime(new Date())
-            })
+            try{
+                setLoading(true)
+                await reportService.createReportPost({
+                    id_user: user_login.id_user,
+                    id_report_type: id_report_type,
+                    id_post: id_post,
+                    report_time: formartToSQLDatetime(new Date())
+                })
+                setResult(true)
+                setLoading(false)
+            } catch (e){
+                console.log(e)
+            }
         }
-        setReportContent(null)
     }
 
     const handleCancelButton = () =>{
@@ -48,22 +62,22 @@ export default function ReportResponsePopup(props) {
 
     return (
         <div className="report-response-overlay">
-        <div className="report-response">
+        <div className="report-response ">
         {loading && <Loading/>}
-        {
-        !result ? (
+
+        {!loading && !result && (
         <>
-            <p>
-                <span className="p1">Do you want to report </span>
+            <p className="text-start p1">
+                <span>Do you want to report </span>
                 <b>
-                    <span className="p1">
+                    <span>
                         {
                             id_response? "this response?" : "this post?"
                         }
                     </span>
                 </b>
             </p>
-            <div className="mb-5">
+            <div className="mb-5 text-start">
                 <label className="p1 me-3" htmlFor="reportReason">Report Reason:</label>
                 <select id="reportReason" value={id_report_type} onChange={handleChange}>
                     <option className="p1" value="">Select a reason</option>  // Default option className="p1" prompt
@@ -81,11 +95,20 @@ export default function ReportResponsePopup(props) {
                 Send report
             </button>
         </>
-        ) : (
-            <>
-            </>
-        )
-    }
+        )}
+
+        {!loading && result && (
+            <div className="d-flex justify-content-center align-items-center 
+                    flex-column row px-5 rounded-3">
+                <i className="fa-solid fa-circle-check text-center m-0 mb-4 p-0 text-success" 
+                    style={{ fontSize: '3rem' }}></i>
+                <h6 className="text-center mb-5">Your report has been sent successfully</h6>
+                <button type="button" className="btn button2 bg-white text-scheme-sub-text"
+                    onClick={handleCancelButton}>
+                    Cancel
+                </button>
+            </div>
+        )}
         </div>
         </div>
     );
