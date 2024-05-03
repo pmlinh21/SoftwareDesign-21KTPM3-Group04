@@ -49,6 +49,10 @@ export const UNBLOCK_USER = "UNBLOCK_USER";
 
 export const PIN_POST = "PIN_POST";
 
+export const UPDATE_USER_DETAIL = "UPDATE_USER_DETAIL";
+
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 

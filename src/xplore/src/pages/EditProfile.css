@@ -106,3 +106,7 @@
     margin-top: -5px;
     margin-bottom: -7px;
 }
+
+.react-datepicker-wrapper input{
+    padding-left: 40px;
+}

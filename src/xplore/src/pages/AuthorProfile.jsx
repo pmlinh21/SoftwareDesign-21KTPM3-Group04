@@ -293,7 +293,7 @@ export default function AuthorProfile() {
                                 {tipping_link ? (
                                     <div>
                                         <p className="p1" style={{fontWeight: "600", fontStyle: "italic", color: "#4793AF"}}>Support the author with a small tip!</p>
-                                        <p className="tip-message">{tipping_link}</p>
+                                        <p className="tip-message"><a className='link-md' href={tipping_link}>{tipping_link}</a></p>
                                     </div>
                                 ) : (
                                     <p className="tip-message link-empty">Author has not tipping link yet</p>

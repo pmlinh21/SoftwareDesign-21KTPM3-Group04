@@ -1,0 +1,25 @@
+@charset "utf-8";
+@import url("../../styles/commons.css");
+
+.response-card {
+    border: 1px solid var(--neutral-100);
+    border-radius: 15px;
+    cursor: default;
+}
+
+.response-card.library {
+    width: 49%;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .response-card.library {
+        width: 100%;
+    }
+}
+
+.response-card .content mark {
+    background-color: var(--blue-100);
+    cursor: pointer;
+}
+

@@ -28,7 +28,7 @@ export default function HighlightCard(props) {
     const navigate = useNavigate();
 
     const handleHighlightClicked = () => {
-        navigate("/post?id_post=" + highlight?.id_post)
+        navigate(`/post?id_post=${highlight?.id_post}#response-section`)
     }
 
     const deleteHighlight = async () => {
@@ -37,6 +37,7 @@ export default function HighlightCard(props) {
             if (result.status === 200) {
                 //refresh page
                 alert("Highlight deleted successfully");
+                
             }
         } 
         catch (error) {
@@ -47,16 +48,16 @@ export default function HighlightCard(props) {
     return (
         <div className={`highlight-card d-flex flex-column bg-white justify-content-between p-4 shadow mb-3 ${style}`} >
             <p className="p3 text-scheme-sub-text mb-3">From <b>{highlight?.id_post_post?.title || "---"}</b> by <b>{highlight?.id_post_post?.author?.fullname || "---"}</b></p>
-            <p className="title1 m-0 p-0 text-scheme-main-text content" onClick={handleHighlightClicked}><mark>{highlight?.content || "---"}</mark></p>
+            <p className="title2 m-0 p-0 text-scheme-main-text content" onClick={handleHighlightClicked}><mark>{highlight?.content || "---"}</mark></p>
             <div className="d-flex justify-content-between align-items-center mt-4">
                 <p className="p3 text-scheme-sub-text p-0 m-0">{formatToMDY(highlight?.highlight_time) || "---"}</p>
                 <div className="dropdown dropend">
-                    <i class="fa-solid fa-ellipsis-vertical ic" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item" onClick={handleHighlightClicked}>Edit</li>
+                    <i className="fa-solid fa-ellipsis-vertical ic" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul className="dropdown-menu">
+                        <li className="dropdown-item" onClick={handleHighlightClicked}>Edit</li>
                         <li><hr className="dropdown-divider" ></hr></li>
-                        <li class="dropdown-item delete-dropdown" onClick={deleteHighlight}>
-                            <i class="fa-regular fa-trash-can"></i> Delete
+                        <li className="dropdown-item delete-dropdown" onClick={deleteHighlight}>
+                            <i className="fa-regular fa-trash-can"></i> Delete
                         </li>
                     </ul>
                 </div>

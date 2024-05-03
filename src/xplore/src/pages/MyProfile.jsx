@@ -93,6 +93,10 @@ export default function MyProfile() {
         dispatch(getPostByUser(user_info?.id_user))
     };
 
+    const navigateToEditProfile = () => {
+        navigate("/edit-profile");
+    };
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
@@ -105,11 +109,10 @@ export default function MyProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <a href='/edit-profile'>
-                        <button className="btn-nm prim-btn button1">
-                            <i className="fa-regular fa-pen-to-square me-1"></i> Edit profile
-                        </button>
-                    </a>
+                    <button className="btn-nm prim-btn button1" onClick={() => navigateToEditProfile()}>
+                        <i className="fa-regular fa-pen-to-square me-1"></i> Edit profile
+                    </button>
+                
                     <button className="btn-nm tert-btn button1">
                         <i className="fa-solid fa-user-plus me-1"></i> Share profile
                     </button>
