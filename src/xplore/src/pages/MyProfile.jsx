@@ -322,7 +322,11 @@ export default function MyProfile() {
                         <h6>Membership</h6>
                         <div class="membership-card">
                             <div class="membership-header">
-                                <img src="logo.png" alt="Logo" class="logo"/>
+                                <div className='membership-logo'>
+                                    <div className='membership-logo-1'>
+                                        <i className="fa-solid fa-layer-group ic-logo"></i>
+                                    </div>
+                                </div>
                                 <h2>Monthly Membership</h2>
                                 <p class="price">$15/month</p>
                             </div>

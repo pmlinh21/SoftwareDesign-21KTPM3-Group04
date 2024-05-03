@@ -125,3 +125,26 @@
     color: #344054;
     font-weight: 600;
 }
+
+.membership-logo{
+    border-radius: 28px;
+    background-color: #DEE9FF;
+    height: 45px;
+    width: 45px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+    padding-top: 6px;
+    padding-left: 6px;
+}
+
+.membership-logo-1{
+    border-radius: 28px;
+    background-color: #B7CFFF;
+    height: 33px;
+    width: 33px;
+}
+
+.ic-logo{
+    color: #0044CC;
+    margin-top: 10px;
+}
