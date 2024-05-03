@@ -23,6 +23,7 @@ import AuthorProfile from './pages/AuthorProfile';
 import MyTabs from './pages/MyTabs';
 import PostDetail from './pages/PostDetail';
 import Post from './pages/Post';
+import ViewList from './pages/ViewList';
 
 export const history = createBrowserHistory();
 
@@ -57,6 +58,7 @@ function App() {
           <Route path='edit-profile' element={<EditProfile />}/>
 
           <Route path="list" element={<Library link="list"/>} />
+          <Route path="list/detail" element={<ViewList />} />
           <Route path="highlight" element={<Library link="highlight"/>} />
           <Route path="response" element={<Library link="response"/>} />
           <Route path="history" element={<Library link="history"/>} />

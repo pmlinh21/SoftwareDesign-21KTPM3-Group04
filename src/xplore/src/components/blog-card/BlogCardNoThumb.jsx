@@ -9,36 +9,6 @@ import BookmarkIcon from "../icon/BookmarkIcon"
 import { formartToSQLDatetime, formatToMDY } from '../../util/formatDate'
 
 export default function BlogCardNoThumb(props) {
-    console.log("BlogCardNoThumb", props);
-    /*
-    {
-        "id_post": 1,
-        "title": "An Open Letter to Parents: We Need to Get Our Kids Off the Screens",
-        "content": "...",
-        "publish_time": "2023-02-25T01:23:47.000Z",
-        "thumbnail": "https://res.cloudinary.com/dklt21uks/image/upload/v1714676982/b86ojsdbj57gdjgqkmhl.jpg",
-        "creation_time": "2023-02-15T01:23:47.000Z",
-        "status": 1,
-        "is_member_only": false,
-        "likeCount": "5",
-        "responseCount": "3",
-        "list_topic": [
-            {
-            "topic": "self improvement ",
-            "id_topic": 2
-            },
-            {
-            "topic": "society ",
-            "id_topic": 7
-            }
-        ],
-        "author": {
-            "fullname": "Pham Mai",
-            "avatar": "https://res.cloudinary.com/dklt21uks/image/upload/v1707242650/xplore/w63jyivtqy2vs2ipmweh.jpg",
-            "id_user": 3
-        }
-    }
-     */
 
     const { post, style } = props;
 

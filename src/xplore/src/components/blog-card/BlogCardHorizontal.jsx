@@ -15,6 +15,7 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogCardHorizontal(props) {
     const {id_post, title, content, thumbnail, list_topic, author, publish_time, responseCount, likeCount} = props.post;
+    const style = props?.style || "";
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
@@ -22,9 +23,9 @@ export default function BlogCardHorizontal(props) {
     }
 
     return (
-        <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white"
+        <div className={`blog-card-horizontal shadow-sm d-flex bg-white ${style}`}
             onClick={handleBlogCardClicked}>
-            <div className="col-12 d-flex py-3 px-2">
+            <div className="col-12 d-flex py-3 px-3">
                 <div className="col-5 thumbnail-container bg-white h-100">
                     <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
                 </div>
@@ -36,10 +37,11 @@ export default function BlogCardHorizontal(props) {
                                 list_topic && list_topic?.length > 0 &&
                                 (
                                     <p className="subtitle2 text-scheme-primary p-0 m-0">
-                                        {`${list_topic[0]?.topic?.toUpperCase()}` || "FIRST TOPIC"}
+                                        {`${list_topic[0]?.topic?.toUpperCase()}` || "NONE"}
                                     </p>
                                 )
                             }
+
                             <BookmarkIcon id_post={id_post} thumbnail={thumbnail}/>
                         </div>
 

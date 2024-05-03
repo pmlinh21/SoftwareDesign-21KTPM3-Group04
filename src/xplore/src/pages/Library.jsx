@@ -78,7 +78,7 @@ export default function Library(props) {
     }, []);
 
     return (
-        <div className='container-fluid'>
+        <div className='container-fluid library'>
             <Search />
             <div className='container'>
                 <ul className='row tab-panel my-4'>
