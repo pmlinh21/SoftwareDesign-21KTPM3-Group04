@@ -3,7 +3,7 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR, CREATE_LIST } from "../types";
+    BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER } from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -19,7 +19,10 @@ export const stateDefault = {
     author_subscriber: null,
     author_list: null,
     is_follow: false,
-    block: null,
+    block: null, // chỉ chứa id_user
+    user_follower: null,
+    user_follow: null,
+    user_block: null
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -109,6 +112,21 @@ export const UserReducer = (state = stateDefault, action) => {
                 return { ...state, block: [action.block]}
             }
             
+        }
+        case GET_USER_FOLLOWER:{
+            return { ...state, user_follower: action.user_follower}
+        }
+        case GET_USER_FOLLOW:{
+            return { ...state, user_follow: action.user_follow}
+        }
+        case GET_USER_BLOCK:{
+            return { ...state, user_block: action.user_block}
+        }
+        case UNBLOCK_USER:{
+            if(state.block){
+                const updatedBlock = state.block.filter(item => item !== action.block);
+                return { ...state, block: updatedBlock };
+            }
         }
         default:
             return { ...state };

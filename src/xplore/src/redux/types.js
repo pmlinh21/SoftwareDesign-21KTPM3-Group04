@@ -39,6 +39,14 @@ export const IS_FOLLOW_AUTHOR = "IS_FOLLOW_AUTHOR";
 
 export const BLOCK_AUTHOR = "BLOCK_AUTHOR";
 
+export const GET_USER_FOLLOWER = "GET_USER_FOLLOWER";
+
+export const GET_USER_FOLLOW = "GET_USER_FOLLOW";
+
+export const GET_USER_BLOCK = "GET_USER_BLOCK";
+
+export const UNBLOCK_USER = "UNBLOCK_USER";
+
 // TOPIC
 export const GET_ALL_TOPICS = "GET_ALL_TOPICS";
 

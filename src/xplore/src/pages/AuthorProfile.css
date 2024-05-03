@@ -26,7 +26,6 @@
     background-color: var(--blue-0);
     border-radius: 10px;
     padding: 24px;
-    position: relative;
 }
 
 .tip-button {
@@ -142,12 +141,12 @@
 }
 
 .tip-box {
-    position: absolute;
+    position: relative;
     background-color: var(--blue-0);
     border-radius: 10px;
     padding: 20px;
-    width: 300px;
-    margin-top: 350px;
+    width: 416px;
+    margin-top: 20px;
 }
 
 .tip-box .close-btn {
@@ -159,12 +158,13 @@
     cursor: pointer; 
 }
 
-.tip-box .tip-image {
-    width: 100%; 
-    border-radius: 5px;
-}
-
 .tip-box .tip-message {
     font-size: 16px; 
     margin-bottom: 0rem;
+}
+
+.link-empty{
+    font-weight: 600;
+    font-style: italic;
+    color: #4793AF;
 }

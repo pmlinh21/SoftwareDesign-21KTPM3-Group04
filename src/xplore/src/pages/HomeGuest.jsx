@@ -183,7 +183,7 @@ export default function Home() {
                             </button>
                         </div>
                         <div className="d-flex flex-column">
-                            <h4 className='m-0 p-0 mb-5'>Who to follow</h4>
+                            <h5 className='m-0 p-0 mb-5'>Who to follow</h5>
                             <div className="d-flex flex-column gap-2">
                                 {authorsToFollow.map(author => (
                                     <AuthorHorizontal author={author} key={author.id_user}/>

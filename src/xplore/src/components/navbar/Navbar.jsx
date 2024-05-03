@@ -159,7 +159,7 @@ export default function Navbar() {
                                 <Avatar avatar={user_login.avatar} size="small"/>
                             </div>
 
-                            <ul className="dropdown-menu dropdown-menu-end button3 support text-start text-scheme-sub-text">
+                            <ul className="dropdown-menu dropdown-menu-end button3 text-start text-scheme-sub-text">
                                 <li>
                                     <Link className="dropdown-item button2 text-start py-2" to={'/my-profile'} >
                                        View profile

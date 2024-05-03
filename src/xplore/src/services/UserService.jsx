@@ -107,6 +107,26 @@ export class UserService extends BaseService {
     getHighlightByUser = (id_user) =>{
       return this.get(`/user/highlight/${id_user}`);
     }
+
+    // Api 19: Get user follower
+    getUserFollower = (id_user) =>{
+      return this.get(`/user/subscriber/${id_user}`);
+    }
+
+    // Api 19: Get user follow
+    getUserFollow = (id_user) =>{
+      return this.get(`/user/follow/${id_user}`);
+    }
+
+    // Api 20: Get user block
+    getUserBlock = (id_user) =>{
+      return this.get(`/user/block/${id_user}`);
+    }
+
+    // Api 21: Unblock user 
+    unblockUser = (user, block) =>{
+      return this.delete(`/user/block/${user}/${block}`);
+    }
   }
   
 export const userService = new UserService();
