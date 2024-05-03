@@ -149,6 +149,7 @@ export default function Writing() {
                 creation_time: formartToSQLDatetime(new Date())
             }, uploadedThumbnail
         ))
+        navigate('/', { replace: true });
         }
         else {
             console.log(postInfo.topic)
@@ -157,9 +158,10 @@ export default function Writing() {
                 id_post: id_post 
             },uploadedThumbnail
         ))
+        navigate(`/post?id_post=${id_post}`, { replace: true });
         }
 
-        // navigate('/', { replace: true });
+
 
     }
 

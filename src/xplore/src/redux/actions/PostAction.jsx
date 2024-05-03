@@ -117,3 +117,21 @@ export const updatePostAction = (postInfo, uploadedThumbnail) => {
         }
     }
 }
+
+export const deletePostAction = (id_post) => {
+    return async (dispatch) => {
+        try {
+            const formData = {
+                id_post: id_post
+            }
+            const result = await postService.deletePost(formData)
+
+            if (result.status === 200) {
+                
+            }
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    }
+}

@@ -1315,7 +1315,7 @@ const getUserBlock = async (req, res) => {
 // PUT: Pin a post
 const pinPost = async (req, res) => {
     let { id_user, id_pinned_post } = req.params
-    
+    console.log(id_user, id_pinned_post)
     try {
         let user = await model.user.findOne({
             where:{

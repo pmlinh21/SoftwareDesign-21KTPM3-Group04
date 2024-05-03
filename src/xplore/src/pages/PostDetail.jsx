@@ -83,6 +83,8 @@ function Post() {
         }
     }
 
+    const dispatch = useDispatch();
+    
     useEffect(() => {
         
         if (!post)
@@ -90,7 +92,7 @@ function Post() {
         if (!responses && !notFound && accessed) {
             fetchResponse();
         }
-    },[id_post])
+    },[dispatch, id_post])
 
     useEffect(() => {   
         const timeoutId = setTimeout(() => {

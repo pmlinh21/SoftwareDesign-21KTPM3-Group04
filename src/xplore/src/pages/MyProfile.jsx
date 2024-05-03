@@ -11,7 +11,7 @@ import postPlaceholder from "../assets/images/post-placeholder.jpg"
 import { formatToMD } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
-import { getPostByUser } from "../redux/actions/PostAction";
+import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
 import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
@@ -22,7 +22,9 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function MyProfile() {
-    const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
+    //const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
+    const user_info = useSelector(state => state.UserReducer.user_login);
+
     console.log("user_info: ", user_info)
 
     const dispatch = useDispatch();
@@ -32,12 +34,12 @@ export default function MyProfile() {
     const user_block = useSelector(state => state.UserReducer.user_block);
 
     useEffect(() => {
-        dispatch(getPostByUser(user_info.id_user))
-        dispatch(getUserFollowerAction(user_info.id_user))
-        dispatch(getUserFollowAction(user_info.id_user))
-        dispatch(getUserBlockAction(user_info.id_user))
+        dispatch(getPostByUser(user_info?.id_user))
+        dispatch(getUserFollowerAction(user_info?.id_user))
+        dispatch(getUserFollowAction(user_info?.id_user))
+        dispatch(getUserBlockAction(user_info?.id_user))
 
-    }, [dispatch, user_info.id_user]);
+    }, [dispatch, user_info?.id_user]);
 
     console.log("user_post: ", user_post)
     console.log("user_follower: ", user_follower)
@@ -73,7 +75,22 @@ export default function MyProfile() {
     };
 
     const handlePinPost = (id_post) => {
-        dispatch(pinPostAction(user_info.id_user, id_post))
+        pinPost(id_post);
+    };
+
+    const pinPost = (id_post) => {
+        dispatch(pinPostAction(user_info.id_user, id_post)).then(() => {
+            alert("Pin successfully"); 
+        })
+    };
+
+    const handleDeletePost = (id_post) => {
+        deletePost(id_post);
+    };
+
+    const deletePost = (id_post) => {
+        dispatch(deletePostAction(id_post))
+        dispatch(getPostByUser(user_info?.id_user))
     };
 
     return (
@@ -130,12 +147,12 @@ export default function MyProfile() {
                                                                 <Link to={`/write?id_post=${post.id_post}`} className='dropdown-item'>Edit post</Link>
                                                             </li>
                                                             <li>
-                                                                <a className="dropdown-item" onClick={handlePinPost(post.id_post)}>Pin post</a>
+                                                                <a className="dropdown-item" onClick={() => handlePinPost(post.id_post)}>Pin post</a>
                                                             </li>
 
                                                             <li><hr className="dropdown-divider"></hr></li>
                                                             <li>
-                                                                <a className="dropdown-item delete-dropdown">
+                                                                <a className="dropdown-item delete-dropdown" onClick={() => handleDeletePost(post.id_post)}>
                                                                     <i className="fa-regular fa-trash-can"></i> Delete Post
                                                                 </a>
                                                             </li>
