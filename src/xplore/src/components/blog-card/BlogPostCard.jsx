@@ -13,18 +13,19 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 
 export default function BlogPostCard(props) {
     const {id_post, title, content, thumbnail, list_topic, publish_time, author} = props.post;
+    const style = props?.style || "";
 
     const navigate = useNavigate();
     const handleBlogCardClicked = () =>{
         navigate("/post?id_post=" + id_post)
     }
     return (
-        <div className="blog-post-card d-flex flex-column p-0 m-0 mb-4"
+        <div className={`blog-post-card d-flex flex-column p-0 m-0 mb-4 ${style}`}
             onClick={handleBlogCardClicked}>
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
                 <BookmarkIcon id_post={id_post} set_absolute={true}  thumbnail={thumbnail}s/>
-                <img src={thumbnail || "https://picsum.photos/id/2/1200/1200"} alt=""  />
+                <img src={thumbnail || "./imgs/thumbnail-placeholder.jpg"} alt=""  />
             </div>
             
             {

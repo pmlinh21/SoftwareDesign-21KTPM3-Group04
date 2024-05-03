@@ -57,10 +57,16 @@ export class PostService extends BaseService {
       return this.get(`post/response/${id_post}`);
     }
 
-    // Api 11: Response post
+    // Api 11.1: Response post
     responsePost = (formData) => {
       // console.log("updatePost: ", formData);
       return this.post(`post/response`, formData);
+    }
+    
+    // Api 11.2: Update response
+    updateResponse = (formData) => {
+      // console.log("updatePost: ", formData);
+      return this.put(`post/response`, formData);
     }
 
     // Api 12: Delete response post
@@ -69,10 +75,16 @@ export class PostService extends BaseService {
       return this.delete(`post/response/${id_response}`);
     }
 
-    // Api 13: reply a response
+    // Api 13.1: reply a response
     replyResponse = (formData) => {
       // console.log("updatePost: ", formData);
       return this.post(`post/reply`, formData);
+    }
+
+    // Api 13.2: update reply 
+    updateReply = (formData) => {
+      // console.log("updatePost: ", formData);
+      return this.put(`post/reply`, formData);
     }
 
     // Api 14: Delete reply a response
