@@ -69,7 +69,7 @@ function Pricing() {
                 <div className='container'>
                     <p className='subtitle1' style={{color: 'var(--blue-500)'}}>NEED HELP?</p>
                     <h5 style={{ marginBottom: '64px' }}>Frequently asked questions</h5>
-                    <div className='row' style={{ gap: '96px'}}>
+                    <div className='d-flex flex-row' style={{ gap: '96px'}}>
                         <div className='col'>
                             <div className='d-flex flex-row gap-4' style={{marginTop: '64px'}}>
                                 <img src="/imgs/pricing_1.png" style={{ width: '48px', height: '48px'}} />
@@ -101,7 +101,7 @@ function Pricing() {
                             </div>
                         </div>
                         <div className='col' >
-                            <img src="/imgs/faq_img.jpg" />
+                            <img src="/imgs/faq_img.jpg" style={{ width: '100%'}} />
                         </div>
                     </div>
                     
