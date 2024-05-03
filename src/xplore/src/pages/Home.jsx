@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Search from '../components/search/Search'
 import MyTabs from './MyTabs'
+import TopicTag from '../components/topic/TopicTag';
 
 import "./Home.css"
 import "../styles/commons.css"
@@ -24,6 +25,7 @@ export default function Home() {
     const [trendingPosts, setTrendingPosts] = useState([]);
     const [Authors, setAuthors] = useState([]);
     const authorsToFollow = Authors.slice(5, 10);
+    const [hotTopics, setHotTopics] = useState([]);
 
     const fetchTrendingPosts = async () => {
         try {
@@ -53,9 +55,25 @@ export default function Home() {
         }
     }
 
+    const fetchHotTopics = async () => {
+        try {
+            const topics = [];
+            const result = await topicService.getAllTopics();
+            for (let i = 0; i < result.data.content.length; i++) {
+                topics.push(result.data.content[i]);
+            }
+            setHotTopics(topics);
+        }
+        catch (error) {
+            console.log("error", error.response);
+            // alert(error.response.data.message)
+        }
+    }
+
     useEffect(() => {
         fetchTrendingPosts();
         fetchAuthors();
+        fetchHotTopics();
     }, []);
 
     console.log("trendingPosts", trendingPosts.length);
@@ -92,6 +110,16 @@ export default function Home() {
                             {authorsToFollow.map(author => (
                                 <AuthorHorizontal author={author} key={author.id_user}/>
                             ))}
+                            {/* Topics */}
+                            <h6 className='my-4'>Topics to follow</h6>
+                            <div className="d-flex flex-wrap gap-2">
+                                {hotTopics.map(topic => (
+                                    <TopicTag key={topic.topic} topic={topic} />
+                                ))}
+                            </div>
+                            <button className="link-nm button1 d-flex justify-content-start gap-1 align-items-center mt-4">
+                                See all<i className="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
                         
                     </div>
