@@ -12,7 +12,8 @@ import { formatToMD, formatToLocalDate } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, getUserCurrentSubscriptionAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, 
+        getUserCurrentSubscriptionAction, cancelPlanAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -93,6 +94,7 @@ export default function MyProfile() {
 
     const navigateToAuthorProfile = (follow) => {
         navigate("/author-profile", { state: { author: follow } });
+        window.scrollTo(0, 0);
     };
 
     const handlePinPost = (id_post) => {
@@ -121,6 +123,7 @@ export default function MyProfile() {
 
     const navigateToEditProfile = () => {
         navigate("/edit-profile");
+        window.scrollTo(0, 0);
     };
 
     const renderStatusBox = (status) => {
@@ -148,15 +151,51 @@ export default function MyProfile() {
         }
     };
 
+    const [isCancelled, setIsCancelled] = useState(false);
+
+    useEffect(() => {
+        if (user_current_subscription && (user_current_subscription.status === 2 || user_current_subscription.status === 1)) {
+            setIsCancelled(true);
+        }
+    }, [user_current_subscription]);
+
+    const handleCancelPlan = (id_subscription) => {
+        dispatch(cancelPlanAction(user_info?.id_user, id_subscription)).then(() => {
+            setIsCancelled(true); 
+        })
+    }
+
+    const navigateToPricing = () => {
+        navigate("/pricing");
+        window.scrollTo(0, 0);
+    };
+
+    const renderMembershipActions = () => {
+        if (isCancelled) {
+            return (
+                <div className="membership-actions">
+                    <button className="btn-nm prim-btn button1 btn-cus w-100" onClick={() => navigateToPricing()}>Buy a plan</button>
+                </div>
+            );
+        } else {
+            return (
+                <div className="membership-actions">
+                    <span className="change-plan-link" onClick={() => navigateToPricing()}>Click here for more details</span>
+                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100" onClick={() => handleCancelPlan(user_current_subscription.id_subscription)}>Cancel plan</button>
+                </div>
+            );
+        }
+    };
+
     return (
         <div className='container-fluid profile'>
             <div className="profile-background"></div>
             <div className="container d-flex flex-row justify-content-between align-items-center">
                 <div className="d-flex flex-row justify-content-start align-items-center gap-3">
-                    <img src={user_info.avatar || avatarPlaceholder} alt="user's avatar" className="avatar-ctn"/>
+                    <img src={user_info?.avatar || avatarPlaceholder} alt="user's avatar" className="avatar-ctn"/>
                     <div>
-                        <h5 className="fullname">{user_info.fullname}</h5>
-                        <p className="p2 email">{user_info.email}</p>
+                        <h5 className="fullname">{user_info?.fullname}</h5>
+                        <p className="p2 email">{user_info?.email}</p>
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
@@ -282,7 +321,7 @@ export default function MyProfile() {
                             <h6>Following</h6>
                             <p className="p1">{formattedFollowCount} users</p>
                         </div>
-                        {user_follow && user_follow.length > 0 ? (
+                        { (user_follow && user_follow.length > 0) ? (
                             <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
@@ -296,7 +335,7 @@ export default function MyProfile() {
                                         </div>
                             
                                         <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                                            <ButtonUnsubscribe user={follow.id_user} subscriber={user_info.id_user}/>
+                                            <ButtonUnsubscribe user={follow?.id_user} subscriber={user_info?.id_user}/>
                                         </div>
                                     </div>
                                 ))}
@@ -337,7 +376,7 @@ export default function MyProfile() {
                                         </div>
                             
                                         <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                                            <ButtonUnblock user={user_info.id_user} block={block.id_user}/>
+                                            <ButtonUnblock user={user_info?.id_user} block={block?.id_user}/>
                                         </div>
                                     </div>
                                 ))}
@@ -367,13 +406,12 @@ export default function MyProfile() {
                                     <p><strong>End day</strong> <span>{formatToLocalDate(user_current_subscription.end_time)}</span></p>
                                 </div>
                                 <hr className='space-hr'></hr>
-                                <div className="membership-actions">
-                                    <span><a href="#" className="change-plan-link">Click here for more details</a></span>
-                                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100">Cancel plan</button>
-                                </div>
+                                {renderMembershipActions()}
                             </div>
                         ) : (
-                            <p>You have not bought any plans yet!</p>
+                            <span>You have not bought any plans yet!
+                                <span className="change-plan-link" onClick={() => navigateToPricing()}> Let buy a plan</span>
+                            </span>  
                         )}
                     </div>
                 </div>

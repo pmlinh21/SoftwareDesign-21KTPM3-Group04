@@ -5,10 +5,9 @@ import { useSelector, useDispatch} from 'react-redux'
 import {postService} from '../../services/PostService';
 // import {getListByUserAction, addPostToListAction, deletePostFromListAction} from '../../redux/actions/PostAction'
 
-export default function LikeIcon({id_post, likeCount, setLikeCount}){
-    const dispatch = useDispatch()
+export default function LikeIcon({id_user, setGuestPopup, id_post, likeCount, setLikeCount}){
     const {user_login} = useSelector(state => state.UserReducer)
-
+    
     const [isLike, setIsLike] = useState(false)
 
     useEffect(() => {
@@ -21,10 +20,15 @@ export default function LikeIcon({id_post, likeCount, setLikeCount}){
             }
         };
         
-        fetchLike();
+        if (id_user != null)
+            fetchLike();
     }, []);
 
     async function handleLikeClick(){
+        if (id_user == null){
+            setGuestPopup(true)
+            return
+        }
         if (isLike){
             setIsLike(false)
             setLikeCount((val) => val - 1)

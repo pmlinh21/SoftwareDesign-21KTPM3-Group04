@@ -25,23 +25,23 @@ function About() {
                         <div className='col'>
                             <p className='label1'>We’ve helped hundreds of companies</p>
                             <h4>We’re only just getting started on our journey</h4>
-                            <div className='row g-4' style={{margin: '64px 0'}}>
+                            <div className='row g-4' style={{margin: '32px 0'}}>
                                 <div className='col'>
-                                    <h2 style={{color: 'var(--blue-500)'}}>400+</h2>
+                                    <h3 style={{color: 'var(--blue-500)'}}>400+</h3>
                                     <p className='p1'>Projects completed</p>
                                 </div>
                                 <div className='col'>
-                                    <h2 style={{color: 'var(--blue-500)'}}>100%</h2>
+                                    <h3 style={{color: 'var(--blue-500)'}}>100%</h3>
                                     <p className='p1'>Return on investment</p>
                                 </div>
                             </div>
                             <div className='row g-4'>
                             <div className='col'>
-                                    <h2 style={{color: 'var(--blue-500)'}}>10K</h2>
+                                    <h3 style={{color: 'var(--blue-500)'}}>10K</h3>
                                     <p className='p1'>Global downloads</p>
                                 </div>
                                 <div className='col'>
-                                    <h2 style={{color: 'var(--blue-500)'}}>200+</h2>
+                                    <h3 style={{color: 'var(--blue-500)'}}>200+</h3>
                                     <p className='p1'>5-star reviews</p>
                                 </div>
                             </div>
