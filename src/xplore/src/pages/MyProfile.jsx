@@ -191,10 +191,10 @@ export default function MyProfile() {
             <div className="profile-background"></div>
             <div className="container d-flex flex-row justify-content-between align-items-center">
                 <div className="d-flex flex-row justify-content-start align-items-center gap-3">
-                    <img src={user_info.avatar || avatarPlaceholder} alt="user's avatar" className="avatar-ctn"/>
+                    <img src={user_info?.avatar || avatarPlaceholder} alt="user's avatar" className="avatar-ctn"/>
                     <div>
-                        <h5 className="fullname">{user_info.fullname}</h5>
-                        <p className="p2 email">{user_info.email}</p>
+                        <h5 className="fullname">{user_info?.fullname}</h5>
+                        <p className="p2 email">{user_info?.email}</p>
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
@@ -320,7 +320,7 @@ export default function MyProfile() {
                             <h6>Following</h6>
                             <p className="p1">{formattedFollowCount} users</p>
                         </div>
-                        {user_follow && user_follow.length > 0 ? (
+                        { (user_follow && user_follow.length > 0) ? (
                             <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
@@ -334,7 +334,7 @@ export default function MyProfile() {
                                         </div>
                             
                                         <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                                            <ButtonUnsubscribe user={follow.id_user} subscriber={user_info.id_user}/>
+                                            <ButtonUnsubscribe user={follow?.id_user} subscriber={user_info?.id_user}/>
                                         </div>
                                     </div>
                                 ))}
@@ -375,7 +375,7 @@ export default function MyProfile() {
                                         </div>
                             
                                         <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                                            <ButtonUnblock user={user_info.id_user} block={block.id_user}/>
+                                            <ButtonUnblock user={user_info?.id_user} block={block?.id_user}/>
                                         </div>
                                     </div>
                                 ))}

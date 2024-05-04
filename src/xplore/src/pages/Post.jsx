@@ -6,6 +6,7 @@ import Search from '../components/search/Search';
 import { getPostByUser } from "../redux/actions/PostAction";
 import Avatar from "../components/avatar/Avatar"; 
 import BookmarkIcon from "../components/icon/BookmarkIcon"
+import postPlaceholder from "../assets/images/post-placeholder.jpg"
 import { formatToMDY } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
@@ -92,7 +93,7 @@ export default function Post(props) {
                                     <div className="blog-post-card d-flex flex-column p-0 m-0 shadow-sm">
                                         <div className="thumbnail-container bg-white p-0 m-0 position-relative">
                                             <BookmarkIcon id_post={post.id_post} set_absolute={true}/>
-                                            <img src={post.thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
+                                            <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
                                         
                                         {
@@ -168,7 +169,7 @@ export default function Post(props) {
                                     <div className="blog-post-card d-flex flex-column p-0 m-0 shadow-sm">
                                         <div className="thumbnail-container bg-white p-0 m-0 position-relative">
                                             <BookmarkIcon id_post={post.id_post} set_absolute={true}/>
-                                            <img src={post.thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
+                                            <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
                                         
                                         {

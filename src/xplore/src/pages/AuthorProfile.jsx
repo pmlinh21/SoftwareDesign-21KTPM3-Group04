@@ -39,7 +39,8 @@ export default function AuthorProfile() {
 
         dispatch(getAuthorListAction(id_user));
 
-        dispatch(isFollowAuthorAction(id_user, user_login.id_user));
+        if (user_login?.id_user)
+            dispatch(isFollowAuthorAction(id_user, user_login.id_user));
 
     }, [dispatch, id_user]);
 
@@ -124,14 +125,18 @@ export default function AuthorProfile() {
                         <p className="p2 email">{email}</p>
                     </div>
                 </div>
-                <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
-                            {is_follow ? 'Unfollow' : 'Follow'}
-                    </button>
-                    <button className="btn-nm tert-btn button1" onClick={handleBlock}>
-                        <i className="fa-solid fa-ban me-1"></i> Block
-                    </button>
-                </div>
+                {
+                    user_login.id_user && (
+                        <div className="d-flex flex-row justify-content-end align-items-center gap-2">
+                            <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
+                                    {is_follow ? 'Unfollow' : 'Follow'}
+                            </button>
+                            <button className="btn-nm tert-btn button1" onClick={handleBlock}>
+                                <i className="fa-solid fa-ban me-1"></i> Block
+                            </button>
+                        </div>
+                    )
+                }
             </div>
 
             <div className="container">
@@ -147,7 +152,7 @@ export default function AuthorProfile() {
                                 {filteredAuthorPost && filteredAuthorPost.length > 0 ? (
                                     <div className='d-flex flex-column gap-2'>
                                         {filteredAuthorPost.map((post) => (
-                                            <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
+                                            <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white" key={post.id_post}>
                                                 <div className="col-12 d-flex py-3 px-2">
                                                     <div className="col-5 thumbnail-container bg-white h-100">
                                                         <img src={post.thumbnail || postPlaceholder} alt=""  />
@@ -210,7 +215,7 @@ export default function AuthorProfile() {
                                                             </div>
                                     
                                                             <div className="col-4 link-sm">
-                                                                <a href={`/post?id_post=${post.id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></a>
+                                                                <Link to={`/post?id_post=${post.id_post}`}>Read post <i className="fa-solid fa-arrow-right"></i></Link>
                                                             </div>
                                                         </div>
                                                     </div>

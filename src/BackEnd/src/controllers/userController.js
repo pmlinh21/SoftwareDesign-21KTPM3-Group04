@@ -678,6 +678,16 @@ try {
         await model.block.create({
             user, block
         });
+        await model.subscribe.destroy({
+            where:{
+                user: user, subscriber: block
+            }
+        });
+        await model.subscribe.destroy({
+            where:{
+                subscriber: user, user: block
+            }
+        });
         successCode(res, "", "Block successfully");
     }
 } catch (err) {

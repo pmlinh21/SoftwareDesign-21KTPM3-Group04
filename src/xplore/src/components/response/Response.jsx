@@ -204,23 +204,28 @@ export default function Response(props) {
                         <p className='button2 m-0'>{user?.fullname || "Author name"}</p>
                         <p className='p2 m-0' style={{ color: 'var(--scheme-sub-text)'}}>{(response_time && formatToMDY(response_time)) || "MMM DD"}</p>
                     </div>
-                    <DropdownMenu
-                        id_user_login={user_login?.id_user}
-                        id_author_post={id_user}
-                        id_author_response={user?.id_user}
-                        reply={reply}
-                        id_response={id_response}
+                    {
+                        user_login?.id_user && (
+                        <DropdownMenu
+                            id_user_login={user_login?.id_user}
+                            id_author_post={id_user}
+                            id_author_response={user?.id_user}
+                            reply={reply}
+                            id_response={id_response}
 
-                        setLoading={setLoading}
+                            setLoading={setLoading}
 
-                        setIsEdit={setIsEditResponse}
-                        
-                        deleteResponse={deleteResponse}
+                            setIsEdit={setIsEditResponse}
+                            
+                            deleteResponse={deleteResponse}
 
-                        setIsNewReply={setIsNewReply}
+                            setIsNewReply={setIsNewReply}
 
-                        setReportContent={setReportContent}
-                        isReplyDropdown={false}/>
+                            setReportContent={setReportContent}
+                            isReplyDropdown={false}/>
+                        )
+                    }
+                    
                 </div>
             
                 <div className='d-flex flex-column'>
@@ -258,19 +263,24 @@ export default function Response(props) {
                                 <p className='button2 m-0'>{fullname || "Author name"}</p>
                                 <p className='p2 m-0' style={{ color: 'var(--scheme-sub-text)'}}>{(reply_time && formatToMDY(reply_time)) || "MMM DD, YYYY"}</p>
                             </div>
-                            <DropdownMenu
-                                id_user_login={user_login?.id_user}
-                                id_author_post={id_user}
-                                id_author_response={id_user}
-                                id_response={id_response}
-        
-                                setIsEdit={setIsEditReply}
-                                setLoading={setLoading}
+                            {
+                                user_login?.id_user && (
+                                    <DropdownMenu
+                                        id_user_login={user_login?.id_user}
+                                        id_author_post={id_user}
+                                        id_author_response={id_user}
+                                        id_response={id_response}
+                
+                                        setIsEdit={setIsEditReply}
+                                        setLoading={setLoading}
 
-                                deleteResponse={deleteResponse}
-                                setReportContent={setReportContent}
-                                isReplyDropdown
-                            />
+                                        deleteResponse={deleteResponse}
+                                        setReportContent={setReportContent}
+                                        isReplyDropdown
+                                    />
+                                )
+                            }
+                            
                         </div>
                         <div className='d-flex flex-column' style={{ marginLeft: '5rem'}}>
                             <p className='p1'>{reply}</p>
