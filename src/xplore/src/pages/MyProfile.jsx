@@ -118,8 +118,7 @@ export default function MyProfile() {
     };
 
     const deletePost = (id_post) => {
-        dispatch(deletePostAction(id_post))
-        dispatch(getPostByUser(user_info?.id_user))
+        dispatch(deletePostAction(id_post, user_info.id_user))
     };
 
     const navigateToEditProfile = () => {

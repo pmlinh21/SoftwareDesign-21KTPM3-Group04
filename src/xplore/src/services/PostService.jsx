@@ -31,8 +31,8 @@ export class PostService extends BaseService {
 
     // Api 6: Delete post
     deletePost = (formData) => {
-      console.log("updatePost: ", formData);
-      return this.delete(`post/`, formData);
+      console.log("deletePost: ", formData);
+      return this.delete(`post/${formData.id_post}`);
     }
 
     // Api 7: Get like of post
