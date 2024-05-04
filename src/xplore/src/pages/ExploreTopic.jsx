@@ -82,8 +82,23 @@ export default function ExploreTopic() {
 
         if (topic == null){
             dispatch(getTopicByUserAction(user_login?.id_user))
+        } else{
+            setIsFollow(topic?.includes(id_topic))
         }
     },[id_topic])
+
+    useEffect(() => {
+        if (topic != null)
+            setIsFollow(topic?.includes(id_topic))
+    }, [topic?.length])
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0, // Equivalent to the Y-coordinate
+            left: 0, // Equivalent to the X-coordinate
+            behavior: 'smooth' // Smooth scroll
+          });
+    },[])
 
     function handleUnfollowButton(){
         dispatch(UnfollowTopicAction(user_login?.id_user, id_topic))
@@ -95,7 +110,7 @@ export default function ExploreTopic() {
         setIsFollow(true)
     }
 
-    // console.log(post)
+    console.log(post)
     return (
     <div className="explore-topic-page">
 

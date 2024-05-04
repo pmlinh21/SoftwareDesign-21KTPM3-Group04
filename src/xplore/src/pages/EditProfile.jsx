@@ -15,6 +15,7 @@ import { formatToDate, formatToYMD } from '../util/formatDate.js';
 
 import { commonService } from "../services/CommonService";
 import { updateUserDetailAction, updateUserProfileAction } from "../redux/actions/UserAction";
+import Loading from '../components/system-feedback/Loading.jsx';
 
 export default function EditProfile() {
     const dispatch = useDispatch();
@@ -34,6 +35,8 @@ export default function EditProfile() {
 
     const [isDetailChange, setIsDetailChange] = useState(false);
     const [isProfilelChange, setIsProfilelChange] = useState(false);
+
+    const [loading, setLoading] = useState(null);
 
     const user_info = useSelector(state => state.UserReducer.user_login);
 
@@ -97,7 +100,9 @@ export default function EditProfile() {
 
     const handleSave = async (e) => {
         e.preventDefault();
-
+        setLoading({
+            type: "full"
+        })
         var imageUrl;
         if (avatarFile) {
             try {
@@ -130,6 +135,7 @@ export default function EditProfile() {
             dispatch(updateUserDetailAction(user_info.id_user, formData))
             setIsDetailChange(false);
             setIsFullNameEditable(false);
+            setLoading(null)
         } catch (error) {
             console.error('Error saving detail data:', error);
         }
@@ -160,6 +166,9 @@ export default function EditProfile() {
 
     return (
         <div className='container-fluid profile'>
+        {
+            loading && <Loading type={loading.type}/>
+        }
             <div className="profile-background"></div>
             <div className="container d-flex flex-row justify-content-between align-items-center">
                 <div className="d-flex flex-row justify-content-start align-items-center gap-3">

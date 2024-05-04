@@ -368,7 +368,7 @@ export default function MyProfile() {
                         {user_block && user_block.length > 0 ? (
                             <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }} >
                                 {user_block.map((block) => (
-                                    <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
+                                    <div className="author-horizontal py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
                                             <Avatar avatar={block.avatar} size="small"/>
                                         </div>
