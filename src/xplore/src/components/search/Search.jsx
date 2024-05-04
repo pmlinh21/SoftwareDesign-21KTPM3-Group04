@@ -137,6 +137,7 @@ export default function Search({search, isResult}){
                     <div className="row m-2">
                         <p className="subtitle2 text-neutral-400">RECENT SEARCHES</p>
                     </div>
+                    <div className="recent-search-list">
                     {
                         recentSearch?.map((item, index) => {
                             return (
@@ -156,6 +157,8 @@ export default function Search({search, isResult}){
                             )
                         })
                     }
+                    </div>
+                    
                     
                 </div>
           
