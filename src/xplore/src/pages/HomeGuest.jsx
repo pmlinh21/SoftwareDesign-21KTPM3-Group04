@@ -46,8 +46,9 @@ export default function Home() {
         try {
             const result = await postService.getTrendingPosts();
             if (result.status === 200) {
-                setTrendingPosts(result.data.content);
-                console.log("trendingPosts", result);
+                let posts_ = result.data.content;
+                setTrendingPosts(posts_.slice(0, 6));
+                setMorePosts(posts_.slice(6, 8));
             }
         } catch (error) {
             console.log("error", error.response);
@@ -87,22 +88,6 @@ export default function Home() {
         }
     }
 
-    const fetchMorePosts = async () => {
-        try {
-            const ids = [1, 2, 3];
-            const posts = [];
-            for (let i = 0; i < 3; i++) {
-                const result = await postService.getPostById(ids[i]);
-                posts.push(result.data.content);
-            }
-            setMorePosts([...posts]);
-        }
-        catch (error) {
-            console.log("error", error.response);
-            // alert(error.response.data.message)
-        }
-    }
-
     useEffect(() => {
         if (user_login.id_user){
             console.log("home guest")
@@ -113,7 +98,6 @@ export default function Home() {
         fetchTopAuthors();
         fetchTrendingPosts();
         fetchHotTopics();
-        fetchMorePosts();
     }, [user_login.id_user]);
 
     const slidingAuthors = topAuthors.slice(0, 7);

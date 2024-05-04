@@ -23,7 +23,7 @@ import Paywall from '../components/system-feedback/Paywall';
 import ReportPopup from '../components/popup/ReportPopup';
 import TopicTag from '../components/topic/TopicTag';
 import GuestPopup from "../components/popup/GuestPopup";
-import { getUserBlockAction } from '../redux/actions/UserAction';
+import { getInvisibleUsers, getUserBlockAction } from '../redux/actions/UserAction';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -33,7 +33,7 @@ function Post() {
     const searchParams = new URLSearchParams(location.search);
     const id_post = parseInt(searchParams.get('id_post'));
 
-    const {user_login, user_block} = useSelector(state => state.UserReducer)
+    const {user_login, user_block, user_invisible} = useSelector(state => state.UserReducer)
 
     const [responses, setResponses] = useState(null);
     const [author, setAuthor] = useState(null);
@@ -55,13 +55,18 @@ function Post() {
                 type: ''
             })
             const postResult = await postService.getPostById(id_post);
-            const post = postResult.data.content
+            const post = postResult?.data?.content
             
+            if (!post){
+                setNotFound(true)
+                setLoading(null)
+                return
+            }
             // guest hoặc ai đó xem draft và scheduled post
             if ((!user_login.id_user || post?.author?.id_user != user_login.id_user) && (!post?.publish_time || new Date(post.publish_time).getTime() > new Date().getTime()) ){
-                console.log(post?.id_user)
+                console.log("User view draft and scheduled post")
                 setNotFound(true)
-            } else if (user_login.id_user && user_block && isBlocked(post.id_user, user_block)) {
+            } else if (user_login.id_user && user_invisible.includes(post?.author.id_user)){
                 console.log("User blocked")
                 setNotFound(true)
             } else{
@@ -95,15 +100,18 @@ function Post() {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        if (!post)
+        if (!post && user_invisible)
             fetchPost();
         if (!responses && !notFound && accessed) {
             fetchResponse();
         }
-        if (user_login?.id_user && !user_block){
-            dispatch(getUserBlockAction(user_login?.id_user))
+    },[dispatch, id_post, user_invisible?.length])
+
+    useEffect(() => {
+        if (user_login?.id_user && !user_invisible){
+            dispatch(getInvisibleUsers(user_login?.id_user))
         }
-    },[dispatch, id_post])
+    }, [])
 
     useEffect(() => {   
         // người dùng đã đăng nhập và xem bài post đã published
