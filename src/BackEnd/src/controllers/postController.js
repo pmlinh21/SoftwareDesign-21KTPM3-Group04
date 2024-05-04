@@ -23,7 +23,7 @@ const getTrendingPost = async (req,res) => {
                 [sequelize.fn('count', '*'), 'readingCount'],
             ],
             order: [[sequelize.col('readingCount'), 'DESC']], // Order by userCount descending
-            limit: 6,
+            limit: 9,
         });
 
         const postIds = readingHistories.map(history => history.id_post);

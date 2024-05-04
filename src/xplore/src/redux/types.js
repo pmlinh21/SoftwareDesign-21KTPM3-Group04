@@ -11,6 +11,8 @@ export const SIGNUP = "SIGNUP";
 
 export const LOGOUT = "LOGOUT";
 
+export const GET_INVISIBLE_USERS = "GET_INVISIBLE_USERS";
+
 export const GET_USER_BY_EMAIL = "GET_USER_BY_EMAIL";
 
 export const GET_TOP_USERS = "GET_TOP_USERS";
