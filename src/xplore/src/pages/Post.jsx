@@ -139,7 +139,7 @@ export default function Post(props) {
                                                         {author?.fullname || "Author name"}
                                                     </p>
                                                     <p className="col-auto support text-scheme-sub-text m-0 p-0">
-                                                        {(post.publish_time && formatToMDY(post.publish_time)) || "MMM DD, YYYY"}
+                                                        {(post.publish_time && formatToMDY(post.publish_time)) || "not scheduled" }
                                                     </p>
                                                 </div>
                                             </div>

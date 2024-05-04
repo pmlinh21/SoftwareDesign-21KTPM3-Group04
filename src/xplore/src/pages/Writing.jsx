@@ -17,8 +17,9 @@ import NotFound from '../components/system-feedback/NotFound'
 
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
+import { postService } from '../services/PostService';
 
-function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postInfo, handleSaveButton }){
+function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, postInfo, handleSaveButton }){
 
 
     return(
@@ -34,10 +35,9 @@ function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postIn
                     onClick={handleSaveButton}>
                     Save
                 </button>
-
-                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                    onClick={handlePreviewButton}>
-                    Preview
+                <button className="alert-btn rounded-1 button2"
+                    onClick={handleDeleteButton}>
+                    Delete
                 </button>
                 <button className="prim-btn rounded-1 button2"
                     onClick={() => {setDisplayModal(true)}}>
@@ -89,6 +89,8 @@ export default function Writing() {
             return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
         })
     
+
+        console.log(selectedPost)
         if(selectedPost){
             setPostInfo(
                 {...postInfo,
@@ -104,14 +106,39 @@ export default function Writing() {
             if (selectedPost.status === 2){
                 setScheduleTime(new Date(selectedPost.publish_time))
             }
+            setNotFound(false)
         } else{
-            if (!isNaN(id_post))
+            if (!isNaN(id_post) || posts != null)
                 setNotFound(true)
         }
     },[posts])
 
-    function handlePreviewButton(){
-        navigate("/home");
+    const deletePost = async () => {
+        try {
+            const result = await postService.deletePost({id_post: id_post});
+            if (result.status === 200) {
+                navigate('/drafts', { state: { tab: "drafts" } });
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    function handleDeleteButton(){
+        if (id_post !== NaN) {
+            if (window.confirm("Are you sure you want to delete your writing?")){
+                navigate('/home', { replace: true })
+            }
+        } else {
+            // check for draft
+            if (window.confirm("Are you sure you want to delete this post?")){
+                deletePost()
+                if (postInfo.status === 1)
+                    navigate('/drafts', { state: { tab: "published" } });
+                else
+                    navigate('/drafts', { state: { tab: "drafts" } });
+            }
+        }
     }
 
     function handleBackButton(){
@@ -188,6 +215,16 @@ export default function Writing() {
          })
     }
     
+    const [showEditor, setShowEditor] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowEditor(true);
+            // setLoading(true);
+        }, 1500); // 3000 milliseconds = 3 seconds
+
+        return () => clearTimeout(timer); // Cleanup the timer when the component unmounts
+    }, []);
 
     return (
         <div className="writing-page h-100">
@@ -258,16 +295,17 @@ export default function Writing() {
                 !loading && !notFound && (
                     <>
                         <Toolbar
-                            handlePreviewButton={handlePreviewButton}
+                            handleDeleteButton={handleDeleteButton}
                             handleBackButton={handleBackButton}
                             handleSaveButton={handleSaveButton}
                             setDisplayModal={setDisplayModal}
                             postInfo={postInfo}
                             navigate={navigate}/>
-                        <div className="container col-12 mt-3">
-                            <TextEditor content={postInfo.content} 
-                            changePostInfo={changePostInfo}></TextEditor>
-                        </div>
+                            {showEditor && (
+                                <div className="container col-12 mt-3">
+                                    <TextEditor content={postInfo.content} changePostInfo={changePostInfo}></TextEditor>
+                                </div>
+                            )}
                     </>
                 )
             }
@@ -277,7 +315,7 @@ export default function Writing() {
                 )
             }
             {
-                loading && (
+                (loading || !showEditor) && (
                     <Loading/>
                 )
             }
