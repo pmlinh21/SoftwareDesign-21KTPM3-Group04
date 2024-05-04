@@ -4,7 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 // import 'react-tabs/style/react-tabs.css';
 import './MyTabs.css'
 
-import { getTopicByUserAction } from '../redux/actions/UserAction';
+import { getInvisibleUsers, getTopicByUserAction } from '../redux/actions/UserAction';
 import { topicService } from "../services/TopicService";
 
 import {formatCapitalCase} from '../util/formatText'
@@ -13,7 +13,7 @@ import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal';
 const MyTabs = () => {
   const dispatch = useDispatch();
   const [tabsData, setTabsData] = useState([]);
-  const {topic, user_login} = useSelector(state => state.UserReducer);
+  const {topic, user_login, user_invisible} = useSelector(state => state.UserReducer);
   const {topics} = useSelector(state => state.TopicReducer);
   
 
@@ -21,24 +21,38 @@ const MyTabs = () => {
     if (topic == null){
       dispatch(getTopicByUserAction(user_login?.id_user))
     }
+    if (user_invisible == null){
+      dispatch(getInvisibleUsers(user_login?.id_))
+    }
   },[])
 
   useEffect(() => {
 
     // if followed topic === null, then get followed topic from database
-    if (topic != null){
+    if (topic != null && user_invisible != null){
 
       // if followed topic !== null, then get relevant posts
       const fetchPost = async () => {
         try {
           const result = await topicService.getPostByTopic(topic.join(","))
 
-          const followedTopic = topics.filter(item => topic.includes(item.id_topic))
+          console.log(topic)
+          const followedTopic = topic.map(id_topic => topics.find(item => item.id_topic == id_topic))
+
+          console.log(followedTopic)
           const tabsData = followedTopic.map((item, index) => {
+
+            const visiblePosts = result.data.content.map((listPost) =>{
+              return listPost.filter(post => {
+                const author = post.author;
+                return !user_invisible.includes(author.id_user)
+              })
+            })
+            
             return {
               id_topic: item.id_topic,
               title: formatCapitalCase(item.topic),
-              post: result.data.content[index]
+              post: visiblePosts[index]
             }
           })
       
@@ -51,10 +65,8 @@ const MyTabs = () => {
 
       fetchPost(topic);
     }
-    // console.log(topic?.length)
-  }, [topic?.length]); 
+  }, [topic?.length, user_invisible?.length]); 
 
-  // console.log(tabsData)
   return (
     
       <Tabs>

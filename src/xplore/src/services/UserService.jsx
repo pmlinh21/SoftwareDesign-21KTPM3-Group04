@@ -187,6 +187,11 @@ export class UserService extends BaseService {
     getUserByID = (id_user) =>{
       return this.get(`/user/${id_user}`);
     }
+
+    // Api 34: 
+    getInvisibleUsers = (id_user) =>{
+      return this.get(`/user/invisible/${id_user}`);
+    }
 }
   
 export const userService = new UserService();

@@ -13,6 +13,7 @@ const { successCode, failCode, errorCode } = require('../config/response');
 const { parseToken, decodeToken } = require('../middlewares/baseToken');
 const { SUBSCRIBE_NOTI } = require('../config/noti_type');
 const subscribe = require('../models/subscribe');
+const block = require('../models/block');
 require('dotenv').config()
 
 // GET: Login
@@ -1613,6 +1614,40 @@ const getUserCurrentSubscription = async (req, res) => {
 
 }
 
+const getInvisibleUsers = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let userIsBlocked = await model.block.findAll({
+            where: {
+                block: id_user,
+            }
+        })
+
+        let userBlocked = await model.block.findAll({
+            where: {
+                user: id_user,
+            }
+        })
+
+        userIsBlocked = userIsBlocked.map((instance) => instance.get({ plain: true }));
+        userIsBlocked = userIsBlocked.map((instance) => instance.user);
+
+        userBlocked = userBlocked.map((instance) => instance.get({ plain: true }));
+        userBlocked = userBlocked.map((instance) => instance.block);
+
+        let mergedArray = [...new Set(userIsBlocked.concat(userBlocked))];
+
+        successCode(res, mergedArray, "Update successfully")
+        
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
@@ -1626,4 +1661,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             createOrder, captureOrder,
             isFollowAuthor, getUserFollow, getUserBlock,
             pinPost, unpinPost, getUserCurrentSubscription,
-            getUserResponse }
+            getUserResponse,getInvisibleUsers }
