@@ -128,10 +128,10 @@ export default function AuthorProfile() {
                 {
                     user_login.id_user && (
                         <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                            <button className={`btn-nm prim-btn button1 ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
+                            <button className={`btn-nm prim-btn button1 btn-custom ${is_follow ? 'btn-unfollow' : 'btn-follow'}`} onClick={handleFollow}>
                                     {is_follow ? 'Unfollow' : 'Follow'}
                             </button>
-                            <button className="btn-nm tert-btn button1" onClick={handleBlock}>
+                            <button className="btn-nm tert-btn button1 btn-custom" onClick={handleBlock}>
                                 <i className="fa-solid fa-ban me-1"></i> Block
                             </button>
                         </div>

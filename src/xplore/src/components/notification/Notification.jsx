@@ -134,12 +134,12 @@ export default function Notification(props) {
             <div className='notification'>
                 <p className='title2 text-black'>Notifications</p>
                 {/* Tabs */}
-                {/* <ul className='tab-panel d-flex flex-row gap-2'>
+                <ul className='tab-panel d-flex flex-row gap-2'>
                     <li className={focusedTab === 'All' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('All')}>All</li>
                     <li className={focusedTab === 'Like' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Like')}>Like</li>
                     <li className={focusedTab === 'Respond' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Respond')}>Respond</li>
                     <li className={focusedTab === 'Subscribe' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Subscribe')}>Subscribe</li>
-                </ul> */}
+                </ul>
                 {/* Notification content */}
                 <div className="notification-content">
                     {all?.map((noti) => (
