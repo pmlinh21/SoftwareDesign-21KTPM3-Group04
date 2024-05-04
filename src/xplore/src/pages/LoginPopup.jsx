@@ -49,7 +49,8 @@ export default function LoginPopup(props) {
 
         setLoading(true);
         dispatch(loginAction(user_login)).then(() => {
-            setLoading(false); 
+
+            setLoading(false);
         })
         .catch(() => {
             setLoading(false);

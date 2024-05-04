@@ -1391,6 +1391,44 @@ const pinPost = async (req, res) => {
     }
 }
 
+// GET: Get user response
+const getUserResponse = async (req, res) => {
+    let { id_user } = req.params
+    try {
+        let response = await model.response.findAll({
+            where: {
+                id_user: id_user
+            },
+            include:[
+                {
+                    model: model.post,
+                    as: "id_post_post",
+                    attributes: ["title"],
+                    include: [
+                        {
+                            model: model.user,
+                            as: "author",
+                            attributes: ["fullname"]
+                        }
+                    ]
+                }
+            ],
+            attributes: ["id_response", "id_post", "response", "response_time"],
+        });
+
+        if(!response){
+            failCode(res, [], "User has no responses")
+        }
+        else{
+            successCode(res, response, "Responses found")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+
+}
+
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
@@ -1403,4 +1441,4 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
             isFollowAuthor, getUserFollow, getUserBlock,
-            pinPost }
+            pinPost, getUserResponse }
