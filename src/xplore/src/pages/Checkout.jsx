@@ -12,6 +12,7 @@ import {PAYPAL_CLIENTID, DOMAIN} from '../util/config'
 import {formartToSQLDatetime, formatToTimeDMY} from '../util/formatDate'
 
 import { commonService } from '../services/CommonService';
+import NotFound from '../components/system-feedback/NotFound';
 
 const initialOptions = {
     clientId: PAYPAL_CLIENTID,
@@ -98,6 +99,11 @@ function Checkout() {
                 <p className='subtitle1 text-center text-scheme-primary'>PRICING</p>
                 <h4 className="text-center">Checkout</h4>
             </div>
+        {
+            !user_login?.id_user && (
+                <NotFound/>
+            )
+        }
         {
             loading && (
                 <Loading/>

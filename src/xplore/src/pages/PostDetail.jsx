@@ -4,7 +4,7 @@ import { useSelector, useDispatch} from 'react-redux'
 import ReactPaginate from 'react-paginate';
 
 import { formartToSQLDatetime, formatToMDY } from '../util/formatDate'
-
+import { isBlocked } from '../util/util';
 import "../styles/commons.css";
 import "./PostDetail.css";
 import "./SearchResult.css"
@@ -22,6 +22,8 @@ import NotFound from '../components/system-feedback/NotFound';
 import Paywall from '../components/system-feedback/Paywall';
 import ReportPopup from '../components/popup/ReportPopup';
 import TopicTag from '../components/topic/TopicTag';
+import GuestPopup from "../components/popup/GuestPopup";
+import { getUserBlockAction } from '../redux/actions/UserAction';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -31,7 +33,7 @@ function Post() {
     const searchParams = new URLSearchParams(location.search);
     const id_post = parseInt(searchParams.get('id_post'));
 
-    const {user_login} = useSelector(state => state.UserReducer)
+    const {user_login, user_block} = useSelector(state => state.UserReducer)
 
     const [responses, setResponses] = useState(null);
     const [author, setAuthor] = useState(null);
@@ -40,6 +42,7 @@ function Post() {
 
     const [newReponse, setNewReponse] = useState("");
 
+    const [guestPopup, setGuestPopup] = useState(false)
     const [loading, setLoading] = useState(null);
     const [accessed, setAccessed] = useState(true);
     const [notFound, setNotFound] = useState(false);
@@ -53,8 +56,11 @@ function Post() {
             })
             const postResult = await postService.getPostById(id_post);
             const post = postResult.data.content
-            if ((post.id_user != user_login.id_user) && (
-                !post?.publish_time || new Date(post.publish_time).getTime() > new Date().getTime()) ){
+            
+            // guest hoặc ai đó xem draft và scheduled post
+            if ((!user_login.id_user || post.id_user != user_login.id_user) && (!post?.publish_time || new Date(post.publish_time).getTime() > new Date().getTime()) ){
+                setNotFound(true)
+            } else if (user_login.id_user && user_block && isBlocked(post.id_user, user_block)) {
                 setNotFound(true)
             } else{
                 if (post.is_member_only && !user_login.is_member)
@@ -87,22 +93,26 @@ function Post() {
     const dispatch = useDispatch();
     
     useEffect(() => {
-        
         if (!post)
             fetchPost();
         if (!responses && !notFound && accessed) {
             fetchResponse();
         }
+        if (user_login?.id_user && !user_block){
+            dispatch(getUserBlockAction(user_login?.id_user))
+        }
     },[dispatch, id_post])
 
     useEffect(() => {   
-        const timeoutId = setTimeout(() => {
-            createReadingHistory(); 
-        }, 10000); 
-
-        setTimerId(timeoutId);
-
-        return () => clearTimeout(timeoutId);
+        if (user_login?.id_user || accessed){
+            const timeoutId = setTimeout(() => {
+                createReadingHistory(); 
+            }, 10000); 
+    
+            setTimerId(timeoutId);
+    
+            return () => clearTimeout(timeoutId);
+        }
     }, []);
 
     const createReadingHistory = async () => {
@@ -173,6 +183,9 @@ function Post() {
             {/* Post Detail */}
             {loading?.type == '' && <Loading/>}
             {!loading && notFound && <NotFound/>}
+            {
+                guestPopup && <GuestPopup setGuestPopup={setGuestPopup}/>
+            }
             {loading?.type != '' && !notFound && (
                 <div className='container-fluid' style={{marginTop: '72px'}}>
                 {loading?.type == 'full' && <Loading type={loading.type}/>}
@@ -209,17 +222,12 @@ function Post() {
                                         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
                                         {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
                                         <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post?.publish_time && formatToMDY(post?.publish_time)}</p>
-                                    </div>
-                                    {
-                                        (user_login?.id_user != post?.author?.id_user) &&
-                                        <button className='prim-btn btn-sm' style={{width: '117px'}}>Follow</button>
-                                    }
-                                    
+                                    </div>  
                                 </div>
                                 
                                 {/* Post Actions */}
                                 <div className='d-flex gap-2 align-items-center' >
-                                    <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount}/>
+                                    <LikeIcon likeCount={likeCount} id_post={id_post} setLikeCount={setLikeCount} setGuestPopup={setGuestPopup} id_user={user_login?.id_user}/>
                                     <button id='comment-btn' className="d-flex align-items-center">
                                         <a href="#response-section" className="text-scheme-sub-text">
                                             <i className="fa-regular fa-message me-1" style={{fontSize: '20px'}}></i> 
@@ -228,7 +236,7 @@ function Post() {
                                     </button>
                                     <BookmarkIcon id_post={id_post} regular_icon  thumbnail={post?.thumbnail}/>
                                     {
-                                        (user_login?.id_user != post?.author?.id_user) && (
+                                        (user_login?.id_user && user_login?.id_user != post?.author?.id_user) && (
                                             <button id='report-btn' onClick={() => setReportContent({id_post: id_post})}>
                                                 <i className="fa-solid fa-flag" style={{fontSize: '20px'}}></i>
                                             </button>
@@ -248,20 +256,25 @@ function Post() {
                                     <div id="response-section" className='col-12 d-flex flex-column mt-5 pt-3 align-items-start'>
                                         <h6 className="px-0" style={{color: 'var(--blue-500)'}}>Responses ({responses?.length})</h6>
                                         {/* Send response */}
-                                        <div className='col-12 d-flex flex-row gap-3 m-0 mt-3 px-0'>
-                                            <Avatar avatar={user_login?.avatar} size="small"/>
-                                            <textarea
-                                                className="response-textarea"
-                                                value={newReponse}
-                                                onChange={(e) => {setNewReponse(e.target.value)}}
-                                                placeholder="Enter your response here..."
-                                                rows={5}
-                                                cols={78}
-                                            />
-                                            <button className='prim-btn btn-md' style={{width: '104px'}}
-                                                disabled={newReponse.length === 0}
-                                                onClick={responsePost}>Send</button>
-                                        </div>
+                                        {
+                                            user_login?.id_user && (
+                                                <div className='col-12 d-flex flex-row gap-3 m-0 mt-3 px-0'>
+                                                    <Avatar avatar={user_login?.avatar} size="small"/>
+                                                    <textarea
+                                                        className="response-textarea"
+                                                        value={newReponse}
+                                                        onChange={(e) => {setNewReponse(e.target.value)}}
+                                                        placeholder="Enter your response here..."
+                                                        rows={5}
+                                                        cols={78}
+                                                    />
+                                                    <button className='prim-btn btn-md' style={{width: '104px'}}
+                                                        disabled={newReponse.length === 0}
+                                                        onClick={responsePost}>Send</button>
+                                                </div>
+                                            )
+                                        }
+                                        
                                         <ResponsePagination author={author} responses={responses} 
                                             deleteResponse={deleteResponse} 
                                             setReportContent={setReportContent}

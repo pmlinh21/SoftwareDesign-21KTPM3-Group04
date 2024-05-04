@@ -4,11 +4,11 @@ import { useSelector, useDispatch} from 'react-redux'
 import './BookmarkIcon.css';
 
 import {getListByUserAction, createListAction, addPostToListAction, deletePostFromListAction} from '../../redux/actions/UserAction'
-
+import {LoginPopup} from '../../pages/LoginPopup'
 import Loading from '../system-feedback/Loading'
 
 function BookmarkModal(props) {
-    const {id_post, list,loading, 
+    const {id_post, list,loading, id_user ,
         handleBookmarkClick, handleListClick,
         newListName, setNewListName, handleCreateList} = props
     const handleOverlayClick = (e) => {
@@ -19,14 +19,20 @@ function BookmarkModal(props) {
         setNewListName(e.target.value);
     }
 
+    console.log(newListName)
+
     return (
         <div className="bookmark-modal-overlay" onClick={handleOverlayClick}>
             <div className="bookmark-modal">
-                {loading ?
-                    <Loading/>
-                : <>
-                    <i className="fa-solid fa-xmark close-button" onClick={handleBookmarkClick}></i>
-                
+                {loading && <Loading/>}
+                <i className="fa-solid fa-xmark close-button" onClick={handleBookmarkClick}></i>
+                {!loading && !id_user && (
+                    <p className="title1 m-0">
+                        You need to login to save this post
+                    </p>
+                )} 
+                {!loading && id_user && (
+                <>
                     <p className="title1">
                         Select List
                     </p>
@@ -35,7 +41,7 @@ function BookmarkModal(props) {
                         <div className="d-flex">
                             <input type="text" name="list_name" value={newListName} onChange={handleChangeNewListName}/>
                             <button className="prim-btn rounded-1 button2 px-3 ms-3"
-                                onClick={handleCreateList}>
+                                onClick={handleCreateList} disabled={newListName.length == 0} >
                                 Create
                             </button>
                         </div>
@@ -61,8 +67,7 @@ function BookmarkModal(props) {
                         
                     }
                 </>
-                }
-                
+                )}
             </div>
         </div>
     );
@@ -72,11 +77,10 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon, thumb
     const dispatch = useDispatch()
     const {user_login, list} = useSelector(state => state.UserReducer)
     const {loading} =  useSelector(state => state.LoadingReducer)
-
     const [displayPopup, setDisplayPopup] = useState(false)
     function handleBookmarkClick(e){
         e.stopPropagation();
-        setDisplayPopup((val) => !val)
+            setDisplayPopup((val) => !val)
     }
 
     useEffect(()=> {
@@ -115,6 +119,7 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon, thumb
             { displayPopup && 
                 <BookmarkModal 
                     id_post={id_post}
+                    id_user={user_login?.id_user}
                     loading={loading}
                     list={list}
                     handleBookmarkClick={handleBookmarkClick}

@@ -83,30 +83,31 @@ export default function Writing() {
     },[])
 
     useEffect(()=>{
-            const selectedPost = posts?.find(post => post.id_post == id_post)
-            const topic = selectedPost?.list_topic.map(topic => {
-                // console.log(topic)
-                return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
+        const selectedPost = posts?.find(post => post.id_post == id_post)
+        const topic = selectedPost?.list_topic.map(topic => {
+            // console.log(topic)
+            return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
+        })
+    
+        if(selectedPost){
+            setPostInfo(
+                {...postInfo,
+                content: selectedPost?.content ,
+                title: selectedPost?.title,
+                thumbnail: selectedPost?.thumbnail ,
+                topic: topic ,
+                is_member_only: selectedPost?.is_member_only ,
+                status: selectedPost?.status ,
+                publish_time: selectedPost?.publish_time
             })
-        
-            if(selectedPost){
-                setPostInfo(
-                    {...postInfo,
-                    content: selectedPost?.content ,
-                    title: selectedPost?.title,
-                    thumbnail: selectedPost?.thumbnail ,
-                    topic: topic ,
-                    is_member_only: selectedPost?.is_member_only ,
-                    status: selectedPost?.status ,
-                    publish_time: selectedPost?.publish_time
-                })
 
-                if (selectedPost.status === 2){
-                    setScheduleTime(new Date(selectedPost.publish_time))
-                }
-            } else{
-                setNotFound(true)
+            if (selectedPost.status === 2){
+                setScheduleTime(new Date(selectedPost.publish_time))
             }
+        } else{
+            if (!isNaN(id_post))
+                setNotFound(true)
+        }
     },[posts])
 
     function handlePreviewButton(){

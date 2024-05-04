@@ -112,21 +112,22 @@ export default function ExploreTopic() {
                 !isNaN(id_topic) && !loading &&
                 <>
                     <ResultText topic_name={topic_name} related_posts = {post?.length} followerCount={followerCount}/>
-                
                     {
-                        isFollow ? (
-                            <button className="unfollow-btn tert-btn rounded-1 button1 col-auto p-3 px-5 mb-5"
-                                onClick={handleUnfollowButton}>
-                                Unfollow
-                            </button>  
-                        )
-                        :(
-                            <button className="follow-btn prim-btn rounded-1 button1 col-auto p-3 px-5 mb-5 "
-                                onClick={handleFollowButton}>
-                                Follow <i className="fa-solid fa-plus m-0 ms-1"></i>
-                            </button>
-                        )
-                    }
+                        user_login?.id_user && (
+                            isFollow ? (
+                                <button className="unfollow-btn tert-btn rounded-1 button1 col-auto p-3 px-5 mb-5"
+                                    onClick={handleUnfollowButton}>
+                                    Unfollow
+                                </button>  
+                            )
+                            :(
+                                <button className="follow-btn prim-btn rounded-1 button1 col-auto p-3 px-5 mb-5 "
+                                    onClick={handleFollowButton}>
+                                    Follow <i className="fa-solid fa-plus m-0 ms-1"></i>
+                                </button>
+                            )
+                    )}
+                    
 
                     <div className="container px-0 ps-4 ">
                         <div className="list-post row row-cols-3 gap-4">

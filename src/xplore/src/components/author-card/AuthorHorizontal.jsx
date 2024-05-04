@@ -19,7 +19,7 @@ export default function AuthorHorizontal(props) {
 
     useEffect(() => {
         // console.log("1")
-        if (user_follow === null && user_info !== null) {
+        if (user_info?.id_user && user_follow === null && user_info !== null) {
             dispatch(getUserFollowAction(user_info?.id_user));
         }
     }, [user_follow]);
@@ -27,7 +27,7 @@ export default function AuthorHorizontal(props) {
     
     useEffect(() => {
         // console.log("2")
-        if (user_follow !== null) {
+        if (user_info?.id_user && user_follow !== null) {
             setIsSubscribe(user_follow.some(item => item.id_user === id_user));
         }
     }, [user_follow]);
@@ -43,19 +43,33 @@ export default function AuthorHorizontal(props) {
                 <Avatar avatar={avatar} size="small"/>
             </div>
 
-            <div className=" col-6 d-flex flex-wrap px-0 mx-0">
-                <p className="button2 m-0">{fullname}</p>
-                <div className="p3 m-0 mt-2 long-text text-scheme-sub-text">{bio}</div>
-            </div>
-
-            <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
-                {
-                    is_subscribe?
-                        <ButtonUnsubscribe user={props.author.id_user} subscriber={user_info?.id_user}/>
-                    :
-                        <ButtonSubscribe user={props.author.id_user} subscriber={user_info?.id_user} fullname={fullname}/>
-                }
-            </div>
+            {
+                user_info?.id_user ? (
+                    <>
+                        <div className=" col-6 d-flex flex-wrap px-0 mx-0">
+                            <p className="button2 m-0">{fullname}</p>
+                            <div className="p3 m-0 mt-2 long-text text-scheme-sub-text">{bio}</div>
+                        </div>
+                        <div className=" col-4 d-flex align-items-center justify-content-center px-0 mx-0">
+                            {
+                                is_subscribe?
+                                    <ButtonUnsubscribe user={props.author.id_user} subscriber={user_info?.id_user}/>
+                                :
+                                    <ButtonSubscribe user={props.author.id_user} subscriber={user_info?.id_user} fullname={fullname}/>
+                            }
+                        </div>  
+                    </>
+                    
+                ):(
+                    <>
+                        <div className=" col-10 d-flex flex-column align-items-start px-0 mx-0">
+                            <p className="button2 m-0">{fullname}</p>
+                            <div className="p3 m-0 mt-2 long-text text-scheme-sub-text">{bio}</div>
+                        </div>
+                    </>
+                )
+            }
+            
         </div>
     )
 }

@@ -159,7 +159,7 @@ export default function Navbar() {
                         </li>
                         <li className="nav-item dropdown" >
                             <div className="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <Avatar avatar={user_login.avatar} size="small"/>
+                                <Avatar avatar={user_login?.avatar} size="small"/>
                             </div>
 
                             <ul className="dropdown-menu dropdown-menu-end button3 text-start text-scheme-sub-text">

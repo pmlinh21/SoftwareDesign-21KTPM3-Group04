@@ -8,7 +8,9 @@ export default function Button3({user, subscriber}) {
     
     const handleUnfollow = (e) => {
         e.stopPropagation()
-        dispatch(unfollowAuthorAction(user, subscriber));
+        
+        if (subscriber)
+            dispatch(unfollowAuthorAction(user, subscriber));
     };
 
     return (

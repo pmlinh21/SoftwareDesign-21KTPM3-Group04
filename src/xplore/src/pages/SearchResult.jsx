@@ -44,7 +44,7 @@ const fetchData = async (type, search, setResult, setLoading, user_block) => {
         const jsonData = await response.json();
       
         let newResult = jsonData.content
-        // console.log(user_block)
+        console.log(newResult)
         const formatBlock = user_block?.map(user => user.id_user)
         if (type == "user"){
             newResult = newResult.filter(user => !formatBlock?.includes(user.id_user))
@@ -75,8 +75,6 @@ export default function SearchResult() {
     const [result, setResult] = useState({});
 
     useEffect(()=>{
-        if (user_block == null)
-            return
         if (type === "all"){
             fetchData("post",searchText, setResult, setLoading,  user_block);
             fetchData("topic",searchText, setResult, setLoading, user_block);
@@ -87,7 +85,7 @@ export default function SearchResult() {
     }, [searchText,type, user_block?.length])
 
     useEffect(() => {
-        if (user_block == null){
+        if (user_login?.id_user && user_block == null){
             dispatch(getUserBlockAction(user_login?.id_user))
         }
     },[])

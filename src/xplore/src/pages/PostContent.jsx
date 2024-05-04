@@ -82,7 +82,8 @@ const PostContent = memo(function PostContent({content, id_post}) {
             }
         }
 
-        fetchHighlights()
+        if (user_login?.id_user)
+            fetchHighlights()
     }, [])
 
     useEffect(() => {
