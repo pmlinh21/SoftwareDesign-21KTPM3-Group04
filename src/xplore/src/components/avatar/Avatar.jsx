@@ -9,8 +9,8 @@ export default function Avatar({avatar, id_user, check, size = "big"}) {
     const navigate = useNavigate();
 
     const handleAuthorClick = async (e) => {
-        e.preventPropagation();
-        
+        e.stopPropagation();
+
         if(check){
             try {
                 const author = await userService.getUserByID(id_user);
@@ -30,6 +30,6 @@ export default function Avatar({avatar, id_user, check, size = "big"}) {
     };
 
     return (
-        <img src={avatar || avatarPlaceholder} alt="user's avatar" className= {"avatar-container " + size} style={{cursor: "pointer"}} onClick={() => handleAuthorClick()}/>
+        <img src={avatar || avatarPlaceholder} alt="user's avatar" className= {"avatar-container " + size} style={{cursor: "pointer"}} onClick={(e) => handleAuthorClick(e)}/>
     )
 }
