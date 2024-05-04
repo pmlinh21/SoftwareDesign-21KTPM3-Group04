@@ -226,7 +226,7 @@ export default function MyProfile() {
                                         </div>
                                         {post.id_post === user_info.id_pinned_post && (
                                             <div className='bookmark'>
-                                            <i className="fa-solid fa-bookmark"></i>
+                                            <i className="fa-solid fa-thumbtack"></i>
                                         </div>
                                         )}
                                         
