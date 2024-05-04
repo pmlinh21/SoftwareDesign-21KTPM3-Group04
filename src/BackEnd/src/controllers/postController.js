@@ -319,6 +319,7 @@ const getResponseOfPost = async (req,res) => {
 
         if (!response) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,response,"Response found")
@@ -393,6 +394,7 @@ const createPost = async (req,res) => {
 
         if (!post) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         const list_topic = await updateTopicPost(topic, post.id_post);
@@ -492,6 +494,7 @@ const updatePaywallOfPost = async (req,res) => {
 
         if (!post) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,post,"Post updated")
@@ -519,6 +522,7 @@ const updatePublishTimeOfPost = async (req,res) => {
 
         if (!post) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,post,"Post updated")
@@ -546,6 +550,7 @@ const updateScheduleTimeOfPost = async (req,res) => {
 
         if (!post) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,post,"Post updated")
@@ -569,6 +574,7 @@ const deletePost = async (req,res) => {
 
         if (!post) {
             failCode(res, null, "Invalid ID")
+            return
         }
         else{
 
@@ -628,6 +634,7 @@ const deletePost = async (req,res) => {
 
                 if (!result) {
                     failCode(res, null, "Bad request")
+                    return
                 }
                 else {
                     successCode(res,result,"Post deleted")
@@ -652,6 +659,7 @@ const readPost = async (req,res) => {
 
         if (!record) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,record,"Read post")
@@ -689,6 +697,7 @@ const likePost = async (req,res) => {
 
         if (!like) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,like,"Like created")
@@ -714,6 +723,7 @@ const unlikePost = async (req,res) => {
 
         if (!like) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,like,"Like deleted")
@@ -756,6 +766,7 @@ const responsePost = async (req,res) => {
 
         if (!data) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,data,"Response created")
@@ -828,6 +839,7 @@ const deleteResponse = async (req,res) => {
 
         if (!response) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,response,"Response deleted")
@@ -956,6 +968,7 @@ const deleteReply = async (req,res) => {
 
         if (!reply) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,reply,"reply deleted")
@@ -980,6 +993,7 @@ const getPostMonthlyData = async (req,res) => {
 
         if (!data) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,data,"Post found")
@@ -1077,6 +1091,7 @@ const deleteHighlight = async (req,res) => {
 
         if (!data) {
             failCode(res, null, "Invalid ID")
+            return
         }
 
         successCode(res,data,"Highlight deleted")
