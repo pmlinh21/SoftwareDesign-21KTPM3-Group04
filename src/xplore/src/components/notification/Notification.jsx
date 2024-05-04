@@ -56,7 +56,15 @@ export default function Notification(props) {
                 </ul>
                 {/* Notification badge */}
                 <div className='d-flex flex-row noti-content gap-2'>
-
+                    {/* Avatar */}
+                    <Avatar avatar={user_login?.avatar} size="small"/>
+                    <div className='d-flex flex-column gap-1'>
+                        <div className='d-flex flex-row align-items-center gap-1'>
+                            <p className='button3 m-0'>{user_login?.fullname}</p>
+                            <p className='p3 m-0'>liked your post</p>
+                        </div>
+                        <p className='support text-scheme-sub-text m-0'>2 mins ago</p>
+                    </div>
                 </div>
             </div>
         </div>
