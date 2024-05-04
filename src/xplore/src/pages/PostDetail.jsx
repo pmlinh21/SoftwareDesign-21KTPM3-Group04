@@ -58,9 +58,11 @@ function Post() {
             const post = postResult.data.content
             
             // guest hoặc ai đó xem draft và scheduled post
-            if ((!user_login.id_user || post.id_user != user_login.id_user) && (!post?.publish_time || new Date(post.publish_time).getTime() > new Date().getTime()) ){
+            if ((!user_login.id_user || post?.author?.id_user != user_login.id_user) && (!post?.publish_time || new Date(post.publish_time).getTime() > new Date().getTime()) ){
+                console.log(post?.id_user)
                 setNotFound(true)
             } else if (user_login.id_user && user_block && isBlocked(post.id_user, user_block)) {
+                console.log("User blocked")
                 setNotFound(true)
             } else{
                 if (post.is_member_only && !user_login.is_member)
@@ -218,11 +220,24 @@ function Post() {
                                         <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{post?.author?.fullname}</p>
                                     </div>
                                     {/* Date */}
-                                    <div className='d-flex flex-column'>
-                                        <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
-                                        {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
-                                        <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{post?.publish_time && formatToMDY(post?.publish_time)}</p>
-                                    </div>  
+                                    {
+                                        // post?.publish_time && new Date(post.publish_time).getTime() > new Date().getTime() (
+                                        //     <div className='d-flex flex-column'>
+                                        //         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date scheduled</p>
+                                        //         {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
+                                        //         <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{ formatToMDY(post?.publish_time)}</p>
+                                        //     </div>  
+                                        // )
+                                    }
+                                    {
+                                        post?.publish_time && (new Date(post.publish_time).getTime() <= new Date().getTime()) (
+                                            <div className='d-flex flex-column'>
+                                                <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
+                                                {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
+                                                <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{ formatToMDY(post?.publish_time)}</p>
+                                            </div>  
+                                        )
+                                    }
                                 </div>
                                 
                                 {/* Post Actions */}

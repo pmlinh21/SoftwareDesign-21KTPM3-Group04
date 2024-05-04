@@ -1291,7 +1291,7 @@ const captureOrder = async (req, res) => {
                 id_user: subscription.id_user,
                 id_membership: subscription.id_membership,
                 price: subscription.price,
-                status: subscription.status,
+                status: 0,
                 start_time: subscription.start_time,
                 end_time: subscription.end_time
             })
