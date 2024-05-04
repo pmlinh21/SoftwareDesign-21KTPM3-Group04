@@ -135,7 +135,7 @@ export default function Navbar() {
                         <ul className="navbar-nav d-flex flex-row gap-3">
                             {/* <li className="nav-item title2"><a className="nav-link active" aria-current="page" href="/">Home</a></li> */}
                             <li className="nav-item subtitle1">
-                                <Link className="nav-link button1" to="/about">About us</Link>
+                                <Link className="nav-link button1" to="/about">About</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link subtitle1 button1 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
