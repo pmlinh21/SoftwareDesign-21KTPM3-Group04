@@ -8,11 +8,11 @@ import "./MyProfile.css";
 import Avatar from '../components/avatar/Avatar';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 import postPlaceholder from "../assets/images/post-placeholder.jpg"
-import { formatToMD } from "../util/formatDate";
+import { formatToMD, formatToLocalDate } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, getUserCurrentSubscriptionAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -31,6 +31,7 @@ export default function MyProfile() {
     const user_follower = useSelector(state => state.UserReducer.user_follower);
     const user_follow = useSelector(state => state.UserReducer.user_follow);
     const user_block = useSelector(state => state.UserReducer.user_block);
+    const user_current_subscription = useSelector(state => state.UserReducer.user_current_subscription);
     
     const [sortedPosts, setSortedPosts] = useState([]);
 
@@ -39,6 +40,7 @@ export default function MyProfile() {
         dispatch(getUserFollowerAction(user_info?.id_user))
         dispatch(getUserFollowAction(user_info?.id_user))
         dispatch(getUserBlockAction(user_info?.id_user))
+        dispatch(getUserCurrentSubscriptionAction(user_info?.id_user))
 
     }, [dispatch, user_info?.id_user]);
 
@@ -46,6 +48,7 @@ export default function MyProfile() {
     console.log("user_follower: ", user_follower)
     console.log("user_follow: ", user_follow)
     console.log("user_block: ", user_block)
+    console.log("user_current_subscription: ", user_current_subscription)
 
     useEffect(() => {
         if (user_post) {
@@ -119,6 +122,31 @@ export default function MyProfile() {
 
     const navigateToEditProfile = () => {
         navigate("/edit-profile");
+    };
+
+    const renderStatusBox = (status) => {
+        switch(status) {
+            case 0:
+                return (
+                    <div className='status-box-inuse'>
+                        <span>In Use</span>
+                    </div>
+                );
+            case 1:
+                return (
+                    <div className='status-box-expired'>
+                        <span>Expired</span>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className='status-box-cancelled'>
+                        <span>Cancelled</span>
+                    </div>
+                );
+            default:
+                return null; 
+        }
     };
 
     return (
@@ -320,44 +348,34 @@ export default function MyProfile() {
                         )}
 
                         <h6>Membership</h6>
-                        <div class="membership-card">
-                            <div class="membership-header">
-                                <div className='membership-logo'>
-                                    <div className='membership-logo-1'>
-                                        <i className="fa-solid fa-layer-group ic-logo"></i>
+                        {user_current_subscription ? (
+                            <div className="membership-card">
+                                <div className="membership-header">
+                                    <div className='membership-logo'>
+                                        <div className='membership-logo-1'>
+                                            <i className="fa-solid fa-layer-group ic-logo"></i>
+                                        </div>
                                     </div>
+                                    <h2>{user_current_subscription.membership?.type === "annual" ? "Annual Membership" : "Monthly Membership"}</h2>
+                                    <p className="price">${user_current_subscription.price}/month</p>
                                 </div>
-                                <h2>Monthly Membership</h2>
-                                <p class="price">$15/month</p>
-                            </div>
-                            <div class="membership-details">
-                                <p>
-                                    <strong>Status</strong>
-                                    <div className='status-box-inuse'>
-                                        <span>In Use</span>
-                                    </div> 
-                                    {/* <div className='status-box-expired'>
-                                        <span>Expired</span>
-                                    </div> */}
-                                    {/* <div className='status-box-cancelled'>
-                                        <span>Cancelled</span>
-                                    </div> */}
-                                </p>
-                                <p><strong>Start day</strong> <span>July 24, 2024</span></p>
-                                <p><strong>End day</strong> <span>August 24, 2024</span></p>
-                            </div>
-                            <hr className='space-hr'></hr>
-                            <div class="membership-actions">
-                                <span className='change-text'>
-                                    Change your mind?
-                                </span>
-                                <span><a href="#" className="change-plan-link"> Change plan</a></span>
-                                <div className="d-flex flex-column justify-content-end align-items-center gap-2">
-                                    <button class="btn-nm prim-btn button1 btn-cus mt-4 w-100">Pay now</button>
-                                    <button class="btn-nm tert-btn button1 btn-cus w-100">Cancel plan</button>
+                                <div className="membership-details">
+                                    <p>
+                                        <strong>Status</strong>
+                                        {renderStatusBox(user_current_subscription.status)}
+                                    </p>
+                                    <p><strong>Start day</strong> <span>{formatToLocalDate(user_current_subscription.start_time)}</span></p>
+                                    <p><strong>End day</strong> <span>{formatToLocalDate(user_current_subscription.end_time)}</span></p>
+                                </div>
+                                <hr className='space-hr'></hr>
+                                <div className="membership-actions">
+                                    <span><a href="#" className="change-plan-link">Click here for more details</a></span>
+                                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100">Cancel plan</button>
                                 </div>
                             </div>
-                        </div>
+                        ) : (
+                            <p>You have not bought any plans yet!</p>
+                        )}
                     </div>
                 </div>
             </div>

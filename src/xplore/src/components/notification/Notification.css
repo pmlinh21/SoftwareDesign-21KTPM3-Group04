@@ -43,3 +43,9 @@
     color: var(--blue-500);
     border: none;
 }
+
+.notification-content {
+    border-radius: 0;
+    padding: 16px 0;
+    width: 100%;
+}

@@ -72,3 +72,12 @@ export const formatToYMD = (date) => {
 
     return `${year}-${month}-${day}`;
 }
+
+export const formatToLocalDate = (isoDateString) => {
+    const date = new Date(isoDateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+    });
+};

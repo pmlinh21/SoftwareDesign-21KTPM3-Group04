@@ -153,7 +153,7 @@ export default function Post(props) {
                             </div>
                         ) : (
                             <div className='empty-box text-center my-5 py-5'>
-                                <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
+                                <img src='/imgs/empty-box.png' alt='empty-box' className='mt-5' />
                                 <h6 className='title2 text-scheme-sub-text mt-5'>You have 0 drafts</h6>
                             </div>
                         )}
@@ -229,7 +229,7 @@ export default function Post(props) {
                             </div>
                         ) : (
                             <div className='empty-box text-center my-5 py-5'>
-                                <img src='./imgs/empty-box.png' alt='empty-box' className='mt-5' />
+                                <img src='/imgs/empty-box.png' alt='empty-box' className='mt-5' />
                                 <h6 className='title2 text-scheme-sub-text mt-5'>You have 0 published posts</h6>
                             </div>
                         )}

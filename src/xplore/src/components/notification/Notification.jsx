@@ -55,7 +55,20 @@ export default function Notification(props) {
                     <li className={focusedTab === 'Subscribe' ? 'tab-item button2 focused' : 'tab-item button2'} onClick={() => handleTabFocus('Subscribe')}>Subscribe</li>
                 </ul>
                 {/* Notification badge */}
-                
+                <div className='notification-content d-flex flex-row noti-content gap-2'>
+                    {/* Avatar */}
+                    <Avatar avatar={user_login?.avatar} size="small"/>
+                    <div className='d-flex flex-column gap-1'>
+                        <div className='d-flex flex-row align-items-center gap-1'>
+                            {/* Creator */}
+                            <p className='button3 m-0'>{user_login?.fullname}</p>
+                            {/* Noti_type */}
+                            <p className='p3 m-0'>{user_login?.creator_id?.noti_type}</p>
+                        </div>
+                        {/* Noti_time */}
+                        <p className='support text-scheme-sub-text m-0'>2 mins ago</p>
+                    </div>
+                </div>
             </div>
         </div>
     )

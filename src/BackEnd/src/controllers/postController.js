@@ -360,6 +360,7 @@ const updateTopicPost = async(topic, id_post) => {
 }
 
 const nodeMailer = require('nodemailer');
+const { response } = require("express");
 const sendMail = (to, subject, htmlContent) => {
     const transport = nodeMailer.createTransport({
         host: process.env.MAIL_HOST,
@@ -571,18 +572,71 @@ const deletePost = async (req,res) => {
         else{
 
             // USE ON DELETE CASCADE
-            // delte topic_post, post_monthly_data, report_post
+            // delete topic_post, post_monthly_data, report_post
             // delete reading_history, list_post, like, highlight, 
 
-            await model.post.destroy({
+            // delete notfication, response, report_response
+            let delete_post_count = 0;
+
+            let responses = await model.response.findAll({
+                where:{
+                    id_post: id_post
+                },
+                attributes: ["id_response"]
+            });
+
+            responses.forEach(async (response) => {
+                let report_result = await model.report_response.destroy({
+                    where:{
+                        id_response: response.id_response
+                    }
+                });
+
+                if (!report_result) {   
+                    failCode(res, null, "Cannot delete report response")
+                } else {
+                    delete_post_count++;
+                }
+            })
+
+            let response_result = await model.response.destroy({
                 where:{
                     id_post: id_post
                 }
-            }); 
+            });
 
-            // delete notfication, response, report_response
+            if (!response_result) {
+                failCode(res, null, "Cannot delete response")
+            } else {
+                delete_post_count++;
+            }
 
-            successCode(res,post,"Post deleted")
+            let noti_result = await model.notification.destroy({
+                where:{
+                    id_post: id_post
+                }
+            });
+
+            if (!noti_result) {
+                failCode(res, null, "Cannot delete notification")
+            } else {
+                delete_post_count++;
+            }
+
+            if (delete_post_count == responses.length + 2) {
+                let result = await model.post.destroy({
+                    where:{
+                        id_post: id_post
+                    }
+                }); 
+
+                if (!result) {
+                    failCode(res, null, "Invalid ID")
+                }
+                else {
+                    successCode(res,result,"Post deleted")
+                }
+            }
         }
         
     }

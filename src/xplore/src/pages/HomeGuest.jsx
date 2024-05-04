@@ -146,7 +146,7 @@ export default function Home() {
             </section>
 
             <section className="container my-5 py-5 gradient-bg">
-                <h5>
+                <h5 className='mb-5'>
                     <i className="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h5>
                 <div className="d-flex flex-wrap justify-content-between gap-3">

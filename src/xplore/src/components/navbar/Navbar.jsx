@@ -96,6 +96,13 @@ export default function Navbar() {
         dispatch(logOut());
         navigate("/");
     }
+
+    // Notification
+    const [showNotification, setShowNotification] = useState(false);
+
+    const toggleNotification = () => {
+        setShowNotification(!showNotification);
+    }
     
     return (
         <nav className="navbar navbar-expand-sm">
@@ -152,9 +159,9 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">
+                            <Link className="nav-link" to="#" onClick={toggleNotification}>
                                 <i className="fa-regular fa-bell"></i>
-                                {/* <Notification></Notification> */}
+                                {showNotification && <Notification />}
                             </Link>
                         </li>
                         <li className="nav-item dropdown" >
