@@ -149,7 +149,7 @@ export default function Home() {
                 <h5 className='mb-5'>
                     <i className="fa-solid fa-chart-line"></i> Trending on Xplore
                 </h5>
-                <div className="d-flex flex-wrap justify-content-between gap-3">
+                <div className="d-flex flex-wrap justify-content-start gap-3">
 
                 {trendingPosts.map(post => (
                     <BlogCardNoThumb key={post.id_post} post={post} style={"home-guest"}/>
