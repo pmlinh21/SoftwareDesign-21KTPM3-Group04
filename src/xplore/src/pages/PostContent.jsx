@@ -58,7 +58,7 @@ const PostContent = memo(function PostContent({content, id_post}) {
     function applyHighlights(highlights, quill) {
         const lengthOfDocument = quill.getLength();
         // quill.removeFormat(0, lengthOfDocument);
-        quill.formatText(0, lengthOfDocument, { background: '#FFFFFF' });
+        quill.formatText(0, lengthOfDocument, { background: '#FBFBFE' });
 
         if ( quill != null){
             // console.log(highlights)
