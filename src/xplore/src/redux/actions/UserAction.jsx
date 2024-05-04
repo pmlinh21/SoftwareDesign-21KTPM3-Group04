@@ -1,6 +1,7 @@
 import { userService } from "../../services/UserService";
 import { USER_LOGIN, TokenKey, RoleKey } from "../../util/config";
 import { LOGIN, SIGNUP, LOGOUT,
+    GET_INVISIBLE_USERS,
     GET_LIST_BY_USER, CREATE_LIST, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC,
     HIDE_LOADING, DISPLAY_LOADING,
@@ -54,6 +55,7 @@ export const loginAction = (user_login) => {
                     window.history.pushState(null,null,"/");
                 window.location.reload()
             }
+            return result;
         } catch (error) {
             console.log("error", error.response);
             // alert(error.response.data.message)
@@ -67,14 +69,14 @@ export const signupAction = (formData) => {
             console.log(formData)
             const result = await userService.signup(formData);
             if (result.status === 200){
-            dispatch({
-                type: SIGNUP,
-                formData: result.data.content
-            });
+                dispatch({
+                    type: SIGNUP,
+                    formData: result.data.content
+                });
             }
+            return result;
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
         }
     };
 };
@@ -822,6 +824,26 @@ export const cancelPlanAction = (id_user, id_subscription) => {
             dispatch({
                 type: HIDE_LOADING
             });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const getInvisibleUsers = (id_user) => {
+    return async (dispatch) => {
+        try {
+            
+            const result = await userService.getInvisibleUsers(id_user);
+
+            if (result.status === 200) {
+                dispatch({
+                    type: GET_INVISIBLE_USERS,
+                    user_invisible: result.data.content
+                });
+            }
+
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)

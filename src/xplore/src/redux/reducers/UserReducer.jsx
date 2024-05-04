@@ -4,7 +4,7 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
     BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, PIN_POST, UNPIN_POST, 
-    UPDATE_USER_DETAIL,
+    UPDATE_USER_DETAIL, GET_INVISIBLE_USERS,
     UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION,
     CANCEL_PLAN} from "../types";
 
@@ -26,7 +26,8 @@ export const stateDefault = {
     user_follower: null,
     user_follow: null,
     user_block: null,
-    user_current_subscription: {}
+    user_current_subscription: {},
+    user_invisible: null
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -106,6 +107,9 @@ export const UserReducer = (state = stateDefault, action) => {
                 return { ...state, block: [action.block]}
             }
             
+        }
+        case GET_INVISIBLE_USERS:{
+            return { ...state, user_invisible: [...action.user_invisible]}
         }
         case GET_USER_FOLLOWER:{
             return { ...state, user_follower: action.user_follower}

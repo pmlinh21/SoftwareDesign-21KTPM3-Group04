@@ -5,6 +5,7 @@ import "../styles/commons.css";
 import "./SignupPopup.css"
 import { signupAction } from "../redux/actions/UserAction";
 import { RoleKey } from "../util/config";
+
 export default function SignupPopup(props) {
     const dispatch = useDispatch();
     const [fullname, setFullname] = useState('')
@@ -13,7 +14,7 @@ export default function SignupPopup(props) {
     const roleId = localStorage.getItem(RoleKey);
     const [showNotification, setShowNotification] = useState(false);
 
-    function handleSignup(e) {
+    const handleSignup = async (e) => {
         e.preventDefault()
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,10 +29,19 @@ export default function SignupPopup(props) {
                 password: password,
                 id_role: roleId
             };
-            console.log("user_signup: ", user_signup);
-            dispatch(signupAction(user_signup));
-            setShowNotification(true);
-            setTimeout(() => setShowNotification(false), 2000); // Hide after 2 seconds
+            try {
+                const result = await dispatch(signupAction(user_signup));
+                if (result?.status === 200 && result?.data.message === "Signup successfully") {
+                    setShowNotification(true);
+                    setTimeout(() => setShowNotification(false), 2000); // Hide after 2 seconds
+                }
+                else{
+                    alert("Email is existing");
+                }
+                
+            } catch (error) {
+                console.log("error", error.message);   
+            }
         }
         else if (!regex.test(email)){
             alert("Email is invalid. Please try again!!!");

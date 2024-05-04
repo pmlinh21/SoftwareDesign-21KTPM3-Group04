@@ -14,7 +14,7 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     createOrder,captureOrder,
     isFollowAuthor, getUserFollow, getUserBlock,
     pinPost, unpinPost, getUserCurrentSubscription,
-    getUserResponse } = require("../controllers/userController")
+    getUserResponse, getInvisibleUsers } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -71,6 +71,9 @@ userRoute.post("/block/:user/:block", blockAnotherUser)
 
 // DELETE: Unblock another user
 userRoute.delete("/block/:user/:block", unblockAnotherUser)
+
+//GET:
+userRoute.get("/invisible/:id_user", getInvisibleUsers)
 
 // GET: Get all user received notifications
 userRoute.get("/notification/received/:id_user", getUserReceivedNotifications)
@@ -133,7 +136,7 @@ userRoute.get("/follow/:id_user", getUserFollow)
 userRoute.get("/block/:id_user", getUserBlock)
 
 // PUT: Pin a post
-userRoute.put("/:id_user/:id_pinned_post", pinPost, getUserByID)
+//userRoute.put("/:id_user/:id_pinned_post", pinPost, getUserByID)
 
 userRoute.put("/unpin/:id_user/:id_pinned_post", pinPost)
 

@@ -15,7 +15,7 @@ import "./SearchResult.css"
 import {postService} from '../services/PostService';
 import {userService} from '../services/UserService';
 import {topicService} from '../services/TopicService';
-import { getUserBlockAction } from '../redux/actions/UserAction';
+import { getInvisibleUsers, getUserBlockAction } from '../redux/actions/UserAction';
 
 import AuthorHorizontal from '../components/author-card/AuthorHorizontal'
 import BlogCardHorizontal from '../components/blog-card/BlogCardHorizontal'
@@ -25,7 +25,7 @@ import BlogCardNoThumb from '../components/blog-card/BlogCardNoThumb'
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user_login, user_block} = useSelector(state => state.UserReducer);
+    const {user_login, user_block, user_invisible} = useSelector(state => state.UserReducer);
     const [loading, setLoading] = useState(false);
     const [trendingPosts, setTrendingPosts] = useState(null);
     const [Authors, setAuthors] = useState(null);
@@ -36,7 +36,12 @@ export default function Home() {
             setLoading(false)
             const result = await postService.getTrendingPosts();
             if (result.status === 200) {
-                setTrendingPosts(result.data.content);
+                const post = result.data.content.filter(post => {
+                    const author = post.author;
+                    return !user_invisible.includes(author.id_user)
+                });
+                // console.log(post.slice(1,6))
+                setTrendingPosts(post.slice(1,6));
             }
             setLoading(true)
         } catch (error) {
@@ -48,7 +53,17 @@ export default function Home() {
     const fetchAuthors = async () => {
         try {
             setLoading(false)
-            const ids = [1, 2, 3, 4, 5]
+            
+            let ids=[]
+            while (ids.length < 5) {
+                let randomNumber = Math.floor(Math.random() * (10 - user_invisible.length)) + 1;
+                if (!user_invisible.includes(randomNumber) && !ids.includes(randomNumber)) {
+                    ids.push(randomNumber);
+                }
+            }
+
+            console.log(ids)
+
             const users = [];
             for (let i = 0; i < ids.length; i++) {
                 const result = await userService.getUserById(ids[i]);
@@ -87,15 +102,18 @@ export default function Home() {
             navigate("/")
             return
         }
-        if (trendingPosts == null)
-            fetchTrendingPosts();
-        if (Authors == null)
-            fetchAuthors();
-        if (hotTopics == null)
-            fetchHotTopics();
-        if (user_block == null)
-            dispatch(getUserBlockAction(user_login.id_user))
-    }, [user_login.id_user]);
+        if (user_invisible == null)
+            dispatch(getInvisibleUsers(user_login.id_user)) 
+        else{
+            if (trendingPosts == null)
+                fetchTrendingPosts();
+            if (Authors == null)
+                fetchAuthors();
+            if (hotTopics == null)
+                fetchHotTopics();
+        }
+        
+    }, [user_invisible?.length]);
 
     
     const authors = Authors?.filter(author => !user_block?.includes(author.id_user))

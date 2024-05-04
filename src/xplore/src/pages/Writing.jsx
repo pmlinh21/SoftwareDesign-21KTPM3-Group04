@@ -89,6 +89,8 @@ export default function Writing() {
             return {value: topic.id_topic, label: formatCapitalCase(topic.topic)}
         })
     
+
+        console.log(selectedPost)
         if(selectedPost){
             setPostInfo(
                 {...postInfo,
@@ -104,8 +106,9 @@ export default function Writing() {
             if (selectedPost.status === 2){
                 setScheduleTime(new Date(selectedPost.publish_time))
             }
+            setNotFound(false)
         } else{
-            if (!isNaN(id_post))
+            if (!isNaN(id_post) || posts != null)
                 setNotFound(true)
         }
     },[posts])
@@ -212,6 +215,16 @@ export default function Writing() {
          })
     }
     
+    const [showEditor, setShowEditor] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowEditor(true);
+            // setLoading(true);
+        }, 1500); // 3000 milliseconds = 3 seconds
+
+        return () => clearTimeout(timer); // Cleanup the timer when the component unmounts
+    }, []);
 
     return (
         <div className="writing-page h-100">
@@ -288,10 +301,11 @@ export default function Writing() {
                             setDisplayModal={setDisplayModal}
                             postInfo={postInfo}
                             navigate={navigate}/>
-                        <div className="container col-12 mt-3">
-                            <TextEditor content={postInfo.content} 
-                            changePostInfo={changePostInfo}></TextEditor>
-                        </div>
+                            {showEditor && (
+                                <div className="container col-12 mt-3">
+                                    <TextEditor content={postInfo.content} changePostInfo={changePostInfo}></TextEditor>
+                                </div>
+                            )}
                     </>
                 )
             }
@@ -301,7 +315,7 @@ export default function Writing() {
                 )
             }
             {
-                loading && (
+                (loading || !showEditor) && (
                     <Loading/>
                 )
             }
