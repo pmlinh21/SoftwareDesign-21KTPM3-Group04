@@ -106,7 +106,11 @@ function Post() {
     },[dispatch, id_post])
 
     useEffect(() => {   
-        if (user_login?.id_user || accessed){
+        // người dùng đã đăng nhập và xem bài post đã published
+        if ((user_login?.id_user && post &&  post?.publish_time && new Date(post.publish_time).getTime() <= new Date().getTime()) &&
+        // ! (post is member only nhưng user không)
+        (!post.is_member_only || user_login.is_member)){
+            console.log("view post")
             const timeoutId = setTimeout(() => {
                 createReadingHistory(); 
             }, 10000); 
@@ -221,16 +225,16 @@ function Post() {
                                     </div>
                                     {/* Date */}
                                     {
-                                        // post?.publish_time && new Date(post.publish_time).getTime() > new Date().getTime() (
-                                        //     <div className='d-flex flex-column'>
-                                        //         <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date scheduled</p>
-                                        //         {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
-                                        //         <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{ formatToMDY(post?.publish_time)}</p>
-                                        //     </div>  
-                                        // )
+                                        post?.publish_time && new Date(post.publish_time).getTime() > new Date().getTime() && (
+                                            <div className='d-flex flex-column'>
+                                                <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date scheduled</p>
+                                                {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
+                                                <p className='label1' style={{ margin: '0', color: 'var(--scheme-text)' }}>{ formatToMDY(post?.publish_time)}</p>
+                                            </div>  
+                                        )
                                     }
                                     {
-                                        post?.publish_time && (new Date(post.publish_time).getTime() <= new Date().getTime()) (
+                                        post?.publish_time && (new Date(post.publish_time).getTime() <= new Date().getTime()) && (
                                             <div className='d-flex flex-column'>
                                                 <p className='support' style={{ color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Date posted</p>
                                                 {/* <p className='label1' style={{margin: '0', color: 'var(--scheme-text)' }}>{new Date(post?.publish_time).toDateString()}</p> */}
