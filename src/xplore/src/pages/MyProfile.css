@@ -32,14 +32,12 @@
 
 .bookmark{
     position: absolute;
-    color: #C3C5DB;
+    color: var(--blue-500);
     margin-top: 10px;
     margin-left: 270px;
 }
-.fa-bookmark{
-    
+.fa-thumbtack{
     font-size: 20px;
-
 }
 
 .membership-card {

@@ -179,7 +179,7 @@ export default function EditProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <button className="btn-nm tert-btn button1" onClick={() => navigateToMyProfile()}>
+                    <button className="btn-nm tert-btn button1 btn-custom" onClick={() => navigateToMyProfile()}>
                         Cancel
                     </button>
                 </div>
@@ -245,7 +245,7 @@ export default function EditProfile() {
                                         </div>
                                         <div className="upload-text">
                                             <span><span className='upload-text-1'>Click to upload</span> or drag and drop</span>
-                                            <span>(SVG, PNG, JPG or GIF max. 800x400px)</span>
+                                            <span>SVG, PNG, JPG or GIF (max. 800x400px)</span>
                                         </div>
                                     </label>
                                 </div>
@@ -254,10 +254,10 @@ export default function EditProfile() {
                         <hr className='space'></hr>
                         <div className="btn-info d-flex flex-row justify-content-end align-items-center gap-2">
                         
-                            <button className={`btn-nm tert-btn button1 ${isDetailDisabled ? 'disabled' : ''}`} disabled={isDetailDisabled} onClick={handleCancelDetail}>
+                            <button className={`btn-nm tert-btn button1 btn-custom ${isDetailDisabled ? 'disabled' : ''}`} disabled={isDetailDisabled} onClick={handleCancelDetail}>
                                 Cancel
                             </button>
-                            <button className={`btn-nm prim-btn button1 ${isDetailDisabled ? 'disabled' : ''}`} disabled={isDetailDisabled} onClick={handleSave}>
+                            <button className={`btn-nm prim-btn button1 btn-custom ${isDetailDisabled ? 'disabled' : ''}`} disabled={isDetailDisabled} onClick={handleSave}>
                                 Save changes
                             </button>
                         </div>
@@ -284,9 +284,9 @@ export default function EditProfile() {
                         </form>
                         <hr className='space'></hr>
                         <div className="btn-info d-flex flex-row justify-content-end align-items-center gap-2">
-                            <button className={`btn-nm tert-btn button1 ${isProfileDisabled ? 'disabled' : ''}`} disabled={isProfileDisabled} onClick={handleCancelProfile}>Cancel</button>
+                            <button className={`btn-nm tert-btn button1 btn-custom ${isProfileDisabled ? 'disabled' : ''}`} disabled={isProfileDisabled} onClick={handleCancelProfile}>Cancel</button>
                             
-                            <button className={`btn-nm prim-btn button1 ${isProfileDisabled ? 'disabled' : ''}`} disabled={isProfileDisabled} onClick={handleSubmit}>Save changes</button>
+                            <button className={`btn-nm prim-btn button1 btn-custom ${isProfileDisabled ? 'disabled' : ''}`} disabled={isProfileDisabled} onClick={handleSubmit}>Save changes</button>
                         </div>
                     </div>
                 </div>
