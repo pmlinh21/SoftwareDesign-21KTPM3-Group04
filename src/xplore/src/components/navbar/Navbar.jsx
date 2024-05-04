@@ -95,6 +95,13 @@ export default function Navbar() {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         navigate("/");
     }
+
+    // Notification
+    const [showNotification, setShowNotification] = useState(false);
+
+    const toggleNotification = () => {
+        setShowNotification(!showNotification);
+    }
     
     return (
         <nav className="navbar navbar-expand-sm">
@@ -151,9 +158,9 @@ export default function Navbar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">
+                            <Link className="nav-link" to="#" onClick={toggleNotification}>
                                 <i className="fa-regular fa-bell"></i>
-                                <Notification></Notification>
+                                {showNotification && <Notification />}
                             </Link>
                         </li>
                         <li className="nav-item dropdown" >
