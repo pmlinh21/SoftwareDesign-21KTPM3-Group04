@@ -40,7 +40,7 @@ function BookmarkModal(props) {
                         <label className="label2">New list</label>
                         <div className="d-flex">
                             <input type="text" name="list_name" value={newListName} onChange={handleChangeNewListName}/>
-                            <button className="prim-btn rounded-1 button2 px-3 ms-3"
+                            <button className="prim-btn rounded-1 button2 px-3 ms-3 btn-md"
                                 onClick={handleCreateList} disabled={newListName.length == 0} >
                                 Create
                             </button>

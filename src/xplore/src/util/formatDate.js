@@ -2,6 +2,7 @@ export const formatToMDY = (dateString) => {
     if (!dateString)
         return
     const date = new Date(dateString);
+    // console.log(date)
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
