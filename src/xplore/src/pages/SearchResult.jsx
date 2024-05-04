@@ -95,8 +95,8 @@ export default function SearchResult() {
 
     <Search search={searchText} isResult={searchText !== null}/>
 
-    <div className="search-result container my-5 px-3 pt-3">
-        <div className="row px-2 pt-3 d-flex justify-content-between">
+    <div className="search-result container my-0 px-3 pt-0">
+        <div className="row px-2 pt-0 d-flex justify-content-between">
             <div className="px-0 mt-5 row">
             <ResultText type={type} searchText={searchText}/>
             {

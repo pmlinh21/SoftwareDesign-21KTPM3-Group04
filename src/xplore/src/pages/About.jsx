@@ -25,7 +25,7 @@ function About() {
                         <div className='col'>
                             <p className='label1'>We’ve helped hundreds of companies</p>
                             <h4>We’re only just getting started on our journey</h4>
-                            <div className='row g-4' style={{margin: '32px 0'}}>
+                            <div className='row g-4' style={{margin: '64px 0'}}>
                                 <div className='col'>
                                     <h3 style={{color: 'var(--blue-500)'}}>400+</h3>
                                     <p className='p1'>Projects completed</p>
