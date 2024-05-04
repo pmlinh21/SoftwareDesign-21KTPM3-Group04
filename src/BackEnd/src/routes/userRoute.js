@@ -136,7 +136,7 @@ userRoute.get("/follow/:id_user", getUserFollow)
 userRoute.get("/block/:id_user", getUserBlock)
 
 // PUT: Pin a post
-userRoute.put("/:id_user/:id_pinned_post", pinPost, getUserByID)
+//userRoute.put("/:id_user/:id_pinned_post", pinPost, getUserByID)
 
 userRoute.put("/unpin/:id_user/:id_pinned_post", pinPost)
 

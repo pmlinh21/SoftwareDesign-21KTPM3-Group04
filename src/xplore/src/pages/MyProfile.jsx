@@ -202,11 +202,11 @@ export default function MyProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <button className="btn-nm prim-btn button1" onClick={() => navigateToEditProfile()}>
+                    <button className="btn-nm prim-btn button1 btn-custom" onClick={() => navigateToEditProfile()}>
                         <i className="fa-regular fa-pen-to-square me-1"></i> Edit profile
                     </button>
                 
-                    <button className="btn-nm tert-btn button1">
+                    <button className="btn-nm tert-btn button1 btn-custom">
                         <i className="fa-solid fa-user-plus me-1"></i> Share profile
                     </button>
                 </div>
@@ -224,7 +224,12 @@ export default function MyProfile() {
                                         <div className="col-5 thumbnail-container bg-white">
                                             <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
-                                    
+                                        {post.id_post === user_info.id_pinned_post && (
+                                            <div className='bookmark'>
+                                            <i className="fa-solid fa-bookmark"></i>
+                                        </div>
+                                        )}
+                                        
                                         <div className="col-7 ps-4 d-flex flex-column justify-content-between">
                                             <div className="post-info-block">
                                                 <div className="d-flex justify-content-between align-items-center">
@@ -327,7 +332,7 @@ export default function MyProfile() {
                         { (user_follow && user_follow.length > 0) ? (
                             <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
-                                    <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
+                                    <div className="author-horizontal py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
                                             <Avatar avatar={follow.avatar} size="small"/>
                                         </div>
