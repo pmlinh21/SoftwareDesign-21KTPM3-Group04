@@ -94,6 +94,7 @@ export default function MyProfile() {
 
     const navigateToAuthorProfile = (follow) => {
         navigate("/author-profile", { state: { author: follow } });
+        window.scrollTo(0, 0);
     };
 
     const handlePinPost = (id_post) => {
@@ -123,6 +124,7 @@ export default function MyProfile() {
 
     const navigateToEditProfile = () => {
         navigate("/edit-profile");
+        window.scrollTo(0, 0);
     };
 
     const renderStatusBox = (status) => {
@@ -173,7 +175,7 @@ export default function MyProfile() {
         if (isCancelled) {
             return (
                 <div className="membership-actions">
-                    <button className="btn-nm prim-btn button1 btn-cus w-100">Buy a plan</button>
+                    <button className="btn-nm prim-btn button1 btn-cus w-100" onClick={() => navigateToPricing()}>Buy a plan</button>
                 </div>
             );
         } else {
@@ -408,7 +410,9 @@ export default function MyProfile() {
                                 {renderMembershipActions()}
                             </div>
                         ) : (
-                            <p>You have not bought any plans yet!</p>
+                            <span>You have not bought any plans yet!
+                                <span className="change-plan-link" onClick={() => navigateToPricing()}> Let buy a plan</span>
+                            </span>  
                         )}
                     </div>
                 </div>
