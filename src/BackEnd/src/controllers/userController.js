@@ -1521,7 +1521,7 @@ const getUserResponse = async (req, res) => {
     }
 }
 
-// PUT: Pin a post
+// PUT: Unpin a post
 const unpinPost = async (req, res) => {
     let { id_user } = req.params
     console.log("unpin post: ", id_user)

@@ -224,7 +224,12 @@ export default function MyProfile() {
                                         <div className="col-5 thumbnail-container bg-white">
                                             <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
-                                    
+                                        {post.id_post === user_info.id_pinned_post && (
+                                            <div className='bookmark'>
+                                            <i className="fa-solid fa-bookmark"></i>
+                                        </div>
+                                        )}
+                                        
                                         <div className="col-7 ps-4 d-flex flex-column justify-content-between">
                                             <div className="post-info-block">
                                                 <div className="d-flex justify-content-between align-items-center">

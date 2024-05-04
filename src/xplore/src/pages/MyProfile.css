@@ -26,6 +26,22 @@
     color: var(--feedback-error);
 }
 
+.thumbnail-container{
+    position: relative;
+}
+
+.bookmark{
+    position: absolute;
+    color: #C3C5DB;
+    margin-top: 10px;
+    margin-left: 270px;
+}
+.fa-bookmark{
+    
+    font-size: 20px;
+
+}
+
 .membership-card {
     background: white;
     width: 400px;
