@@ -80,7 +80,7 @@ export default function BookmarkIcon({id_post, set_absolute, regular_icon, thumb
     }
 
     useEffect(()=> {
-        if (list == null){
+        if (list == null && user_login?.id_user){
             dispatch(getListByUserAction(user_login?.id_user))
         }
     }, [])

@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate, Link } from 'react-router-dom'
 
 import "./BlogPostCard.css";
+
+import postPlaceholder from "../../assets/images/post-placeholder.jpg"
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon"
 import { formatToMDY } from "../../util/formatDate";
@@ -25,7 +27,7 @@ export default function BlogPostCard(props) {
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
                 <BookmarkIcon id_post={id_post} set_absolute={true}  thumbnail={thumbnail}s/>
-                <img src={thumbnail || "/imgs/thumbnail-placeholder.jpg"} alt=""  />
+                <img src={thumbnail || postPlaceholder} alt=""  />
             </div>
             
             {

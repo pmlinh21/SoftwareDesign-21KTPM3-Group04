@@ -1,7 +1,7 @@
 import { LOGOUT, HIDE_LOADING, DISPLAY_LOADING } from "../types";
 
 export const stateDefault = {
-    loading: true
+    loading: false
 };
 
 export const LoadingReducer = (state = stateDefault, action) => {
@@ -19,10 +19,7 @@ export const LoadingReducer = (state = stateDefault, action) => {
             };
         }
         case LOGOUT:{
-            return { 
-                ...state, 
-                loading: true
-            };
+            return stateDefault;
         }
         default:
             return { ...state };

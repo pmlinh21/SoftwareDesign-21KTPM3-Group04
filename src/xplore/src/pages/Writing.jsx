@@ -13,6 +13,7 @@ import { getPostByUser, createPostAction, updatePostAction } from "../redux/acti
 
 import TextEditor from './TextEditor';
 import Loading from '../components/system-feedback/Loading'
+import NotFound from '../components/system-feedback/NotFound'
 
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
@@ -58,6 +59,7 @@ export default function Writing() {
     const {user_login} =  useSelector(state => state.UserReducer)
     const {topics} =  useSelector(state => state.TopicReducer)
     const {loading} =  useSelector(state => state.LoadingReducer)
+    const [notFound, setNotFound] = useState(false)
 
     const [postInfo, setPostInfo] = useState({
         content: "",
@@ -102,6 +104,8 @@ export default function Writing() {
                 if (selectedPost.status === 2){
                     setScheduleTime(new Date(selectedPost.publish_time))
                 }
+            } else{
+                setNotFound(true)
             }
     },[posts])
 
@@ -143,25 +147,29 @@ export default function Writing() {
         }
 
         if (isNaN(id_post)){
+            // console.log(uploadedThumbnail)
             dispatch(createPostAction({
                 ...postInfo, 
                 id_user: user_login?.id_user,
                 creation_time: formartToSQLDatetime(new Date())
             }, uploadedThumbnail
         ))
-        navigate('/', { replace: true });
+        //navigate('/drafts', { state: { tab: "drafts" } });
         }
         else {
-            console.log(postInfo.topic)
+            // console.log(postInfo.topic)
             dispatch(updatePostAction({
                 ...postInfo, 
                 id_post: id_post 
             },uploadedThumbnail
         ))
-        navigate(`/post?id_post=${id_post}`, { replace: true });
+        //navigate(`/drafts`, { state: { tab: "published" } });
         }
 
-
+        if(postInfo.status !== 1)
+            navigate('/drafts', { state: { tab: "drafts" } });
+        else
+            navigate(`/drafts`, { state: { tab: "published" } });
 
     }
 
@@ -246,7 +254,7 @@ export default function Writing() {
                 )
             }
             {
-                !loading ? (
+                !loading && !notFound && (
                     <>
                         <Toolbar
                             handlePreviewButton={handlePreviewButton}
@@ -261,8 +269,16 @@ export default function Writing() {
                         </div>
                     </>
                 )
-                :
-                <Loading/>
+            }
+            {
+                notFound && !loading && (
+                    <NotFound/>
+                )
+            }
+            {
+                loading && (
+                    <Loading/>
+                )
             }
             
         </div>

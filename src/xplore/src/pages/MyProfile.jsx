@@ -8,11 +8,11 @@ import "./MyProfile.css";
 import Avatar from '../components/avatar/Avatar';
 import avatarPlaceholder from "../assets/images/avatar-placeholder.jpg"
 import postPlaceholder from "../assets/images/post-placeholder.jpg"
-import { formatToMD } from "../util/formatDate";
+import { formatToMD, formatToLocalDate } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, getUserCurrentSubscriptionAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -22,7 +22,6 @@ const LONG_PASSAGE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. L
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 
 export default function MyProfile() {
-    //const user_info = localStorage.getItem('userLogin') ? JSON.parse(localStorage.getItem('userLogin')) : null;
     const user_info = useSelector(state => state.UserReducer.user_login);
 
     console.log("user_info: ", user_info)
@@ -32,12 +31,16 @@ export default function MyProfile() {
     const user_follower = useSelector(state => state.UserReducer.user_follower);
     const user_follow = useSelector(state => state.UserReducer.user_follow);
     const user_block = useSelector(state => state.UserReducer.user_block);
+    const user_current_subscription = useSelector(state => state.UserReducer.user_current_subscription);
+    
+    const [sortedPosts, setSortedPosts] = useState([]);
 
     useEffect(() => {
         dispatch(getPostByUser(user_info?.id_user))
         dispatch(getUserFollowerAction(user_info?.id_user))
         dispatch(getUserFollowAction(user_info?.id_user))
         dispatch(getUserBlockAction(user_info?.id_user))
+        dispatch(getUserCurrentSubscriptionAction(user_info?.id_user))
 
     }, [dispatch, user_info?.id_user]);
 
@@ -45,6 +48,24 @@ export default function MyProfile() {
     console.log("user_follower: ", user_follower)
     console.log("user_follow: ", user_follow)
     console.log("user_block: ", user_block)
+    console.log("user_current_subscription: ", user_current_subscription)
+
+    useEffect(() => {
+        if (user_post) {
+            const sorted = sortPosts(user_post, user_info?.id_pinned_post);
+            setSortedPosts(sorted);
+        }
+    }, [user_post, user_info?.id_pinned_post]);
+
+    const sortPosts = (posts, pinnedId) => {
+        if (!pinnedId) return posts;
+        return [
+            ...posts.filter(post => post.id_post === pinnedId),
+            ...posts.filter(post => post.id_post !== pinnedId)
+        ];
+    };
+
+    console.log("Sorted Posts: ", sortedPosts);
 
     const followerCount = user_follower ? user_follower.length : 0;
     const followCount = user_follow ? user_follow.length : 0;
@@ -84,6 +105,12 @@ export default function MyProfile() {
         })
     };
 
+    const handleUnpinPost = () => {
+        dispatch(unpinPostAction(user_info.id_user)).then(() => {
+            alert("Unpin successfully"); 
+        })
+    };
+
     const handleDeletePost = (id_post) => {
         deletePost(id_post);
     };
@@ -91,6 +118,35 @@ export default function MyProfile() {
     const deletePost = (id_post) => {
         dispatch(deletePostAction(id_post))
         dispatch(getPostByUser(user_info?.id_user))
+    };
+
+    const navigateToEditProfile = () => {
+        navigate("/edit-profile");
+    };
+
+    const renderStatusBox = (status) => {
+        switch(status) {
+            case 0:
+                return (
+                    <div className='status-box-inuse'>
+                        <span>In Use</span>
+                    </div>
+                );
+            case 1:
+                return (
+                    <div className='status-box-expired'>
+                        <span>Expired</span>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className='status-box-cancelled'>
+                        <span>Cancelled</span>
+                    </div>
+                );
+            default:
+                return null; 
+        }
     };
 
     return (
@@ -105,11 +161,10 @@ export default function MyProfile() {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-end align-items-center gap-2">
-                    <a href='/edit-profile'>
-                        <button className="btn-nm prim-btn button1">
-                            <i className="fa-regular fa-pen-to-square me-1"></i> Edit profile
-                        </button>
-                    </a>
+                    <button className="btn-nm prim-btn button1" onClick={() => navigateToEditProfile()}>
+                        <i className="fa-regular fa-pen-to-square me-1"></i> Edit profile
+                    </button>
+                
                     <button className="btn-nm tert-btn button1">
                         <i className="fa-solid fa-user-plus me-1"></i> Share profile
                     </button>
@@ -120,12 +175,12 @@ export default function MyProfile() {
                 <div className=" row mt-5 d-flex flex-row justify-content-between">
                     <div className="col-7 d-flex flex-column gap-2">
                         <h6>My posts</h6>
-                        {user_post && user_post.length > 0 ? (
-                            <div className='d-flex flex-column gap-2'>
-                                {user_post.map((post) => (
+                        {sortedPosts && sortedPosts.length > 0 ? (
+                            <div className='d-flex flex-column gap-4'>
+                                {sortedPosts.map((post) => (
                                 <div className="blog-card-horizontal rounded-3 shadow-sm container d-flex bg-white">
                                     <div className="col-12 d-flex py-3 px-2">
-                                        <div className="col-5 thumbnail-container bg-white h-100">
+                                        <div className="col-5 thumbnail-container bg-white">
                                             <img src={post.thumbnail || postPlaceholder} alt=""  />
                                         </div>
                                     
@@ -147,7 +202,11 @@ export default function MyProfile() {
                                                                 <Link to={`/write?id_post=${post.id_post}`} className='dropdown-item'>Edit post</Link>
                                                             </li>
                                                             <li>
+                                                            {post.id_post === user_info.id_pinned_post ? (
+                                                                <a className="dropdown-item" onClick={() => handleUnpinPost()}>Unpin post</a>
+                                                            ) : (
                                                                 <a className="dropdown-item" onClick={() => handlePinPost(post.id_post)}>Pin post</a>
+                                                            )}
                                                             </li>
 
                                                             <li><hr className="dropdown-divider"></hr></li>
@@ -225,7 +284,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedFollowCount} users</p>
                         </div>
                         {user_follow && user_follow.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follow.map((follow) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100" onClick={() => handleAuthorClickWrapper(follow)} style={{ cursor: 'pointer' }}>
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
@@ -252,7 +311,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedFollowerCount} users</p>
                         </div>
                         {user_follower && user_follower.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }}>
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }}>
                                 {user_follower.map((follower) => (
                                     <AuthorHorizontal key={follower.id} author={follower} />
                                 ))}
@@ -266,7 +325,7 @@ export default function MyProfile() {
                             <p className="p1">{formattedBlockCount} users</p>
                         </div>
                         {user_block && user_block.length > 0 ? (
-                            <div className='d-flex flex-column gap-2 pb-2 mb-3' style={{ maxHeight: '520px', overflowY: 'auto' }} >
+                            <div className='d-flex flex-column gap-3 pb-2 mb-3' style={{ maxHeight: '440px', overflowY: 'auto' }} >
                                 {user_block.map((block) => (
                                     <div className="author-horizontal row py-3 pe-3 d-flex bg-white rounded-3 shadow-sm overflow-hidden w-100">
                                         <div className=" col-2 d-flex align-items-start justify-content-center ">
@@ -286,6 +345,36 @@ export default function MyProfile() {
                             </div>
                         ) : (
                             <p></p>
+                        )}
+
+                        <h6>Membership</h6>
+                        {user_current_subscription ? (
+                            <div className="membership-card">
+                                <div className="membership-header">
+                                    <div className='membership-logo'>
+                                        <div className='membership-logo-1'>
+                                            <i className="fa-solid fa-layer-group ic-logo"></i>
+                                        </div>
+                                    </div>
+                                    <h2>{user_current_subscription.membership?.type === "annual" ? "Annual Membership" : "Monthly Membership"}</h2>
+                                    <p className="price">${user_current_subscription.price}/month</p>
+                                </div>
+                                <div className="membership-details">
+                                    <p>
+                                        <strong>Status</strong>
+                                        {renderStatusBox(user_current_subscription.status)}
+                                    </p>
+                                    <p><strong>Start day</strong> <span>{formatToLocalDate(user_current_subscription.start_time)}</span></p>
+                                    <p><strong>End day</strong> <span>{formatToLocalDate(user_current_subscription.end_time)}</span></p>
+                                </div>
+                                <hr className='space-hr'></hr>
+                                <div className="membership-actions">
+                                    <span><a href="#" className="change-plan-link">Click here for more details</a></span>
+                                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100">Cancel plan</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <p>You have not bought any plans yet!</p>
                         )}
                     </div>
                 </div>

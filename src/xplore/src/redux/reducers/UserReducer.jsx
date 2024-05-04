@@ -3,7 +3,9 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_LIST_BY_USER, ADD_POST_TO_LIST, DELETE_POST_FROM_LIST,
     GET_TOPIC_BY_USER,FOLLOW_TOPIC,UNFOLLOW_TOPIC, 
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
-    BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, PIN_POST } from "../types";
+    BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, PIN_POST, UNPIN_POST, 
+    UPDATE_USER_DETAIL,
+    UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION} from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -22,7 +24,8 @@ export const stateDefault = {
     block: null, // chỉ chứa id_user
     user_follower: null,
     user_follow: null,
-    user_block: null
+    user_block: null,
+    user_current_subscription: {}
 };
 
 export const UserReducer = (state = stateDefault, action) => {
@@ -34,17 +37,7 @@ export const UserReducer = (state = stateDefault, action) => {
             return { ...state, user_signup: action.formData };
         }
         case LOGOUT:{
-            return { ...state,
-                user_login: {},
-                user_signup: {},
-                list: null, 
-                topic: null,
-                author_post: null,
-                author_subscriber: null,
-                author_list: null,
-                is_follow: false,
-                block: null,
-            };
+            return stateDefault
         }
         case GET_LIST_BY_USER:{
             return { ...state, list: action.list}
@@ -130,6 +123,18 @@ export const UserReducer = (state = stateDefault, action) => {
         }
         case PIN_POST:{
             return { ...state, user_login: action.user_login };
+        }
+        case UPDATE_USER_DETAIL:{
+            return { ...state, user_login: action.user_login };
+        }
+        case UPDATE_USER_PROFILE:{
+            return { ...state, user_login: action.user_login };
+        }
+        case UNPIN_POST:{
+            return { ...state, user_login: action.user_login };
+        }
+        case GET_USER_CURRENT_SUBSCRIPTION:{
+            return { ...state, user_current_subscription: action.user_current_subscription };
         }
         default:
             return { ...state };

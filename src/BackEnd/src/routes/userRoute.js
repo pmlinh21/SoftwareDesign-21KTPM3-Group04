@@ -2,7 +2,7 @@ const express = require('express');
 const userRoute = express.Router();
 const cookieParser = require("cookie-parser");
 const { login, signup, searchAccountByName, getUserSubscriber,
-    sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic,
+    sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
     updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
     blockAnotherUser, unblockAnotherUser,
@@ -13,7 +13,8 @@ const { login, signup, searchAccountByName, getUserSubscriber,
     getUserToken, getAuthorPosts,
     createOrder,captureOrder,
     isFollowAuthor, getUserFollow, getUserBlock,
-    pinPost, getUserResponse } = require("../controllers/userController")
+    pinPost, unpinPost, getUserCurrentSubscription,
+    getUserResponse } = require("../controllers/userController")
     
 userRoute.use(cookieParser(process.env.JWT_SECRET_KEY))
 
@@ -38,8 +39,11 @@ userRoute.get("/:id_user", getUserByID)
 // GET: Get user by Email
 userRoute.get("/getUser/:email", getUserByEmail)
 
-// PUT: Update user by ID
-userRoute.put("/:id_user", updateUserByID)
+// PUT: Update user detail
+userRoute.put("/detail/:id_user", updateUserDetail)
+
+// PUT: Update user profile
+userRoute.put("/profile/:id_user", updateUserProfile)
 
 // GET: Get all user following topics
 userRoute.get("/topic/:id_user", getUserTopic)
@@ -130,6 +134,14 @@ userRoute.get("/block/:id_user", getUserBlock)
 
 // PUT: Pin a post
 userRoute.put("/:id_user/:id_pinned_post", pinPost, getUserByID)
+
+userRoute.put("/unpin/:id_user/:id_pinned_post", pinPost)
+
+// PUT: Unpin a post
+userRoute.put("/unpin/:id_user", unpinPost)
+
+// GET: Get current user subscription
+userRoute.get("/current/:id_user", getUserCurrentSubscription)
 
 // GET: Get user response
 userRoute.get("/response/:id_user", getUserResponse)

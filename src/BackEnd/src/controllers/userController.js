@@ -313,39 +313,74 @@ try {
 }
 }
 
-// PUT: Update user by ID
-const updateUserByID = async (req, res) => {
-let { id_user } = req.params
-let { fullname, gender, birthdate, avatar, tipping_link, bio } = req.body;
+// PUT: Update user detail
+const updateUserDetail = async (req, res) => {
+    let { id_user } = req.params
+    let { fullname, gender, birthdate, avatar } = req.body;
 
-try {
-    let user = await model.user.findOne({
-        where:{
-            id_user: id_user
-        } 
-    })
-    if (!user) {
-        failCode(res, null, "Invalid ID")
-    }
-    else{
-        await model.user.update({ 
-            fullname, gender, birthdate, avatar, tipping_link, bio
-        }, {
+    try {
+        let user = await model.user.findOne({
             where:{
                 id_user: id_user
-            }
-        }); 
-        let data = await model.user.findOne({
-            where:{
-                id_user: id_user
-            }
-        });
-        successCode(res, data, "Update successfully")
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                fullname, gender, birthdate, avatar
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
 }
+
+// PUT: Update user profile
+const updateUserProfile = async (req, res) => {
+    let { id_user } = req.params
+    let { tipping_link, bio } = req.body;
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                tipping_link, bio
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
 }
 
 // PUT: Harshing user password
@@ -468,29 +503,29 @@ try {
 
 // GET: Get all user subscriptions
 const getUserSubscription = async (req, res) => {
-let { id_user } = req.params
+    let { id_user } = req.params
 
-try {
-    let user = await model.user.findOne({
-        where:{
-            id_user: id_user
-        }
-    })
-    if(!user){
-        failCode(res, null, "Invalid ID")
-    }
-    else{
-        let subscriptions = await model.subscription.findAll({
-            where: {
+    try {
+        let user = await model.user.findOne({
+            where:{
                 id_user: id_user
             }
-        });
-        successCode(res, subscriptions, "Subscriptions found");
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            let subscriptions = await model.subscription.findAll({
+                where: {
+                    id_user: id_user
+                }
+            });
+            successCode(res, subscriptions, "Subscriptions found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
     }
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
-}
 }
 
 // POST: Make a subscription
@@ -678,8 +713,28 @@ try {
         let notifications = await model.notification.findAll({
             where: {
                 receiver: id_user
-            }
+            },
+            include:[
+                {
+                    model: model.user,
+                    as: "creator_user",
+                    attributes: ["fullname", "avatar"],
+                },
+                {
+                    model: model.post,
+                    as: "post_ìnfo",
+                    attributes: ["title"],
+                },
+                {
+                    model: model.response,
+                    as: "response_info",
+                    attributes: ["response", "reply"],
+                },
+            ],
+            attributes:["noti_time", "noti_type", "id_noti"],
+            order: [[ 'id_noti', 'DESC']],
         });
+
         successCode(res, notifications, "Notifications found");
     }
 } catch (err) {
@@ -1426,11 +1481,87 @@ const getUserResponse = async (req, res) => {
         console.log(err)
         errorCode(res,"Internal Server Error")
     }
+}
+
+// PUT: Pin a post
+const unpinPost = async (req, res) => {
+    let { id_user } = req.params
+    console.log("unpin post: ", id_user)
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                id_pinned_post: null
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
+}
+
+// GET: Get current user subscription
+const getUserCurrentSubscription = async (req, res) => {
+    let { id_user } = req.params
+
+    try {
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            }
+        })
+        if(!user){
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            const currentDate = new Date().toISOString();
+
+            let subscription = await model.subscription.findOne({
+                where: {
+                    id_user: id_user,
+                    status: {
+                        [Op.ne]: 1 // status not equal to 1
+                    },
+                    end_time: {
+                        [Op.gt]: currentDate // end_time greater than the current time
+                    }
+                },
+                include: [
+                    {
+                        model: model.membership,
+                        as: 'membership'
+                    }
+                ]
+            });
+            
+            successCode(res, subscription, "Subscription found");
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
 
 }
 
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
-            sendEmail, getUserByID, getUserByEmail, updateUserByID, getUserTopic, 
+            sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
             updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
             blockAnotherUser, unblockAnotherUser,
@@ -1441,4 +1572,5 @@ module.exports = { login, signup, searchAccountByName, getUserSubscriber,
             getUserToken, getAuthorPosts,
             createOrder, captureOrder,
             isFollowAuthor, getUserFollow, getUserBlock,
-            pinPost, getUserResponse }
+            pinPost, unpinPost, getUserCurrentSubscription,
+            getUserResponse }

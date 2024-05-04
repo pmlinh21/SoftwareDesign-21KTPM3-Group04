@@ -135,7 +135,7 @@ export class UserService extends BaseService {
     
     // Api 23: Pin post
     pinPost = (user, id_post) =>{
-      return this.put(`/user/${user}/${id_post}`);
+      return this.put(`/user/unpin/${user}/${id_post}`);
     }
 
     // Api 24: 
@@ -151,6 +151,31 @@ export class UserService extends BaseService {
     // Api 26: Get user response
     getUserResponse = (id_user) =>{
         return this.get(`/user/response/${id_user}`);
+    }
+
+    // Api 27: Update user detail
+    updateUserDetail = (id_user, formData) =>{
+      return this.put(`/user/detail/${id_user}`, formData);
+    }
+
+    // Api 28: Update user profile
+    updateUserProfile = (id_user, formData) =>{
+      return this.put(`/user/profile/${id_user}`, formData);
+    }
+
+    // Api 29: Get all noti
+    getNotification = (id_user) =>{
+      return this.get(`/user/notification/received/${id_user}`);
+    }
+
+    // Api 30: Unpin post
+    unpinPost = (user) =>{
+      return this.put(`/user/unpin/${user}`);
+    }
+
+    // Api 31: Get user current subscription
+    getUserCurrentSubscription = (user) =>{
+      return this.get(`/user/current/${user}`);
     }
 }
   
