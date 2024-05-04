@@ -6,8 +6,8 @@ import { LOGIN, SIGNUP, LOGOUT,
     HIDE_LOADING, DISPLAY_LOADING,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
     BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, 
-    PIN_POST,
-    UPDATE_USER_DETAIL, UPDATE_USER_PROFILE} from "../types";
+    PIN_POST, UNPIN_POST,
+    UPDATE_USER_DETAIL, UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION} from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -275,14 +275,19 @@ export const UnfollowTopicAction = (id_user, id_topic) => {
 
 export const logOut = () => {
     return async (dispatch) => {
+        dispatch({
+            type: DISPLAY_LOADING
+        });
         try {
             dispatch({
                 type: LOGOUT
             });
-
         } catch (error) {
             console.log("error", error);
         }
+        dispatch({
+            type: HIDE_LOADING
+        });
     };
 };
 
@@ -394,9 +399,9 @@ export const getAuthorListAction = (id_user) => {
 export const isFollowAuthorAction = (user, subscriber) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             
             const isFollowResult = await userService.isFollowAuthor(user, subscriber);
 
@@ -409,9 +414,9 @@ export const isFollowAuthorAction = (user, subscriber) => {
                 });
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -422,9 +427,9 @@ export const isFollowAuthorAction = (user, subscriber) => {
 export const unfollowAuthorAction = (user, subscriber) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             
             const result = await userService.unfollowAuthor(user, subscriber);
 
@@ -450,9 +455,9 @@ export const unfollowAuthorAction = (user, subscriber) => {
                 }
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -463,9 +468,9 @@ export const unfollowAuthorAction = (user, subscriber) => {
 export const followAuthorAction = (user, subscriber, fullname) => {
     return async (dispatch) => {
         try {
-            dispatch({
-                type: DISPLAY_LOADING
-            });
+            // dispatch({
+            //     type: DISPLAY_LOADING
+            // });
             const result = await userService.followAuthor(user, subscriber);
 
             if (result.status === 200) {
@@ -497,9 +502,9 @@ export const followAuthorAction = (user, subscriber, fullname) => {
                 await userService.sendEmail(formData);
             }
             
-            dispatch({
-                type: HIDE_LOADING
-            });
+            // dispatch({
+            //     type: HIDE_LOADING
+            // });
         } catch (error) {
             console.log("error", error.response);
             alert(error.response.data.message)
@@ -677,6 +682,34 @@ export const pinPostAction = (user, id_post) => {
     };
 };
 
+export const unpinPostAction = (user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.unpinPost(user);
+
+            if (result.status === 200) {
+                localStorage.setItem(USER_LOGIN, JSON.stringify(result.data.content));
+
+                dispatch({
+                    type: UNPIN_POST,
+                    user_login: result.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
 export const updateUserDetailAction = (id_user, formData) => {
     return async (dispatch) => {
         try {
@@ -721,6 +754,32 @@ export const updateUserProfileAction = (id_user, formData) => {
                 dispatch({
                     type: UPDATE_USER_PROFILE,
                     user_login: result.data.content
+                });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const getUserCurrentSubscriptionAction = (id_user) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.getUserCurrentSubscription(id_user);
+
+            if (result.status === 200) {
+                dispatch({
+                    type: GET_USER_CURRENT_SUBSCRIPTION,
+                    user_current_subscription: result.data.content
                 });
             }
             

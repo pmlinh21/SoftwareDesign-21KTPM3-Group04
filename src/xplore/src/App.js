@@ -75,7 +75,7 @@ function App() {
           <Route path="ex" element={<MyTabs />}/>
           {/* <Route path="response" element={<Response />}/> */}
           <Route path="drafts" element={<Post />}/>
-          <Route path="noti" element={<Notification />}/>
+          {/* <Route path="noti" element={<Notification />}/> */}
         </Route>
       </Routes>
     </Router>

@@ -97,7 +97,7 @@ function Post() {
 
     useEffect(() => {   
         const timeoutId = setTimeout(() => {
-            // createReadingHistory(); 
+            createReadingHistory(); 
         }, 10000); 
 
         setTimerId(timeoutId);

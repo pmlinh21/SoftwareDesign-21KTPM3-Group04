@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import "./BlogCardHorizontal.css";
 
+import postPlaceholder from "../../assets/images/post-placeholder.jpg"
 import Avatar from "../avatar/Avatar";
 import BookmarkIcon from "../icon/BookmarkIcon";
 
@@ -27,7 +28,7 @@ export default function BlogCardHorizontal(props) {
             onClick={handleBlogCardClicked}>
             <div className="col-12 d-flex py-3 px-3">
                 <div className="col-5 thumbnail-container bg-white h-100">
-                    <img src={thumbnail || "https://picsum.photos/id/2/600/600"} alt=""  />
+                    <img src={thumbnail || postPlaceholder} alt=""  />
                 </div>
  
                 <div className="col-7 ps-4 d-flex flex-column justify-content-between">
