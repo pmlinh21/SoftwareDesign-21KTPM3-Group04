@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import "../styles/commons.css";
 import "./LoginPopup.css"
 import { loginAction } from "../redux/actions/UserAction";
@@ -60,6 +61,11 @@ export default function LoginPopup(props) {
     function handleSigninWithGoogle() {
         window.location.href = `${DOMAIN}/auth/google`;
     }
+
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        navigate("/", { state: { signup: true, check: true } });
+    };
       
     return (
         <div className="login-popup-overlay">
@@ -109,7 +115,7 @@ export default function LoginPopup(props) {
                         </button>
 
                         <div className="sign-up">Don't have an account? 
-                            <a href="#"> Sign up</a>
+                            <span onClick={() => handleNavigate()} style={{color: "var(--scheme-primary)", cursor: "pointer", fontWeight: "600"}}> Sign up</span>
                         </div>
                     </>
                 ) }
