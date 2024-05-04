@@ -217,7 +217,7 @@ function Post() {
                             <div className='d-flex justify-content-between' style={{gap: '16px', padding: '24px 0'}}>
                                 <div className='d-flex gap-3'>
                                     {/* Avatar */}
-                                    <Avatar avatar={post?.author?.avatar} size="small"/>
+                                    <Avatar avatar={post?.author?.avatar} id_user={post?.author?.id_user} size="small"/>
                                     {/* Name */}
                                     <div className='d-flex flex-column'>
                                         <p className='support' style={{color: 'var(--scheme-sub-text)', marginBottom: '8px' }}>Posted by</p>

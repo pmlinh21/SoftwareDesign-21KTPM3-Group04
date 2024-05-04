@@ -182,6 +182,11 @@ export class UserService extends BaseService {
     cancelPlan = (id_user, id_subscription) =>{
       return this.put(`/user/subscription/${id_user}/${id_subscription}`);
     }
+
+    // Api 33: Get user by ID
+    getUserByID = (id_user) =>{
+      return this.get(`/user/${id_user}`);
+    }
 }
   
 export const userService = new UserService();
