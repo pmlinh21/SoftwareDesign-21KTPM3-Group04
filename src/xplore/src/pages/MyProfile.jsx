@@ -12,7 +12,8 @@ import { formatToMD, formatToLocalDate } from "../util/formatDate";
 import { sanitizeContent } from "../util/formatText";
 
 import { getPostByUser, deletePostAction } from "../redux/actions/PostAction";
-import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, getUserCurrentSubscriptionAction } from "../redux/actions/UserAction";
+import { getUserFollowerAction, getUserFollowAction, getUserBlockAction, pinPostAction, unpinPostAction, 
+        getUserCurrentSubscriptionAction, cancelPlanAction } from "../redux/actions/UserAction";
 import AuthorHorizontal from "../components/author-card/AuthorHorizontal"; 
 import ButtonUnsubscribe from "../components/button/ButtonUnsubscribe";
 import ButtonUnblock from "../components/button/ButtonUnblock";
@@ -146,6 +147,42 @@ export default function MyProfile() {
                 );
             default:
                 return null; 
+        }
+    };
+
+    const [isCancelled, setIsCancelled] = useState(false);
+
+    useEffect(() => {
+        if (user_current_subscription && (user_current_subscription.status === 2 || user_current_subscription.status === 1)) {
+            setIsCancelled(true);
+        }
+    }, [user_current_subscription]);
+
+    const handleCancelPlan = (id_subscription) => {
+        dispatch(cancelPlanAction(user_info?.id_user, id_subscription)).then(() => {
+            setIsCancelled(true); 
+        })
+    }
+
+    const navigateToPricing = () => {
+        navigate("/pricing");
+        window.scrollTo(0, 0);
+    };
+
+    const renderMembershipActions = () => {
+        if (isCancelled) {
+            return (
+                <div className="membership-actions">
+                    <button className="btn-nm prim-btn button1 btn-cus w-100">Buy a plan</button>
+                </div>
+            );
+        } else {
+            return (
+                <div className="membership-actions">
+                    <span className="change-plan-link" onClick={() => navigateToPricing()}>Click here for more details</span>
+                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100" onClick={() => handleCancelPlan(user_current_subscription.id_subscription)}>Cancel plan</button>
+                </div>
+            );
         }
     };
 
@@ -368,10 +405,7 @@ export default function MyProfile() {
                                     <p><strong>End day</strong> <span>{formatToLocalDate(user_current_subscription.end_time)}</span></p>
                                 </div>
                                 <hr className='space-hr'></hr>
-                                <div className="membership-actions">
-                                    <span><a href="#" className="change-plan-link">Click here for more details</a></span>
-                                    <button className="btn-nm prim-btn button1 btn-cus mt-4 w-100">Cancel plan</button>
-                                </div>
+                                {renderMembershipActions()}
                             </div>
                         ) : (
                             <p>You have not bought any plans yet!</p>

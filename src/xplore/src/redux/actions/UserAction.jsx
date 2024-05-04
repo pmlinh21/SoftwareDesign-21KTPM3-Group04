@@ -7,7 +7,8 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
     BLOCK_AUTHOR, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, 
     PIN_POST, UNPIN_POST,
-    UPDATE_USER_DETAIL, UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION} from "../types";
+    UPDATE_USER_DETAIL, UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION,
+    CANCEL_PLAN} from "../types";
 
 export const loginAction = (user_login) => {
     return async (dispatch) => {
@@ -781,6 +782,41 @@ export const getUserCurrentSubscriptionAction = (id_user) => {
                     type: GET_USER_CURRENT_SUBSCRIPTION,
                     user_current_subscription: result.data.content
                 });
+            }
+            
+            dispatch({
+                type: HIDE_LOADING
+            });
+        } catch (error) {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        }
+    };
+};
+
+export const cancelPlanAction = (id_user, id_subscription) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: DISPLAY_LOADING
+            });
+            
+            const result = await userService.cancelPlan(id_user, id_subscription);
+
+            if (result.status === 200) {
+                dispatch({
+                    type: CANCEL_PLAN,
+                    user_login: result.data.content
+                });
+
+                const newResult = await userService.getUserCurrentSubscription(id_user);
+
+                if (newResult.status === 200) {
+                    dispatch({
+                        type: GET_USER_CURRENT_SUBSCRIPTION,
+                        user_current_subscription: newResult.data.content
+                    });
+                }
             }
             
             dispatch({
