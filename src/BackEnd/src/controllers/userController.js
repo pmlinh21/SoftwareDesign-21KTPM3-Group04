@@ -1311,10 +1311,18 @@ const captureOrder = async (req, res) => {
                 id_user: subscription.id_user,
                 id_membership: subscription.id_membership,
                 price: subscription.price,
-                status: subscription.status,
+                status: 0,
                 start_time: subscription.start_time,
                 end_time: subscription.end_time
             })
+
+            await model.user.update({ 
+                is_member: true
+            }, {
+                where:{
+                    id_user: subscription.id_user
+                }
+            });
 
             successCode(res, newSubscription, "Payment completed")
         }

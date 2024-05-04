@@ -158,6 +158,9 @@ export default function MyProfile() {
         if (user_current_subscription && (user_current_subscription.status === 2 || user_current_subscription.status === 1)) {
             setIsCancelled(true);
         }
+        if (user_current_subscription && user_current_subscription.status === 0) {
+            setIsCancelled(false);
+        }
     }, [user_current_subscription]);
 
     const handleCancelPlan = (id_subscription) => {
