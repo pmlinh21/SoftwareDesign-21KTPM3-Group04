@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import "../styles/commons.css";
 import "./LoginPopup.css"
 import { loginAction } from "../redux/actions/UserAction";
@@ -14,7 +15,9 @@ export default function LoginPopup(props) {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    function handleLogin(e) {
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
         e.preventDefault()
 
         let isValid = true;
@@ -48,18 +51,30 @@ export default function LoginPopup(props) {
         console.log("user_login: ", user_login);
 
         setLoading(true);
-        dispatch(loginAction(user_login)).then(() => {
-
-            setLoading(false);
-        })
-        .catch(() => {
-            setLoading(false);
-        });
+        try {
+            const result = await dispatch(loginAction(user_login));
+            
+            if (result?.status === 200 && result?.data.message === "Login successfully") {
+                setLoading(false);
+            } else {
+                alert("Email or password wrong");
+                setLoading(false);
+                navigate("/");
+            }
+        } catch (error) {
+            console.log("error", error.message);
+        }
+        
     }
 
     function handleSigninWithGoogle() {
         window.location.href = `${DOMAIN}/auth/google`;
     }
+
+    
+    const handleNavigate = () => {
+        navigate("/", { state: { signup: true, check: true } });
+    };
       
     return (
         <div className="login-popup-overlay">
@@ -109,7 +124,7 @@ export default function LoginPopup(props) {
                         </button>
 
                         <div className="sign-up">Don't have an account? 
-                            <a href="#"> Sign up</a>
+                            <span onClick={() => handleNavigate()} style={{color: "var(--scheme-primary)", cursor: "pointer", fontWeight: "600"}}> Sign up</span>
                         </div>
                     </>
                 ) }
