@@ -17,8 +17,9 @@ import NotFound from '../components/system-feedback/NotFound'
 
 import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
+import { postService } from '../services/PostService';
 
-function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postInfo, handleSaveButton }){
+function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, postInfo, handleSaveButton }){
 
 
     return(
@@ -34,10 +35,9 @@ function Toolbar({handleBackButton, handlePreviewButton, setDisplayModal, postIn
                     onClick={handleSaveButton}>
                     Save
                 </button>
-
-                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
-                    onClick={handlePreviewButton}>
-                    Preview
+                <button className="alert-btn rounded-1 button2"
+                    onClick={handleDeleteButton}>
+                    Delete
                 </button>
                 <button className="prim-btn rounded-1 button2"
                     onClick={() => {setDisplayModal(true)}}>
@@ -110,8 +110,32 @@ export default function Writing() {
         }
     },[posts])
 
-    function handlePreviewButton(){
-        navigate("/home");
+    const deletePost = async () => {
+        try {
+            const result = await postService.deletePost({id_post: id_post});
+            if (result.status === 200) {
+                navigate('/drafts', { state: { tab: "drafts" } });
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
+
+    function handleDeleteButton(){
+        if (id_post !== NaN) {
+            if (window.confirm("Are you sure you want to delete your writing?")){
+                navigate('/home', { replace: true })
+            }
+        } else {
+            // check for draft
+            if (window.confirm("Are you sure you want to delete this post?")){
+                deletePost()
+                if (postInfo.status === 1)
+                    navigate('/drafts', { state: { tab: "published" } });
+                else
+                    navigate('/drafts', { state: { tab: "drafts" } });
+            }
+        }
     }
 
     function handleBackButton(){
@@ -258,7 +282,7 @@ export default function Writing() {
                 !loading && !notFound && (
                     <>
                         <Toolbar
-                            handlePreviewButton={handlePreviewButton}
+                            handleDeleteButton={handleDeleteButton}
                             handleBackButton={handleBackButton}
                             handleSaveButton={handleSaveButton}
                             setDisplayModal={setDisplayModal}
