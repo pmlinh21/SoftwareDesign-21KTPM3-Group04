@@ -60,7 +60,9 @@ export default function Notification(props) {
                     <Avatar avatar={user_login?.avatar} size="small"/>
                     <div className='d-flex flex-column gap-1'>
                         <div className='d-flex flex-row align-items-center gap-1'>
+                            {/* Creator */}
                             <p className='button3 m-0'>{user_login?.fullname}</p>
+                            {/* Noti_type */}
                             <p className='p3 m-0'>liked your post</p>
                         </div>
                         {/* Noti_time */}
