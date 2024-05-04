@@ -22,7 +22,7 @@ export default function BlogPostCard(props) {
         navigate("/post?id_post=" + id_post)
     }
     return (
-        <div className={`blog-post-card d-flex flex-column p-0 m-0 mb-4 ${style}`}
+        <div className={`blog-post-card shadow-sm d-flex flex-column p-3 m-0 mb-4 ${style}`}
             onClick={handleBlogCardClicked}>
 
             <div className="thumbnail-container bg-white p-0 m-0 position-relative">
