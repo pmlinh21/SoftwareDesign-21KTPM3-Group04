@@ -54,6 +54,7 @@ export const loginAction = (user_login) => {
                     window.history.pushState(null,null,"/");
                 window.location.reload()
             }
+            return result;
         } catch (error) {
             console.log("error", error.response);
             // alert(error.response.data.message)
