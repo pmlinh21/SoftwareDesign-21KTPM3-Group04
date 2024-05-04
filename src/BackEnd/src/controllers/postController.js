@@ -511,6 +511,7 @@ const deletePost = async (req,res) => {
             // delte topic_post, post_monthly_data, report_post
             // delete reading_history, list_post, like, highlight, 
 
+
             await model.post.destroy({
                 where:{
                     id_post: id_post
