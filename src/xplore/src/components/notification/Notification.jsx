@@ -63,7 +63,7 @@ export default function Notification(props) {
                             {/* Creator */}
                             <p className='button3 m-0'>{user_login?.fullname}</p>
                             {/* Noti_type */}
-                            <p className='p3 m-0'>liked your post</p>
+                            <p className='p3 m-0'>{user_login?.creator_id?.noti_type}</p>
                         </div>
                         {/* Noti_time */}
                         <p className='support text-scheme-sub-text m-0'>2 mins ago</p>
