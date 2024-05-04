@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const { login, signup, searchAccountByName, getUserSubscriber,
     sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic,
     followATopic, getUserSubscription, makeASubscription,
-    updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
+    cancelSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
     blockAnotherUser, unblockAnotherUser,
     getUserReceivedNotifications, getUserSentNotifications,
     getUserReadingHistory, deleteReadingHistory,
@@ -58,7 +58,7 @@ userRoute.get("/subscription/:id_user", getUserSubscription)
 userRoute.post("/subscription", makeASubscription)
 
 // PUT: Update a subscription (status) by ID
-userRoute.put("/subscription/:id_subscription", updateSubscriptionByID)
+userRoute.put("/subscription/:id_user/:id_subscription", cancelSubscriptionByID)
 
 // POST: Subscribe another user
 userRoute.post("/subscribe/:user/:subscriber", subscribeAnotherUser)

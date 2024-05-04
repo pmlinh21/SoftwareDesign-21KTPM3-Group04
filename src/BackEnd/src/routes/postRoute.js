@@ -47,7 +47,7 @@ postRoute.post("", createPost)
 // Update a post (draft -> publish, draft -> schedule, schedule -> publish)
 postRoute.put("", updatePost)
 
-postRoute.delete("", deletePost)
+postRoute.delete("/:id_post", deletePost)
 
 // postRoute.put("/paywall/:id_post", updatePaywallOfPost)
 

@@ -31,6 +31,7 @@ function Pricing() {
     }, [])
 
     console.log(membership);
+
     return (
         <div>
             {/*Headline*/}

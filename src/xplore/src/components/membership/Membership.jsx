@@ -1,11 +1,17 @@
 import {formatCapitalFirstLetter} from '../../util/formatText'
 import { useNavigate } from 'react-router'
+import { useSelector } from 'react-redux';
 
 export default function Membership({membership}){
     const navigate = useNavigate()
     const handleButtonClick = () => {
         navigate(`/checkout?id_membership=${membership.id_membership}`)
     }
+
+    const user_info = useSelector(state => state.UserReducer.user_login);
+
+    console.log("user_info: ", user_info)
+
     return (
         <div className='col-4 membership-ctn justify-content-between' style={{ display: 'flex', flexDirection: 'column', marginRight: '24px' }}>
             <div className="d-flex flex-column">
@@ -24,7 +30,9 @@ export default function Membership({membership}){
                     </div>
                 ))}
             </div>
-            <button className='prim-btn btn-md' onClick={handleButtonClick}>Get Started</button>
+            {!user_info.is_member && (
+                <button className='prim-btn btn-md' onClick={handleButtonClick}>Get Started</button>
+            )}
         </div>
     )
 }

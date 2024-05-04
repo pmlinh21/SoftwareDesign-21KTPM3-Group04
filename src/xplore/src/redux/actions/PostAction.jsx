@@ -120,7 +120,7 @@ export const updatePostAction = (postInfo, uploadedThumbnail) => {
     }
 }
 
-export const deletePostAction = (id_post) => {
+export const deletePostAction = (id_post, id_user) => {
     return async (dispatch) => {
         try {
             const formData = {
@@ -129,7 +129,17 @@ export const deletePostAction = (id_post) => {
             const result = await postService.deletePost(formData)
 
             if (result.status === 200) {
+                console.log(result)
+                const result_ = await postService.getPostByUser(id_user);
+                if (result_.status === 200) {
+                    dispatch({
+                        type: GET_POST_BY_USER,
+                        posts: result_.data.content
+                    })
+                }
                 
+            } else {
+                console.log("error", result)
             }
         } catch (error) {
             console.log("error", error.response);

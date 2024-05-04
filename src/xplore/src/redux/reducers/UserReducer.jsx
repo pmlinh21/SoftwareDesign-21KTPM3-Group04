@@ -5,7 +5,8 @@ import { LOGIN, SIGNUP, LOGOUT,
     GET_AUTHOR_POST, GET_AUTHOR_SUBSCRIBER, GET_AUTHOR_LIST, IS_FOLLOW_AUTHOR,
     BLOCK_AUTHOR, CREATE_LIST, GET_USER_FOLLOWER, GET_USER_FOLLOW, GET_USER_BLOCK, UNBLOCK_USER, PIN_POST, UNPIN_POST, 
     UPDATE_USER_DETAIL,
-    UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION} from "../types";
+    UPDATE_USER_PROFILE, GET_USER_CURRENT_SUBSCRIPTION,
+    CANCEL_PLAN} from "../types";
 
 let user_login = {};
 if(localStorage.getItem(USER_LOGIN)){
@@ -135,6 +136,9 @@ export const UserReducer = (state = stateDefault, action) => {
         }
         case GET_USER_CURRENT_SUBSCRIPTION:{
             return { ...state, user_current_subscription: action.user_current_subscription };
+        }
+        case CANCEL_PLAN:{
+            return { ...state, user_login: action.user_login };
         }
         default:
             return { ...state };

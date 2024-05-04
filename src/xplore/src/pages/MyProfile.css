@@ -86,6 +86,7 @@
     font-weight: 500;
     color: var(--scheme-primary);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .btn-cus{

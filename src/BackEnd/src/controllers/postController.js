@@ -557,7 +557,8 @@ const updateScheduleTimeOfPost = async (req,res) => {
 }
 
 const deletePost = async (req,res) => {
-    const {id_post} = req.body;
+    const {id_post} = req.params;
+    console.log(id_post)
 
     try{
         const post = await model.post.findOne({
@@ -586,43 +587,38 @@ const deletePost = async (req,res) => {
             });
 
             responses.forEach(async (response) => {
-                let report_result = await model.report_response.destroy({
+                let report_result = '-1'
+                report_result = await model.report_response.destroy({
                     where:{
                         id_response: response.id_response
                     }
                 });
-
-                if (!report_result) {   
-                    failCode(res, null, "Cannot delete report response")
-                } else {
+                if (report_result != '-1')
                     delete_post_count++;
-                }
             })
 
-            let response_result = await model.response.destroy({
+            let response_result = '-1'
+            response_result = await model.response.destroy({
                 where:{
                     id_post: id_post
                 }
             });
 
-            if (!response_result) {
-                failCode(res, null, "Cannot delete response")
-            } else {
+            if (response_result != '-1') {
                 delete_post_count++;
             }
 
-            let noti_result = await model.notification.destroy({
+            let noti_result = '-1'
+            noti_result = await model.notification.destroy({
                 where:{
                     id_post: id_post
                 }
             });
 
-            if (!noti_result) {
-                failCode(res, null, "Cannot delete notification")
-            } else {
+            if (noti_result != '-1') {
                 delete_post_count++;
             }
-
+            
             if (delete_post_count == responses.length + 2) {
                 let result = await model.post.destroy({
                     where:{
@@ -631,14 +627,13 @@ const deletePost = async (req,res) => {
                 }); 
 
                 if (!result) {
-                    failCode(res, null, "Invalid ID")
+                    failCode(res, null, "Bad request")
                 }
                 else {
                     successCode(res,result,"Post deleted")
                 }
             }
-        }
-        
+        } 
     }
     catch(err){
         console.log(err)

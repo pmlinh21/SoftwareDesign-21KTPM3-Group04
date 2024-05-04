@@ -558,22 +558,42 @@ try {
 }
 }
 
-// PUT: Update a subscription (status) by ID
-const updateSubscriptionByID= async (req, res) => {
-let { id_subscription } = req.params
-let { start_time, status } = req.body;
+// PUT: Cancel a subscription (status) by ID
+const cancelSubscriptionByID = async (req, res) => {
+    let { id_user, id_subscription } = req.params
 
-try {
-    const [data, metadata] = await sequelize.query
-    (`UPDATE subscription SET status = ${status} 
-    WHERE id_subscription = ${id_subscription}
-    AND start_time = '${start_time}'`);
-        
-    successCode(res, "", "Update successfully")
-} catch (err) {
-    console.log(err)
-    errorCode(res,"Internal Server Error")
-}
+    try {
+        const [data, metadata] = await sequelize.query
+        (`UPDATE subscription SET status = 2 
+        WHERE id_subscription = ${id_subscription}`);
+
+        let user = await model.user.findOne({
+            where:{
+                id_user: id_user
+            } 
+        })
+        if (!user) {
+            failCode(res, null, "Invalid ID")
+        }
+        else{
+            await model.user.update({ 
+                is_member: false
+            }, {
+                where:{
+                    id_user: id_user
+                }
+            }); 
+            let data = await model.user.findOne({
+                where:{
+                    id_user: id_user
+                }
+            });
+            successCode(res, data, "Update successfully")
+        }
+    } catch (err) {
+        console.log(err)
+        errorCode(res,"Internal Server Error")
+    }
 }
 
 
@@ -1296,6 +1316,14 @@ const captureOrder = async (req, res) => {
                 end_time: subscription.end_time
             })
 
+            await model.user.update({ 
+                is_member: true
+            }, {
+                where:{
+                    id_user: subscription.id_user
+                }
+            });
+
             successCode(res, newSubscription, "Payment completed")
         }
 
@@ -1546,20 +1574,35 @@ const getUserCurrentSubscription = async (req, res) => {
             let subscription = await model.subscription.findOne({
                 where: {
                     id_user: id_user,
-                    status: {
-                        [Op.ne]: 1 // status not equal to 1
-                    },
-                    end_time: {
-                        [Op.gt]: currentDate // end_time greater than the current time
-                    }
+                    status: 0 
                 },
-                include: [
-                    {
-                        model: model.membership,
-                        as: 'membership'
-                    }
+                include: [{
+                    model: model.membership,
+                    as: 'membership'
+                }],
+                order: [
+                    ['end_time', 'DESC']
                 ]
             });
+    
+            // If no active subscription is found, find the most recent one by end_time
+            if (!subscription) {
+                subscription = await model.subscription.findOne({
+                    where: {
+                        id_user: id_user,
+                        status: {
+                            [Op.or]: [1, 2] 
+                        }
+                    },
+                    include: [{
+                        model: model.membership,
+                        as: 'membership'
+                    }],
+                    order: [
+                        ['end_time', 'DESC']
+                    ]
+                });
+            }
             
             successCode(res, subscription, "Subscription found");
         }
@@ -1573,7 +1616,7 @@ const getUserCurrentSubscription = async (req, res) => {
 module.exports = { login, signup, searchAccountByName, getUserSubscriber, 
             sendEmail, getUserByID, getUserByEmail, updateUserDetail, updateUserProfile, getUserTopic, 
             followATopic, getUserSubscription, makeASubscription,
-            updateSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
+            cancelSubscriptionByID, subscribeAnotherUser, unsubscribeAnotherUser,
             blockAnotherUser, unblockAnotherUser,
             getUserReceivedNotifications, getUserSentNotifications,
             getUserReadingHistory, deleteReadingHistory,
