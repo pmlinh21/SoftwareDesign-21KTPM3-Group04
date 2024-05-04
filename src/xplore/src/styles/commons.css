@@ -39,7 +39,7 @@
     /*----------Feedback----------*/
     /*--Error--*/
     --feedback-error: #F04438;
-    --feedback-on-error: #FEE4E2;
+    --feedback-on-error: #ff5245;
     /*--Warning--*/
     --feedback-warning: #FDB022;
     --feedback-on-warning: #FFEDCC;
@@ -266,6 +266,13 @@ button {
     transition: background-color 0.3s ease;
 }
 
+.alert-btn {
+    background-color: var(--feedback-error);
+    color: var(--white);
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
 .sec-btn {
     background-color: var(--scheme-secondary);
     color: var(--black);
@@ -310,6 +317,11 @@ button {
 /*--- States ---*/
 .prim-btn:hover {
     background: var(--blue-400);
+    cursor: pointer;
+}
+
+.alert-btn:hover {
+    background: var(--feedback-on-error);
     cursor: pointer;
 }
 
