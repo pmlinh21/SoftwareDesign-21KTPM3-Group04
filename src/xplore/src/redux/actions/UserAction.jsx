@@ -68,14 +68,14 @@ export const signupAction = (formData) => {
             console.log(formData)
             const result = await userService.signup(formData);
             if (result.status === 200){
-            dispatch({
-                type: SIGNUP,
-                formData: result.data.content
-            });
+                dispatch({
+                    type: SIGNUP,
+                    formData: result.data.content
+                });
             }
+            return result;
         } catch (error) {
             console.log("error", error.response);
-            alert(error.response.data.message)
         }
     };
 };
