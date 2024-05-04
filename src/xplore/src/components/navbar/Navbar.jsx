@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link , useNavigate} from "react-router-dom"
+import {Link , useNavigate, useLocation} from "react-router-dom"
 
 import { RoleKey, USER_LOGIN, TokenKey } from "../../util/config";
 import { formatCapitalFirstLetter } from '../../util/formatText';
@@ -33,6 +33,24 @@ export default function Navbar() {
     // Set up login and signup popups
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showSignupPopup, setShowSignupPopup] = useState(false);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const signup = location.state && location.state.signup;
+        const check = location.state && location.state.check;
+
+        if(check){
+            if (signup ) {
+                setShowSignupPopup(true);
+                setShowLoginPopup(false);
+            }
+            else{
+                setShowSignupPopup(false);
+                setShowLoginPopup(true);
+            }
+        }
+    }, [location.state]);
 
     var roleId = localStorage.getItem(RoleKey);
     if(!roleId) {

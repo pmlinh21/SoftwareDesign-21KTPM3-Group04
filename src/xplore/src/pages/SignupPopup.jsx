@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import "../styles/commons.css";
 import "./SignupPopup.css"
 import { signupAction } from "../redux/actions/UserAction";
@@ -46,6 +47,11 @@ export default function SignupPopup(props) {
         setEmail('');
         setPassword('');
     }
+
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        navigate("/", { state: { signup: false, check: true } });
+    };
 
     return (
         <div className="signup-popup-overlay">
@@ -94,7 +100,7 @@ export default function SignupPopup(props) {
                 </button>
 
                 <div className="sign-in">Already have an account? 
-                    <a href="#"> Sign in</a>
+                    <span onClick={() => handleNavigate()} style={{color: "var(--scheme-primary)", cursor: "pointer", fontWeight: "600"}}> Sign in</span>
                 </div>
                 {showNotification && <div style={{color: "#004EEA", fontStyle: "italic", fontFamily: "medium-font", marginTop: "10px"}}>Signup successful!!!</div>}
             </div>
