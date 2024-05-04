@@ -44,7 +44,8 @@
     border: none;
 }
 
-.noti-content {
+.notification-content {
     border-radius: 0;
     padding: 16px 0;
+    width: 100%;
 }
