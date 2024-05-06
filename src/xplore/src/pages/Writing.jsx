@@ -19,26 +19,25 @@ import {formartToSQLDatetime} from '../util/formatDate'
 import {formatCapitalCase} from '../util/formatText'
 import { postService } from '../services/PostService';
 
-function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, postInfo, handleSaveButton }){
-
-
+function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, id_post, handleSaveButton }){
     return(
         <div className="container toolbar">
-        <div className="col-12 m-0 p-0 d-flex justify-content-between align-items-center">
-            <button onClick={handleBackButton} className='text-black link-sm p-0 m-0'>
-                <i className="text-black fa-solid fa-arrow-left"></i>
-                &nbsp;Back
-            </button>
+        <div className="col-12 m-0 p-0 d-flex justify-content-end align-items-center">
+
             <div className="col-auto">
                 
-                <button className="link-md rounded-1 button2 bg-white text-scheme-sub-text border-left"
+                <button className="tert-btn rounded-1 button2 bg-white me-2"
                     onClick={handleSaveButton}>
                     Save
                 </button>
-                <button className="alert-btn rounded-1 button2"
-                    onClick={handleDeleteButton}>
-                    Delete
-                </button>
+                {
+                    id_post  && 
+                    <button className="sec-btn rounded-1 button2 me-2"
+                                    onClick={handleDeleteButton}>
+                                    Delete
+                                </button>
+                }
+                
                 <button className="prim-btn rounded-1 button2"
                     onClick={() => {setDisplayModal(true)}}>
                     Publish
@@ -108,7 +107,7 @@ export default function Writing() {
             }
             setNotFound(false)
         } else{
-            if (!isNaN(id_post) || posts != null)
+            if (searchParams.get('id_post') != undefined) 
                 setNotFound(true)
         }
     },[posts])
@@ -299,7 +298,7 @@ export default function Writing() {
                             handleBackButton={handleBackButton}
                             handleSaveButton={handleSaveButton}
                             setDisplayModal={setDisplayModal}
-                            postInfo={postInfo}
+                            id_post={id_post}
                             navigate={navigate}/>
                             {showEditor && (
                                 <div className="container col-12 mt-3">
