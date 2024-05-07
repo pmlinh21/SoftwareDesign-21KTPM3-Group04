@@ -20,6 +20,7 @@ import {formatCapitalCase} from '../util/formatText'
 import { postService } from '../services/PostService';
 
 function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, id_post, handleSaveButton }){
+    console.log(id_post)
     return(
         <div className="container toolbar">
         <div className="col-12 m-0 p-0 d-flex justify-content-end align-items-center">
@@ -31,11 +32,11 @@ function Toolbar({handleBackButton, handleDeleteButton, setDisplayModal, id_post
                     Save
                 </button>
                 {
-                    id_post  && 
+                    !isNaN(id_post)  && 
                     <button className="sec-btn rounded-1 button2 me-2"
-                                    onClick={handleDeleteButton}>
-                                    Delete
-                                </button>
+                        onClick={handleDeleteButton}>
+                        Delete
+                    </button>
                 }
                 
                 <button className="prim-btn rounded-1 button2"

@@ -112,7 +112,9 @@ export default function Navbar() {
     
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         dispatch(logOut());
-        navigate("/");
+        setTimeout(() => {
+            navigate("/");
+        }, 3000);
     }
 
     // Notification
